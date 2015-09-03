@@ -31,23 +31,46 @@
 #- Special thanks to Aurelio for testing, bug-fixing and various help with codes and implementations -------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 
-#ifndef __LUAPLAYER_H
-#define __LUAPLAYER_H
-
+#include <ctype.h>
+#include <errno.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
-//#include <tdefs.h> //Not needed for compilation via Ubuntu (complains it's missing)
-#include "lua/lua.hpp"
+#include <unistd.h>
+#include <string.h>
+#include "include/luaplayer.h"
 
-extern void luaC_collectgarbage (lua_State *L);
+static lua_State *L;
 
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define CLAMP(val, min, max) ((val)>(max)?(max):((val)<(min)?(min):(val)))
-
-const char *runScript(const char* script, bool isStringBuffer);
-void luaC_collectgarbage (lua_State *L);
-
-void luaControls_init(lua_State *L);
-
-extern char cur_dir[256];
-
-#endif
+const char *runScript(const char* script, bool isStringBuffer)
+{
+	L = luaL_newstate();
+	
+	// Standard libraries
+	luaL_openlibs(L);
+	
+	// Modules
+	luaControls_init(L);
+	
+	int s = 0;
+	const char *errMsg = NULL;
+	
+	if(!isStringBuffer) 
+		s = luaL_loadfile(L, script);
+	else 
+		s = luaL_loadbuffer(L, script, strlen(script), NULL);
+		
+	if (s == 0) 
+	{
+		s = lua_pcall(L, 0, LUA_MULTRET, 0);
+	}
+	if (s) 
+	{
+		errMsg = lua_tostring(L, -1);
+		printf("error: %s\n", lua_tostring(L, -1));
+		lua_pop(L, 1); // remove error message
+	}
+	lua_close(L);
+	
+	return errMsg;
+}

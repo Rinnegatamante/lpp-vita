@@ -24,30 +24,76 @@
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Credits : -----------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
-#- Smealum for ctrulib and ftpony src ----------------------------------------------------------------------------------#
+#- Smealum for ctrulib -------------------------------------------------------------------------------------------------#
 #- StapleButter for debug font -----------------------------------------------------------------------------------------#
 #- Lode Vandevenne for lodepng -----------------------------------------------------------------------------------------#
-#- Jean-loup Gailly and Mark Adler for zlib ----------------------------------------------------------------------------#
+#- Sean Barrett for stb_truetype ---------------------------------------------------------------------------------------#
 #- Special thanks to Aurelio for testing, bug-fixing and various help with codes and implementations -------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 
-#ifndef __LUAPLAYER_H
-#define __LUAPLAYER_H
-
 #include <stdlib.h>
-//#include <tdefs.h> //Not needed for compilation via Ubuntu (complains it's missing)
-#include "lua/lua.hpp"
+#include <string.h>
+#include <unistd.h>
+#include <psp2/ctrl.h>
+#include <psp2/touch.h>
+#include "include/luaplayer.h"
+#define stringify(str) #str
+#define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
-extern void luaC_collectgarbage (lua_State *L);
+int KEY_HOME = 0xFFFF;
+int KEY_POWER = 0xFFFE;
 
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define CLAMP(val, min, max) ((val)>(max)?(max):((val)<(min)?(min):(val)))
+static int lua_readC(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	SceCtrlData pad;
+	sceCtrlPeekBufferPositive(0, &pad, 1);
+	lua_pushnumber(L, pad.buttons);
+	return 1;
+}
 
-const char *runScript(const char* script, bool isStringBuffer);
-void luaC_collectgarbage (lua_State *L);
+static int lua_check(lua_State *L)
+{
+        if (lua_gettop(L) != 2) return luaL_error(L, "wrong number of arguments.");
+		int pad = luaL_checknumber(L, 1);
+		int button = luaL_checknumber(L, 2);
+		lua_pushboolean(L, (pad & button));
+        return 1;
+}
 
-void luaControls_init(lua_State *L);
+static int lua_touchpad(lua_State *L)
+{
+        if (lua_gettop(L) != 0) return luaL_error(L, "wrong number of arguments.");
+		SceTouchData touch;
+		sceTouchPeek(0, &touch, 1);
+		lua_pushnumber(L, touch.report[0].x);
+		lua_pushnumber(L, touch.report[0].y);
+        return 2;
+}
 
-extern char cur_dir[256];
+//Register our Controls Functions
+static const luaL_Reg Controls_functions[] = {
+  {"read",								lua_readC},		  
+  {"check",								lua_check},	
+  {"readTouch",							lua_touchpad},	
+  {0, 0}
+};
 
-#endif
+void luaControls_init(lua_State *L) {
+	lua_newtable(L);
+	luaL_setfuncs(L, Controls_functions, 0);
+	lua_setglobal(L, "Controls");
+	VariableRegister(L,PSP2_CTRL_UP);
+	VariableRegister(L,PSP2_CTRL_DOWN);
+	VariableRegister(L,PSP2_CTRL_LEFT);
+	VariableRegister(L,PSP2_CTRL_RIGHT);
+	VariableRegister(L,PSP2_CTRL_CROSS);
+	VariableRegister(L,PSP2_CTRL_CIRCLE);
+	VariableRegister(L,PSP2_CTRL_SQUARE);
+	VariableRegister(L,PSP2_CTRL_TRIANGLE);
+	VariableRegister(L,PSP2_CTRL_LTRIGGER);
+	VariableRegister(L,PSP2_CTRL_RTRIGGER);
+	VariableRegister(L,PSP2_CTRL_START);
+	VariableRegister(L,PSP2_CTRL_SELECT);
+}
