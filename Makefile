@@ -1,5 +1,5 @@
 TARGET		:= lpp-vita
-SOURCES		:= source/include/lua source 
+SOURCES		:= source/include/lua source/include source
 INCLUDES	:= include
 
 LIBS = -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
@@ -8,11 +8,13 @@ LIBS = -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
 BINFILES := $(foreach dir,$(DATA), $(wildcard $(dir)/*.bin))
-OBJS     := $(addsuffix .o,$(BINFILES)) $(CFILES:.c=.o) $(CPPFILES:.c=.o) 
+OBJS     := $(addsuffix .o,$(BINFILES)) $(CFILES:.c=.o) $(CPPFILES:.cpp=.o) 
 
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
+CXX      = $(PREFIX)-g++
 CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES)
+CXXFLAGS  = $(CFLAGS) -fno-exceptions
 ASFLAGS = $(CFLAGS)
 
 all: $(TARGET).velf
@@ -26,10 +28,6 @@ $(TARGET).elf: $(OBJS)
 
 clean:
 	@rm -rf $(TARGET).velf $(TARGET).elf $(OBJS)
-
-copy: $(TARGET).velf
-	@cp $(TARGET).velf ~/shared/vitasample.elf
-	@echo "Copied!"
 
 run: $(TARGET).velf
 	@sh run_homebrew_unity.sh $(TARGET).velf
