@@ -56,6 +56,42 @@ static int lua_print(lua_State *L)
 	return 0;
 }
 
+static int lua_pixel(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 3) return luaL_error(L, "wrong number of arguments.");
+	int x = luaL_checkinteger(L, 1);
+	int y = luaL_checkinteger(L, 2);
+	int color = luaL_checkinteger(L, 4);
+	draw_pixel(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	return 0;
+}
+
+static int lua_rect(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	int x1 = luaL_checkinteger(L,1);
+	int x2 = luaL_checkinteger(L,2);
+	int y1 = luaL_checkinteger(L,3);
+	int y2 = luaL_checkinteger(L,4);
+	int color = luaL_checkinteger(L,5);
+	draw_rectangle(x1, y1, x1+x2, y1+y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	return 0;
+}
+
+static int lua_circle(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 4) return luaL_error(L, "wrong number of arguments.");
+	int x = luaL_checkinteger(L,1);
+	int y = luaL_checkinteger(L,2);
+	int radius = luaL_checkinteger(L,3);
+	int color = luaL_checkinteger(L,4);
+	draw_circle(x, y, radius, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	return 0;
+}
+
 static int lua_flip(lua_State *L)
 {
     int argc = lua_gettop(L);
@@ -83,6 +119,9 @@ static int lua_clear(lua_State *L)
 //Register our Controls Functions
 static const luaL_Reg Screen_functions[] = {
   {"debugPrint",						lua_print},
+  {"drawPixel",							lua_pixel},
+  {"fillRect",							lua_rect},
+  {"fillCircle",						lua_circle},
   {"clear",								lua_clear},
   {"flip",								lua_flip},
   {"waitVblankStart",					lua_blank},
