@@ -24,31 +24,73 @@
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Credits : -----------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
-#- Smealum for ctrulib and ftpony src ----------------------------------------------------------------------------------#
+#- Smealum for ctrulib -------------------------------------------------------------------------------------------------#
 #- StapleButter for debug font -----------------------------------------------------------------------------------------#
 #- Lode Vandevenne for lodepng -----------------------------------------------------------------------------------------#
-#- Jean-loup Gailly and Mark Adler for zlib ----------------------------------------------------------------------------#
+#- Sean Barrett for stb_truetype ---------------------------------------------------------------------------------------#
 #- Special thanks to Aurelio for testing, bug-fixing and various help with codes and implementations -------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
+#include <psp2/ctrl.h>
+#include <psp2/touch.h>
+#include <psp2/display.h>
+#include <psp2/gxm.h>
+#include <psp2/types.h>
+#include <psp2/moduleinfo.h>
+#include <psp2/kernel/processmgr.h>
+#include <psp2/io/fcntl.h>
+#include "include/luaplayer.h"
+extern "C"{
+	#include "include/utils.h"
+	#include "include/draw.h"
+}
 
-#ifndef __LUAPLAYER_H
-#define __LUAPLAYER_H
+static int lua_print(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 4) return luaL_error(L, "wrong number of arguments.");
+	int x = luaL_checkinteger(L, 1);
+	int y = luaL_checkinteger(L, 2);
+	char* text = (char*)luaL_checkstring(L, 3);
+	int color = luaL_checkinteger(L, 4);
+	font_draw_string(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), text);
+	return 0;
+}
 
-#include <stdlib.h>
-//#include <tdefs.h> //Not needed for compilation via Ubuntu (complains it's missing)
-#include "lua/lua.hpp"
+static int lua_flip(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	swap_buffers();
+	return 0;
+}
 
-extern void luaC_collectgarbage (lua_State *L);
+static int lua_blank(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	sceDisplayWaitVblankStart();
+	return 0;
+}
 
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define CLAMP(val, min, max) ((val)>(max)?(max):((val)<(min)?(min):(val)))
+static int lua_clear(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	clear_screen();
+	return 0;
+}
 
-const char *runScript(const char* script, bool isStringBuffer);
-void luaC_collectgarbage (lua_State *L);
+//Register our Controls Functions
+static const luaL_Reg Screen_functions[] = {
+  {"debugPrint",						lua_print},
+  {"clear",								lua_clear},
+  {"flip",								lua_flip},
+  {"waitVblankStart",					lua_blank},
+  {0, 0}
+};
 
-void luaControls_init(lua_State *L);
-void luaScreen_init(lua_State *L);
-
-extern char cur_dir[256];
-
-#endif
+void luaScreen_init(lua_State *L) {
+	lua_newtable(L);
+	luaL_setfuncs(L, Screen_functions, 0);
+	lua_setglobal(L, "Screen");
+}
