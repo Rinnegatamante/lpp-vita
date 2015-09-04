@@ -40,9 +40,6 @@
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
-int KEY_HOME = 0xFFFF;
-int KEY_POWER = 0xFFFE;
-
 static int lua_readC(lua_State *L)
 {
     int argc = lua_gettop(L);
