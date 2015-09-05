@@ -48,6 +48,7 @@ void luaC_collectgarbage (lua_State *L);
 
 void luaControls_init(lua_State *L);
 void luaScreen_init(lua_State *L);
+void luaSystem_init(lua_State *L);
 
 extern char cur_dir[256];
 
