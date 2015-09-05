@@ -52,9 +52,22 @@ const char *runScript(const char* script, bool isStringBuffer)
 	// Modules
 	luaControls_init(L);
 	luaScreen_init(L);
+	luaSystem_init(L);
 	
 	int s = 0;
 	const char *errMsg = NULL;
+	
+	//Patching dofile function & I/O module
+	char* patch = "dofile = System.doNotUse\n\
+			 io.open = System.doNotOpen\n\
+			 io.write = System.doNotWrite\n\
+			 io.close = System.doNotClose\n\
+			 io.read = System.doNotRead\n\
+			 io.seek = System.doNotSeek\n\
+			 io.size = System.doNotSize";
+	luaL_loadbuffer(L, patch, strlen(patch), NULL); 
+	lua_KFunction dofilecont = (lua_KFunction)(lua_gettop(L) - 1);
+	lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
 	
 	if(!isStringBuffer) 
 		s = luaL_loadfile(L, script);
