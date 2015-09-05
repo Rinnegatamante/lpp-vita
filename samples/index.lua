@@ -1,5 +1,6 @@
 while true do
-	Screen.debugPrint(5, 5, "Hello World!", 0xFFFFFFFF)
+	white = Color.new(255,255,255,255)
+	Screen.debugPrint(5, 5, "Hello World!", white)
 	Screen.flip()
 	Screen.waitVblankStart()
 end
