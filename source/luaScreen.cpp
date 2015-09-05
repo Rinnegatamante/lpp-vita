@@ -24,12 +24,10 @@
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Credits : -----------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
-#- Smealum for ctrulib -------------------------------------------------------------------------------------------------#
-#- StapleButter for debug font -----------------------------------------------------------------------------------------#
-#- Lode Vandevenne for lodepng -----------------------------------------------------------------------------------------#
-#- Sean Barrett for stb_truetype ---------------------------------------------------------------------------------------#
-#- Special thanks to Aurelio for testing, bug-fixing and various help with codes and implementations -------------------#
+#- All the devs involved in Rejuvenate and vita-toolchain --------------------------------------------------------------#
+#- xerpi for basic drawing lib -----------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
+
 #include <psp2/ctrl.h>
 #include <psp2/touch.h>
 #include <psp2/display.h>
@@ -116,7 +114,66 @@ static int lua_clear(lua_State *L)
 	return 0;
 }
 
-//Register our Controls Functions
+static int lua_color(lua_State *L) {
+    int argc = lua_gettop(L);
+    if ((argc != 3) && (argc != 4)) return luaL_error(L, "wrong number of arguments");
+    int r = luaL_checkinteger(L, 1);
+    int g = luaL_checkinteger(L, 2);
+	int b = luaL_checkinteger(L, 3);
+	int a = 255;
+	if (argc==4) a = luaL_checkinteger(L, 4);
+    int color = r | (g << 8) | (b << 16) | (a << 24);
+    lua_pushinteger(L,color);
+    return 1;
+}
+
+static int lua_getR(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+    int color = luaL_checkinteger(L, 1);
+    int colour = color & 0xFF;
+    lua_pushinteger(L,colour);
+    return 1;
+}
+
+static int lua_getG(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+    int color = luaL_checkinteger(L, 1);
+    int colour = (color >> 8) & 0xFF;
+    lua_pushinteger(L,colour);
+    return 1;
+}
+
+static int lua_getB(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+    int color = luaL_checkinteger(L, 1);
+    int colour = (color >> 16) & 0xFF;
+    lua_pushinteger(L,colour);
+    return 1;
+}
+
+static int lua_getA(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+    int color = luaL_checkinteger(L, 1);
+    int colour = (color >> 24) & 0xFF;
+    lua_pushinteger(L,colour);
+    return 1;
+}
+
+//Register our Color Functions
+static const luaL_Reg Color_functions[] = {
+  {"new",                				lua_color},
+  {"getR",								lua_getR},
+  {"getG",								lua_getG},
+  {"getB",								lua_getB},
+  {"getA",								lua_getA},
+  {0, 0}
+};
+
+//Register our Screen Functions
 static const luaL_Reg Screen_functions[] = {
   {"debugPrint",						lua_print},
   {"drawPixel",							lua_pixel},
@@ -132,4 +189,7 @@ void luaScreen_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Screen_functions, 0);
 	lua_setglobal(L, "Screen");
+	lua_newtable(L);
+	luaL_setfuncs(L, Color_functions, 0);
+	lua_setglobal(L, "Color");
 }
