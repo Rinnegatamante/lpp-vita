@@ -25,7 +25,7 @@
 #- Credits : -----------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
 #- All the devs involved in Rejuvenate and vita-toolchain --------------------------------------------------------------#
-#- xerpi for basic drawing lib -----------------------------------------------------------------------------------------#
+#- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 
 #include <psp2/ctrl.h>
@@ -36,10 +36,10 @@
 #include <psp2/moduleinfo.h>
 #include <psp2/kernel/processmgr.h>
 #include <psp2/io/fcntl.h>
+#include <vita2d.h>
 #include "include/luaplayer.h"
 extern "C"{
-	#include "include/utils.h"
-	#include "include/draw.h"
+	#include "include/draw/font.h"
 }
 
 static int lua_print(lua_State *L)
@@ -58,10 +58,10 @@ static int lua_pixel(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 3) return luaL_error(L, "wrong number of arguments.");
-	int x = luaL_checkinteger(L, 1);
-	int y = luaL_checkinteger(L, 2);
-	int color = luaL_checkinteger(L, 4);
-	draw_pixel(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	float x = luaL_checknumber(L, 1);
+    float y = luaL_checknumber(L, 2);
+	int color = luaL_checkinteger(L, 3);
+	vita2d_draw_pixel(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
 }
 
@@ -69,12 +69,25 @@ static int lua_rect(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 5) return luaL_error(L, "wrong number of arguments.");
-	int x1 = luaL_checkinteger(L,1);
-	int x2 = luaL_checkinteger(L,2);
-	int y1 = luaL_checkinteger(L,3);
-	int y2 = luaL_checkinteger(L,4);
+	float x1 = luaL_checknumber(L, 1);
+    float x2 = luaL_checknumber(L, 2);
+	float y1 = luaL_checknumber(L, 3);
+    float y2 = luaL_checknumber(L, 4);
 	int color = luaL_checkinteger(L,5);
-	draw_rectangle(x1, y1, x1+x2, y1+y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_rectangle(x1, y1, x1+x2, y1+y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	return 0;
+}
+
+static int lua_line(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	float x1 = luaL_checknumber(L, 1);
+    float x2 = luaL_checknumber(L, 2);
+	float y1 = luaL_checknumber(L, 3);
+    float y2 = luaL_checknumber(L, 4);
+	int color = luaL_checkinteger(L,5);
+	vita2d_draw_line(x1, y1, x1+x2, y1+y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
 }
 
@@ -82,11 +95,11 @@ static int lua_circle(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 4) return luaL_error(L, "wrong number of arguments.");
-	int x = luaL_checkinteger(L,1);
-	int y = luaL_checkinteger(L,2);
-	int radius = luaL_checkinteger(L,3);
+	float x = luaL_checknumber(L, 1);
+    float y = luaL_checknumber(L, 2);
+	float radius = luaL_checknumber(L, 3);
 	int color = luaL_checkinteger(L,4);
-	draw_circle(x, y, radius, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_fill_circle(x, y, radius, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
 }
 
@@ -94,23 +107,19 @@ static int lua_flip(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	swap_buffers();
-	return 0;
-}
-
-static int lua_blank(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	sceDisplayWaitVblankStart();
+	vita2d_swap_buffers();
 	return 0;
 }
 
 static int lua_clear(lua_State *L)
 {
     int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	clear_screen();
+    if ((argc != 1) && (argc != 0)) return luaL_error(L, "wrong number of arguments.");
+	if (argc == 1){
+		int color = luaL_checkinteger(L,1);
+		vita2d_set_clear_color(RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	}
+	vita2d_clear_screen();
 	return 0;
 }
 
@@ -163,6 +172,149 @@ static int lua_getA(lua_State *L) {
     return 1;
 }
 
+static int lua_init(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");	
+    vita2d_start_drawing();
+    return 0;
+}
+
+static int lua_term(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+    vita2d_end_drawing();
+    return 0;
+}
+
+static int lua_loadimg(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	char* text = (char*)(luaL_checkstring(L, 1));
+	SceUID file = sceIoOpen(text, PSP2_O_RDONLY, 0777);
+	uint16_t magic;
+	sceIoRead(file, &magic, 2);
+	vita2d_texture* result;
+	if (magic == 0x4D42){
+		sceIoClose(file);
+		result = vita2d_load_BMP_file(text);
+	}else if (magic == 0xD8FF){
+		sceIoClose(file);
+		result = vita2d_load_JPEG_file(text);
+	}else{
+		sceIoClose(file);
+		return luaL_error(L, "Error loading image.");
+	}
+    lua_pushinteger(L, (int)(result));
+	return 1;
+}
+
+static int lua_drawimg(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	float x = luaL_checknumber(L, 1);
+    float y = luaL_checknumber(L, 2);
+	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 3));
+	vita2d_draw_texture(text, x, y);
+	return 0;
+}
+
+static int lua_drawimg_rotate(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 4) return luaL_error(L, "wrong number of arguments");
+	float x = luaL_checknumber(L, 1);
+    float y = luaL_checknumber(L, 2);
+	float radius = luaL_checknumber(L, 3);
+	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 4));
+	vita2d_draw_texture_rotate(text, x, y, radius);
+	return 0;
+}
+
+static int lua_drawimg_scale(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 5) return luaL_error(L, "wrong number of arguments");
+	float x = luaL_checknumber(L, 1);
+    float y = luaL_checknumber(L, 2);
+	float x_scale = luaL_checknumber(L, 3);
+    float y_scale = luaL_checknumber(L, 4);
+	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 5));
+	vita2d_draw_texture_scale(text, x, y, x_scale, y_scale);
+	return 0;
+}
+
+static int lua_drawimg_part(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 7) return luaL_error(L, "wrong number of arguments");
+	float x = luaL_checkinteger(L, 1);
+    float y = luaL_checkinteger(L, 2);
+	float st_x = luaL_checkinteger(L, 3);
+    float st_y = luaL_checkinteger(L, 4);
+	float width = luaL_checkinteger(L, 5);
+    float height = luaL_checkinteger(L, 6);
+	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 7));
+	vita2d_draw_texture_part(text, x, y, st_x, st_y, width, height);
+	return 0;
+}
+
+static int lua_drawimg_full(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 9) return luaL_error(L, "wrong number of arguments");
+	float x = luaL_checkinteger(L, 1);
+    float y = luaL_checkinteger(L, 2);
+	float st_x = luaL_checkinteger(L, 3);
+    float st_y = luaL_checkinteger(L, 4);
+	float width = luaL_checkinteger(L, 5);
+    float height = luaL_checkinteger(L, 6);
+	float x_scale = luaL_checknumber(L, 7);
+    float y_scale = luaL_checknumber(L, 8);
+	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 9));
+	vita2d_draw_texture_part_scale(text, x, y, st_x, st_y, width, height, x_scale, y_scale);
+	return 0;
+}
+
+static int lua_width(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 1));
+	lua_pushinteger(L, vita2d_texture_get_width(text));
+	return 1;
+}
+
+static int lua_height(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 1));
+	lua_pushinteger(L, vita2d_texture_get_height(text));
+	return 1;
+}
+
+static int lua_free(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 1));
+	vita2d_free_texture(text);
+	return 0;
+}
+
+static int lua_createimage(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	int w = luaL_checkinteger(L, 1);
+    int h = luaL_checkinteger(L, 2);
+	vita2d_texture* text = vita2d_create_empty_texture(w, h);
+	lua_pushinteger(L, vita2d_texture_get_height(text));
+	return 1;
+}
+
 //Register our Color Functions
 static const luaL_Reg Color_functions[] = {
   {"new",                				lua_color},
@@ -175,13 +327,25 @@ static const luaL_Reg Color_functions[] = {
 
 //Register our Screen Functions
 static const luaL_Reg Screen_functions[] = {
+  {"initBlend",							lua_init},
+  {"termBlend",							lua_term},
   {"debugPrint",						lua_print},
   {"drawPixel",							lua_pixel},
+  {"drawLine",							lua_line},
   {"fillRect",							lua_rect},
   {"fillCircle",						lua_circle},
   {"clear",								lua_clear},
   {"flip",								lua_flip},
-  {"waitVblankStart",					lua_blank},
+  {"loadImage",							lua_loadimg},
+  {"drawImage",							lua_drawimg},
+  {"drawRotateImage",					lua_drawimg_rotate},
+  {"drawScaleImage",					lua_drawimg_scale},
+  {"drawPartialImage",					lua_drawimg_part},
+  {"drawImageExtended",					lua_drawimg_full},
+  {"createImage",						lua_createimage},
+  {"getImageWidth",						lua_width},
+  {"getImageHeight",					lua_height},
+  {"freeImage",							lua_free},
   {0, 0}
 };
 
