@@ -25,7 +25,7 @@
 #- Credits : -----------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
 #- All the devs involved in Rejuvenate and vita-toolchain --------------------------------------------------------------#
-#- xerpi for basic drawing lib -----------------------------------------------------------------------------------------#
+#- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 
 #include <stdlib.h>
@@ -33,8 +33,11 @@
 #include <unistd.h>
 #include <psp2/io/fcntl.h>
 #include <psp2/io/stat.h>
+#include <psp2/power.h>
+#include <psp2/kernel/processmgr.h>
 #include <psp2/io/dirent.h>
 #include "include/luaplayer.h"
+#include "main_menu.cpp"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
@@ -45,6 +48,7 @@ int FRDWR = PSP2_O_RDWR;
 int SET = 1;
 int CUR = 2;
 int END = 3;
+extern int script_files;
 
 static int lua_dofile(lua_State *L)
 {
@@ -187,6 +191,33 @@ static int lua_newdir(lua_State *L)
 	return 0;
 }
 
+static int lua_exit(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (script_files > 1){
+		lua_settop(L, 1);
+		if (luaL_loadbuffer(L, (const char*)main_menu, size_main_menu - 1, NULL) != LUA_OK)	return lua_error(L);
+		lua_KFunction dofilecont = (lua_KFunction)(lua_gettop(L) - 1);
+		lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
+		return (int)dofilecont;
+	}else{
+		char stringbuffer[256];
+		strcpy(stringbuffer,"lpp_shutdown");
+		return luaL_error(L, stringbuffer); //Fake LUA error
+	}
+}
+
+static int lua_wait(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	int microsecs = luaL_checkinteger(L, 1);
+	sceKernelDelayThread(microsecs);
+	return 0;
+}
+
+
 SceIoDirent g_dir;
 
 static int lua_dir(lua_State *L)
@@ -233,6 +264,38 @@ static int lua_dir(lua_State *L)
     return 1;  /* table is already on top */
 }
 
+static int lua_charging(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	lua_pushboolean(L, scePowerIsBatteryCharging());
+	return 1;
+}
+
+static int lua_percent(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	lua_pushinteger(L, scePowerGetBatteryLifePercent());
+	return 1;
+}
+
+static int lua_lifetime(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	lua_pushinteger(L, scePowerGetBatteryLifeTime());
+	return 1;
+}
+
+static int lua_nopower(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	sceKernelPowerTick(0);
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -246,11 +309,17 @@ static const luaL_Reg System_functions[] = {
   {"doNotSize",							lua_sizefile},  
   
   {"doesFileExist",						lua_checkexist},
+  {"exit",								lua_exit},
   {"rename",							lua_rename},
   {"deleteFile",						lua_removef},
   {"deleteDirectory",					lua_removef2},
   {"createDirectory",					lua_newdir},
   {"listDirectory",						lua_dir},
+  {"wait",								lua_wait},
+  {"isBatteryCharging",					lua_charging},
+  {"getBatteryPercentage",				lua_percent},
+  {"getBatteryLifetime",				lua_lifetime},
+  {"powerTick",							lua_nopower},
   {0, 0}
 };
 
