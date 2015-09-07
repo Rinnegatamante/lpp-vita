@@ -1,9 +1,12 @@
 TARGET		:= lpp-vita
-SOURCES		:= source/include/lua source/include source
+SOURCES		:= source/include/lua source/include/ftp source/include source \
+				source/include/draw
 INCLUDES	:= include
 
-LIBS = -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
-	-lSceCtrl_stub -lSceTouch_stub -lm
+LIBS = -lvita2d -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
+	-lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub -lm -lSceNet_stub \
+	-lSceNetCtl_stub -lScePgf_stub -ljpeg -lfreetype -lz -lm -lc \
+	-lScePower_stub
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
@@ -13,7 +16,7 @@ OBJS     := $(addsuffix .o,$(BINFILES)) $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
 CXX      = $(PREFIX)-g++
-CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES)
+CFLAGS  = -Wl,-q -Wall -O3
 CXXFLAGS  = $(CFLAGS) -fno-exceptions
 ASFLAGS = $(CFLAGS)
 
@@ -24,7 +27,7 @@ all: $(TARGET).velf
 	vita-elf-create $< $@ $(VITASDK)/bin/db.json
 
 $(TARGET).elf: $(OBJS)
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@
 
 clean:
 	@rm -rf $(TARGET).velf $(TARGET).elf $(OBJS)
