@@ -24,33 +24,41 @@
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Credits : -----------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
-#- Smealum for ctrulib and ftpony src ----------------------------------------------------------------------------------#
-#- StapleButter for debug font -----------------------------------------------------------------------------------------#
-#- Lode Vandevenne for lodepng -----------------------------------------------------------------------------------------#
-#- Jean-loup Gailly and Mark Adler for zlib ----------------------------------------------------------------------------#
-#- Special thanks to Aurelio for testing, bug-fixing and various help with codes and implementations -------------------#
+#- All the devs involved in Rejuvenate and vita-toolchain --------------------------------------------------------------#
+#- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
+#include "include/luaplayer.h"
+extern "C"{
+	#include "include/ftp/ftp.h"
+}
 
-#ifndef __LUAPLAYER_H
-#define __LUAPLAYER_H
+static int lua_initFTP(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	char vita_ip[16];
+	unsigned short int vita_port = 0;
+    ftp_init(vita_ip, &vita_port);
+	lua_pushstring(L, vita_ip);
+	lua_pushinteger(L, vita_port);
+    return 2;
+}
 
-#include <stdlib.h>
-//#include <tdefs.h> //Not needed for compilation via Ubuntu (complains it's missing)
-#include "lua/lua.hpp"
+static int lua_termFTP(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+    ftp_fini();
+    return 0;
+}
 
-extern void luaC_collectgarbage (lua_State *L);
+//Register our Network Functions
+static const luaL_Reg Network_functions[] = {
+  {"initFTP",				lua_initFTP},
+  {"termFTP",				lua_termFTP},
+  {0, 0}
+};
 
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define CLAMP(val, min, max) ((val)>(max)?(max):((val)<(min)?(min):(val)))
-
-const char *runScript(const char* script, bool isStringBuffer);
-void luaC_collectgarbage (lua_State *L);
-
-void luaControls_init(lua_State *L);
-void luaScreen_init(lua_State *L);
-void luaSystem_init(lua_State *L);
-void luaNetwork_init(lua_State *L);
-
-extern char cur_dir[256];
-
-#endif
+void luaNetwork_init(lua_State *L) {
+	lua_newtable(L);
+	luaL_setfuncs(L, Network_functions, 0);
+	lua_setglobal(L, "Network");
+}
