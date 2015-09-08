@@ -47,6 +47,28 @@ static int lua_readC(lua_State *L)
 	return 1;
 }
 
+static int lua_readleft(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	SceCtrlData pad;
+	sceCtrlPeekBufferPositive(0, &pad, 1);
+	lua_pushnumber(L, pad.lx);
+	lua_pushnumber(L, pad.ly);
+	return 2;
+}
+
+static int lua_readright(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	SceCtrlData pad;
+	sceCtrlPeekBufferPositive(0, &pad, 1);
+	lua_pushnumber(L, pad.rx);
+	lua_pushnumber(L, pad.ry);
+	return 2;
+}
+
 static int lua_check(lua_State *L)
 {
         if (lua_gettop(L) != 2) return luaL_error(L, "wrong number of arguments.");
@@ -68,7 +90,9 @@ static int lua_touchpad(lua_State *L)
 
 //Register our Controls Functions
 static const luaL_Reg Controls_functions[] = {
-  {"read",								lua_readC},		  
+  {"read",								lua_readC},	
+  {"readLeftAnalog",					lua_readleft},	  
+  {"readRightAnalog",					lua_readright},	
   {"check",								lua_check},	
   {"readTouch",							lua_touchpad},	
   {0, 0}
