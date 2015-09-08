@@ -36,6 +36,7 @@
 #include <psp2/power.h>
 #include <psp2/kernel/processmgr.h>
 #include <psp2/io/dirent.h>
+#include <psp2/uvl.h>
 #include "include/luaplayer.h"
 #include "main_menu.cpp"
 #define stringify(str) #str
@@ -296,6 +297,15 @@ static int lua_nopower(lua_State *L)
 	return 0;
 }
 
+static int lua_loadhb(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	char* path = (char*)luaL_checkstring(L, 1);
+	uvl_load(path);
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -320,6 +330,7 @@ static const luaL_Reg System_functions[] = {
   {"getBatteryPercentage",				lua_percent},
   {"getBatteryLifetime",				lua_lifetime},
   {"powerTick",							lua_nopower},
+  {"loadElf",							lua_loadhb},
   {0, 0}
 };
 
