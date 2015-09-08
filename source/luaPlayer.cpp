@@ -51,6 +51,7 @@ const char *runScript(const char* script, bool isStringBuffer)
 	luaScreen_init(L);
 	luaSystem_init(L);
 	luaNetwork_init(L);
+	luaTimer_init(L);
 	
 	int s = 0;
 	const char *errMsg = NULL;
