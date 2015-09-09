@@ -42,6 +42,13 @@ extern "C"{
 	#include "include/draw/font.h"
 }
 
+struct ttf{
+	uint32_t magic;
+	vita2d_font* f;
+	int size;
+};
+
+
 static int lua_print(lua_State *L)
 {
     int argc = lua_gettop(L);
@@ -117,7 +124,11 @@ static int lua_clear(lua_State *L)
     if ((argc != 1) && (argc != 0)) return luaL_error(L, "wrong number of arguments.");
 	if (argc == 1){
 		int color = luaL_checkinteger(L,1);
+		if (color == clr_color) vita2d_clear_screen();
+		else{
 		vita2d_set_clear_color(RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+		clr_color = color;
+		}
 	}
 	vita2d_clear_screen();
 	return 0;
@@ -201,6 +212,9 @@ static int lua_loadimg(lua_State *L)
 	}else if (magic == 0xD8FF){
 		sceIoClose(file);
 		result = vita2d_load_JPEG_file(text);
+	}else if (magic == 0x5089){
+		sceIoClose(file);
+		result = vita2d_load_PNG_file(text);
 	}else{
 		sceIoClose(file);
 		return luaL_error(L, "Error loading image.");
@@ -315,6 +329,68 @@ static int lua_createimage(lua_State *L)
 	return 1;
 }
 
+static int lua_getFPS(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	float fps;
+	sceDisplayGetRefreshRate(&fps);
+	lua_pushnumber(L, fps);
+	return 1;
+}
+
+static int lua_loadFont(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	char* text = (char*)(luaL_checkstring(L, 1));
+	ttf* result = (ttf*)malloc(sizeof(ttf));
+	result->size = 16;
+	result->f = vita2d_load_font_file(text);
+	result->magic = 0x4C464E54;
+	lua_pushinteger(L,(uint32_t)result);
+    return 1;
+}
+
+static int lua_fsize(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
+	int size = luaL_checkinteger(L,2);
+	#ifndef SKIP_ERROR_HANDLING
+		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	#endif
+	font->size = size;
+    return 0;
+}
+
+static int lua_unloadFont(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
+	#ifndef SKIP_ERROR_HANDLING
+		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	#endif
+	vita2d_free_font(font->f);
+	free(font);
+    return 0;
+}
+
+static int lua_fprint(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 6) return luaL_error(L, "wrong number of arguments");
+	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
+	int x = luaL_checkinteger(L, 2);
+    int y = luaL_checkinteger(L, 3);
+	char* text = (char*)(luaL_checkstring(L, 4));
+	uint32_t color = luaL_checkinteger(L,5);
+	int screen = luaL_checkinteger(L,6);
+	#ifndef SKIP_ERROR_HANDLING
+		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	#endif
+	vita2d_font_draw_text(font->f, x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
+    return 0;
+}
+
 //Register our Color Functions
 static const luaL_Reg Color_functions[] = {
   {"new",                				lua_color},
@@ -345,7 +421,17 @@ static const luaL_Reg Screen_functions[] = {
   {"createImage",						lua_createimage},
   {"getImageWidth",						lua_width},
   {"getImageHeight",					lua_height},
+  {"getFramerate",						lua_getFPS},
   {"freeImage",							lua_free},
+  {0, 0}
+};
+
+//Register our Font Functions
+static const luaL_Reg Font_functions[] = {
+  {"load",					lua_loadFont}, 
+  {"print",					lua_fprint}, 
+  {"setPixelSizes",			lua_fsize}, 
+  {"unload",				lua_unloadFont}, 
   {0, 0}
 };
 
@@ -353,6 +439,9 @@ void luaScreen_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Screen_functions, 0);
 	lua_setglobal(L, "Screen");
+	lua_newtable(L);
+	luaL_setfuncs(L, Font_functions, 0);
+	lua_setglobal(L, "Font");
 	lua_newtable(L);
 	luaL_setfuncs(L, Color_functions, 0);
 	lua_setglobal(L, "Color");
