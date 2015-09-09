@@ -22,6 +22,7 @@ PSP2_MODULE_INFO(0, 0, "lpp-vita")
 const char *errMsg;
 unsigned char *script;
 int script_files = 0;
+int clr_color;
 
 int main()
 {
@@ -29,6 +30,7 @@ int main()
 	unsigned short int vita_port = 0;
 	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
+	clr_color = 0x000000FF;
 	vita2d_texture* texture_splash = vita2d_load_JPEG_buffer(splash, size_splash);
 	vita2d_start_drawing();
 	vita2d_draw_texture(texture_splash, 0, 0);
