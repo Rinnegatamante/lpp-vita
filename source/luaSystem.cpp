@@ -205,6 +205,7 @@ static int lua_exit(lua_State *L)
 	}else{
 		char stringbuffer[256];
 		strcpy(stringbuffer,"lpp_shutdown");
+		luaL_dostring(L, "collectgarbage()");
 		return luaL_error(L, stringbuffer); //Fake LUA error
 	}
 }
@@ -302,6 +303,7 @@ static int lua_loadhb(lua_State *L)
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	char* path = (char*)luaL_checkstring(L, 1);
+	luaL_dostring(L, "collectgarbage()");
 	uvl_load(path);
 	return 0;
 }
