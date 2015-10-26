@@ -36,6 +36,7 @@
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
+#define lerp(value, from_max, to_max) ((((value*10) * (to_max*10))/(from_max*10))/10)
 
 static int lua_readC(lua_State *L)
 {
@@ -82,9 +83,19 @@ static int lua_touchpad(lua_State *L)
 {
         if (lua_gettop(L) != 0) return luaL_error(L, "wrong number of arguments.");
 		SceTouchData touch;
-		sceTouchPeek(0, &touch, 1);
-		lua_pushnumber(L, touch.report[0].x);
-		lua_pushnumber(L, touch.report[0].y);
+		sceTouchPeek(SCE_TOUCH_PORT_FRONT, &touch, 1);
+		lua_pushnumber(L, lerp(touch.report[0].x, 1919, 960));
+		lua_pushnumber(L, lerp(touch.report[0].y, 1087, 544));
+        return 2;
+}
+
+static int lua_touchpad2(lua_State *L)
+{
+        if (lua_gettop(L) != 0) return luaL_error(L, "wrong number of arguments.");
+		SceTouchData touch;
+		sceTouchPeek(SCE_TOUCH_PORT_BACK, &touch, 1);
+		lua_pushnumber(L, lerp(touch.report[0].x, 1919, 960));
+		lua_pushnumber(L, lerp(touch.report[0].y, 1087, 544));
         return 2;
 }
 
@@ -95,6 +106,7 @@ static const luaL_Reg Controls_functions[] = {
   {"readRightAnalog",					lua_readright},	
   {"check",								lua_check},	
   {"readTouch",							lua_touchpad},	
+  {"readRetroTouch",					lua_touchpad2},	
   {0, 0}
 };
 
