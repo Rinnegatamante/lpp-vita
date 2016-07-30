@@ -12,7 +12,7 @@ while true do
 	Screen.flip()
 	
 	-- Check controls for exiting
-	if Controls.check(Controls.read(), PSP2_CTRL_START) then
+	if Controls.check(Controls.read(), SCE_CTRL_START) then
 		System.exit()
 	end
 end

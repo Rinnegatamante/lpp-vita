@@ -4,7 +4,7 @@ while true do
 	Screen.clear()
 	Screen.debugPrint(5, 5, "PSVITA listening on " .. ip .. " - Port " .. port, Color.new(255,255,255))
 	Screen.debugPrint(5, 25, "Press Triangle to exit", Color.new(255,255,255))
-	if Controls.check(Controls.read(), PSP2_CTRL_TRIANGLE) then
+	if Controls.check(Controls.read(), SCE_CTRL_TRIANGLE) then
 		Network.termFTP()
 		System.wait(800000)
 		System.exit()

@@ -4,7 +4,7 @@ while true do
 	pad = Controls.read()
 	Screen.initBlend()
 	Screen.clear()
-	if (Controls.check(pad,PSP2_CTRL_START)) then
+	if (Controls.check(pad,SCE_CTRL_START)) then
 		Timer.destroy(timer)
 		System.exit()
 	end

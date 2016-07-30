@@ -139,15 +139,15 @@ static void cmd_PASV_func(ClientInfo *client)
 
 	/* Create the data socket */
 	client->data_sockfd = sceNetSocket(data_socket_name,
-		PSP2_NET_AF_INET,
-		PSP2_NET_SOCK_STREAM,
+		SCE_NET_AF_INET,
+		SCE_NET_SOCK_STREAM,
 		0);
 
 	//DEBUG("PASV data socket fd: %d\n", client->data_sockfd);
 
 	/* Fill the data socket address */
-	client->data_sockaddr.sin_family = PSP2_NET_AF_INET;
-	client->data_sockaddr.sin_addr.s_addr = sceNetHtonl(PSP2_NET_INADDR_ANY);
+	client->data_sockaddr.sin_family = SCE_NET_AF_INET;
+	client->data_sockaddr.sin_addr.s_addr = sceNetHtonl(SCE_NET_INADDR_ANY);
 	/* Let the PSVita choose a port */
 	client->data_sockaddr.sin_port = sceNetHtons(0);
 
@@ -202,7 +202,7 @@ static void cmd_PORT_func(ClientInfo *client)
 		data_ip[0], data_ip[1], data_ip[2], data_ip[3]);
 
 	/* Convert the IP to a SceNetInAddr */
-	sceNetInetPton(PSP2_NET_AF_INET, ip_str, &data_addr);
+	sceNetInetPton(SCE_NET_AF_INET, ip_str, &data_addr);
 
 	//DEBUG("PORT connection to client's IP: %s Port: %d\n", ip_str, data_port);
 
@@ -213,15 +213,15 @@ static void cmd_PORT_func(ClientInfo *client)
 
 	/* Create data mode socket */
 	client->data_sockfd = sceNetSocket(data_socket_name,
-		PSP2_NET_AF_INET,
-		PSP2_NET_SOCK_STREAM,
+		SCE_NET_AF_INET,
+		SCE_NET_SOCK_STREAM,
 		0);
 
 	//DEBUG("Client %i data socket fd: %d\n", client->num,
 	//	client->data_sockfd);
 
 	/* Prepare socket address for the data connection */
-	client->data_sockaddr.sin_family = PSP2_NET_AF_INET;
+	client->data_sockaddr.sin_family = SCE_NET_AF_INET;
 	client->data_sockaddr.sin_addr = data_addr;
 	client->data_sockaddr.sin_port = sceNetHtons(data_port);
 
@@ -306,7 +306,7 @@ static void send_LIST(ClientInfo *client, const char *path)
 
 	while (sceIoDread(dir, &dirent) > 0) {
 		gen_list_format(buffer, sizeof(buffer),
-			PSP2_S_ISDIR(dirent.d_stat.st_mode),
+			SCE_S_ISDIR(dirent.d_stat.st_mode),
 			dirent.d_stat.st_size,
 			dirent.d_stat.st_ctime.month,
 			dirent.d_stat.st_ctime.day,
@@ -444,7 +444,7 @@ static void send_file(ClientInfo *client, const char *path)
 
 	//DEBUG("Opening: %s\n", path);
 
-	if ((fd = sceIoOpen(path, PSP2_O_RDONLY, 0777)) >= 0) {
+	if ((fd = sceIoOpen(path, SCE_O_RDONLY, 0777)) >= 0) {
 
 		buffer = malloc(FILE_BUF_SIZE);
 		if (buffer == NULL) {
@@ -500,7 +500,7 @@ static void receive_file(ClientInfo *client, const char *path)
 
 	//DEBUG("Opening: %s\n", path);
 
-	if ((fd = sceIoOpen(path, PSP2_O_CREAT | PSP2_O_WRONLY | PSP2_O_TRUNC, 0777)) >= 0) {
+	if ((fd = sceIoOpen(path, SCE_O_CREAT | SCE_O_WRONLY | SCE_O_TRUNC, 0777)) >= 0) {
 
 		buffer = malloc(FILE_BUF_SIZE);
 		if (buffer == NULL) {
@@ -805,15 +805,15 @@ static int server_thread(SceSize args, void *argp)
 
 	/* Create server socket */
 	server_sockfd = sceNetSocket("FTPVita_server_sock",
-		PSP2_NET_AF_INET,
-		PSP2_NET_SOCK_STREAM,
+		SCE_NET_AF_INET,
+		SCE_NET_SOCK_STREAM,
 		0);
 
 	//DEBUG("Server socket fd: %d\n", server_sockfd);
 
 	/* Fill the server's address */
-	serveraddr.sin_family = PSP2_NET_AF_INET;
-	serveraddr.sin_addr.s_addr = sceNetHtonl(PSP2_NET_INADDR_ANY);
+	serveraddr.sin_family = SCE_NET_AF_INET;
+	serveraddr.sin_addr.s_addr = sceNetHtonl(SCE_NET_INADDR_ANY);
 	serveraddr.sin_port = sceNetHtons(FTP_PORT);
 
 	/* Bind the server's address to the socket */
@@ -840,7 +840,7 @@ static int server_thread(SceSize args, void *argp)
 
 			/* Get the client's IP address */
 			char remote_ip[16];
-			sceNetInetNtop(PSP2_NET_AF_INET,
+			sceNetInetNtop(SCE_NET_AF_INET,
 				&clientaddr.sin_addr.s_addr,
 				remote_ip,
 				sizeof(remote_ip));
@@ -903,7 +903,7 @@ void ftp_init(char *vita_ip, unsigned short int *vita_port)
 	}
 
 	/* Init Net */
-	if (sceNetShowNetstat() == PSP2_NET_ERROR_ENOTINIT) {
+	if (sceNetShowNetstat() == SCE_NET_ERROR_ENOTINIT) {
 		net_memory = malloc(NET_INIT_SIZE);
 
 		initparam.memory = net_memory;
@@ -921,7 +921,7 @@ void ftp_init(char *vita_ip, unsigned short int *vita_port)
 	//DEBUG("sceNetCtlInit(): 0x%08X\n", ret);
 
 	/* Get IP address */
-	ret = sceNetCtlInetGetInfo(PSP2_NETCTL_INFO_GET_IP_ADDRESS, &info);
+	ret = sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_IP_ADDRESS, &info);
 	//DEBUG("sceNetCtlInetGet//INFO(): 0x%08X\n", ret);
 
 	/* Return data */
@@ -929,7 +929,7 @@ void ftp_init(char *vita_ip, unsigned short int *vita_port)
 	*vita_port = FTP_PORT;
 
 	/* Save the IP of PSVita to a global variable */
-	sceNetInetPton(PSP2_NET_AF_INET, info.ip_address, &vita_addr);
+	sceNetInetPton(SCE_NET_AF_INET, info.ip_address, &vita_addr);
 
 	/* Create server thread */
 	server_thid = sceKernelCreateThread("FTPVita_server_thread",

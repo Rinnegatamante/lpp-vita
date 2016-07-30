@@ -38,14 +38,13 @@
 #include <psp2/io/dirent.h>
 #include <psp2/uvl.h>
 #include "include/luaplayer.h"
-#include "main_menu.cpp"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
-int FREAD = PSP2_O_RDONLY;
-int FWRITE = PSP2_O_WRONLY;
-int FCREATE = PSP2_O_CREAT | PSP2_O_WRONLY;
-int FRDWR = PSP2_O_RDWR;
+int FREAD = SCE_O_RDONLY;
+int FWRITE = SCE_O_WRONLY;
+int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
+int FRDWR = SCE_O_RDWR;
 int SET = 1;
 int CUR = 2;
 int END = 3;
@@ -57,7 +56,7 @@ static int lua_dofile(lua_State *L)
     if (argc != 1) return luaL_error(L, "wrong number of arguments.");
 	char* file = (char*)luaL_checkstring(L,1);
 	unsigned char* buffer;
-	SceUID script = sceIoOpen(file, PSP2_O_RDONLY, 0777);
+	SceUID script = sceIoOpen(file, SCE_O_RDONLY, 0777);
 	if (script < 0) return luaL_error(L, "error opening file.");
 	else{
 		SceOff size = sceIoLseek(script, 0, SEEK_END);
@@ -146,7 +145,7 @@ static int lua_checkexist(lua_State *L)
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	const char *file_tbo = luaL_checkstring(L, 1);
-	SceUID fileHandle = sceIoOpen(file_tbo, PSP2_O_RDONLY, 0777);
+	SceUID fileHandle = sceIoOpen(file_tbo, SCE_O_RDONLY, 0777);
 	if (fileHandle < 0) lua_pushboolean(L, false);
 	else{
 		sceIoClose(fileHandle);
@@ -196,18 +195,10 @@ static int lua_exit(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	if (script_files > 1){
-		lua_settop(L, 1);
-		if (luaL_loadbuffer(L, (const char*)main_menu, size_main_menu - 1, NULL) != LUA_OK)	return lua_error(L);
-		lua_KFunction dofilecont = (lua_KFunction)(lua_gettop(L) - 1);
-		lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
-		return (int)dofilecont;
-	}else{
-		char stringbuffer[256];
-		strcpy(stringbuffer,"lpp_shutdown");
-		luaL_dostring(L, "collectgarbage()");
-		return luaL_error(L, stringbuffer); //Fake LUA error
-	}
+	char stringbuffer[256];
+	strcpy(stringbuffer,"lpp_shutdown");
+	luaL_dostring(L, "collectgarbage()");
+	return luaL_error(L, stringbuffer); //Fake LUA error
 }
 
 static int lua_wait(lua_State *L)
@@ -255,7 +246,7 @@ static int lua_dir(lua_State *L)
             lua_settable(L, -3);
 
             lua_pushstring(L, "directory");
-            lua_pushboolean(L, PSP2_S_ISDIR(g_dir.d_stat.st_mode));
+            lua_pushboolean(L, SCE_S_ISDIR(g_dir.d_stat.st_mode));
             lua_settable(L, -3);
 
         lua_settable(L, -3);
@@ -298,16 +289,6 @@ static int lua_nopower(lua_State *L)
 	return 0;
 }
 
-static int lua_loadhb(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	char* path = (char*)luaL_checkstring(L, 1);
-	luaL_dostring(L, "collectgarbage()");
-	uvl_load(path);
-	return 0;
-}
-
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -332,7 +313,6 @@ static const luaL_Reg System_functions[] = {
   {"getBatteryPercentage",				lua_percent},
   {"getBatteryLifetime",				lua_lifetime},
   {"powerTick",							lua_nopower},
-  {"loadElf",							lua_loadhb},
   {0, 0}
 };
 

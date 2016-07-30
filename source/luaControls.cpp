@@ -114,16 +114,16 @@ void luaControls_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Controls_functions, 0);
 	lua_setglobal(L, "Controls");
-	VariableRegister(L,PSP2_CTRL_UP);
-	VariableRegister(L,PSP2_CTRL_DOWN);
-	VariableRegister(L,PSP2_CTRL_LEFT);
-	VariableRegister(L,PSP2_CTRL_RIGHT);
-	VariableRegister(L,PSP2_CTRL_CROSS);
-	VariableRegister(L,PSP2_CTRL_CIRCLE);
-	VariableRegister(L,PSP2_CTRL_SQUARE);
-	VariableRegister(L,PSP2_CTRL_TRIANGLE);
-	VariableRegister(L,PSP2_CTRL_LTRIGGER);
-	VariableRegister(L,PSP2_CTRL_RTRIGGER);
-	VariableRegister(L,PSP2_CTRL_START);
-	VariableRegister(L,PSP2_CTRL_SELECT);
+	VariableRegister(L,SCE_CTRL_UP);
+	VariableRegister(L,SCE_CTRL_DOWN);
+	VariableRegister(L,SCE_CTRL_LEFT);
+	VariableRegister(L,SCE_CTRL_RIGHT);
+	VariableRegister(L,SCE_CTRL_CROSS);
+	VariableRegister(L,SCE_CTRL_CIRCLE);
+	VariableRegister(L,SCE_CTRL_SQUARE);
+	VariableRegister(L,SCE_CTRL_TRIANGLE);
+	VariableRegister(L,SCE_CTRL_LTRIGGER);
+	VariableRegister(L,SCE_CTRL_RTRIGGER);
+	VariableRegister(L,SCE_CTRL_START);
+	VariableRegister(L,SCE_CTRL_SELECT);
 }

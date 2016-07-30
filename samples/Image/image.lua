@@ -6,7 +6,7 @@ while true do
 	Screen.drawRotateImage(200, 10, 2.3, image)
 	Screen.drawScaleImage(100, 200, 1.5, 1.5, image)
 	Screen.termBlend()
-	if Controls.check(Controls.read(), PSP2_CTRL_TRIANGLE) then
+	if Controls.check(Controls.read(), SCE_CTRL_TRIANGLE) then
 		System.exit()
 	end
 	Screen.flip()

@@ -1,4 +1,5 @@
 TARGET		:= lpp-vita
+TITLE		:= LPPV000001
 SOURCES		:= source/include/lua source/include/ftp source/include source \
 				source/include/draw
 INCLUDES	:= include
@@ -6,7 +7,7 @@ INCLUDES	:= include
 LIBS = -lvita2d -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
 	-lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub -lm -lSceNet_stub \
 	-lSceNetCtl_stub -lScePgf_stub -ljpeg -lfreetype -lc \
-	-lScePower_stub -lUVL_stub -lpng16 -lz
+	-lScePower_stub -lSceCommonDialog_stub -lpng16 -lz
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
@@ -20,11 +21,20 @@ CFLAGS  = -Wl,-q -Wall -O3
 CXXFLAGS  = $(CFLAGS) -fno-exceptions
 ASFLAGS = $(CFLAGS)
 
-all: $(TARGET).velf
+all: $(TARGET).vpk
+
+$(TARGET).vpk: $(TARGET).velf
+	vita-make-fself $< build\eboot.bin
+	vita-mksfoex -s TITLE_ID=$(TITLE) "$(TARGET)" param.sfo
+	cp -f param.sfo build/sce_sys/param.sfo
+	
+	#------------ Comment this if you don't have 7zip ------------------
+	7z a -tzip $(TARGET).vpk -r .\build\sce_sys\* .\build\eboot.bin 
+	#-------------------------------------------------------------------
 
 %.velf: %.elf
 	$(PREFIX)-strip -g $<
-	vita-elf-create $< $@ $(VITASDK)/bin/db.json
+	vita-elf-create $< $@
 
 $(TARGET).elf: $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@

@@ -202,7 +202,7 @@ static int lua_loadimg(lua_State *L)
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	char* text = (char*)(luaL_checkstring(L, 1));
-	SceUID file = sceIoOpen(text, PSP2_O_RDONLY, 0777);
+	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
 	uint16_t magic;
 	sceIoRead(file, &magic, 2);
 	vita2d_texture* result;
@@ -329,16 +329,6 @@ static int lua_createimage(lua_State *L)
 	return 1;
 }
 
-static int lua_getFPS(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	float fps;
-	sceDisplayGetRefreshRate(&fps);
-	lua_pushnumber(L, fps);
-	return 1;
-}
-
 static int lua_loadFont(lua_State *L) {
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
@@ -421,7 +411,6 @@ static const luaL_Reg Screen_functions[] = {
   {"createImage",						lua_createimage},
   {"getImageWidth",						lua_width},
   {"getImageHeight",					lua_height},
-  {"getFramerate",						lua_getFPS},
   {"freeImage",							lua_free},
   {0, 0}
 };

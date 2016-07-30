@@ -1,7 +1,7 @@
 white = Color.new(255, 255, 255)
 yellow = Color.new(255, 255, 0)
 red = Color.new(255, 0, 0)
-scripts = System.listDirectory("cache0:/lpp")
+scripts = System.listDirectory("ux0:/lpp")
 i = 1
 while true do
 	y = 25
@@ -21,7 +21,7 @@ while true do
 	end
 	Screen.termBlend()
 	pad = Controls.read()
-	if Controls.check(pad, PSP2_CTRL_CROSS) then
+	if Controls.check(pad, SCE_CTRL_CROSS) then
 		Screen.initBlend()
 		Screen.clear()
 		Screen.termBlend()
@@ -31,9 +31,9 @@ while true do
 		Screen.termBlend()
 		System.wait(800000)
 		dofile("cache0:/lpp/" .. scripts[i].name)
-	elseif Controls.check(pad, PSP2_CTRL_UP) and not Controls.check(oldpad, PSP2_CTRL_UP) then
+	elseif Controls.check(pad, SCE_CTRL_UP) and not Controls.check(oldpad, SCE_CTRL_UP) then
 		i = i - 1
-	elseif Controls.check(pad, PSP2_CTRL_DOWN) and not Controls.check(oldpad, PSP2_CTRL_DOWN) then
+	elseif Controls.check(pad, SCE_CTRL_DOWN) and not Controls.check(oldpad, SCE_CTRL_DOWN) then
 		i = i + 1
 	end
 	if i > #scripts then
