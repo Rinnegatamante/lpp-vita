@@ -36,7 +36,6 @@
 #include <psp2/power.h>
 #include <psp2/kernel/processmgr.h>
 #include <psp2/io/dirent.h>
-#include <psp2/uvl.h>
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
