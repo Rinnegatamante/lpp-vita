@@ -1,18 +1,21 @@
-while true do
+-- Create a new color
+white = Color.new(255,255,255,255) 
 
-	white = Color.new(255,255,255,255) -- Create new color
+-- Main loop
+while true do
 	
-	-- Draw string on the screen
-	Screen.initBlend()
+	-- Draw a string on the screen
+	Graphics.initBlend()
 	Screen.clear()
-	Screen.debugPrint(5, 5, "Hello World!", white)
-	Screen.termBlend()
+	Graphics.debugPrint(5, 5, "Hello World!", white)
+	Graphics.termBlend()
 	
-	-- Update screens (For double buffering)
+	-- Update screen (For double buffering)
 	Screen.flip()
 	
 	-- Check controls for exiting
 	if Controls.check(Controls.read(), SCE_CTRL_START) then
 		System.exit()
 	end
+	
 end
