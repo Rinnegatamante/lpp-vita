@@ -36,11 +36,13 @@
 #include <psp2/power.h>
 #include <psp2/kernel/processmgr.h>
 #include <psp2/io/dirent.h>
-#include <psp2/uvl.h>
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
+extern "C"{
+	int scePowerSetArmClockFrequency(int freq);
+}
 int FREAD = SCE_O_RDONLY;
 int FWRITE = SCE_O_WRONLY;
 int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
@@ -48,6 +50,7 @@ int FRDWR = SCE_O_RDWR;
 int SET = 1;
 int CUR = 2;
 int END = 3;
+int cur_freq = 333;
 extern int script_files;
 
 static int lua_dofile(lua_State *L)
@@ -289,6 +292,26 @@ static int lua_nopower(lua_State *L)
 	return 0;
 }
 
+static int lua_setcpu(lua_State *L)
+{
+    int argc = lua_gettop(L);
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	int freq = luaL_checkinteger(L, 1);
+	if (freq < 41) freq = 41;
+	else if (freq > 444) freq = 444;
+	scePowerSetArmClockFrequency(freq);
+	cur_freq = freq;
+	return 0;
+}
+
+static int lua_getcpu(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	lua_pushinteger(L, cur_freq);
+	return 1;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -313,6 +336,8 @@ static const luaL_Reg System_functions[] = {
   {"getBatteryPercentage",				lua_percent},
   {"getBatteryLifetime",				lua_lifetime},
   {"powerTick",							lua_nopower},
+  {"setCpuSpeed",						lua_setcpu},
+  {"getCpuSpeed",						lua_getcpu},
   {0, 0}
 };
 
