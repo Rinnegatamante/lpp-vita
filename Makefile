@@ -1,5 +1,4 @@
 TARGET		:= lpp-vita
-TITLE		:= LPPV000001
 SOURCES		:= source/include/lua source/include/ftp source/include source \
 				source/include/draw
 INCLUDES	:= include
@@ -21,16 +20,7 @@ CFLAGS  = -Wl,-q -Wall -O3
 CXXFLAGS  = $(CFLAGS) -fno-exceptions
 ASFLAGS = $(CFLAGS)
 
-all: $(TARGET).vpk
-
-$(TARGET).vpk: $(TARGET).velf
-	vita-make-fself $< build\eboot.bin
-	vita-mksfoex -s TITLE_ID=$(TITLE) "$(TARGET)" param.sfo
-	cp -f param.sfo build/sce_sys/param.sfo
-	
-	#------------ Comment this if you don't have 7zip ------------------
-	7z a -tzip $(TARGET).vpk -r .\build\sce_sys\* .\build\eboot.bin 
-	#-------------------------------------------------------------------
+all: $(TARGET).velf
 
 %.velf: %.elf
 	$(PREFIX)-strip -g $<
@@ -41,6 +31,3 @@ $(TARGET).elf: $(OBJS)
 
 clean:
 	@rm -rf $(TARGET).velf $(TARGET).elf $(OBJS)
-
-run: $(TARGET).velf
-	@sh run_homebrew_unity.sh $(TARGET).velf

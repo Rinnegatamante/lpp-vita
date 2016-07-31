@@ -32,7 +32,7 @@ int main()
 	while (1) {
 		
 		// Load main script
-		SceUID main_file = sceIoOpen("cache0:/lpp/index.lua", SCE_O_RDONLY, 0777);
+		SceUID main_file = sceIoOpen("app0:/index.lua", SCE_O_RDONLY, 0777);
 		if (main_file < 0) errMsg = "index.lua not found.";
 		else{
 			SceOff size = sceIoLseek(main_file, 0, SEEK_END);
