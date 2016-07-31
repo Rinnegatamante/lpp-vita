@@ -32,8 +32,8 @@ int main()
 	while (1) {
 		
 		// Load main script
-		SceUID main_file = sceIoOpen("cache0:/lpp/index.lua", SCE_O_RDONLY, 0777);
-		if (main_file < 0) errMsg = "index.lua not found.";
+		SceUID main_file = sceIoOpen("ux0:/data/lpp/menu.lua", SCE_O_RDONLY, 0777);
+		if (main_file < 0) errMsg = "menu.lua not found.";
 		else{
 			SceOff size = sceIoLseek(main_file, 0, SEEK_END);
 			if (size < 1) errMsg = "Invalid main script.";
@@ -49,7 +49,7 @@ int main()
 		}
 
 		if (errMsg != NULL){
-			if (strstr(errMsg, "lpp_shutdown")) break;
+			if (strstr(errMsg, "data/lpp_shutdown")) break;
 			else{
 				int restore = 0;
 				bool s = true;
