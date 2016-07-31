@@ -127,5 +127,4 @@ void luaControls_init(lua_State *L) {
 	VariableRegister(L,SCE_CTRL_CIRCLE);
 	VariableRegister(L,SCE_CTRL_CROSS);
 	VariableRegister(L,SCE_CTRL_SQUARE);
-	VariableRegister(L,SCE_CTRL_ANY);
 }
