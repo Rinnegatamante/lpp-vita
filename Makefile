@@ -25,7 +25,7 @@ all: $(TARGET).vpk
 
 $(TARGET).vpk: $(TARGET).velf
 	vita-make-fself $< build\eboot.bin
-	vita-mksfoex -s TITLE_ID=$(TITLE) "$(TARGET)" param.sfo
+	vita-mksfoex -s TITLE_ID=$(TITLE) "Lua Player+" param.sfo
 	cp -f param.sfo build/sce_sys/param.sfo
 	
 	#------------ Comment this if you don't have 7zip ------------------
