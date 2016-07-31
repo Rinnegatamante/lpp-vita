@@ -1,7 +1,7 @@
 white = Color.new(255, 255, 255)
 yellow = Color.new(255, 255, 0)
 red = Color.new(255, 0, 0)
-scripts = System.listDirectory("ux0:/data/lpp")
+scripts = System.listDirectory("ux0:data/lpp")
 i = 1
 while true do
 	y = 25
@@ -30,7 +30,8 @@ while true do
 		Screen.clear()
 		Screen.termBlend()
 		System.wait(800000)
-		dofile("ux0:/data/lpp/" .. scripts[i].name)
+		pcall(function () dofile("ux0:data/lpp/" .. scripts[i].name) end)
+		Screen.clear()
 	elseif Controls.check(pad, SCE_CTRL_UP) and not Controls.check(oldpad, SCE_CTRL_UP) then
 		i = i - 1
 	elseif Controls.check(pad, SCE_CTRL_DOWN) and not Controls.check(oldpad, SCE_CTRL_DOWN) then
