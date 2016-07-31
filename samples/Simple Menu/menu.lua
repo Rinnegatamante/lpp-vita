@@ -30,7 +30,7 @@ while true do
 		Screen.clear()
 		Screen.termBlend()
 		System.wait(800000)
-		dofile("cache0:/lpp/" .. scripts[i].name)
+		dofile("ux0:/lpp/" .. scripts[i].name)
 	elseif Controls.check(pad, SCE_CTRL_UP) and not Controls.check(oldpad, SCE_CTRL_UP) then
 		i = i - 1
 	elseif Controls.check(pad, SCE_CTRL_DOWN) and not Controls.check(oldpad, SCE_CTRL_DOWN) then
