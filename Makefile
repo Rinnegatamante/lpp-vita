@@ -23,10 +23,10 @@ ASFLAGS = $(CFLAGS)
 all: $(TARGET).vpk
 
 $(TARGET).vpk: $(TARGET).velf
-    vita-make-fself $< eboot.bin
-    vita-mksfoex -s TITLE_ID=$(TITLE) "Lua Player+" param.sfo
-    vita-pack-vpk -s param.sfo -b eboot.bin $(TARGET).vpk
-	
+	vita-make-fself $< eboot.bin
+	vita-mksfoex -s TITLE_ID=$(TITLE) "Lua Player+" param.sfo
+	vita-pack-vpk -s param.sfo -b eboot.bin $(TARGET).vpk
+
 %.velf: %.elf
 	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
