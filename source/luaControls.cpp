@@ -20,6 +20,7 @@
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Copyright (c) Nanni <lpp.nanni@gmail.com> ---------------------------------------------------------------------------#
 #- Copyright (c) Rinnegatamante <rinnegatamante@gmail.com> -------------------------------------------------------------#
+#- Copyright (c) coderobe <robin@broda.me> -----------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Credits : -----------------------------------------------------------------------------------------------------------#
@@ -101,11 +102,11 @@ static int lua_touchpad2(lua_State *L)
 
 //Register our Controls Functions
 static const luaL_Reg Controls_functions[] = {
-  {"read",								lua_readC},	
+  {"read",						lua_readC},
   {"readLeftAnalog",					lua_readleft},	  
   {"readRightAnalog",					lua_readright},	
-  {"check",								lua_check},	
-  {"readTouch",							lua_touchpad},	
+  {"check",						lua_check},
+  {"readTouch",						lua_touchpad},	
   {"readRetroTouch",					lua_touchpad2},	
   {0, 0}
 };
@@ -114,16 +115,17 @@ void luaControls_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Controls_functions, 0);
 	lua_setglobal(L, "Controls");
+	VariableRegister(L,SCE_CTRL_SELECT);
+	VariableRegister(L,SCE_CTRL_START);
 	VariableRegister(L,SCE_CTRL_UP);
+	VariableRegister(L,SCE_CTRL_RIGHT);
 	VariableRegister(L,SCE_CTRL_DOWN);
 	VariableRegister(L,SCE_CTRL_LEFT);
-	VariableRegister(L,SCE_CTRL_RIGHT);
-	VariableRegister(L,SCE_CTRL_CROSS);
-	VariableRegister(L,SCE_CTRL_CIRCLE);
-	VariableRegister(L,SCE_CTRL_SQUARE);
-	VariableRegister(L,SCE_CTRL_TRIANGLE);
 	VariableRegister(L,SCE_CTRL_LTRIGGER);
 	VariableRegister(L,SCE_CTRL_RTRIGGER);
-	VariableRegister(L,SCE_CTRL_START);
-	VariableRegister(L,SCE_CTRL_SELECT);
+	VariableRegister(L,SCE_CTRL_TRIANGLE);
+	VariableRegister(L,SCE_CTRL_CIRCLE);
+	VariableRegister(L,SCE_CTRL_CROSS);
+	VariableRegister(L,SCE_CTRL_SQUARE);
+	VariableRegister(L,SCE_CTRL_ANY);
 }
