@@ -1,4 +1,4 @@
-image = Screen.loadImage("cache0:/image.jpg")
+image = Screen.loadImage("ux0:data/lpp/image.jpg")
 while true do
 	Screen.initBlend()
 	Screen.clear()

@@ -1,6 +1,6 @@
-while true do
+white = Color.new(255,255,255,255) -- Create new color
 
-	white = Color.new(255,255,255,255) -- Create new color
+while true do
 	
 	-- Draw string on the screen
 	Screen.initBlend()

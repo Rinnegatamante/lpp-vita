@@ -1,13 +1,12 @@
 TARGET		:= lpp-vita
 TITLE		:= LPPV000001
-SOURCES		:= source/include/lua source/include/ftp source/include source \
-				source/include/draw
+SOURCES		:= source/include/lua source/include/ftp source/include source source/include/draw
 INCLUDES	:= include
 
 LIBS = -lvita2d -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
 	-lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub -lm -lSceNet_stub \
 	-lSceNetCtl_stub -lScePgf_stub -ljpeg -lfreetype -lc \
-	-lScePower_stub -lSceCommonDialog_stub -lpng16 -lz
+	-lScePower_stub -lSceCommonDialog_stub -lpng -lz
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
@@ -24,13 +23,9 @@ ASFLAGS = $(CFLAGS)
 all: $(TARGET).vpk
 
 $(TARGET).vpk: $(TARGET).velf
-	vita-make-fself $< build\eboot.bin
-	vita-mksfoex -s TITLE_ID=$(TITLE) "$(TARGET)" param.sfo
-	cp -f param.sfo build/sce_sys/param.sfo
-	
-	#------------ Comment this if you don't have 7zip ------------------
-	7z a -tzip $(TARGET).vpk -r .\build\sce_sys\* .\build\eboot.bin 
-	#-------------------------------------------------------------------
+	vita-make-fself $< eboot.bin
+	vita-mksfoex -s TITLE_ID=$(TITLE) "Lua Player+" param.sfo
+	vita-pack-vpk -s param.sfo -b eboot.bin $(TARGET).vpk
 
 %.velf: %.elf
 	$(PREFIX)-strip -g $<
@@ -40,7 +35,4 @@ $(TARGET).elf: $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@
 
 clean:
-	@rm -rf $(TARGET).velf $(TARGET).elf $(OBJS)
-
-run: $(TARGET).velf
-	@sh run_homebrew_unity.sh $(TARGET).velf
+	@rm -rf $(TARGET).velf $(TARGET).elf $(OBJS) param.sfo eboot.bin $(TARGET).vpk

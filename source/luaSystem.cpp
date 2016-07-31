@@ -36,7 +36,6 @@
 #include <psp2/power.h>
 #include <psp2/kernel/processmgr.h>
 #include <psp2/io/dirent.h>
-#include <psp2/uvl.h>
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
@@ -300,18 +299,17 @@ static const luaL_Reg System_functions[] = {
   {"doNotClose",						lua_closefile},  
   {"doNotSeek",							lua_seekfile},  
   {"doNotSize",							lua_sizefile},  
-  
   {"doesFileExist",						lua_checkexist},
-  {"exit",								lua_exit},
+  {"exit",							lua_exit},
   {"rename",							lua_rename},
   {"deleteFile",						lua_removef},
-  {"deleteDirectory",					lua_removef2},
-  {"createDirectory",					lua_newdir},
+  {"deleteDirectory",						lua_removef2},
+  {"createDirectory",						lua_newdir},
   {"listDirectory",						lua_dir},
-  {"wait",								lua_wait},
-  {"isBatteryCharging",					lua_charging},
-  {"getBatteryPercentage",				lua_percent},
-  {"getBatteryLifetime",				lua_lifetime},
+  {"wait",							lua_wait},
+  {"isBatteryCharging",						lua_charging},
+  {"getBatteryPercentage",					lua_percent},
+  {"getBatteryLifetime",					lua_lifetime},
   {"powerTick",							lua_nopower},
   {0, 0}
 };
