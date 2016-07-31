@@ -16,7 +16,7 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 ##### Graphics
 
-* Advanced 2D Graphics Rendering (CPU and GPU)
+* Advanced 2D Graphics Rendering (GPU)
 * Native support to TTF fonts
 * Native support to BMP/PNG/JPG images
 
@@ -24,8 +24,21 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 * Controls system with full console support
 
+##### Network
+* Built-in debug FTP server
+
+##### System
+* Access to a lot of Sony syscalls
+* I/O access for any filesystem
+
 ##### Utilities
 
 * Timer system
 * Advanced arithmetical functions support (math library)
 
+# Credits
+
+* Everyone involved in vitasdk creation
+* xerpi for vita2dlib and debug FTP server code
+* gnmmarechal for testing the interpreter
+* Misledz for the Lua Player Plus logo
