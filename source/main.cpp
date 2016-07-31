@@ -49,7 +49,7 @@ int main()
 		}
 
 		if (errMsg != NULL){
-			if (strstr(errMsg, "data/lpp_shutdown")) break;
+			if (strstr(errMsg, "lpp_shutdown")) break;
 			else{
 				int restore = 0;
 				bool s = true;
