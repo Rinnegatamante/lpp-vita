@@ -7,6 +7,8 @@
 #include <psp2/types.h>
 #include <psp2/moduleinfo.h>
 #include <psp2/kernel/processmgr.h>
+#include <psp2/apputil.h>
+#include <psp2/sysmodule.h>
 #include <psp2/io/fcntl.h>
 #include <psp2/io/dirent.h>
 #include "include/luaplayer.h"
@@ -28,6 +30,16 @@ int main()
 	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, 1);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, 1);
+	
+	// Starting secondary modules and mounting secondary filesystems
+	sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
+	SceAppUtilInitParam init_param;
+	SceAppUtilBootParam boot_param;
+	memset(&init_param, 0, sizeof(SceAppUtilInitParam));
+	memset(&boot_param, 0, sizeof(SceAppUtilBootParam));
+	sceAppUtilInit(&init_param, &boot_param);
+	sceAppUtilMusicMount();
+	sceAppUtilPhotoMount();
 	
 	char vita_ip[16];
 	unsigned short int vita_port = 0;
@@ -81,14 +93,20 @@ int main()
 						errMsg = NULL;
 						restore = 1;
 						if (vita_port != 0){
-							ftp_fini();
+							ftpvita_fini();
 							vita_port = 0;
 						}
 						sceKernelDelayThread(800000);
 					}else if ((pad.buttons & SCE_CTRL_CIRCLE) && (!(oldpad.buttons & SCE_CTRL_CIRCLE))){
-						if (vita_port == 0) ftp_init(vita_ip, &vita_port);
-						else{
-							ftp_fini();
+						if (vita_port == 0){
+							ftpvita_init(vita_ip, &vita_port);
+							ftpvita_add_device("app0:");
+							ftpvita_add_device("ux0:");
+							ftpvita_add_device("ur0:");
+							ftpvita_add_device("music0:");
+							ftpvita_add_device("photo0:");
+						}else{
+							ftpvita_fini();
 							vita_port = 0;
 						}
 					}
@@ -97,7 +115,10 @@ int main()
 			}
 		}
 	}
-
+	
+	sceAppUtilPhotoUmount();
+	sceAppUtilMusicUmount();
+	sceAppUtilShutdown();
 	vita2d_fini();
 	return 0;
 }

@@ -37,7 +37,12 @@ static int lua_initFTP(lua_State *L) {
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	char vita_ip[16];
 	unsigned short int vita_port = 0;
-    ftp_init(vita_ip, &vita_port);
+    if (ftpvita_init(vita_ip, &vita_port) < 0) return luaL_error(L, "cannot start FTP server (WiFi off?)");
+	ftpvita_add_device("app0:");
+	ftpvita_add_device("ux0:");
+	ftpvita_add_device("ur0:");
+	ftpvita_add_device("music0:");
+	ftpvita_add_device("photo0:");
 	lua_pushstring(L, vita_ip);
 	lua_pushinteger(L, vita_port);
     return 2;
@@ -46,7 +51,7 @@ static int lua_initFTP(lua_State *L) {
 static int lua_termFTP(lua_State *L) {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
-    ftp_fini();
+    ftpvita_fini();
     return 0;
 }
 
