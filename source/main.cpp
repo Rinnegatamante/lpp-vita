@@ -3,6 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <psp2/ctrl.h>
+#include <psp2/touch.h>
 #include <psp2/types.h>
 #include <psp2/moduleinfo.h>
 #include <psp2/kernel/processmgr.h>
@@ -22,6 +23,12 @@ int clr_color;
 
 int main()
 {
+
+	// Initializing touch screens and analogs
+	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG);
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, 1);
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, 1);
+	
 	char vita_ip[16];
 	unsigned short int vita_port = 0;
 	vita2d_init();
