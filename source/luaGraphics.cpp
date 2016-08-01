@@ -133,18 +133,23 @@ static int lua_loadimg(lua_State *L)
 	uint16_t magic;
 	sceIoRead(file, &magic, 2);
 	vita2d_texture* result;
-	if (magic == 0x4D42){
-		sceIoClose(file);
-		result = vita2d_load_BMP_file(text);
-	}else if (magic == 0xD8FF){
-		sceIoClose(file);
-		result = vita2d_load_JPEG_file(text);
-	}else if (magic == 0x5089){
-		sceIoClose(file);
-		result = vita2d_load_PNG_file(text);
-	}else{
-		sceIoClose(file);
-		return luaL_error(L, "Error loading image.");
+	switch(magic){
+		case 0x4D42:
+			sceIoClose(file);
+			result = vita2d_load_BMP_file(text);
+			break;
+		case 0xD8FF:
+			sceIoClose(file);
+			result = vita2d_load_JPEG_file(text);
+			break;
+		case 0x5089:
+			sceIoClose(file);
+			result = vita2d_load_PNG_file(text);
+			break;
+		default:
+			sceIoClose(file);
+			return luaL_error(L, "Error loading image.");
+			break;
 	}
     lua_pushinteger(L, (int)(result));
 	return 1;
@@ -294,13 +299,12 @@ static int lua_unloadFont(lua_State *L) {
 
 static int lua_fprint(lua_State *L) {
     int argc = lua_gettop(L);
-    if (argc != 6) return luaL_error(L, "wrong number of arguments");
+    if (argc != 5) return luaL_error(L, "wrong number of arguments");
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
 	int x = luaL_checkinteger(L, 2);
     int y = luaL_checkinteger(L, 3);
 	char* text = (char*)(luaL_checkstring(L, 4));
 	uint32_t color = luaL_checkinteger(L,5);
-	int screen = luaL_checkinteger(L,6);
 	#ifndef SKIP_ERROR_HANDLING
 		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
