@@ -120,5 +120,6 @@ int main()
 	sceAppUtilMusicUmount();
 	sceAppUtilShutdown();
 	vita2d_fini();
+	sceKernelExitProcess(0);
 	return 0;
 }
