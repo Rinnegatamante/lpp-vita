@@ -4,9 +4,9 @@ SOURCES		:= source/include/lua source/include/ftp source/include source \
 INCLUDES	:= include
 
 LIBS = -lvita2d -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub	\
-	-lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub -lm -lSceNet_stub \
-	-lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub -ljpeg -lfreetype -lc \
-	-lScePower_stub -lSceCommonDialog_stub -lpng16 -lz
+	-lSceAppmgr_stub -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
+	-lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
+	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))

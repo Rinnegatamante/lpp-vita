@@ -35,6 +35,7 @@
 #include <psp2/io/stat.h>
 #include <psp2/power.h>
 #include <psp2/kernel/processmgr.h>
+#include <psp2/appmgr.h>
 #include <psp2/io/dirent.h>
 #include "include/luaplayer.h"
 #define stringify(str) #str
@@ -74,6 +75,19 @@ static int lua_dofile(lua_State *L)
 	lua_KFunction dofilecont = (lua_KFunction)(lua_gettop(L) - 1);
 	lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
 	return (int)dofilecont;
+}
+
+static int lua_launch(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments.");
+	char* file = (char*)luaL_checkstring(L,1);
+	unsigned char* buffer;
+	SceUID bin = sceIoOpen(file, SCE_O_RDONLY, 0777);
+	if (bin < 0) return luaL_error(L, "error opening file.");
+	else sceIoClose(bin);
+	sceAppMgrLoadExec(file, NULL, NULL);
+	return 0;
 }
 
 static int lua_openfile(lua_State *L)
@@ -338,6 +352,7 @@ static const luaL_Reg System_functions[] = {
   {"powerTick",							lua_nopower},
   {"setCpuSpeed",						lua_setcpu},
   {"getCpuSpeed",						lua_getcpu},
+  {"launchEboot",						lua_launch},
   {0, 0}
 };
 
