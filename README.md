@@ -42,3 +42,4 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 * xerpi for vita2dlib and debug FTP server code
 * gnmmarechal for testing the interpreter
 * Misledz for the Lua Player Plus logo
+* EasyRPG Team for the Audio Decoder used for Sound module
