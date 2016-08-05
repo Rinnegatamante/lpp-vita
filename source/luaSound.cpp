@@ -122,6 +122,7 @@ static int audioThread(unsigned int args, void* arg){
 					free(mus->audiobuf2);
 					audio_decoder[id].reset();
 					free(mus);
+					availThreads[id] = true;
 					break;
 				}
 			
@@ -153,18 +154,21 @@ static int lua_init(lua_State *L)
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	
-	// Creating audio mutex
-	Audio_Mutex = sceKernelCreateSema("Audio Mutex", 0, 0, 1, NULL);
+	if (!initialized){
 	
-	// Starting audio threads
-	for (int i=0;i < AUDIO_CHANNELS; i++){
-		availThreads[i] = true;
-		AudioThreads[i] = sceKernelCreateThread("Audio Thread", &audioThread, 0x10000100, 0x10000, 0, 0, NULL);
-		int res = sceKernelStartThread(AudioThreads[i], sizeof(ids[i]), &ids[i]);
-		if (res != 0) return luaL_error(L, "Failed to init an audio thread.");
+		// Creating audio mutex
+		Audio_Mutex = sceKernelCreateSema("Audio Mutex", 0, 0, 1, NULL);
+	
+		// Starting audio threads
+		for (int i=0;i < AUDIO_CHANNELS; i++){
+			availThreads[i] = true;
+			AudioThreads[i] = sceKernelCreateThread("Audio Thread", &audioThread, 0x10000100, 0x10000, 0, 0, NULL);
+			int res = sceKernelStartThread(AudioThreads[i], sizeof(ids[i]), &ids[i]);
+			if (res != 0) return luaL_error(L, "Failed to init an audio thread.");
+		}
+	
+		initialized = true;
 	}
-	
-	initialized = true;
 	return 0;
 }
 
@@ -173,19 +177,22 @@ static int lua_term(lua_State *L)
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	
-	// Starting exit procedure for audio threads
-	mustExit = true;
-	sceKernelSignalSema(Audio_Mutex, 1);
-	while (mustExit){} // Wait for threads exiting...
-	exited = 0;
+	if (initialized){
 		
-	// Deleting audio threads and mutex
-	sceKernelDeleteSema(Audio_Mutex);
-	for (int i=0;i<AUDIO_CHANNELS;i++){
-		sceKernelDeleteThread(AudioThreads[i]);
-	}
+		// Starting exit procedure for audio threads
+		mustExit = true;
+		sceKernelSignalSema(Audio_Mutex, 1);
+		while (mustExit){} // Wait for threads exiting...
+		exited = 0;
+		
+		// Deleting audio threads and mutex
+		sceKernelDeleteSema(Audio_Mutex);
+		for (int i=0;i<AUDIO_CHANNELS;i++){
+			sceKernelDeleteThread(AudioThreads[i]);
+		}
 	
-	initialized = false;
+		initialized = false;
+	}
 	return 0;
 }
 
@@ -207,6 +214,15 @@ static int lua_pause(lua_State *L)
 	if (mus->isPlaying) mus->pauseTrigger = true;
 	
 	return 0;
+}
+
+static int lua_isplaying(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+	lua_pushboolean(L,mus->isPlaying);	
+	return 1;
 }
 
 static int lua_resume(lua_State *L)
@@ -351,6 +367,7 @@ static const luaL_Reg Sound_functions[] = {
 	{"play",						lua_play},
 	{"pause",						lua_pause},
 	{"resume",						lua_resume},
+	{"isPlaying",					lua_isplaying},
 	{"close",						lua_closesong},
 	{0, 0}
 };
