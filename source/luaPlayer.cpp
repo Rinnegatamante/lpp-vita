@@ -50,6 +50,7 @@ const char *runScript(const char* script, bool isStringBuffer)
 	luaControls_init(L);
 	luaScreen_init(L);
 	luaGraphics_init(L);
+	luaSound_init(L);
 	luaSystem_init(L);
 	luaNetwork_init(L);
 	luaTimer_init(L);
