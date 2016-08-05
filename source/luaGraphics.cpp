@@ -81,7 +81,17 @@ static int lua_rect(lua_State *L)
 	float y1 = luaL_checknumber(L, 3);
     float y2 = luaL_checknumber(L, 4);
 	int color = luaL_checkinteger(L,5);
-	vita2d_draw_rectangle(x1, y1, x1+x2, y1+y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	if (x2 < x1){
+		int tmp = x2;
+		x2 = x1;
+		x1 = tmp;
+	}
+	if (y2 < y1){
+		int tmp = y2;
+		y2 = y1;
+		y1 = tmp;
+	}
+	vita2d_draw_rectangle(x1, y1, x2-x1, y2-y1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
 }
 
@@ -93,8 +103,18 @@ static int lua_line(lua_State *L)
     float x2 = luaL_checknumber(L, 2);
 	float y1 = luaL_checknumber(L, 3);
     float y2 = luaL_checknumber(L, 4);
+	if (x2 < x1){
+		int tmp = x2;
+		x2 = x1;
+		x1 = tmp;
+	}
+	if (y2 < y1){
+		int tmp = y2;
+		y2 = y1;
+		y1 = tmp;
+	}
 	int color = luaL_checkinteger(L,5);
-	vita2d_draw_line(x1, y1, x1+x2, y1+y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_line(x1, y1, x2, y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
 }
 
@@ -121,6 +141,7 @@ static int lua_term(lua_State *L) {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
     vita2d_end_drawing();
+	vita2d_wait_rendering_done();
     return 0;
 }
 
@@ -132,26 +153,13 @@ static int lua_loadimg(lua_State *L)
 	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
 	uint16_t magic;
 	sceIoRead(file, &magic, 2);
+	sceIoClose(file);
 	vita2d_texture* result;
-	switch(magic){
-		case 0x4D42:
-			sceIoClose(file);
-			result = vita2d_load_BMP_file(text);
-			break;
-		case 0xD8FF:
-			sceIoClose(file);
-			result = vita2d_load_JPEG_file(text);
-			break;
-		case 0x5089:
-			sceIoClose(file);
-			result = vita2d_load_PNG_file(text);
-			break;
-		default:
-			sceIoClose(file);
-			return luaL_error(L, "Error loading image.");
-			break;
-	}
-    lua_pushinteger(L, (int)(result));
+	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
+	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
+	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
+	else return luaL_error(L, "Error loading image.");
+    lua_pushinteger(L, (uint32_t)(result));
 	return 1;
 }
 
@@ -195,12 +203,12 @@ static int lua_drawimg_part(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 7) return luaL_error(L, "wrong number of arguments");
-	float x = luaL_checkinteger(L, 1);
-    float y = luaL_checkinteger(L, 2);
-	float st_x = luaL_checkinteger(L, 3);
-    float st_y = luaL_checkinteger(L, 4);
-	float width = luaL_checkinteger(L, 5);
-    float height = luaL_checkinteger(L, 6);
+	float x = luaL_checknumber(L, 1);
+    float y = luaL_checknumber(L, 2);
+	int st_x = luaL_checkinteger(L, 3);
+    int st_y = luaL_checkinteger(L, 4);
+	float width = luaL_checknumber(L, 5);
+    float height = luaL_checknumber(L, 6);
 	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 7));
 	vita2d_draw_texture_part(text, x, y, st_x, st_y, width, height);
 	return 0;
@@ -210,12 +218,12 @@ static int lua_drawimg_full(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 9) return luaL_error(L, "wrong number of arguments");
-	float x = luaL_checkinteger(L, 1);
-    float y = luaL_checkinteger(L, 2);
-	float st_x = luaL_checkinteger(L, 3);
-    float st_y = luaL_checkinteger(L, 4);
-	float width = luaL_checkinteger(L, 5);
-    float height = luaL_checkinteger(L, 6);
+	float x = luaL_checknumber(L, 1);
+    float y = luaL_checknumber(L, 2);
+	int st_x = luaL_checkinteger(L, 3);
+    int st_y = luaL_checkinteger(L, 4);
+	float width = luaL_checknumber(L, 5);
+    float height = luaL_checknumber(L, 6);
 	float x_scale = luaL_checknumber(L, 7);
     float y_scale = luaL_checknumber(L, 8);
 	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 9));
@@ -301,8 +309,8 @@ static int lua_fprint(lua_State *L) {
     int argc = lua_gettop(L);
     if (argc != 5) return luaL_error(L, "wrong number of arguments");
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
-	int x = luaL_checkinteger(L, 2);
-    int y = luaL_checkinteger(L, 3);
+	float x = luaL_checknumber(L, 2);
+    float y = luaL_checknumber(L, 3);
 	char* text = (char*)(luaL_checkstring(L, 4));
 	uint32_t color = luaL_checkinteger(L,5);
 	#ifndef SKIP_ERROR_HANDLING
