@@ -14,9 +14,9 @@
 #include "include/luaplayer.h"
 extern "C"{
 	#include <vita2d.h>
-	#include "include/draw/font.h"
 	#include "include/ftp/ftp.h"
 }
+extern vita2d_pgf* debug_font;
 
 const char *errMsg;
 unsigned char *script;
@@ -41,11 +41,16 @@ int main()
 	sceAppUtilMusicMount();
 	sceAppUtilPhotoMount();
 	
+	// Debug FTP stuffs
 	char vita_ip[16];
 	unsigned short int vita_port = 0;
+	
+	// Initializing graphics device
 	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
 	clr_color = 0x000000FF;
+	debug_font = vita2d_load_default_pgf();
+	
 	SceCtrlData pad;
 	SceCtrlData oldpad;
 	while (1) {
@@ -75,13 +80,8 @@ int main()
 				while (restore == 0){
 					vita2d_start_drawing();
 					vita2d_clear_screen();
-					font_draw_string(10, 10, RGBA8(255, 255, 255, 255), "An error occurred:");
-					font_draw_string(10, 30, RGBA8(255, 255, 255, 255), errMsg);
-					font_draw_string(10, 70, RGBA8(255, 255, 255, 255), "Press X to restart.");
-					font_draw_string(10, 90, RGBA8(255, 255, 255, 255), "Press O to enable/disable FTP.");
-					if (vita_port != 0){
-						font_draw_stringf(10, 150, RGBA8(255, 255, 255, 255), "PSVITA listening on IP %s , Port %u", vita_ip, vita_port);
-					}
+					vita2d_pgf_draw_textf(debug_font, 2, 19.402, RGBA8(255, 255, 255, 255), 1.0, "An error occurred:\n%s\n\nPress X to restart.\nPress O to enable/disable FTP.", errMsg);
+					if (vita_port != 0) vita2d_pgf_draw_textf(debug_font, 2, 200, RGBA8(255, 255, 255, 255), 1.0, "PSVITA listening on IP %s , Port %u", vita_ip, vita_port);
 					vita2d_end_drawing();
 					vita2d_swap_buffers();
 					if (s){

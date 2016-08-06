@@ -38,10 +38,8 @@
 #include <psp2/io/fcntl.h>
 #include <vita2d.h>
 #include "include/luaplayer.h"
-extern "C"{
-	#include "include/draw/font.h"
-}
 
+vita2d_pgf* debug_font;
 struct ttf{
 	uint32_t magic;
 	vita2d_font* f;
@@ -52,12 +50,14 @@ struct ttf{
 static int lua_print(lua_State *L)
 {
     int argc = lua_gettop(L);
-    if (argc != 4) return luaL_error(L, "wrong number of arguments.");
+    if (argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments.");
 	int x = luaL_checkinteger(L, 1);
 	int y = luaL_checkinteger(L, 2);
 	char* text = (char*)luaL_checkstring(L, 3);
 	int color = luaL_checkinteger(L, 4);
-	font_draw_string(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), text);
+	float scale = 1.0;
+	if (argc == 5) scale = luaL_checknumber(L, 5);
+	vita2d_pgf_draw_text(debug_font, x, y + 17.402 * scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), scale, text);
 	return 0;
 }
 
@@ -265,8 +265,7 @@ static int lua_createimage(lua_State *L)
 	int w = luaL_checkinteger(L, 1);
     int h = luaL_checkinteger(L, 2);
 	vita2d_texture* text = vita2d_create_empty_texture(w, h);
-	lua_pushinteger(L, vita2d_texture_get_height(text));
-	return 1;
+	return 0;
 }
 
 static int lua_loadFont(lua_State *L) {
@@ -276,6 +275,10 @@ static int lua_loadFont(lua_State *L) {
 	ttf* result = (ttf*)malloc(sizeof(ttf));
 	result->size = 16;
 	result->f = vita2d_load_font_file(text);
+	if (result->f == NULL){
+		free(result);
+		return luaL_error(L, "cannot load ttf font");
+	}
 	result->magic = 0x4C464E54;
 	lua_pushinteger(L,(uint32_t)result);
     return 1;
@@ -316,7 +319,7 @@ static int lua_fprint(lua_State *L) {
 	#ifndef SKIP_ERROR_HANDLING
 		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
-	vita2d_font_draw_text(font->f, x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
+	vita2d_font_draw_text(font->f, x, y + font->size, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
     return 0;
 }
 

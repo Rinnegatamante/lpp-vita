@@ -38,9 +38,6 @@
 #include <psp2/io/fcntl.h>
 #include <vita2d.h>
 #include "include/luaplayer.h"
-extern "C"{
-	#include "include/draw/font.h"
-}
 
 static int lua_flip(lua_State *L)
 {
