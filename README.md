@@ -9,7 +9,7 @@
 The interpreter currently runs under Lua 5.3.1. 
 It has also a debug FTP server to correct your errors in runtime.
 
-Official documentation: http://rinnegatamante.it/lpp-3ds_doc.html<br>
+Official documentation: http://rinnegatamante.it/lpp-vita_doc.html<br>
 Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 # Features
