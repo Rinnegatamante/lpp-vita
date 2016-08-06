@@ -20,6 +20,11 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 * Native support to TTF fonts
 * Native support to BMP/PNG/JPG images
 
+##### Sounds
+
+* Sound system with support for WAV/MP3/MIDI/OGG audio files
+
+
 ##### Controls
 
 * Controls system with full console support
