@@ -90,6 +90,20 @@ static int audioThread(unsigned int args, void* arg){
 		mus = new_track;
 		new_track = NULL;
 		
+		// Checking if a new track is available
+		if (mus == NULL){
+			
+			//If we enter here, we probably are in the exiting procedure
+			if (mustExit){
+				exited++;
+				if (exited < AUDIO_CHANNELS) sceKernelSignalSema(Audio_Mutex, 1);
+				else mustExit = false;
+				sceAudioOutReleasePort(ch);
+				sceKernelExitThread(0);
+			}
+		
+		}
+		
 		// Initializing audio decoder
 		audio_decoder[id] = AudioDecoder::Create(mus->handle, "Track");
 		audio_decoder[id]->Open(mus->handle);
@@ -105,25 +119,35 @@ static int audioThread(unsigned int args, void* arg){
 		for (;;){
 		
 			// Check if the music must be paused
-			if (mus->pauseTrigger){
+			if (mus->pauseTrigger || mustExit){
 			
-				// Check if the thread must be closed
-				if (mustExit){
-					exited++;
-					if (exited < AUDIO_CHANNELS) sceKernelSignalSema(Audio_Mutex, 1);
-					else mustExit = false;
-					sceAudioOutReleasePort(ch);
-					sceKernelExitThread(0);
-				}
-				
 				// Check if the music must be closed
 				if (mus->closeTrigger){
 					free(mus->audiobuf);
 					free(mus->audiobuf2);
 					audio_decoder[id].reset();
 					free(mus);
+					mus = NULL;
 					availThreads[id] = true;
-					break;
+					if (!mustExit) break;
+				}
+				
+				// Check if the thread must be closed
+				if (mustExit){
+				
+					// Check if the audio stream has already been closed
+					if (mus != NULL){
+						mus->closeTrigger = true;
+						continue;
+					}
+					
+					// Recursively closing all the threads
+					exited++;
+					if (exited < AUDIO_CHANNELS) sceKernelSignalSema(Audio_Mutex, 1);
+					else mustExit = false;
+					sceAudioOutReleasePort(ch);
+					sceKernelExitThread(0);
+					
 				}
 			
 				mus->isPlaying = !mus->isPlaying;
