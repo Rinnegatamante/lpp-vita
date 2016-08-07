@@ -12,9 +12,9 @@ while true do
 	pad = Controls.read()
 	if Controls.check(pad, SCE_CTRL_CROSS) and Sound.isPlaying(snd) then
 		Sound.pause(snd)
-	else if Controls.check(pad, SCE_CTRL_SQUARE) and not Sound.isPlaying(snd) then
+	elseif Controls.check(pad, SCE_CTRL_SQUARE) and not Sound.isPlaying(snd) then
 		Sound.resume(snd)
-	else if Controls.check(pad, SCE_CTRL_START) and Sound.isPlaying(snd) then
+	elseif Controls.check(pad, SCE_CTRL_START) and Sound.isPlaying(snd) then
 		Sound.close(snd)
 		Sound.term()
 		System.exit()
