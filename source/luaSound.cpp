@@ -49,10 +49,10 @@ struct DecodedMusic{
 	uint8_t* audiobuf2;
 	uint8_t* cur_audiobuf;
 	FILE* handle;
-	bool isPlaying;
+	volatile bool isPlaying;
 	bool loop;
-	bool pauseTrigger;
-	bool closeTrigger;
+	volatile bool pauseTrigger;
+	volatile bool closeTrigger;
 };
 
 SceUID AudioThreads[AUDIO_CHANNELS], Audio_Mutex;
@@ -67,7 +67,7 @@ uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDIO_CHANN
 // Audio thread code
 static int audioThread(unsigned int args, void* arg){
 
-	// Gettiing thread id
+	// Getting thread id
 	uint8_t* argv = (uint8_t*)arg;
 	uint8_t id = argv[0];
 	
