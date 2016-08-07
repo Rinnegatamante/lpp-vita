@@ -37,6 +37,7 @@
 #include <psp2/kernel/processmgr.h>
 #include <psp2/appmgr.h>
 #include <psp2/io/dirent.h>
+#include <psp2/rtc.h>
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
@@ -326,6 +327,31 @@ static int lua_getcpu(lua_State *L)
 	return 1;
 }
 
+static int lua_gettime(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	SceRtcTime time;
+	sceRtcGetCurrentClockLocalTime(&time);
+	lua_pushinteger(L,time.hour);
+	lua_pushinteger(L,time.minutes);
+	lua_pushinteger(L,time.seconds);
+	return 3;
+}
+
+static int lua_getdate(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	SceRtcTime time;
+	sceRtcGetCurrentClockLocalTime(&time);
+	lua_pushinteger(L, sceRtcGetDayOfWeek(time.year, time.month, time.day));
+	lua_pushinteger(L,time.day);
+	lua_pushinteger(L,time.month);
+	lua_pushinteger(L,time.year);
+	return 4;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -353,6 +379,8 @@ static const luaL_Reg System_functions[] = {
   {"setCpuSpeed",						lua_setcpu},
   {"getCpuSpeed",						lua_getcpu},
   {"launchEboot",						lua_launch},
+  {"getTime",							lua_gettime},
+  {"getDate",							lua_getdate},
   {0, 0}
 };
 
