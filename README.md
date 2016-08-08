@@ -41,6 +41,20 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 * Timer system
 * Advanced arithmetical functions support (math library)
 
+# Showcase
+
+Here are some PSVITA homebrews made using Lua Player Plus Vita:
+
+##### Games
+* [VitaSudoku](http://wololo.net/talk/viewtopic.php?f=116&t=46423)
+* [4Rows](http://wololo.net/talk/viewtopic.php?f=116&t=46253)
+
+##### Utilities
+* [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
+
+##### Engines & Interpreters
+* [RayCast3D Engine](http://wololo.net/talk/viewtopic.php?f=116&t=46379)
+
 # Credits
 
 * Everyone involved in vitasdk creation
