@@ -17,7 +17,7 @@ OBJS     := $(addsuffix .o,$(BINFILES)) $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
 CXX      = $(PREFIX)-g++
-CFLAGS  = -Wl,-q -O3 -DHAVE_LIBSPEEXDSP \
+CFLAGS  = -Wl,-q -O3 -DHAVE_SLOW_CPU -DHAVE_LIBSPEEXDSP \
 		-DHAVE_LIBSNDFILE -DHAVE_MPG123 -DWANT_FMMIDI=1 \
 		-DUSE_AUDIO_RESAMPLER -DHAVE_OGGVORBIS
 CXXFLAGS  = $(CFLAGS) -fno-exceptions -std=gnu++11
