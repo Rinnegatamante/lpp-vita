@@ -358,11 +358,6 @@ static int lua_nickname(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	SceAppUtilInitParam init_param;
-	SceAppUtilBootParam boot_param;
-	memset(&init_param, 0, sizeof(SceAppUtilInitParam));
-	memset(&boot_param, 0, sizeof(SceAppUtilBootParam));
-	sceAppUtilInit(&init_param, &boot_param);
 	SceChar8 nick[SCE_SYSTEM_PARAM_USERNAME_MAXSIZE];
 	sceAppUtilSystemParamGetString(SCE_SYSTEM_PARAM_ID_USERNAME, nick, SCE_SYSTEM_PARAM_USERNAME_MAXSIZE);
 	lua_pushstring(L,(char*)nick);
@@ -373,11 +368,6 @@ static int lua_lang(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	SceAppUtilInitParam init_param;
-	SceAppUtilBootParam boot_param;
-	memset(&init_param, 0, sizeof(SceAppUtilInitParam));
-	memset(&boot_param, 0, sizeof(SceAppUtilBootParam));
-	sceAppUtilInit(&init_param, &boot_param);
 	int lang;
 	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, &lang);
 	lua_pushinteger(L,lang);
