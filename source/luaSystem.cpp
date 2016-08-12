@@ -37,6 +37,8 @@
 #include <psp2/kernel/processmgr.h>
 #include <psp2/appmgr.h>
 #include <psp2/io/dirent.h>
+#include <psp2/apputil.h>
+#include <psp2/system_param.h>
 #include <psp2/rtc.h>
 #include "include/luaplayer.h"
 #define stringify(str) #str
@@ -352,6 +354,36 @@ static int lua_getdate(lua_State *L)
 	return 4;
 }
 
+static int lua_nickname(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	SceAppUtilInitParam init_param;
+	SceAppUtilBootParam boot_param;
+	memset(&init_param, 0, sizeof(SceAppUtilInitParam));
+	memset(&boot_param, 0, sizeof(SceAppUtilBootParam));
+	sceAppUtilInit(&init_param, &boot_param);
+	SceChar8 nick[SCE_SYSTEM_PARAM_USERNAME_MAXSIZE];
+	sceAppUtilSystemParamGetString(SCE_SYSTEM_PARAM_ID_USERNAME, nick, SCE_SYSTEM_PARAM_USERNAME_MAXSIZE);
+	lua_pushstring(L,(char*)nick);
+	return 1;
+}
+
+static int lua_lang(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	SceAppUtilInitParam init_param;
+	SceAppUtilBootParam boot_param;
+	memset(&init_param, 0, sizeof(SceAppUtilInitParam));
+	memset(&boot_param, 0, sizeof(SceAppUtilBootParam));
+	sceAppUtilInit(&init_param, &boot_param);
+	int lang;
+	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, &lang);
+	lua_pushinteger(L,lang);
+	return 1;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -381,6 +413,8 @@ static const luaL_Reg System_functions[] = {
   {"launchEboot",						lua_launch},
   {"getTime",							lua_gettime},
   {"getDate",							lua_getdate},
+  {"getUsername",						lua_nickname},
+  {"getLanguage",						lua_lang},
   {0, 0}
 };
 
