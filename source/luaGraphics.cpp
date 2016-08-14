@@ -46,6 +46,10 @@ struct ttf{
 	int size;
 };
 
+struct texture{
+	uint32_t magic;
+	vita2d_texture* text;
+};
 
 static int lua_print(lua_State *L)
 {
@@ -159,7 +163,11 @@ static int lua_loadimg(lua_State *L)
 	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
 	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
 	else return luaL_error(L, "Error loading image.");
-    lua_pushinteger(L, (uint32_t)(result));
+	if (result == NULL) return luaL_error(L, "Error loading image.");
+	texture* ret = (texture*)malloc(sizeof(texture));
+	ret->magic = 0xABADBEEF;
+	ret->text = result;
+    lua_pushinteger(L, (uint32_t)(ret));
 	return 1;
 }
 
@@ -169,8 +177,9 @@ static int lua_drawimg(lua_State *L)
     if (argc != 3) return luaL_error(L, "wrong number of arguments");
 	float x = luaL_checknumber(L, 1);
     float y = luaL_checknumber(L, 2);
-	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 3));
-	vita2d_draw_texture(text, x, y);
+	texture* text = (texture*)(luaL_checkinteger(L, 3));
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	vita2d_draw_texture(text->text, x, y);
 	return 0;
 }
 
@@ -181,8 +190,9 @@ static int lua_drawimg_rotate(lua_State *L)
 	float x = luaL_checknumber(L, 1);
     float y = luaL_checknumber(L, 2);
 	float radius = luaL_checknumber(L, 3);
-	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 4));
-	vita2d_draw_texture_rotate(text, x, y, radius);
+	texture* text = (texture*)(luaL_checkinteger(L, 4));
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	vita2d_draw_texture_rotate(text->text, x, y, radius);
 	return 0;
 }
 
@@ -194,8 +204,9 @@ static int lua_drawimg_scale(lua_State *L)
     float y = luaL_checknumber(L, 2);
 	float x_scale = luaL_checknumber(L, 3);
     float y_scale = luaL_checknumber(L, 4);
-	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 5));
-	vita2d_draw_texture_scale(text, x, y, x_scale, y_scale);
+	texture* text = (texture*)(luaL_checkinteger(L, 5));
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	vita2d_draw_texture_scale(text->text, x, y, x_scale, y_scale);
 	return 0;
 }
 
@@ -209,8 +220,9 @@ static int lua_drawimg_part(lua_State *L)
     int st_y = luaL_checkinteger(L, 4);
 	float width = luaL_checknumber(L, 5);
     float height = luaL_checknumber(L, 6);
-	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 7));
-	vita2d_draw_texture_part(text, x, y, st_x, st_y, width, height);
+	texture* text = (texture*)(luaL_checkinteger(L, 7));
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	vita2d_draw_texture_part(text->text, x, y, st_x, st_y, width, height);
 	return 0;
 }
 
@@ -226,8 +238,9 @@ static int lua_drawimg_full(lua_State *L)
     float height = luaL_checknumber(L, 6);
 	float x_scale = luaL_checknumber(L, 7);
     float y_scale = luaL_checknumber(L, 8);
-	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 9));
-	vita2d_draw_texture_part_scale(text, x, y, st_x, st_y, width, height, x_scale, y_scale);
+	texture* text = (texture*)(luaL_checkinteger(L, 9));
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	vita2d_draw_texture_part_scale(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale);
 	return 0;
 }
 
@@ -235,8 +248,9 @@ static int lua_width(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 1));
-	lua_pushinteger(L, vita2d_texture_get_width(text));
+	texture* text = (texture*)(luaL_checkinteger(L, 1));
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	lua_pushinteger(L, vita2d_texture_get_width(text->text));
 	return 1;
 }
 
@@ -244,8 +258,9 @@ static int lua_height(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 1));
-	lua_pushinteger(L, vita2d_texture_get_height(text));
+	texture* text = (texture*)(luaL_checkinteger(L, 3));
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	lua_pushinteger(L, vita2d_texture_get_height(text->text));
 	return 1;
 }
 
@@ -253,8 +268,10 @@ static int lua_free(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	vita2d_texture* text = (vita2d_texture*)(luaL_checkinteger(L, 1));
-	vita2d_free_texture(text);
+	texture* text = (texture*)(luaL_checkinteger(L, 3));
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	vita2d_free_texture(text->text);
+	free(text);
 	return 0;
 }
 
@@ -264,8 +281,11 @@ static int lua_createimage(lua_State *L)
     if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	int w = luaL_checkinteger(L, 1);
     int h = luaL_checkinteger(L, 2);
-	vita2d_texture* text = vita2d_create_empty_texture(w, h);
-	return 0;
+	texture* text = (texture*)malloc(sizeof(texture));
+	text->magic = 0xABADBEEF;
+	text->text = vita2d_create_empty_texture(w, h);
+	lua_pushinteger(L, (uint32_t)text);
+	return 1;
 }
 
 static int lua_loadFont(lua_State *L) {
