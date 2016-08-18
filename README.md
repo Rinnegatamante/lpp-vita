@@ -48,6 +48,8 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 ##### Games
 * [VitaSudoku](http://wololo.net/talk/viewtopic.php?f=116&t=46423)
 * [4Rows](http://wololo.net/talk/viewtopic.php?f=116&t=46253)
+* [Flppy Bird](http://wololo.net/talk/viewtopic.php?f=116&t=46593)
+* [Deathrun to Vita](http://wololo.net/talk/viewtopic.php?f=116&t=46567)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
