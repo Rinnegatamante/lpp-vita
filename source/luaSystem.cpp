@@ -40,6 +40,7 @@
 #include <psp2/apputil.h>
 #include <psp2/system_param.h>
 #include <psp2/rtc.h>
+#include "include/Archives.h"
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
@@ -374,6 +375,51 @@ static int lua_lang(lua_State *L)
 	return 1;
 }
 
+static int lua_ZipExtract(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+		if(argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments.");
+	#endif
+	const char *FileToExtract = luaL_checkstring(L, 1);
+	const char *DirTe = luaL_checkstring(L, 2);
+	const char *Password = (argc == 3) ? luaL_checkstring(L, 3) : NULL;
+	sceIoMkdir(DirTe, 0777);
+	Zip *handle = ZipOpen(FileToExtract);
+	#ifndef SKIP_ERROR_HANDLING
+		if (handle == NULL) luaL_error(L, "error opening ZIP file.");
+	#endif
+	int result = ZipExtract(handle, Password, DirTe);
+	ZipClose(handle);
+	lua_pushinteger(L, result);
+	return 1;
+}
+
+static int lua_getfilefromzip(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+		if(argc != 3 && argc != 4 ) return luaL_error(L, "wrong number of arguments.");
+	#endif
+	const char *FileToExtract = luaL_checkstring(L, 1);
+	const char *FileToExtract2 = luaL_checkstring(L, 2);
+	const char *Dest = luaL_checkstring(L, 3);
+	const char *Password = (argc == 4) ? luaL_checkstring(L, 4) : NULL;
+	Zip *handle = ZipOpen(FileToExtract);
+	#ifndef SKIP_ERROR_HANDLING
+		if (handle == NULL) luaL_error(L, "error opening ZIP file.");
+	#endif
+	ZipFile* file = ZipFileRead(handle, FileToExtract2, Password);
+	if (file == NULL) lua_pushboolean(L, false);
+	else{
+		FILE* f = fopen(Dest,"w");
+		fwrite(file->data, 1, file->size, f);
+		fclose(f);
+		ZipFileFree(file);
+		lua_pushboolean(L, true);
+	}
+	ZipClose(handle);
+	return 1;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -405,6 +451,8 @@ static const luaL_Reg System_functions[] = {
   {"getDate",							lua_getdate},
   {"getUsername",						lua_nickname},
   {"getLanguage",						lua_lang},
+  {"extractZIP",						lua_ZipExtract},
+  {"extractFromZIP",					lua_getfilefromzip},
   {0, 0}
 };
 
