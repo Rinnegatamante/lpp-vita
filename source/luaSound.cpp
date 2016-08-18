@@ -37,7 +37,7 @@
 #include "include/luaplayer.h"
 #include "include/audiodec/audio_decoder.h"
 #define stringify(str) #str
-#define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
+#define BooleanRegister(lua, value) do { lua_pushboolean(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
 #define BUFSIZE 8192 // Max dimension of audio buffer size
 #define NSAMPLES 2048 // Number of samples for output
@@ -55,7 +55,7 @@ struct DecodedMusic{
 	volatile bool closeTrigger;
 };
 
-SceUID AudioThreads[AUDIO_CHANNELS], Audio_Mutex;
+SceUID AudioThreads[AUDIO_CHANNELS], Audio_Mutex, NewTrack_Mutex;
 DecodedMusic* new_track = NULL;
 bool initialized = false;
 bool availThreads[AUDIO_CHANNELS];
@@ -88,7 +88,7 @@ static int audioThread(unsigned int args, void* arg){
 		
 		// Fetching track
 		mus = new_track;
-		new_track = NULL;
+		sceKernelSignalSema(NewTrack_Mutex, 1);
 		
 		// Checking if a new track is available
 		if (mus == NULL){
@@ -106,6 +106,7 @@ static int audioThread(unsigned int args, void* arg){
 		
 		// Initializing audio decoder
 		audio_decoder[id] = AudioDecoder::Create(mus->handle, "Track");
+		if (audio_decoder[id] == NULL) continue; // TODO: Find why this case apparently can happen
 		audio_decoder[id]->Open(mus->handle);
 		audio_decoder[id]->SetLooping(mus->loop);
 		audio_decoder[id]->SetFormat(48000, AudioDecoder::Format::S16, 2);
@@ -180,9 +181,10 @@ static int lua_init(lua_State *L)
 	
 	if (!initialized){
 	
-		// Creating audio mutex
+		// Creating audio mutexs
 		Audio_Mutex = sceKernelCreateSema("Audio Mutex", 0, 0, 1, NULL);
-	
+		NewTrack_Mutex = sceKernelCreateSema("NewTrack Mutex", 0, 1, 1, NULL);
+		
 		// Starting audio threads
 		for (int i=0;i < AUDIO_CHANNELS; i++){
 			availThreads[i] = true;
@@ -371,7 +373,7 @@ static int lua_play(lua_State *L)
 	if (!found) return luaL_error(L, "audio device is busy");
 	
 	// Waiting till track slot is free
-	while (new_track != NULL){}
+	sceKernelWaitSema(NewTrack_Mutex, 1, NULL);
 	
 	// Passing music to an audio thread
 	new_track = mus;
@@ -400,8 +402,8 @@ void luaSound_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Sound_functions, 0);
 	lua_setglobal(L, "Sound");
-	int NO_LOOP = 0;
-	int LOOP = 1;
-	VariableRegister(L, NO_LOOP);
-	VariableRegister(L, LOOP);
+	bool LOOP = true;
+	bool NO_LOOP = false;
+	BooleanRegister(L, NO_LOOP);
+	BooleanRegister(L, LOOP);
 }
