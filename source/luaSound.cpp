@@ -99,7 +99,7 @@ static int audioThread(unsigned int args, void* arg){
 				if (exited < AUDIO_CHANNELS) sceKernelSignalSema(Audio_Mutex, 1);
 				else mustExit = false;
 				sceAudioOutReleasePort(ch);
-				sceKernelExitThread(0);
+				sceKernelExitDeleteThread(0);
 			}
 		
 		}
@@ -147,7 +147,7 @@ static int audioThread(unsigned int args, void* arg){
 					if (exited < AUDIO_CHANNELS) sceKernelSignalSema(Audio_Mutex, 1);
 					else mustExit = false;
 					sceAudioOutReleasePort(ch);
-					sceKernelExitThread(0);
+					sceKernelExitDeleteThread(0);
 					
 				}
 			
@@ -208,15 +208,14 @@ static int lua_term(lua_State *L)
 		// Starting exit procedure for audio threads
 		mustExit = true;
 		sceKernelSignalSema(Audio_Mutex, 1);
-		while (mustExit){} // Wait for threads exiting...
+		for (int i=0;i<AUDIO_CHANNELS;i++){
+			sceKernelWaitThreadEnd(AudioThreads[i], NULL, NULL);
+		}
 		exited = 0;
 		
-		// Deleting audio threads and mutex
+		// Deleting audio mutex
 		sceKernelDeleteSema(Audio_Mutex);
-		for (int i=0;i<AUDIO_CHANNELS;i++){
-			sceKernelDeleteThread(AudioThreads[i]);
-		}
-	
+		
 		initialized = false;
 	}
 	return 0;
