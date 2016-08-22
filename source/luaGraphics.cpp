@@ -258,7 +258,7 @@ static int lua_height(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	texture* text = (texture*)(luaL_checkinteger(L, 3));
+	texture* text = (texture*)(luaL_checkinteger(L, 1));
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
 	lua_pushinteger(L, vita2d_texture_get_height(text->text));
 	return 1;
@@ -268,7 +268,7 @@ static int lua_free(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	texture* text = (texture*)(luaL_checkinteger(L, 3));
+	texture* text = (texture*)(luaL_checkinteger(L, 1));
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
 	vita2d_free_texture(text->text);
 	free(text);
