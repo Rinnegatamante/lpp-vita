@@ -19,6 +19,7 @@
 #include <cassert>
 #include <cstring>
 #include "audio_decoder.h"
+#include "utils.h"
 
 #include "decoder_fmmidi.h"
 #include "decoder_mpg123.h"
@@ -36,6 +37,10 @@ void AudioDecoder::Resume() {
 }
 
 int AudioDecoder::Decode(uint8_t* buffer, int length) {
+	return Decode(buffer, length, 0);
+}
+
+int AudioDecoder::Decode(uint8_t* buffer, int length, int recursion_depth) {
 	if (paused) {
 		memset(buffer, '\0', length);
 		return length;
@@ -49,16 +54,21 @@ int AudioDecoder::Decode(uint8_t* buffer, int length) {
 		memset(&buffer[res], '\0', length - res);
 	}
 
-	if (IsFinished() && looping) {
+	if (IsFinished() && looping && recursion_depth < 10) {
 		++loop_count;
 		Rewind();
 		if (length - res > 0) {
-			int res2 = Decode(&buffer[res], length - res);
+			int res2 = Decode(&buffer[res], length - res, ++recursion_depth);
 			if (res2 <= 0) {
 				return res;
 			}
 			return res + res2;
 		}
+	}
+
+	if (recursion_depth == 10 && loop_count < 50) {
+		// Only report this a few times in the hope that this is only a temporary problem and to prevent log spamming
+		//Output::Debug("Audio Decoder: Recursion depth exceeded. Probably stream error.");
 	}
 
 	return res;
@@ -119,7 +129,12 @@ std::unique_ptr<AudioDecoder> AudioDecoder::Create(FILE* file, const std::string
 
 	// Try to use MIDI decoder, use fallback(s) if available
 	if (!strncmp(magic, "MThd", 4)) {
-#ifdef HAVE_WILDMIDI
+#ifndef HAVE_WILDMIDI
+		/* WildMidi is currently the only Audio_Decoder that needs the filename passed
+		 * directly, this avoids a warning about the possibly unused variable
+		 */
+		(void)filename;
+#else
 		static bool wildmidi_works = true;
 		if (wildmidi_works) {
 			AudioDecoder *mididec = nullptr;
@@ -159,14 +174,15 @@ std::unique_ptr<AudioDecoder> AudioDecoder::Create(FILE* file, const std::string
 #endif
 	}
 	
-#ifdef HAVE_SLOW_CPU
+#ifdef WANT_FASTWAV
 	// Try to use a basic decoder for faster wav decoding if not ADPCM
-	if (!strncmp(magic, "RIFF", 4)){
+	if (!strncmp(magic, "RIFF", 4)) {
 		fseek(file, 20, SEEK_SET);
 		uint16_t raw_enc;
 		fread(&raw_enc, 2, 1, file);
+		Utils::SwapByteOrder(raw_enc);
 		fseek(file, 0, SEEK_SET);
-		if (raw_enc == 0x01){ // Codec is normal PCM
+		if (raw_enc == 0x01) { // Codec is normal PCM
 #  ifdef USE_AUDIO_RESAMPLER
 			return std::unique_ptr<AudioDecoder>(new AudioResampler(new WavDecoder()));
 #  else

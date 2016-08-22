@@ -24,7 +24,7 @@
 #include <memory>
 
 /**
- * Audio decoder for WAV powered by libsndfile
+ * Standalone basic audio decoder for WAV
  */
 class WavDecoder : public AudioDecoder {
 public:
@@ -50,6 +50,8 @@ private:
 	uint32_t samplerate;
 	uint16_t nchannels;
 	uint32_t audiobuf_offset;
+	uint32_t chunk_size;
+	uint32_t cur_pos;
 };
 
 #endif
