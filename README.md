@@ -24,17 +24,19 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 * Sound system with support for WAV/MP3/MIDI/OGG audio files
 
-
 ##### Controls
 
 * Controls system with full console support
+* Support to dualshock rumble feature for PSTV.
 
 ##### Network
 * Built-in debug FTP server
+* Complete sockets system support
 
 ##### System
 * Access to a lot of Sony syscalls
 * I/O access for any filesystem
+* Native support to ZIP archives
 
 ##### Utilities
 
@@ -50,6 +52,7 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [4Rows](http://wololo.net/talk/viewtopic.php?f=116&t=46253)
 * [Flppy Bird](http://wololo.net/talk/viewtopic.php?f=116&t=46593)
 * [Deathrun to Vita](http://wololo.net/talk/viewtopic.php?f=116&t=46567)
+* [Super Hero Chronicles](http://wololo.net/talk/viewtopic.php?f=116&t=46677)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
