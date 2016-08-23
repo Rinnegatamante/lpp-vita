@@ -53,6 +53,8 @@ struct DecodedMusic{
 	bool loop;
 	volatile bool pauseTrigger;
 	volatile bool closeTrigger;
+	volatile uint8_t audioThread;
+	char filepath[256];
 };
 
 SceUID AudioThreads[AUDIO_CHANNELS], Audio_Mutex, NewTrack_Mutex;
@@ -60,7 +62,6 @@ DecodedMusic* new_track = NULL;
 bool initialized = false;
 bool availThreads[AUDIO_CHANNELS];
 std::unique_ptr<AudioDecoder> audio_decoder[AUDIO_CHANNELS];
-uint8_t exited = 0;
 volatile bool mustExit = false;
 uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDIO_CHANNELS macro
 
@@ -88,6 +89,7 @@ static int audioThread(unsigned int args, void* arg){
 		
 		// Fetching track
 		mus = new_track;
+		mus->audioThread = id;
 		sceKernelSignalSema(NewTrack_Mutex, 1);
 		
 		// Checking if a new track is available
@@ -95,9 +97,7 @@ static int audioThread(unsigned int args, void* arg){
 			
 			//If we enter here, we probably are in the exiting procedure
 			if (mustExit){
-				exited++;
-				if (exited < AUDIO_CHANNELS) sceKernelSignalSema(Audio_Mutex, 1);
-				else mustExit = false;
+				sceKernelSignalSema(Audio_Mutex, 1);
 				sceAudioOutReleasePort(ch);
 				sceKernelExitDeleteThread(0);
 			}
@@ -143,9 +143,7 @@ static int audioThread(unsigned int args, void* arg){
 					}
 					
 					// Recursively closing all the threads
-					exited++;
-					if (exited < AUDIO_CHANNELS) sceKernelSignalSema(Audio_Mutex, 1);
-					else mustExit = false;
+					sceKernelSignalSema(Audio_Mutex, 1);
 					sceAudioOutReleasePort(ch);
 					sceKernelExitDeleteThread(0);
 					
@@ -165,6 +163,20 @@ static int audioThread(unsigned int args, void* arg){
 				else mus->cur_audiobuf = mus->audiobuf;
 				audio_decoder[id]->Decode(mus->cur_audiobuf, BUFSIZE);	
 				sceAudioOutOutput(ch, mus->cur_audiobuf);
+				
+			}else{
+				
+				// Check if we finished a non-looping audio playback
+				if ((!mus->loop) && audio_decoder[id]->IsFinished()){
+					
+					// Releasing the audio file
+					audio_decoder[id].reset();
+					mus->handle = fopen(mus->filepath,"rb");
+					availThreads[id] = true;
+					mus->audioThread = 0xFF;
+					break;
+					
+				}
 				
 			}
 			
@@ -211,7 +223,7 @@ static int lua_term(lua_State *L)
 		for (int i=0;i<AUDIO_CHANNELS;i++){
 			sceKernelWaitThreadEnd(AudioThreads[i], NULL, NULL);
 		}
-		exited = 0;
+		mustExit = false;
 		
 		// Deleting audio mutex
 		sceKernelDeleteSema(Audio_Mutex);
@@ -278,7 +290,8 @@ static int lua_openMp3(lua_State *L)
 	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
 	memblock->handle = f;
 	memblock->isPlaying = false;
-	memblock->audiobuf = NULL; // Used to check if the music playback started
+	memblock->audioThread = 0xFF;
+	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
 }
@@ -301,7 +314,8 @@ static int lua_openMidi(lua_State *L)
 	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
 	memblock->handle = f;
 	memblock->isPlaying = false;
-	memblock->audiobuf = NULL; // Used to check if the music playback started
+	memblock->audioThread = 0xFF;
+	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
 }
@@ -324,7 +338,8 @@ static int lua_openOgg(lua_State *L)
 	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
 	memblock->handle = f;
 	memblock->isPlaying = false;
-	memblock->audiobuf = NULL; // Used to check if the music playback started
+	memblock->audioThread = 0xFF;
+	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
 }
@@ -347,7 +362,8 @@ static int lua_openWav(lua_State *L)
 	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
 	memblock->handle = f;
 	memblock->isPlaying = false;
-	memblock->audiobuf = NULL; // Used to check if the music playback started
+	memblock->audioThread = 0xFF;
+	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
 }
@@ -362,6 +378,10 @@ static int lua_play(lua_State *L)
 	mus->pauseTrigger = false;
 	mus->closeTrigger = false;
 	mus->isPlaying = true;
+	
+	// Check if the music is already loaded into an audio thread
+	// FIXME: Find a proper way to get multiple instance of the same sound
+	if (mus->audioThread != 0xFF) return 0;
 	
 	// Check if there's at least an available thread
 	bool found = false;
