@@ -55,6 +55,7 @@ struct DecodedMusic{
 	volatile bool closeTrigger;
 	volatile uint8_t audioThread;
 	char filepath[256];
+	bool tempBlock;
 };
 
 SceUID AudioThreads[AUDIO_CHANNELS], Audio_Mutex, NewTrack_Mutex;
@@ -171,9 +172,16 @@ static int audioThread(unsigned int args, void* arg){
 					
 					// Releasing the audio file
 					audio_decoder[id].reset();
-					mus->handle = fopen(mus->filepath,"rb");
+					if (mus->tempBlock){
+						free(mus->audiobuf);
+						free(mus->audiobuf2);
+						free(mus);
+						mus = NULL;
+					}else{
+						mus->handle = fopen(mus->filepath,"rb");
+						mus->audioThread = 0xFF;
+					}
 					availThreads[id] = true;
-					mus->audioThread = 0xFF;
 					break;
 					
 				}
@@ -291,6 +299,7 @@ static int lua_openMp3(lua_State *L)
 	memblock->handle = f;
 	memblock->isPlaying = false;
 	memblock->audioThread = 0xFF;
+	memblock->tempBlock = false;
 	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
@@ -315,6 +324,7 @@ static int lua_openMidi(lua_State *L)
 	memblock->handle = f;
 	memblock->isPlaying = false;
 	memblock->audioThread = 0xFF;
+	memblock->tempBlock = false;
 	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
@@ -339,6 +349,7 @@ static int lua_openOgg(lua_State *L)
 	memblock->handle = f;
 	memblock->isPlaying = false;
 	memblock->audioThread = 0xFF;
+	memblock->tempBlock = false;
 	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
@@ -363,6 +374,7 @@ static int lua_openWav(lua_State *L)
 	memblock->handle = f;
 	memblock->isPlaying = false;
 	memblock->audioThread = 0xFF;
+	memblock->tempBlock = false;
 	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
@@ -374,22 +386,33 @@ static int lua_play(lua_State *L)
     if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	bool loop = lua_toboolean(L, 2);
+	
+	// Check if the music is already loaded into an audio thread
+	if (mus->audioThread != 0xFF){
+	
+		// We create a temporary duplicated and play it instead of the original one
+		DecodedMusic* dup = (DecodedMusic*)malloc(sizeof(DecodedMusic));
+		memcpy(dup, mus, sizeof(DecodedMusic));
+		dup->handle = fopen(dup->filepath, "rb");
+		dup->tempBlock = true;
+		mus = dup;
+		
+	}
+	
+	// Properly setting music memory block info
 	mus->loop = loop;
 	mus->pauseTrigger = false;
 	mus->closeTrigger = false;
 	mus->isPlaying = true;
 	
-	// Check if the music is already loaded into an audio thread
-	// FIXME: Find a proper way to get multiple instance of the same sound
-	if (mus->audioThread != 0xFF) return 0;
-	
-	// Check if there's at least an available thread
+	// Wait till a thread is available
 	bool found = false;
-	for (int i=0; i<AUDIO_CHANNELS; i++){
-		found = availThreads[i];
-		if (found) break;
+	while (!found){
+		for (int i=0; i<AUDIO_CHANNELS; i++){
+			found = availThreads[i];
+			if (found) break;
+		}
 	}
-	if (!found) return luaL_error(L, "audio device is busy");
 	
 	// Waiting till track slot is free
 	sceKernelWaitSema(NewTrack_Mutex, 1, NULL);
