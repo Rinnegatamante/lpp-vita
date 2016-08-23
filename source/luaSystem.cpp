@@ -111,10 +111,10 @@ static int lua_readfile(lua_State *L)
     if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	int file = luaL_checkinteger(L, 1);
 	int size = luaL_checkinteger(L, 2);
-	unsigned char *buffer = (unsigned char*)(malloc((size+1) * sizeof (char)));
-	sceIoRead(file,buffer, size);
-	buffer[size] = 0;
-	lua_pushlstring(L,(const char*)buffer,size);
+	uint8_t* buffer = (uint8_t*)malloc(size);
+	int len = sceIoRead(file,buffer, size);
+	buffer[len] = 0;
+	lua_pushlstring(L,(const char*)buffer,len);
 	free(buffer);
 	return 1;
 }
