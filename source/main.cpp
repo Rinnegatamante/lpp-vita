@@ -18,6 +18,8 @@ extern "C"{
 }
 extern vita2d_pgf* debug_font;
 
+int _newlib_heap_size_user = 192 * 1024 * 1024;
+
 const char *errMsg;
 unsigned char *script;
 int script_files = 0;
