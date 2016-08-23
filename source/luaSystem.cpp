@@ -334,11 +334,11 @@ static int lua_gettime(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	SceRtcTime time;
+	SceDateTime time;
 	sceRtcGetCurrentClockLocalTime(&time);
 	lua_pushinteger(L,time.hour);
-	lua_pushinteger(L,time.minutes);
-	lua_pushinteger(L,time.seconds);
+	lua_pushinteger(L,time.minute);
+	lua_pushinteger(L,time.second);
 	return 3;
 }
 
@@ -346,7 +346,7 @@ static int lua_getdate(lua_State *L)
 {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	SceRtcTime time;
+	SceDateTime time;
 	sceRtcGetCurrentClockLocalTime(&time);
 	lua_pushinteger(L, sceRtcGetDayOfWeek(time.year, time.month, time.day));
 	lua_pushinteger(L,time.day);
