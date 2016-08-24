@@ -17,15 +17,16 @@ OBJS     := $(addsuffix .o,$(BINFILES)) $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
 CXX      = $(PREFIX)-g++
-CFLAGS  = -Wl,-q -O3 -DHAVE_SLOW_CPU -DHAVE_LIBSPEEXDSP \
+CFLAGS  = -g -Wl,-q -O3 -DWANT_FASTWAV -DHAVE_LIBSPEEXDSP \
 		-DHAVE_LIBSNDFILE -DHAVE_MPG123 -DWANT_FMMIDI=1 \
 		-DUSE_AUDIO_RESAMPLER -DHAVE_OGGVORBIS
-CXXFLAGS  = $(CFLAGS) -fno-exceptions -std=gnu++11
+CXXFLAGS  = $(CFLAGS) -fno-exceptions -std=gnu++11 -fpermissive
 ASFLAGS = $(CFLAGS)
 
 all: $(TARGET).velf
 
 %.velf: %.elf
+	cp $< $<.unstripped.elf
 	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
 	vita-make-fself $@ eboot.bin

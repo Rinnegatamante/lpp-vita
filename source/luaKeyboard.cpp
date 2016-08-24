@@ -28,65 +28,120 @@
 #- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 
-#include <ctype.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 #include "include/luaplayer.h"
+#include "include/utils.h"
+#include <psp2/types.h>
+#include <psp2/message_dialog.h>
+#include <psp2/ime_dialog.h>
 
-static lua_State *L;
+#define stringify(str) #str
+#define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
-const char *runScript(const char* script, bool isStringBuffer)
-{
-	L = luaL_newstate();
+static uint16_t title[SCE_IME_DIALOG_MAX_TITLE_LENGTH];
+static uint16_t initial_text[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
+static uint16_t input_text[SCE_IME_DIALOG_MAX_TEXT_LENGTH + 1];
+uint8_t FINISHED = 2;
+uint8_t RUNNING = 1;
+uint8_t CANCELED = 3;
+bool keyboardStarted = false;
+
+static int lua_setup(lua_State *L){
+	int argc = lua_gettop(L);
+    #ifndef SKIP_ERROR_HANDLING
+		if (argc != 2 && argc != 3 && argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments");
+	#endif
+	char* title_ascii = (char*)luaL_checkstring(L, 1);
+	char* text = (char*)luaL_checkstring(L, 2);
+	SceUInt32 length = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
+	SceUInt32 type = SCE_IME_TYPE_BASIC_LATIN;
+	SceUInt32 mode = SCE_IME_DIALOG_TEXTBOX_MODE_DEFAULT;
+	if (argc >= 3) length = luaL_checkinteger(L, 3);
+	if (argc >= 4) type = luaL_checkinteger(L, 4);
+	if (argc == 5) mode = luaL_checkinteger(L, 5);
+	#ifndef SKIP_ERROR_HANDLING
+		if (length > SCE_IME_DIALOG_MAX_TEXT_LENGTH) length = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
+		if (type > 3) return luaL_error(L, "invalid keyboard type");
+		if (mode > 1) return luaL_error(L, "invalid keyboard mode");
+		if (strlen(title_ascii) > SCE_IME_DIALOG_MAX_TITLE_LENGTH) return luaL_error(L, "title is too long");
+	#endif
 	
-	// Standard libraries
-	luaL_openlibs(L);
+	// Converting input to UTF16
+	ascii2utf(initial_text, text);
+	ascii2utf(title, title_ascii);
 	
-	// Modules
-	luaControls_init(L);
-	luaScreen_init(L);
-	luaGraphics_init(L);
-	luaSound_init(L);
-	luaSystem_init(L);
-	luaNetwork_init(L);
-	luaTimer_init(L);
-	luaKeyboard_init(L);
+	// Initializing OSK
+	SceImeDialogParam param;
+	sceImeDialogParamInit(&param);
+	param.supportedLanguages = 0x0001FFFF;
+	param.languagesForced = SCE_TRUE;
+	param.type = type;
+	param.title = title;
+	param.textBoxMode = mode;
+	param.maxTextLength = length;
+	param.initialText = initial_text;
+	param.inputTextBuffer = input_text;
+	sceImeDialogInit(&param);
+	keyboardStarted = true;
 	
-	int s = 0;
-	const char *errMsg = NULL;
-	
-	//Patching dofile function & I/O module
-	char* patch = "dofile = System.doNotUse\n\
-			 io.open = System.doNotOpen\n\
-			 io.write = System.doNotWrite\n\
-			 io.close = System.doNotClose\n\
-			 io.read = System.doNotRead\n\
-			 io.seek = System.doNotSeek\n\
-			 io.size = System.doNotSize";
-	luaL_loadbuffer(L, patch, strlen(patch), NULL); 
-	lua_KFunction dofilecont = (lua_KFunction)(lua_gettop(L) - 1);
-	lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
-	
-	if(!isStringBuffer) 
-		s = luaL_loadfile(L, script);
-	else 
-		s = luaL_loadbuffer(L, script, strlen(script), NULL);
-		
-	if (s == 0) 
-	{
-		s = lua_pcall(L, 0, LUA_MULTRET, 0);
+	return 0;
+}
+
+static int lua_state(lua_State *L){
+	int argc = lua_gettop(L);
+    #ifndef SKIP_ERROR_HANDLING
+		if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	SceCommonDialogStatus status = sceImeDialogGetStatus();
+	if (status == FINISHED){
+		SceImeDialogResult result;
+		memset(&result, 0, sizeof(SceImeDialogResult));
+		sceImeDialogGetResult(&result);
+		if (result.button == SCE_IME_DIALOG_BUTTON_CLOSE) {
+			status = (SceCommonDialogStatus)CANCELED;
+		}
 	}
-	if (s) 
-	{
-		errMsg = lua_tostring(L, -1);
-		printf("error: %s\n", lua_tostring(L, -1));
-		lua_pop(L, 1); // remove error message
-	}
-	lua_close(L);
-	
-	return errMsg;
+	lua_pushinteger(L, (uint32_t)status);
+	return 1;
+}
+
+static int lua_input(lua_State *L){
+	int argc = lua_gettop(L);
+    #ifndef SKIP_ERROR_HANDLING
+		if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	char res[SCE_IME_DIALOG_MAX_TEXT_LENGTH+1];
+	utf2ascii(res, input_text);
+	lua_pushstring(L, res);
+	return 1;
+}
+
+static int lua_clear(lua_State *L){
+	int argc = lua_gettop(L);
+    #ifndef SKIP_ERROR_HANDLING
+		if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	keyboardStarted = false;
+	sceImeDialogTerm();
+	return 0;
+}
+
+//Register our Keyboard Functions
+static const luaL_Reg Keyboard_functions[] = {
+	{"show",				lua_setup},
+	{"getState",			lua_state},
+	{"getInput",			lua_input},
+	{"clear",				lua_clear},
+	{0, 0}
+};
+
+void luaKeyboard_init(lua_State *L) {
+	lua_newtable(L);
+	luaL_setfuncs(L, Keyboard_functions, 0);
+	lua_setglobal(L, "Keyboard");
+	VariableRegister(L, RUNNING);
+	VariableRegister(L, FINISHED);
+	VariableRegister(L, CANCELED);
 }

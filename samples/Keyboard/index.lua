@@ -1,0 +1,33 @@
+-- Initializing a Keyboard
+Keyboard.show("Sample Title", "Sample Text")
+ret = "Waiting for user input..."
+
+-- Main loop
+while true do
+	
+	-- Initializing drawing phase
+	Graphics.initBlend()
+	Screen.clear()
+	
+	-- Checking for keyboard status
+	status = Keyboard.getState()
+	if status ~= RUNNING then
+		
+		-- Check if user didn't canceled the keyboard
+		if status ~= CANCELED then
+			ret = "You typed: " .. Keyboard.getInput()
+		else
+			ret = "You canceled the keyboard"
+		end
+		
+		-- Terminating keyboard
+		Keyboard.clear()
+		
+	end
+	
+	-- Dtawing state on screen
+	Graphics.debugPrint(5, 5, ret, Color.new(255,255,255))
+	Graphics.termBlend()
+	Screen.flip()
+	
+end

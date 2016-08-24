@@ -51,6 +51,8 @@ struct texture{
 	vita2d_texture* text;
 };
 
+extern bool keyboardStarted;
+
 static int lua_print(lua_State *L)
 {
     int argc = lua_gettop(L);
@@ -145,6 +147,7 @@ static int lua_term(lua_State *L) {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
     vita2d_end_drawing();
+	if (keyboardStarted) vita2d_common_dialog_update();
 	vita2d_wait_rendering_done();
     return 0;
 }

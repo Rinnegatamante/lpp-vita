@@ -8,6 +8,7 @@
 #include <psp2/moduleinfo.h>
 #include <psp2/kernel/processmgr.h>
 #include <psp2/apputil.h>
+#include <psp2/common_dialog.h>
 #include <psp2/sysmodule.h>
 #include <psp2/io/fcntl.h>
 #include <psp2/io/dirent.h>
@@ -35,11 +36,8 @@ int main()
 	
 	// Starting secondary modules and mounting secondary filesystems
 	sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
-	SceAppUtilInitParam init_param;
-	SceAppUtilBootParam boot_param;
-	memset(&init_param, 0, sizeof(SceAppUtilInitParam));
-	memset(&boot_param, 0, sizeof(SceAppUtilBootParam));
-	sceAppUtilInit(&init_param, &boot_param);
+	sceAppUtilInit(&(SceAppUtilInitParam){}, &(SceAppUtilBootParam){});
+	sceCommonDialogSetConfigParam(&(SceCommonDialogConfigParam){});
 	sceAppUtilMusicMount();
 	sceAppUtilPhotoMount();
 	
