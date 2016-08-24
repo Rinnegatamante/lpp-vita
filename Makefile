@@ -4,7 +4,7 @@ SOURCES		:= source/include/lua source/include/ftp source/include source \
 INCLUDES	:= include
 
 LIBS = -lvorbisfile -logg -lvorbis -lsndfile -lvita2d -lSceKernel_stub \
-	-lSceAppmgr_stub -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
+	-lSceAppMgr_stub -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
 	-lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz \
 	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub
