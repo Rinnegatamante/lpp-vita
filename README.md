@@ -43,6 +43,10 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 * Timer system
 * Advanced arithmetical functions support (math library)
 
+# Nightly Builds
+
+We offer an automated builder service for our nightly builds. Nightly builds are automatically updated every 4 hours by a server we own. To take advantage of this service, you should visit [this page](http://rinnegatamante.it/lpp-nightly.php).
+
 # Showcase
 
 Here are some PSVITA homebrews made using Lua Player Plus Vita:
@@ -53,12 +57,20 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Flppy Bird](http://wololo.net/talk/viewtopic.php?f=116&t=46593)
 * [Deathrun to Vita](http://wololo.net/talk/viewtopic.php?f=116&t=46567)
 * [Super Hero Chronicles](http://wololo.net/talk/viewtopic.php?f=116&t=46677)
+* [vitaWanted](http://wololo.net/talk/viewtopic.php?f=116&t=46726)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
 
 ##### Engines & Interpreters
 * [RayCast3D Engine](http://wololo.net/talk/viewtopic.php?f=116&t=46379)
+
+# Compiling the source
+
+To correctly compile lpp-vita you'll need **vitasdk** installed and correctly set in your PATH environment variable. You'll also need the following libraries: **zlib**, **libmpg123**, **libogg**, **libvorbis**, **libsndfile**, **vita2dlib**, 
+**libftpvita**, **libpng**, **libjpeg**, **freetype**, **libspeexdsp**. You can install most of them with **vita-portlibs** and [EasyRPG Vita toolchain](https://ci.easyrpg.org/view/Toolchains/job/toolchain-vita/).<br><br>
+Lua Player Plus Vita supports different flags to enables some features:<br>
+**-DSKIP_ERROR_HANDLING** disables error handling for faster code execution.<br>
 
 # Credits
 
