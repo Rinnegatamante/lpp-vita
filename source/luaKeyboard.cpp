@@ -141,6 +141,18 @@ void luaKeyboard_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Keyboard_functions, 0);
 	lua_setglobal(L, "Keyboard");
+	uint8_t MODE_TEXT = 0;
+	uint8_t MODE_PASSWORD = 1;
+	uint8_t TYPE_DEFAULT = 0;
+	uint8_t TYPE_LATIN = 1;
+	uint8_t TYPE_NUMBER = 2;
+	uint8_t TYPE_EXT_NUMBER = 3;
+	VariableRegister(L, MODE_TEXT);
+	VariableRegister(L, MODE_PASSWORD);
+	VariableRegister(L, TYPE_DEFAULT);
+	VariableRegister(L, TYPE_LATIN);
+	VariableRegister(L, TYPE_NUMBER);
+	VariableRegister(L, TYPE_EXT_NUMBER);
 	VariableRegister(L, RUNNING);
 	VariableRegister(L, FINISHED);
 	VariableRegister(L, CANCELED);
