@@ -63,6 +63,16 @@ static int lua_clear(lua_State *L)
 	return 0;
 }
 
+static int lua_getP(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	int x = luaL_checkinteger(L, 1);
+	int y = luaL_checkinteger(L, 2);
+    uint32_t* buffer = (uint32_t*)vita2d_get_current_fb();
+    lua_pushinteger(L,buffer[x + y * 544]);
+    return 1;
+}
+
 static int lua_color(lua_State *L) {
     int argc = lua_gettop(L);
     if ((argc != 3) && (argc != 4)) return luaL_error(L, "wrong number of arguments");
@@ -126,6 +136,7 @@ static const luaL_Reg Color_functions[] = {
 static const luaL_Reg Screen_functions[] = {
   {"clear",								lua_clear},
   {"flip",								lua_flip},
+  {"getPixel",							lua_getP},
   {0, 0}
 };
 
