@@ -2,16 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
-#include <psp2/ctrl.h>
-#include <psp2/touch.h>
-#include <psp2/types.h>
-#include <psp2/moduleinfo.h>
-#include <psp2/kernel/processmgr.h>
-#include <psp2/apputil.h>
-#include <psp2/common_dialog.h>
-#include <psp2/sysmodule.h>
-#include <psp2/io/fcntl.h>
-#include <psp2/io/dirent.h>
+#include <vitasdk.h>
 #include "include/luaplayer.h"
 extern "C"{
 	#include <vita2d.h>
@@ -48,6 +39,7 @@ int main()
 	// Initializing graphics device
 	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
+	vita2d_set_vblank_wait(0);
 	clr_color = 0x000000FF;
 	debug_font = vita2d_load_default_pgf();
 	
@@ -84,6 +76,7 @@ int main()
 					if (vita_port != 0) vita2d_pgf_draw_textf(debug_font, 2, 200, RGBA8(255, 255, 255, 255), 1.0, "PSVITA listening on IP %s , Port %u", vita_ip, vita_port);
 					vita2d_end_drawing();
 					vita2d_swap_buffers();
+					sceDisplayWaitVblankStart();
 					if (s){
 						sceKernelDelayThread(800000);
 						s = false;

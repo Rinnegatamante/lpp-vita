@@ -28,14 +28,7 @@
 #- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 
-#include <psp2/ctrl.h>
-#include <psp2/touch.h>
-#include <psp2/display.h>
-#include <psp2/gxm.h>
-#include <psp2/types.h>
-#include <psp2/moduleinfo.h>
-#include <psp2/kernel/processmgr.h>
-#include <psp2/io/fcntl.h>
+#include <vitasdk.h>
 #include <vita2d.h>
 #include "include/luaplayer.h"
 
@@ -71,6 +64,13 @@ static int lua_getP(lua_State *L) {
     uint32_t* buffer = (uint32_t*)vita2d_get_current_fb();
     lua_pushinteger(L,buffer[x + y * 544]);
     return 1;
+}
+
+static int lua_vblank(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+    sceDisplayWaitVblankStart();
+    return 0;
 }
 
 static int lua_color(lua_State *L) {
@@ -137,6 +137,7 @@ static const luaL_Reg Screen_functions[] = {
   {"clear",								lua_clear},
   {"flip",								lua_flip},
   {"getPixel",							lua_getP},
+  {"waitVblankStart",					lua_vblank},
   {0, 0}
 };
 
