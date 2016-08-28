@@ -30,7 +30,7 @@ all: $(TARGET).velf
 	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
 	vita-make-fself $@ eboot_unsafe.bin
-	vita-make-fself $@ -s eboot_safe.bin
+	vita-make-fself -s $@ eboot_safe.bin
 
 $(TARGET).elf: $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@

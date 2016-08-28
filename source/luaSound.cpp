@@ -28,9 +28,7 @@
 #- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 
-#include <psp2/audioout.h>
-#include <psp2/kernel/threadmgr.h>
-#include <psp2/kernel/processmgr.h>
+#include <vitasdk.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -184,7 +182,7 @@ static int audioThread(unsigned int args, void* arg){
 					availThreads[id] = true;
 					break;
 					
-				}
+				}else sceKernelDelayThread(1000); // Tricky way to call a re-scheduling
 				
 			}
 			
