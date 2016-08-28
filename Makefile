@@ -29,7 +29,8 @@ all: $(TARGET).velf
 	cp $< $<.unstripped.elf
 	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
-	vita-make-fself $@ eboot.bin
+	vita-make-fself $@ eboot_unsafe.bin
+	vita-make-fself $@ -s eboot_safe.bin
 
 $(TARGET).elf: $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@
