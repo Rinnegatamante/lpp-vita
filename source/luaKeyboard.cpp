@@ -33,9 +33,7 @@
 #include <unistd.h>
 #include "include/luaplayer.h"
 #include "include/utils.h"
-#include <psp2/types.h>
-#include <psp2/message_dialog.h>
-#include <psp2/ime_dialog.h>
+#include <vitasdk.h>
 
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
@@ -99,7 +97,7 @@ static int lua_state(lua_State *L){
 		SceImeDialogResult result;
 		memset(&result, 0, sizeof(SceImeDialogResult));
 		sceImeDialogGetResult(&result);
-		if (result.button == SCE_IME_DIALOG_BUTTON_CLOSE) {
+		if (result.button != SCE_IME_DIALOG_BUTTON_ENTER) {
 			status = (SceCommonDialogStatus)CANCELED;
 		}
 	}
