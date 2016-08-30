@@ -58,6 +58,7 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Deathrun to Vita](http://wololo.net/talk/viewtopic.php?f=116&t=46567)
 * [Super Hero Chronicles](http://wololo.net/talk/viewtopic.php?f=116&t=46677)
 * [vitaWanted](http://wololo.net/talk/viewtopic.php?f=116&t=46726)
+* [Labyrinth 3D](http://wololo.net/talk/viewtopic.php?f=116&t=46845)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
