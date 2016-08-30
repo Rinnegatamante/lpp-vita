@@ -28,13 +28,13 @@
 #- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 #define NET_INIT_SIZE 1*1024*1024
-#include <psp2/net/net.h>
-#include <psp2/net/netctl.h>
+#include <vitasdk.h>
 #include "include/luaplayer.h"
 extern "C"{
 	#include "include/ftp/ftp.h"
 }
 void* net_memory = NULL;
+char vita_ip[16];
 
 typedef struct
 {
@@ -107,6 +107,27 @@ static int lua_termFTP(lua_State *L) {
     return 0;
 }
 
+static int lua_getip(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	SceNetCtlInfo info;
+    if (sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_IP_ADDRESS, &info) < 0) strcpy(vita_ip, "127.0.0.1");
+	else strcpy(vita_ip, info.ip_address);
+	lua_pushstring(L, vita_ip);
+    return 1;
+}
+
+static int lua_getmac(lua_State *L) {
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	SceNetEtherAddr mac;
+	char macAddress[32];
+	sceNetGetMacAddress(&mac, 0);	
+	sprintf(macAddress, "%02X:%02X:%02X:%02X:%02X:%02X", mac.data[0], mac.data[1], mac.data[2], mac.data[3], mac.data[4], mac.data[5]);
+	lua_pushstring(L, macAddress);
+    return 1;
+}
+
 static int lua_initSock(lua_State *L) {
     int argc = lua_gettop(L);
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -119,6 +140,7 @@ static int lua_initSock(lua_State *L) {
 		initparam.flags = 0;
 		ret = sceNetInit(&initparam);
 	}
+	sceNetCtlInit();
     return 0;
 }
 
@@ -318,6 +340,8 @@ static int lua_connect(lua_State *L)
 static const luaL_Reg Network_functions[] = {
   {"initFTP",				lua_initFTP},
   {"termFTP",				lua_termFTP},
+  {"getIPAddress",			lua_getip},
+  {"getMacAddress",			lua_getmac},
   {0, 0}
 };
 
