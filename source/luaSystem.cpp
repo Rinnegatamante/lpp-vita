@@ -31,15 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <psp2/io/fcntl.h>
-#include <psp2/io/stat.h>
-#include <psp2/power.h>
-#include <psp2/kernel/processmgr.h>
-#include <psp2/appmgr.h>
-#include <psp2/io/dirent.h>
-#include <psp2/apputil.h>
-#include <psp2/system_param.h>
-#include <psp2/rtc.h>
+#include <vitasdk.h>
 #include "include/Archives.h"
 #include "include/luaplayer.h"
 #define stringify(str) #str
@@ -375,6 +367,26 @@ static int lua_lang(lua_State *L)
 	return 1;
 }
 
+static int lua_title(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	char title[256];
+	sceAppMgrAppParamGetString(0, 9, title , 256);
+	lua_pushstring(L,title);
+	return 1;
+}
+
+static int lua_titleid(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	char title[16];
+	sceAppMgrAppParamGetString(0, 12, title , 256);
+	lua_pushstring(L,title);
+	return 1;
+}
+
 static int lua_ZipExtract(lua_State *L) {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -442,7 +454,7 @@ static const luaL_Reg System_functions[] = {
   {"wait",								lua_wait},
   {"isBatteryCharging",					lua_charging},
   {"getBatteryPercentage",				lua_percent},
-  {"getBatteryLifetime",				lua_lifetime},
+  {"getBatteryLife",					lua_lifetime},
   {"powerTick",							lua_nopower},
   {"setCpuSpeed",						lua_setcpu},
   {"getCpuSpeed",						lua_getcpu},
@@ -451,6 +463,8 @@ static const luaL_Reg System_functions[] = {
   {"getDate",							lua_getdate},
   {"getUsername",						lua_nickname},
   {"getLanguage",						lua_lang},
+  {"getTitle",							lua_title},
+  {"getTitleID",						lua_titleid},
   {"extractZIP",						lua_ZipExtract},
   {"extractFromZIP",					lua_getfilefromzip},
   {0, 0}
