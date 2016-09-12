@@ -89,7 +89,7 @@ static int lua_initFTP(lua_State *L) {
     if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	char vita_ip[16];
 	unsigned short int vita_port = 0;
-    if (ftpvita_init(vita_ip, &vita_port) < 0) return luaL_error(L, "cannot start FTP server (WiFi off?)");
+	if (ftpvita_init(vita_ip, &vita_port) < 0) return luaL_error(L, "cannot start FTP server (WiFi off?)");
 	ftpvita_add_device("app0:");
 	ftpvita_add_device("ux0:");
 	ftpvita_add_device("ur0:");
@@ -97,40 +97,40 @@ static int lua_initFTP(lua_State *L) {
 	ftpvita_add_device("photo0:");
 	lua_pushstring(L, vita_ip);
 	lua_pushinteger(L, vita_port);
-    return 2;
+	return 2;
 }
 
 static int lua_termFTP(lua_State *L) {
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
-    ftpvita_fini();
-    return 0;
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	ftpvita_fini();
+	return 0;
 }
 
 static int lua_getip(lua_State *L) {
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	SceNetCtlInfo info;
-    if (sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_IP_ADDRESS, &info) < 0) strcpy(vita_ip, "127.0.0.1");
+	if (sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_IP_ADDRESS, &info) < 0) strcpy(vita_ip, "127.0.0.1");
 	else strcpy(vita_ip, info.ip_address);
 	lua_pushstring(L, vita_ip);
-    return 1;
+	return 1;
 }
 
 static int lua_getmac(lua_State *L) {
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	SceNetEtherAddr mac;
 	char macAddress[32];
 	sceNetGetMacAddress(&mac, 0);	
 	sprintf(macAddress, "%02X:%02X:%02X:%02X:%02X:%02X", mac.data[0], mac.data[1], mac.data[2], mac.data[3], mac.data[4], mac.data[5]);
 	lua_pushstring(L, macAddress);
-    return 1;
+	return 1;
 }
 
 static int lua_initSock(lua_State *L) {
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	int ret = sceNetShowNetstat();
 	SceNetInitParam initparam;
 	if (ret == SCE_NET_ERROR_ENOTINIT) {
@@ -141,20 +141,20 @@ static int lua_initSock(lua_State *L) {
 		ret = sceNetInit(&initparam);
 	}
 	sceNetCtlInit();
-    return 0;
+	return 0;
 }
 
 static int lua_termSock(lua_State *L) {
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	sceNetCtlTerm();
 	sceNetTerm();
 	if (net_memory != NULL) free(net_memory);
-    return 0;
+	return 0;
 }
 
 static int lua_createserver(lua_State *L) {
-    int argc = lua_gettop(L);
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 		if (argc != 1) return luaL_error(L, "Socket.createServerSocket(port) takes one argument.");
 	#endif
