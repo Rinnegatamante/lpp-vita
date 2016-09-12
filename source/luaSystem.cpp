@@ -223,6 +223,43 @@ static int lua_wait(lua_State *L)
 	return 0;
 }
 
+static int lua_screenshot(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	const char *filename = luaL_checkstring(L, 1);
+	SceDisplayFrameBuf param;
+	param.size = sizeof(SceDisplayFrameBuf);
+	sceDisplayWaitVblankStart();
+	sceDisplayGetFrameBuf(&param, SCE_DISPLAY_SETBUF_NEXTFRAME);
+	int fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
+	uint8_t* bmp_content = (uint8_t*)malloc(((param.pitch*param.height)<<2)+0x36);
+	memset(bmp_content, 0, 0x36);
+	*(uint16_t*)&bmp_content[0x0] = 0x4D42;
+	*(uint32_t*)&bmp_content[0x2] = ((param.pitch*param.height)<<2)+0x36;
+	*(uint32_t*)&bmp_content[0xA] = 0x36;
+	*(uint32_t*)&bmp_content[0xE] = 0x28;
+	*(uint32_t*)&bmp_content[0x12] = param.pitch;
+	*(uint32_t*)&bmp_content[0x16] = param.height;
+	*(uint32_t*)&bmp_content[0x1A] = 0x00200001;
+	*(uint32_t*)&bmp_content[0x22] = ((param.pitch*param.height)<<2);
+	int x, y;
+	uint32_t* buffer = (uint32_t*)bmp_content;
+	uint32_t* framebuf = (uint32_t*)param.base;
+	for (y = 0; y<param.height; y++){
+		for (x = 0; x<param.pitch; x++){
+			buffer[x+y*param.pitch+0x36] = framebuf[x+(param.height-y)*param.pitch];
+			uint8_t* clr = (uint8_t*)&buffer[x+y*param.pitch+0x36];
+			uint8_t r = clr[1];
+			clr[1] = clr[3];
+			clr[3] = r;
+		}
+	}
+	sceIoWrite(fd, bmp_content, ((param.pitch*param.height)<<2)+0x36);
+	free(bmp_content);
+	return 0;
+}
+
 
 SceIoDirent g_dir;
 
@@ -467,6 +504,7 @@ static const luaL_Reg System_functions[] = {
   {"getTitleID",						lua_titleid},
   {"extractZIP",						lua_ZipExtract},
   {"extractFromZIP",					lua_getfilefromzip},
+  {"takeScreenshot",					lua_screenshot},
   {0, 0}
 };
 
