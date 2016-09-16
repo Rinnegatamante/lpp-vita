@@ -62,9 +62,11 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
+* [luaIrc](http://wololo.net/talk/viewtopic.php?f=116&t=47107)
 
 ##### Engines & Interpreters
 * [RayCast3D Engine](http://wololo.net/talk/viewtopic.php?f=116&t=46379)
+* [March22](http://wololo.net/talk/viewtopic.php?f=116&t=47068)
 
 # Compiling the source
 
