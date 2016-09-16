@@ -52,6 +52,7 @@ struct DecodedMusic{
 	volatile bool pauseTrigger;
 	volatile bool closeTrigger;
 	volatile uint8_t audioThread;
+	volatile int volume;
 	char filepath[256];
 	bool tempBlock;
 };
@@ -74,10 +75,9 @@ static int audioThread(unsigned int args, void* arg){
 	// Initializing audio port
 	int ch = sceAudioOutOpenPort(SCE_AUDIO_OUT_PORT_TYPE_MAIN, NSAMPLES, 48000, SCE_AUDIO_OUT_MODE_STEREO);
 	sceAudioOutSetConfig(ch, -1, -1, -1);
-	int vol_stereo[] = {32767, 32767};
-	sceAudioOutSetVolume(ch, SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH, vol_stereo);
 	
 	DecodedMusic* mus;
+	int old_volume;
 	for (;;){
 		
 		// Waiting for an audio output request
@@ -102,6 +102,11 @@ static int audioThread(unsigned int args, void* arg){
 			}
 		
 		}
+		
+		// Setting audio channel volume
+		int vol_stereo[] = {32767, 32767};
+		sceAudioOutSetVolume(ch, SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH, vol_stereo);
+		old_volume = 32767;
 		
 		// Initializing audio decoder
 		audio_decoder[id] = AudioDecoder::Create(mus->handle, "Track");
@@ -150,6 +155,13 @@ static int audioThread(unsigned int args, void* arg){
 			
 				mus->isPlaying = !mus->isPlaying;
 				mus->pauseTrigger = false;
+			}
+			
+			// Check if a volume change request arrived
+			if (mus->volume != old_volume){
+				int vol_stereo_new[] = {mus->volume, mus->volume};
+				sceAudioOutSetVolume(ch, SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH, vol_stereo_new);
+				old_volume = mus->volume;
 			}
 			
 			if (mus->isPlaying){
@@ -257,6 +269,26 @@ static int lua_pause(lua_State *L)
 	if (mus->isPlaying) mus->pauseTrigger = true;
 	
 	return 0;
+}
+
+static int lua_setvol(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+	int vol = luaL_checkinteger(L, 2);
+	vol = (vol < 0) ? 0 : ((vol > 32767) ? 32767 : vol);
+	mus->volume = vol;
+	return 0;
+}
+
+static int lua_getvol(lua_State *L)
+{
+    int argc = lua_gettop(L);
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+	lua_pushinteger(L, mus->volume);
+	return 1;
 }
 
 static int lua_isplaying(lua_State *L)
@@ -402,6 +434,7 @@ static int lua_play(lua_State *L)
 	mus->pauseTrigger = false;
 	mus->closeTrigger = false;
 	mus->isPlaying = true;
+	mus->volume = 32767;
 	
 	// Wait till a thread is available
 	bool found = false;
@@ -431,6 +464,8 @@ static const luaL_Reg Sound_functions[] = {
 	{"openMidi",					lua_openMidi},
 	{"openOgg",						lua_openOgg},
 	{"play",						lua_play},
+	{"setVolume",					lua_setvol},
+	{"getVolume",					lua_getvol},
 	{"pause",						lua_pause},
 	{"resume",						lua_resume},
 	{"isPlaying",					lua_isplaying},
