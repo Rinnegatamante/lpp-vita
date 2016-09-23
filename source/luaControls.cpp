@@ -31,8 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <psp2/ctrl.h>
-#include <psp2/touch.h>
+#include <vitasdk.h>
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
@@ -123,6 +122,26 @@ static int lua_rumble(lua_State *L)
 	return 0;
 }
 
+static int lua_lightbar(lua_State *L)
+{
+	if (lua_gettop(L) != 2) return luaL_error(L, "wrong number of arguments.");
+	int port = luaL_checkinteger(L, 1);
+	uint32_t color = luaL_checkinteger(L, 2);
+	switch (port){
+		case 0:
+		case 1:
+			sceCtrlSetLightBar(1, color & 0xFF, (color>>8) & 0xFF, (color>>16) & 0xFF);
+			break;
+		case 2:
+			sceCtrlSetLightBar(2, color & 0xFF, (color>>8) & 0xFF, (color>>16) & 0xFF);
+			break;
+		default:
+			return luaL_error(L, "wrong port number.");
+			break;
+	}	
+	return 0;
+}
+
 static int lua_touchpad2(lua_State *L)
 {
 	if (lua_gettop(L) != 0) return luaL_error(L, "wrong number of arguments.");
@@ -140,7 +159,8 @@ static const luaL_Reg Controls_functions[] = {
   {"read",								lua_readC},	
   {"readLeftAnalog",					lua_readleft},	  
   {"readRightAnalog",					lua_readright},	
-  {"rumble",							lua_rumble},	
+  {"rumble",							lua_rumble},
+  {"setLightbar",						lua_lightbar},
   {"check",								lua_check},	
   {"readTouch",							lua_touchpad},	
   {"readRetroTouch",					lua_touchpad2},	
