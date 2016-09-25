@@ -191,7 +191,7 @@ static int lua_rename(lua_State *L)
 {
     int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+    if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *old_file = luaL_checkstring(L, 1);
 	const char *new_file = luaL_checkstring(L, 2);
