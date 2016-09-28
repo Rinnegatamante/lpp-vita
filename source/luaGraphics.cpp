@@ -273,7 +273,7 @@ static int lua_drawimg_full(lua_State *L)
 {
     int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 9 && argc != 10) return luaL_error(L, "wrong number of arguments");
+    if (argc != 11 && argc != 10) return luaL_error(L, "wrong number of arguments");
 	#endif
 	float x = luaL_checknumber(L, 1);
     float y = luaL_checknumber(L, 2);
@@ -281,16 +281,17 @@ static int lua_drawimg_full(lua_State *L)
     int st_y = luaL_checkinteger(L, 4);
 	float width = luaL_checknumber(L, 5);
     float height = luaL_checknumber(L, 6);
-	float x_scale = luaL_checknumber(L, 7);
-    float y_scale = luaL_checknumber(L, 8);
-	texture* text = (texture*)(luaL_checkinteger(L, 9));
+	float radius = luaL_checknumber(L, 7);
+	float x_scale = luaL_checknumber(L, 8);
+    float y_scale = luaL_checknumber(L, 9);
+	texture* text = (texture*)(luaL_checkinteger(L, 10));
 	#ifndef SKIP_ERROR_HANDLING
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
 	#endif
-	if (argc == 10){
-		uint32_t color = luaL_checkinteger(L, 10);
-		vita2d_draw_texture_tint_part_scale(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale, color);
-	}else vita2d_draw_texture_part_scale(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale);
+	if (argc == 11){
+		uint32_t color = luaL_checkinteger(L, 11);
+		vita2d_draw_texture_part_tint_scale_rotate(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale, radius, color);
+	}else vita2d_draw_texture_part_scale_rotate(text->text, x, y, st_x, st_y, width, height, x_scale, radius, y_scale);
 	return 0;
 }
 
