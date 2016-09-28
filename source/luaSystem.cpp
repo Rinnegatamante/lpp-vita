@@ -44,9 +44,9 @@ int FREAD = SCE_O_RDONLY;
 int FWRITE = SCE_O_WRONLY;
 int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
 int FRDWR = SCE_O_RDWR;
-int SET = 1;
-int CUR = 2;
-int END = 3;
+int SET = SEEK_SET;
+int CUR = SEEK_CUR;
+int END = SEEK_END;
 int cur_freq = 333;
 extern int script_files;
 
@@ -101,6 +101,9 @@ static int lua_openfile(lua_State *L)
 	const char *file_tbo = luaL_checkstring(L, 1);
 	int type = luaL_checkinteger(L, 2);
 	SceUID fileHandle = sceIoOpen(file_tbo, type, 0777);
+	#ifndef SKIP_ERROR_HANDLING
+    if (fileHandle < 0) return luaL_error(L, "cannot open requested file.");
+	#endif
 	lua_pushinteger(L,fileHandle);
 	return 1;
 }
@@ -111,8 +114,8 @@ static int lua_readfile(lua_State *L)
 	#ifndef SKIP_ERROR_HANDLING
     if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
-	int file = luaL_checkinteger(L, 1);
-	int size = luaL_checkinteger(L, 2);
+	SceUID file = luaL_checkinteger(L, 1);
+	uint32_t size = luaL_checkinteger(L, 2);
 	uint8_t* buffer = (uint8_t*)malloc(size);
 	int len = sceIoRead(file,buffer, size);
 	buffer[len] = 0;
@@ -127,7 +130,7 @@ static int lua_writefile(lua_State *L)
 	#ifndef SKIP_ERROR_HANDLING
     if (argc != 3) return luaL_error(L, "wrong number of arguments");
 	#endif
-	int fileHandle = luaL_checkinteger(L, 1);
+	SceUID fileHandle = luaL_checkinteger(L, 1);
 	const char *text = luaL_checkstring(L, 2);
 	int size = luaL_checknumber(L, 3);
 	sceIoWrite(fileHandle, text, size);
@@ -140,7 +143,7 @@ static int lua_closefile(lua_State *L)
 	#ifndef SKIP_ERROR_HANDLING
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
-	int fileHandle = luaL_checkinteger(L, 1);
+	SceUID fileHandle = luaL_checkinteger(L, 1);
 	sceIoClose(fileHandle);
 	return 0;
 }
@@ -151,7 +154,7 @@ static int lua_seekfile(lua_State *L)
 	#ifndef SKIP_ERROR_HANDLING
     if (argc != 3) return luaL_error(L, "wrong number of arguments");
 	#endif
-	int fileHandle = luaL_checkinteger(L, 1);
+	SceUID fileHandle = luaL_checkinteger(L, 1);
 	int pos = luaL_checkinteger(L, 2);
 	int type = luaL_checkinteger(L, 3);
 	sceIoLseek(fileHandle, pos, type);	
@@ -164,9 +167,10 @@ static int lua_sizefile(lua_State *L)
 	#ifndef SKIP_ERROR_HANDLING
     if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
-	int fileHandle = luaL_checkinteger(L, 1);
-	SceOff size = sceIoLseek(fileHandle, 0, SEEK_END);
-	sceIoLseek(fileHandle, 0, SEEK_SET);
+	SceUID fileHandle = luaL_checkinteger(L, 1);
+	uint32_t cur_off = sceIoLseek(fileHandle, 0, SEEK_CUR);
+	uint32_t size = sceIoLseek(fileHandle, 0, SEEK_END);
+	sceIoLseek(fileHandle, cur_off, SEEK_SET);
 	lua_pushinteger(L, size);
 	return 1;
 }
