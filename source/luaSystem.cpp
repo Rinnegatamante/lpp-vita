@@ -294,6 +294,7 @@ static int lua_screenshot(lua_State *L)
 		}
 	}
 	sceIoWrite(fd, bmp_content, ((param.pitch*param.height)<<2)+0x36);
+	sceIoClose(fd);
 	free(bmp_content);
 	return 0;
 }
