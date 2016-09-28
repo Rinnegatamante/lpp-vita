@@ -101,6 +101,34 @@ static int lua_rect(lua_State *L)
 	return 0;
 }
 
+static int lua_emptyrect(lua_State *L)
+{
+    int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+    if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	#endif
+	float x1 = luaL_checknumber(L, 1);
+    float x2 = luaL_checknumber(L, 2);
+	float y1 = luaL_checknumber(L, 3);
+    float y2 = luaL_checknumber(L, 4);
+	int color = luaL_checkinteger(L,5);
+	if (x2 < x1){
+		int tmp = x2;
+		x2 = x1;
+		x1 = tmp;
+	}
+	if (y2 < y1){
+		int tmp = y2;
+		y2 = y1;
+		y1 = tmp;
+	}
+	vita2d_draw_line(x1, y1, x2-x1, y1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_line(x1, y2, x2-x1, y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_line(x1, y1, x1, y2-y1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_line(x2, y1, x2, y2-y1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	return 0;
+}
+
 static int lua_line(lua_State *L)
 {
     int argc = lua_gettop(L);
@@ -426,6 +454,7 @@ static const luaL_Reg Graphics_functions[] = {
   {"drawPixel",							lua_pixel},
   {"drawLine",							lua_line},
   {"fillRect",							lua_rect},
+  {"fillEmptyRect",						lua_emptyrect},
   {"fillCircle",						lua_circle},
   {"loadImage",							lua_loadimg},
   {"drawImage",							lua_drawimg},
