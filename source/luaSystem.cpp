@@ -477,6 +477,16 @@ static int lua_titleid(lua_State *L)
 	return 1;
 }
 
+static int lua_model(lua_State *L)
+{
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	lua_pushinteger(L,sceKernelGetModel());
+	return 1;
+}
+
 static int lua_ZipExtract(lua_State *L) {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -553,6 +563,7 @@ static const luaL_Reg System_functions[] = {
   {"getDate",							lua_getdate},
   {"getUsername",						lua_nickname},
   {"getLanguage",						lua_lang},
+  {"getModel",							lua_model},
   {"getTitle",							lua_title},
   {"getTitleID",						lua_titleid},
   {"extractZIP",						lua_ZipExtract},
