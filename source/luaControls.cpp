@@ -100,19 +100,20 @@ static int lua_touchpad(lua_State *L)
 
 static int lua_rumble(lua_State *L)
 {
-	if (lua_gettop(L) != 2) return luaL_error(L, "wrong number of arguments.");
+	if (lua_gettop(L) != 3) return luaL_error(L, "wrong number of arguments.");
 	int port = luaL_checkinteger(L, 1);
-	int intensity = luaL_checkinteger(L, 2);
+	uint8_t int_small = luaL_checkinteger(L, 2);
+	uint8_t int_large = luaL_checkinteger(L, 3);
 	switch (port){
 		case 0:
 		case 1:
-			pad1.enable = intensity;
-			pad1.unk = 0;
+			pad1.small = int_small;
+			pad1.large = int_large;
 			sceCtrlSetActuator(1, &pad1);
 			break;
 		case 2:
-			pad2.enable = intensity;
-			pad2.unk = 0;
+			pad2.small = int_small;
+			pad2.large = int_large;
 			sceCtrlSetActuator(2, &pad2);
 			break;
 		default:
