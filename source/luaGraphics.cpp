@@ -67,12 +67,23 @@ static int lua_pixel(lua_State *L)
 {
     int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 3) return luaL_error(L, "wrong number of arguments.");
+    if (argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	float x = luaL_checknumber(L, 1);
     float y = luaL_checknumber(L, 2);
-	int color = luaL_checkinteger(L, 3);
-	vita2d_draw_pixel(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	uint32_t color = luaL_checkinteger(L, 3);
+	if (argc == 3) vita2d_draw_pixel(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	else{
+		texture* text = (texture*)(luaL_checkinteger(L, 4));
+		#ifndef SKIP_ERROR_HANDLING
+		if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+		#endif
+		int intx = x;
+		int inty = y;
+		uint32_t* data = vita2d_texture_get_datap(text->text);
+		uint32_t pitch = vita2d_texture_get_stride(text->text)>>2;
+		data[intx+inty*pitch] = color;
+	}
 	return 0;
 }
 
