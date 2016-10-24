@@ -47,7 +47,7 @@ static int lua_readC(lua_State *L)
 	if (argc == 1) port = luaL_checkinteger(L, 1); 
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
-	lua_pushnumber(L, pad.buttons);
+	lua_pushinteger(L, pad.buttons);
 	return 1;
 }
 
@@ -59,8 +59,8 @@ static int lua_readleft(lua_State *L)
 	if (argc == 1) port = luaL_checkinteger(L, 1); 
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
-	lua_pushnumber(L, pad.lx);
-	lua_pushnumber(L, pad.ly);
+	lua_pushinteger(L, pad.lx);
+	lua_pushinteger(L, pad.ly);
 	return 2;
 }
 
@@ -72,16 +72,16 @@ static int lua_readright(lua_State *L)
 	if (argc == 1) port = luaL_checkinteger(L, 1); 
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
-	lua_pushnumber(L, pad.rx);
-	lua_pushnumber(L, pad.ry);
+	lua_pushinteger(L, pad.rx);
+	lua_pushinteger(L, pad.ry);
 	return 2;
 }
 
 static int lua_check(lua_State *L)
 {
 	if (lua_gettop(L) != 2) return luaL_error(L, "wrong number of arguments.");
-	int pad = luaL_checknumber(L, 1);
-	int button = luaL_checknumber(L, 2);
+	int pad = luaL_checkinteger(L, 1);
+	int button = luaL_checkinteger(L, 2);
 	lua_pushboolean(L, (pad & button));
 	return 1;
 }
@@ -92,8 +92,8 @@ static int lua_touchpad(lua_State *L)
 	SceTouchData touch;
 	sceTouchPeek(SCE_TOUCH_PORT_FRONT, &touch, 1);
 	for (SceUInt32 i=0;i<touch.reportNum;i++){
-		lua_pushnumber(L, lerp(touch.report[i].x, 1920, 960));
-		lua_pushnumber(L, lerp(touch.report[i].y, 1088, 544));
+		lua_pushinteger(L, lerp(touch.report[i].x, 1920, 960));
+		lua_pushinteger(L, lerp(touch.report[i].y, 1088, 544));
 	}
 	return touch.reportNum<<1;
 }
@@ -149,8 +149,8 @@ static int lua_touchpad2(lua_State *L)
 	SceTouchData touch;
 	sceTouchPeek(SCE_TOUCH_PORT_BACK, &touch, 1);
 	for (SceUInt32 i=0;i<touch.reportNum;i++){
-		lua_pushnumber(L, lerp(touch.report[i].x, 1920, 960));
-		lua_pushnumber(L, lerp(touch.report[i].y, 1088, 544));
+		lua_pushinteger(L, lerp(touch.report[i].x, 1920, 960));
+		lua_pushinteger(L, lerp(touch.report[i].y, 1088, 544));
 	}
 	return touch.reportNum<<1;
 }
