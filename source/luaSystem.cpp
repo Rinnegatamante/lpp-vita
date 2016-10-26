@@ -532,7 +532,7 @@ static int lua_getfilefromzip(lua_State *L){
 	return 1;
 }
 
-static int lua_calluri(lua_State *L)
+static int lua_executeuri(lua_State *L)
 {
     int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -580,7 +580,7 @@ static const luaL_Reg System_functions[] = {
   {"extractZIP",						lua_ZipExtract},
   {"extractFromZIP",					lua_getfilefromzip},
   {"takeScreenshot",					lua_screenshot},
-  {"callUri",					lua_calluri},	
+  {"executeUri",					lua_executeuri},	
   {0, 0}
 };
 
