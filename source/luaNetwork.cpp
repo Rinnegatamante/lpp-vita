@@ -33,6 +33,8 @@
 extern "C"{
 	#include "include/ftp/ftp.h"
 }
+#define stringify(str) #str
+#define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 void* net_memory = NULL;
 char vita_ip[16];
 
@@ -156,14 +158,17 @@ static int lua_termSock(lua_State *L) {
 static int lua_createserver(lua_State *L) {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-		if (argc != 1) return luaL_error(L, "Socket.createServerSocket(port) takes one argument.");
+		if (argc != 1 && argc != 2) return luaL_error(L, "Socket.createServerSocket(port) takes one argument.");
 	#endif
 	int port = luaL_checkinteger(L, 1);
-
+	int type = SCE_NET_IPPROTO_TCP;
+	if (argc == 2) type = luaL_checkinteger(L, 2);
+	
 	Socket* my_socket = (Socket*) malloc(sizeof(Socket));
 	my_socket->serverSocket = true;
 
-	my_socket->sock = sceNetSocket("Socket", SCE_NET_AF_INET, SCE_NET_SOCK_STREAM, 0);
+	if (type == SCE_NET_IPPROTO_TCP) my_socket->sock = sceNetSocket("Server Socket", SCE_NET_AF_INET, SCE_NET_SOCK_STREAM, 0);
+	else my_socket->sock = sceNetSocket("Server Socket", SCE_NET_AF_INET, SCE_NET_SOCK_DGRAM, SCE_NET_IPPROTO_UDP);
 	#ifndef SKIP_ERROR_HANDLING
 		if (my_socket->sock <= 0) return luaL_error(L, "invalid socket.");
 	#endif
@@ -172,19 +177,26 @@ static int lua_createserver(lua_State *L) {
 	SceNetSockaddrIn addrTo;
 	addrTo.sin_family = SCE_NET_AF_INET;
 	addrTo.sin_port = sceNetHtons(port);
-	addrTo.sin_addr.s_addr = 0;
-
+	if (type == SCE_NET_IPPROTO_TCP) addrTo.sin_addr.s_addr = 0;
+	else{
+		SceNetCtlInfo info;
+		sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_IP_ADDRESS, &info);
+		sceNetInetPton(SCE_NET_AF_INET, info.ip_address, &addrTo.sin_port);
+	}
+	
 	int err = sceNetBind(my_socket->sock, (SceNetSockaddr*)&addrTo, sizeof(addrTo));
 	#ifndef SKIP_ERROR_HANDLING
 		if (err != 0) return luaL_error(L, "bind error.");
 	#endif
 
 	sceNetSetsockopt(my_socket->sock, SCE_NET_SOL_SOCKET, SCE_NET_SO_NBIO, &_true, sizeof(_true));
-
-	err = sceNetListen(my_socket->sock, 1);
-	#ifndef SKIP_ERROR_HANDLING
-		if (err != 0) return luaL_error(L, "listen error.");
-	#endif
+	
+	if (type == SCE_NET_IPPROTO_TCP){
+		err = sceNetListen(my_socket->sock, 1);
+		#ifndef SKIP_ERROR_HANDLING
+			if (err != 0) return luaL_error(L, "listen error.");
+		#endif
+	}
 	
 	my_socket->magic = 0xDEADDEAD;
 	lua_pushinteger(L,(uint32_t)my_socket);
@@ -288,12 +300,14 @@ static int lua_connect(lua_State *L)
 {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-		if (argc != 2)  return luaL_error(L, "wrong number of arguments");
+		if (argc != 2 && argc != 3)  return luaL_error(L, "wrong number of arguments");
 	#endif
 	
 	// Getting arguments
 	char *host = (char*)luaL_checkstring(L, 1);
 	int port = luaL_checkinteger(L, 2);
+	int type = SCE_NET_IPPROTO_TCP;
+	if (argc == 3) type = luaL_checkinteger(L, 3);
 	char port_str[8];
 	sprintf(port_str,"%i",port);
 	
@@ -303,7 +317,8 @@ static int lua_connect(lua_State *L)
 	my_socket->magic = 0xDEADDEAD;
 	
 	// Creating socket
-	my_socket->sock = sceNetSocket("Socket", SCE_NET_AF_INET, SCE_NET_SOCK_STREAM, 0);
+	if (type == SCE_NET_IPPROTO_TCP) my_socket->sock = sceNetSocket("Socket", SCE_NET_AF_INET, SCE_NET_SOCK_STREAM, 0);
+	else my_socket->sock = sceNetSocket("Socket", SCE_NET_AF_INET, SCE_NET_SOCK_DGRAM, SCE_NET_IPPROTO_UDP);
 	#ifndef SKIP_ERROR_HANDLING
 		if (my_socket->sock < 0){
 			free(my_socket);
@@ -318,15 +333,17 @@ static int lua_connect(lua_State *L)
 	addrTo.sin_port = sceNetHtons(port);
 	addrTo.sin_addr.s_addr = *(int *)hostentry->h_addr_list[0];
 	
-	// Connecting to the server
-	int res = sceNetConnect(my_socket->sock, (SceNetSockaddr*)&addrTo, sizeof(SceNetSockaddrIn));
-	#ifndef SKIP_ERROR_HANDLING
-		if(res < 0){
-			sceNetSocketClose(my_socket->sock);
-			free(my_socket);
-			return luaL_error(L, "Failed connecting to the server.");
-		}
-	#endif
+	// Connecting to the server if TCP socket
+	if (type == SCE_NET_IPPROTO_TCP){
+		int res = sceNetConnect(my_socket->sock, (SceNetSockaddr*)&addrTo, sizeof(SceNetSockaddrIn));
+		#ifndef SKIP_ERROR_HANDLING
+			if(res < 0){
+				sceNetSocketClose(my_socket->sock);
+				free(my_socket);
+				return luaL_error(L, "Failed connecting to the server.");
+			}
+		#endif
+	}
 	
 	// Setting socket options
 	int _true = 1;
@@ -359,6 +376,8 @@ static const luaL_Reg Socket_functions[] = {
 };
 
 void luaNetwork_init(lua_State *L) {
+	VariableRegister(L,SCE_NET_IPPROTO_UDP);
+	VariableRegister(L,SCE_NET_IPPROTO_TCP);
 	lua_newtable(L);
 	luaL_setfuncs(L, Network_functions, 0);
 	lua_setglobal(L, "Network");
