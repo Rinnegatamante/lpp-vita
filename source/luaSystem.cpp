@@ -591,6 +591,17 @@ static int lua_getfilefromzip(lua_State *L){
 	return 1;
 }
 
+static int lua_executeuri(lua_State *L)
+{
+    int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char *uri_string = luaL_checkstring(L, 1);
+	sceAppMgrLaunchAppByUri(0xFFFFF, uri_string);
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -634,6 +645,7 @@ static const luaL_Reg System_functions[] = {
   {"extractZIP",						lua_ZipExtract},
   {"extractFromZIP",					lua_getfilefromzip},
   {"takeScreenshot",					lua_screenshot},
+  {"executeUri",					lua_executeuri},	
   {0, 0}
 };
 
