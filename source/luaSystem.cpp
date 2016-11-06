@@ -44,10 +44,9 @@ int FREAD = SCE_O_RDONLY;
 int FWRITE = SCE_O_WRONLY;
 int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
 int FRDWR = SCE_O_RDWR;
-int SET = SEEK_SET;
-int CUR = SEEK_CUR;
-int END = SEEK_END;
-int cur_freq = 333;
+uint32_t SET = SEEK_SET;
+uint32_t CUR = SEEK_CUR;
+uint32_t END = SEEK_END;
 extern int script_files;
 
 static int lua_dofile(lua_State *L)
@@ -156,7 +155,7 @@ static int lua_seekfile(lua_State *L)
 	#endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	int pos = luaL_checkinteger(L, 2);
-	int type = luaL_checkinteger(L, 3);
+	uint32_t type = luaL_checkinteger(L, 3);
 	sceIoLseek(fileHandle, pos, type);	
 	return 0;
 }
@@ -383,10 +382,40 @@ static int lua_setcpu(lua_State *L)
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	int freq = luaL_checkinteger(L, 1);
-	if (freq < 41) freq = 41;
-	else if (freq > 444) freq = 444;
 	scePowerSetArmClockFrequency(freq);
-	cur_freq = freq;
+	return 0;
+}
+
+static int lua_setbus(lua_State *L)
+{
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	int freq = luaL_checkinteger(L, 1);
+	scePowerSetBusClockFrequency(freq);
+	return 0;
+}
+
+static int lua_setgpu(lua_State *L)
+{
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	int freq = luaL_checkinteger(L, 1);
+	scePowerSetGpuClockFrequency(freq);
+	return 0;
+}
+
+static int lua_setgpu2(lua_State *L)
+{
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	int freq = luaL_checkinteger(L, 1);
+	scePowerSetGpuXbarClockFrequency(freq);
 	return 0;
 }
 
@@ -396,7 +425,37 @@ static int lua_getcpu(lua_State *L)
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
-	lua_pushinteger(L, cur_freq);
+	lua_pushinteger(L, scePowerGetArmClockFrequency());
+	return 1;
+}
+
+static int lua_getbus(lua_State *L)
+{
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	lua_pushinteger(L, scePowerGetBusClockFrequency());
+	return 1;
+}
+
+static int lua_getgpu(lua_State *L)
+{
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	lua_pushinteger(L, scePowerGetGpuClockFrequency());
+	return 1;
+}
+
+static int lua_getgpu2(lua_State *L)
+{
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	lua_pushinteger(L, scePowerGetGpuXbarClockFrequency());
 	return 1;
 }
 
@@ -558,6 +617,12 @@ static const luaL_Reg System_functions[] = {
   {"powerTick",							lua_nopower},
   {"setCpuSpeed",						lua_setcpu},
   {"getCpuSpeed",						lua_getcpu},
+  {"setBusSpeed",						lua_setbus},
+  {"getBusSpeed",						lua_getbus},
+  {"setGpuSpeed",						lua_setgpu},
+  {"getGpuSpeed",						lua_getgpu},
+  {"setGpuXbarSpeed",					lua_setgpu2},
+  {"getGpuXbarSpeed",					lua_getgpu2},
   {"launchEboot",						lua_launch},
   {"getTime",							lua_gettime},
   {"getDate",							lua_getdate},
