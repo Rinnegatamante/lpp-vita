@@ -3,7 +3,7 @@ SOURCES		:= source/include/lua source/include/ftp source/include source \
 			source/include/audiodec
 INCLUDES	:= include
 
-LIBS = -lvorbisfile -logg -lvorbis -lsndfile -lvita2d -lSceKernel_stub \
+LIBS = -lvitashaders -lvorbisfile -logg -lvorbis -lsndfile -lvita2d -lSceLibKernel_stub \
 	-lSceAppMgr_stub -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
 	-lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz \

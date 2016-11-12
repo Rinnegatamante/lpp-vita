@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <psp2/kernel/processmgr.h>
+#include <vitasdk.h>
 #include "include/luaplayer.h"
 
 struct Timer{
