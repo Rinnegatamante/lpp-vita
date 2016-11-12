@@ -141,9 +141,51 @@ static int lua_initSock(lua_State *L) {
 		initparam.size = NET_INIT_SIZE;
 		initparam.flags = 0;
 		ret = sceNetInit(&initparam);
+		if (ret < 0) return luaL_error(L, "an error occurred while starting network.");
 	}
 	sceNetCtlInit();
 	return 0;
+}
+
+static int lua_wifi(lua_State *L) {
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	int ret = sceNetShowNetstat();
+	SceNetInitParam initparam;
+	if (ret == SCE_NET_ERROR_ENOTINIT) {
+		net_memory = malloc(NET_INIT_SIZE);
+		initparam.memory = net_memory;
+		initparam.size = NET_INIT_SIZE;
+		initparam.flags = 0;
+		ret = sceNetInit(&initparam);
+		if (ret < 0) return luaL_error(L, "an error occurred while starting network.");
+	}
+	sceNetCtlInit();
+	int state;
+	sceNetCtlInetGetState(&state);
+	lua_pushboolean(L, state);
+	return 1;
+}
+
+static int lua_wifilv(lua_State *L) {
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	int ret = sceNetShowNetstat();
+	SceNetInitParam initparam;
+	if (ret == SCE_NET_ERROR_ENOTINIT) {
+		net_memory = malloc(NET_INIT_SIZE);
+		initparam.memory = net_memory;
+		initparam.size = NET_INIT_SIZE;
+		initparam.flags = 0;
+		ret = sceNetInit(&initparam);
+		if (ret < 0) return luaL_error(L, "an error occurred while starting network.");
+	}
+	sceNetCtlInit();
+	int state;
+	SceNetCtlInfo info;
+	sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_RSSI_PERCENTAGE, &info);
+	lua_pushinteger(L, info.rssi_percentage);
+	return 1;
 }
 
 static int lua_termSock(lua_State *L) {
@@ -359,6 +401,8 @@ static const luaL_Reg Network_functions[] = {
   {"termFTP",				lua_termFTP},
   {"getIPAddress",			lua_getip},
   {"getMacAddress",			lua_getmac},
+  {"isWifiEnabled",			lua_wifi},
+  {"getWifiLevel",			lua_wifi},
   {0, 0}
 };
 
