@@ -402,7 +402,7 @@ static const luaL_Reg Network_functions[] = {
   {"getIPAddress",			lua_getip},
   {"getMacAddress",			lua_getmac},
   {"isWifiEnabled",			lua_wifi},
-  {"getWifiLevel",			lua_wifi},
+  {"getWifiLevel",			lua_wifilv},
   {0, 0}
 };
 
