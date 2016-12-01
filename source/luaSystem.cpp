@@ -31,15 +31,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <vitasdk.h>
+extern "C"{
+	#include <vitasdk.h>
+}
 #include "include/Archives.h"
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
+#define ALIGN(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
 
-extern "C"{
-	int scePowerSetArmClockFrequency(int freq);
-}
 int FREAD = SCE_O_RDONLY;
 int FWRITE = SCE_O_WRONLY;
 int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
@@ -47,7 +47,6 @@ int FRDWR = SCE_O_RDWR;
 uint32_t SET = SEEK_SET;
 uint32_t CUR = SEEK_CUR;
 uint32_t END = SEEK_END;
-extern int script_files;
 
 static int lua_dofile(lua_State *L)
 {
@@ -262,39 +261,61 @@ static int lua_screenshot(lua_State *L)
 {
     int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+    if (argc != 1 && argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *filename = luaL_checkstring(L, 1);
+	bool isJPG = (argc > 1) ? lua_toboolean(L, 2) : false;
+	int ratio = (argc == 3) ? luaL_checkinteger(L, 3) : 127;
 	SceDisplayFrameBuf param;
 	param.size = sizeof(SceDisplayFrameBuf);
 	sceDisplayWaitVblankStart();
 	sceDisplayGetFrameBuf(&param, SCE_DISPLAY_SETBUF_NEXTFRAME);
 	int fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
-	uint8_t* bmp_content = (uint8_t*)malloc(((param.pitch*param.height)<<2)+0x36);
-	memset(bmp_content, 0, 0x36);
-	*(uint16_t*)&bmp_content[0x0] = 0x4D42;
-	*(uint32_t*)&bmp_content[0x2] = ((param.pitch*param.height)<<2)+0x36;
-	*(uint32_t*)&bmp_content[0xA] = 0x36;
-	*(uint32_t*)&bmp_content[0xE] = 0x28;
-	*(uint32_t*)&bmp_content[0x12] = param.pitch;
-	*(uint32_t*)&bmp_content[0x16] = param.height;
-	*(uint32_t*)&bmp_content[0x1A] = 0x00200001;
-	*(uint32_t*)&bmp_content[0x22] = ((param.pitch*param.height)<<2);
-	int x, y;
-	uint32_t* buffer = (uint32_t*)bmp_content;
-	uint32_t* framebuf = (uint32_t*)param.base;
-	for (y = 0; y<param.height; y++){
-		for (x = 0; x<param.pitch; x++){
-			buffer[x+y*param.pitch+0x36] = framebuf[x+(param.height-y)*param.pitch];
-			uint8_t* clr = (uint8_t*)&buffer[x+y*param.pitch+0x36];
-			uint8_t r = clr[1];
-			clr[1] = clr[3];
-			clr[3] = r;
+	if (!isJPG){
+		uint8_t* bmp_content = (uint8_t*)malloc(((param.pitch*param.height)<<2)+0x36);
+		memset(bmp_content, 0, 0x36);
+		*(uint16_t*)&bmp_content[0x0] = 0x4D42;
+		*(uint32_t*)&bmp_content[0x2] = ((param.pitch*param.height)<<2)+0x36;
+		*(uint32_t*)&bmp_content[0xA] = 0x36;
+		*(uint32_t*)&bmp_content[0xE] = 0x28;
+		*(uint32_t*)&bmp_content[0x12] = param.pitch;
+		*(uint32_t*)&bmp_content[0x16] = param.height;
+		*(uint32_t*)&bmp_content[0x1A] = 0x00200001;
+		*(uint32_t*)&bmp_content[0x22] = ((param.pitch*param.height)<<2);
+		int x, y;
+		uint32_t* buffer = (uint32_t*)bmp_content;
+		uint32_t* framebuf = (uint32_t*)param.base;
+		for (y = 0; y<param.height; y++){
+			for (x = 0; x<param.pitch; x++){
+				buffer[x+y*param.pitch+0x36] = framebuf[x+(param.height-y)*param.pitch];
+				uint8_t* clr = (uint8_t*)&buffer[x+y*param.pitch+0x36];
+				uint8_t r = clr[1];
+				clr[1] = clr[3];
+				clr[3] = r;
+			}
 		}
+		sceIoWrite(fd, bmp_content, ((param.pitch*param.height)<<2)+0x36);
+		free(bmp_content);
+	}else{
+		uint32_t in_size = ALIGN((param.width * param.height)<<1, 256);
+		uint32_t out_size = ALIGN(param.width * param.height, 256);
+		uint32_t buf_size = ALIGN(in_size + out_size, 0x40000);
+		SceUID memblock = sceKernelAllocMemBlock("encoderBuffer", SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW, buf_size, NULL);
+		void* buf_addr = NULL;
+		sceKernelGetMemBlockBase(memblock, &buf_addr);
+		SceJpegEncoderContext context = malloc(sceJpegEncoderGetContextSize());
+		sceJpegEncoderInit(context, param.width, param.height, PIXELFORMAT_YCBCR420 | PIXELFORMAT_CSC_ARGB_YCBCR, buf_addr + in_size, out_size);
+		sceJpegEncoderSetValidRegion(context, param.width, param.height);
+		sceJpegEncoderSetCompressionRatio(context, ratio);
+		sceJpegEncoderSetOutputAddr(context, buf_addr + in_size, out_size);
+		sceJpegEncoderCsc(context, buf_addr, param.base, param.pitch, PIXELFORMAT_ARGB8888);
+		int filesize = sceJpegEncoderEncode(context, buf_addr);
+		sceIoWrite(fd, buf_addr + in_size, filesize);
+		sceJpegEncoderEnd(context);
+		free(context);
+		sceKernelFreeMemBlock(memblock);
 	}
-	sceIoWrite(fd, bmp_content, ((param.pitch*param.height)<<2)+0x36);
 	sceIoClose(fd);
-	free(bmp_content);
 	return 0;
 }
 
