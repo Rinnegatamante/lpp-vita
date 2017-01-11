@@ -330,7 +330,7 @@ static int lua_drawimg_full(lua_State *L)
 	if (argc == 11){
 		uint32_t color = luaL_checkinteger(L, 11);
 		vita2d_draw_texture_part_tint_scale_rotate(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale, radius, color);
-	}else vita2d_draw_texture_part_scale_rotate(text->text, x, y, st_x, st_y, width, height, x_scale, radius, y_scale);
+	}else vita2d_draw_texture_part_scale_rotate(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale, radius);
 	return 0;
 }
 
