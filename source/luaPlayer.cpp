@@ -39,6 +39,8 @@
 
 static lua_State *L;
 
+char errorMex[1024];
+
 const char *runScript(const char* script, bool isStringBuffer)
 {
 	L = luaL_newstate();
@@ -83,7 +85,7 @@ const char *runScript(const char* script, bool isStringBuffer)
 	if (s) 
 	{
 		errMsg = lua_tostring(L, -1);
-		printf("error: %s\n", lua_tostring(L, -1));
+		sprintf(errorMex, "%s\n", errMsg);
 		lua_pop(L, 1); // remove error message
 	}
 	lua_close(L);

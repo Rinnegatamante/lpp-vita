@@ -13,6 +13,7 @@ extern vita2d_pgf* debug_font;
 int _newlib_heap_size_user = 192 * 1024 * 1024;
 
 const char *errMsg;
+extern char errorMex[];
 unsigned char *script;
 int script_files = 0;
 int clr_color;
@@ -72,7 +73,7 @@ int main()
 				while (restore == 0){
 					vita2d_start_drawing();
 					vita2d_clear_screen();
-					vita2d_pgf_draw_textf(debug_font, 2, 19.402, RGBA8(255, 255, 255, 255), 1.0, "An error occurred:\n%s\n\nPress X to restart.\nPress O to enable/disable FTP.", errMsg);
+					vita2d_pgf_draw_textf(debug_font, 2, 19.402, RGBA8(255, 255, 255, 255), 1.0, "An error occurred:\n%s\n\nPress X to restart.\nPress O to enable/disable FTP.", errorMex);
 					if (vita_port != 0) vita2d_pgf_draw_textf(debug_font, 2, 200, RGBA8(255, 255, 255, 255), 1.0, "PSVITA listening on IP %s , Port %u", vita_ip, vita_port);
 					vita2d_end_drawing();
 					vita2d_swap_buffers();
