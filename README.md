@@ -76,6 +76,7 @@ To correctly compile lpp-vita you'll need **vitasdk** installed and correctly se
 **libftpvita**, **libpng**, **libjpeg**, **freetype**, **libspeexdsp**. You can install most of them with **vita-portlibs** and [EasyRPG Vita toolchain](https://ci.easyrpg.org/view/Toolchains/job/toolchain-vita/).<br><br>
 Lua Player Plus Vita supports different flags to enables some features:<br>
 **-DSKIP_ERROR_HANDLING** disables error handling for faster code execution.<br>
+**-DPARANOID** enables extra internal error handling.<br>
 
 # Credits
 
