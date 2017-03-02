@@ -572,9 +572,9 @@ static int lua_ZipExtract(lua_State *L) {
 	#ifndef SKIP_ERROR_HANDLING
 	if(argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments.");
 	#endif
-	const char *FileToExtract = luaL_checkstring(L, 1);
-	const char *DirTe = luaL_checkstring(L, 2);
-	const char *Password = (argc == 3) ? luaL_checkstring(L, 3) : NULL;
+	const char* FileToExtract = luaL_checkstring(L, 1);
+	const char* DirTe = luaL_checkstring(L, 2);
+	const char* Password = (argc == 3) ? luaL_checkstring(L, 3) : NULL;
 	sceIoMkdir(DirTe, 0777);
 	Zip *handle = ZipOpen(FileToExtract);
 	#ifndef SKIP_ERROR_HANDLING
@@ -591,10 +591,10 @@ static int lua_getfilefromzip(lua_State *L){
 	#ifndef SKIP_ERROR_HANDLING
 	if(argc != 3 && argc != 4 ) return luaL_error(L, "wrong number of arguments.");
 	#endif
-	const char *FileToExtract = luaL_checkstring(L, 1);
-	const char *FileToExtract2 = luaL_checkstring(L, 2);
-	const char *Dest = luaL_checkstring(L, 3);
-	const char *Password = (argc == 4) ? luaL_checkstring(L, 4) : NULL;
+	const char* FileToExtract = luaL_checkstring(L, 1);
+	const char* FileToExtract2 = luaL_checkstring(L, 2);
+	const char* Dest = luaL_checkstring(L, 3);
+	const char* Password = (argc == 4) ? luaL_checkstring(L, 4) : NULL;
 	Zip *handle = ZipOpen(FileToExtract);
 	#ifndef SKIP_ERROR_HANDLING
 	if (handle == NULL) luaL_error(L, "error opening ZIP file.");
@@ -610,6 +610,90 @@ static int lua_getfilefromzip(lua_State *L){
 	}
 	ZipClose(handle);
 	return 1;
+}
+
+typedef struct{
+	uint32_t magic;
+	uint32_t version;
+	uint32_t keyTableOffset;
+	uint32_t dataTableOffset;
+	uint32_t indexTableEntries;
+} sfo_header_t;
+typedef struct{
+	uint16_t keyOffset;
+	uint16_t param_fmt;
+	uint32_t paramLen;
+	uint32_t paramMaxLen;
+	uint32_t dataOffset;
+} sfo_entry_t;
+
+static int lua_extractsfo(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if(argc != 1) return luaL_error(L, "wrong number of arguments.");
+	#endif
+	const char* file = luaL_checkstring(L, 1);
+	FILE* f = fopen(file,"rb");
+	if (f == NULL) return luaL_error(L, "error opening SFO file.");
+	else{
+		sfo_header_t hdr;
+		fread(&hdr, sizeof(sfo_header_t), 1, f);
+		if (hdr.magic != 0x46535000){
+			fclose(f);
+			return luaL_error(L, "SFO file is corrupted.");
+		}
+		uint8_t* idx_table = (uint8_t*)malloc((sizeof(sfo_entry_t)*hdr.indexTableEntries));
+		fread(idx_table, sizeof(sfo_entry_t)*hdr.indexTableEntries, 1, f);
+		sfo_entry_t* entry_table = (sfo_entry_t*)idx_table;
+		fseek(f, hdr.keyTableOffset, SEEK_SET);
+		uint8_t* key_table = (uint8_t*)malloc(hdr.dataTableOffset - hdr.keyTableOffset);
+		fread(key_table, hdr.dataTableOffset - hdr.keyTableOffset, 1, f);
+		lua_newtable(L);
+		lua_newtable(L);
+		uint8_t return_indexes = 0;
+		for (int i=0; i < hdr.indexTableEntries; i++){
+			char param_name[256];
+			sprintf(param_name, "%s", (char*)&key_table[entry_table[i].keyOffset]);
+			fseek(f, hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
+			
+			// Returning only relevant info
+			if (strcmp(param_name, "APP_VER") == 0){ // Application Version
+				lua_pushstring(L, "version");
+				char ver[0x08];
+				fread(ver, entry_table[i].paramLen, 1, f);
+				lua_pushstring(L, ver);
+				lua_settable(L, -3);
+				return_indexes++;
+			}else if (strcmp(param_name, "TITLE") == 0){ // Application Title
+				lua_pushstring(L, "title");
+				char title[0x80];
+				fread(title, entry_table[i].paramLen, 1, f);
+				lua_pushstring(L, title);
+				lua_settable(L, -3);
+				return_indexes++;
+			}else if (strcmp(param_name, "CATEGORY") == 0){ // Application Category
+				lua_pushstring(L, "category");
+				char category[0x04];
+				fread(category, entry_table[i].paramLen, 1, f);
+				lua_pushstring(L, category);
+				lua_settable(L, -3);
+				return_indexes++;
+			}else if (strcmp(param_name, "TITLE_ID") == 0){ // Application Title ID
+				lua_pushstring(L, "titleid");
+				char id[0x0C];
+				fread(id, entry_table[i].paramLen, 1, f);
+				lua_pushstring(L, id);
+				lua_settable(L, -3);
+				return_indexes++;
+			}
+			
+		}
+		fclose(f);
+		if (return_indexes == 0) lua_settable(L, -3);
+		free(idx_table);
+		free(key_table);
+		return 1;
+	}
 }
 
 static int lua_executeuri(lua_State *L)
@@ -663,6 +747,7 @@ static const luaL_Reg System_functions[] = {
   {"getModel",							lua_model},
   {"getTitle",							lua_title},
   {"getTitleID",						lua_titleid},
+  {"extractSFO",						lua_extractsfo},
   {"extractZIP",						lua_ZipExtract},
   {"extractFromZIP",					lua_getfilefromzip},
   {"takeScreenshot",					lua_screenshot},
