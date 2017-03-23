@@ -3,9 +3,9 @@ SOURCES		:= source/include/lua source/include/ftp source/include source \
 			source/include/audiodec
 INCLUDES	:= include
 
-LIBS = -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lvitashaders -lSceLibKernel_stub \
+LIBS = -lTinyGL -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lvitashaders -lSceLibKernel_stub \
 	-lSceJpegEnc_stub -lSceAppMgr_stub -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
-	-lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
+	-lScePromoterUtil_stub -lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz \
 	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub
 
@@ -29,6 +29,7 @@ all: $(TARGET).velf
 	cp $< $<.unstripped.elf
 	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
+	vita-make-fself $@ eboot.bin
 	vita-make-fself $@ eboot_unsafe.bin
 	vita-make-fself -s $@ eboot_safe.bin
 

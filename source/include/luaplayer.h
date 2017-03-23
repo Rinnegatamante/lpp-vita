@@ -54,6 +54,7 @@ void luaSystem_init(lua_State *L);
 void luaNetwork_init(lua_State *L);
 void luaTimer_init(lua_State *L);
 void luaKeyboard_init(lua_State *L);
+void luaRender_init(lua_State *L);
 
 extern int clr_color;
 extern char cur_dir[256];
