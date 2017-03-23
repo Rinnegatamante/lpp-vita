@@ -60,11 +60,16 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [vitaWanted](http://wololo.net/talk/viewtopic.php?f=116&t=46726)
 * [Labyrinth 3D](http://wololo.net/talk/viewtopic.php?f=116&t=46845)
 * [Resident Evil CODE:Vita](http://wololo.net/talk/viewtopic.php?f=52&t=47380)
+* [Lua Game of Life](https://github.com/domis4/lua-gameoflife/)
+* [Galactic Federation](http://vitadb.rinnegatamante.it/#/info/206)
+* [Starfield Vita](http://vitadb.rinnegatamante.it/#/info/128)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
 * [luaIrc](http://wololo.net/talk/viewtopic.php?f=116&t=47107)
 * [rinCheat SE](https://github.com/Rinnegatamante/rinCheat/tree/master/SE_module)
+* [Simple Text Editor](http://wololo.net/talk/viewtopic.php?f=116&t=47018)
+* [ePSP Bubble Installer](http://vitadb.rinnegatamante.it/#/info/124)
 
 ##### Engines & Interpreters
 * [RayCast3D Engine](http://wololo.net/talk/viewtopic.php?f=116&t=46379)
