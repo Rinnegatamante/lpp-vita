@@ -61,36 +61,39 @@ struct rawVertexList{
 struct Image {
 	unsigned long sizeX;
 	unsigned long sizeY;
-	char *data;
+	char* data;
 };
 
-Image* BitmapLoad(char *filename) {
-	FILE *file;
-	unsigned long size;
-	unsigned long i;
-	unsigned short int planes;
-	unsigned short int bpp;
-	char temp;
-	if ((file = fopen(filename, "rb"))==NULL) return NULL;
-    fseek(file, 18, SEEK_CUR);
+Image* ImageLoad(vita2d_texture* tmp){
+	if (tmp == NULL) return NULL;
 	Image* image = (Image*)malloc(sizeof(Image));
-    if ((i = fread(&image->sizeX, 4, 1, file)) != 1) return NULL;
-    if ((i = fread(&image->sizeY, 4, 1, file)) != 1) return NULL;
-    size = image->sizeX * image->sizeY * 3;
-    if ((fread(&planes, 2, 1, file)) != 1) return NULL;
-    if (planes != 1) return 0;
-    if ((i = fread(&bpp, 2, 1, file)) != 1) return NULL;
-    if (bpp != 24) return NULL;
-    fseek(file, 24, SEEK_CUR);
-    image->data = (char *) malloc(size);
-    if (image->data == NULL) return NULL;
-	if ((i = fread(image->data, size, 1, file)) != 1) return NULL;
-	for (i=0;i<size;i+=3) {
-		temp = image->data[i];
-		image->data[i] = image->data[i+2];
-		image->data[i+2] = temp;
-    }
-    return image;
+	image->sizeY = vita2d_texture_get_height(tmp);
+	image->sizeX = vita2d_texture_get_width(tmp);
+	image->data = (char*)malloc(image->sizeY*image->sizeX*3);
+	char* rgba_buf = (char*)vita2d_texture_get_datap(tmp);
+	for (int y=0; y < image->sizeY; y++){
+		for (int x=0; x < image->sizeX; x++){
+			int idx = (x + y * image->sizeX);
+			*(uint32_t*)(&(image->data[idx*3])) = ((*(uint32_t*)&(rgba_buf[(x + (image->sizeY - y - 1) * image->sizeX)<<2]) & 0x00FFFFFF) | (*(uint32_t*)(&(image->data[idx*3])) & 0xFF000000));
+		}
+	}
+	vita2d_free_texture(tmp);
+	return image;
+}
+
+Image* PngLoad(const char* filename){
+	vita2d_texture* tmp = vita2d_load_PNG_file(filename);
+	return ImageLoad(tmp);
+}
+
+Image* BitmapLoad(const char* filename){
+	vita2d_texture* tmp = vita2d_load_BMP_file(filename);
+	return ImageLoad(tmp);
+}
+
+Image* JpegLoad(const char* filename){
+	vita2d_texture* tmp = vita2d_load_JPEG_file(filename);
+	return ImageLoad(tmp);
 }
 
 struct model{
@@ -196,8 +199,8 @@ static int lua_loadmodel(lua_State *L){
 	sceIoClose(file);
 	Image* result;
 	if (magic == 0x4D42) result = BitmapLoad(text);
-	//else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
-	//else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
+	else if (magic == 0xD8FF) result = JpegLoad(text);
+	else if (magic == 0x5089) result = PngLoad(text);
 	else return luaL_error(L, "Error loading image.");
 	#ifndef SKIP_ERROR_HANDLING
 	if (result == NULL) return luaL_error(L, "Error loading image.");
@@ -246,8 +249,8 @@ static int lua_loadobj(lua_State *L){
 	sceIoClose(file);
 	Image* result;
 	if (magic == 0x4D42) result = BitmapLoad(text);
-	//else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
-	//else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
+	else if (magic == 0xD8FF) result = JpegLoad(text);
+	else if (magic == 0x5089) result = PngLoad(text);
 	else return luaL_error(L, "Error loading image.");
 	#ifndef SKIP_ERROR_HANDLING
 	if (result == NULL) return luaL_error(L, "Error loading image.");
