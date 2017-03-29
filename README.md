@@ -70,6 +70,7 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [rinCheat SE](https://github.com/Rinnegatamante/rinCheat/tree/master/SE_module)
 * [Simple Text Editor](http://wololo.net/talk/viewtopic.php?f=116&t=47018)
 * [ePSP Bubble Installer](http://vitadb.rinnegatamante.it/#/info/124)
+* [Vita Object Loader](http://wololo.net/talk/viewtopic.php?f=116&t=47982)
 
 ##### Engines & Interpreters
 * [RayCast3D Engine](http://wololo.net/talk/viewtopic.php?f=116&t=46379)
