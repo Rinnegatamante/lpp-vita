@@ -112,7 +112,7 @@ static int lua_init(lua_State *L)
 	uint32_t w = luaL_checkinteger(L, 1);
 	uint32_t h = luaL_checkinteger(L, 2);
 	uint32_t clr = luaL_checkinteger(L, 3);
-	vglInit();
+	vglInit(w, h);
 	float a = (clr >> 24) / 255.0f;
 	float b = ((clr << 8) >> 24) / 255.0f;
 	float g = ((clr << 16) >> 24) / 255.0f;
