@@ -710,15 +710,15 @@ static int lua_executeuri(lua_State *L)
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
-  // Dofile & I/O Library patched functions
+  // Dofile patched function
   {"doNotUse",							lua_dofile},
-  {"doNotOpen",							lua_openfile},
-  {"doNotRead",							lua_readfile},
-  {"doNotWrite",						lua_writefile},
-  {"doNotClose",						lua_closefile},  
-  {"doNotSeek",							lua_seekfile},  
-  {"doNotSize",							lua_sizefile},  
   
+  {"openFile",							lua_openfile},
+  {"readFile",							lua_readfile},
+  {"writeFile",							lua_writefile},
+  {"closeFile",							lua_closefile},  
+  {"seekFile",							lua_seekfile},  
+  {"sizeFile",							lua_sizefile},  
   {"doesFileExist",						lua_checkexist},
   {"exit",								lua_exit},
   {"rename",							lua_rename},

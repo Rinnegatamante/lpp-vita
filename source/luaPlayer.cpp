@@ -62,14 +62,8 @@ const char *runScript(const char* script, bool isStringBuffer)
 	int s = 0;
 	const char *errMsg = NULL;
 	
-	//Patching dofile function & I/O module
-	char* patch = "dofile = System.doNotUse\n\
-			 io.open = System.doNotOpen\n\
-			 io.write = System.doNotWrite\n\
-			 io.close = System.doNotClose\n\
-			 io.read = System.doNotRead\n\
-			 io.seek = System.doNotSeek\n\
-			 io.size = System.doNotSize";
+	//Patching dofile function
+	char* patch = "dofile = System.doNotUse\n";
 	luaL_loadbuffer(L, patch, strlen(patch), NULL); 
 	lua_KFunction dofilecont = (lua_KFunction)(lua_gettop(L) - 1);
 	lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
