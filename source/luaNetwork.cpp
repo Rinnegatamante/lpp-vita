@@ -87,8 +87,8 @@ static struct hostent *gethostbyname(const char *name)
 }
 
 static int lua_initFTP(lua_State *L) {
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	char vita_ip[16];
 	unsigned short int vita_port = 0;
 	if (ftpvita_init(vita_ip, &vita_port) < 0) return luaL_error(L, "cannot start FTP server (WiFi off?)");
@@ -200,7 +200,7 @@ static int lua_termSock(lua_State *L) {
 static int lua_createserver(lua_State *L) {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-		if (argc != 1 && argc != 2) return luaL_error(L, "Socket.createServerSocket(port) takes one argument.");
+	if (argc != 1 && argc != 2) return luaL_error(L, "Socket.createServerSocket(port) takes one argument.");
 	#endif
 	int port = luaL_checkinteger(L, 1);
 	int type = SCE_NET_IPPROTO_TCP;
@@ -212,7 +212,7 @@ static int lua_createserver(lua_State *L) {
 	if (type == SCE_NET_IPPROTO_TCP) my_socket->sock = sceNetSocket("Server Socket", SCE_NET_AF_INET, SCE_NET_SOCK_STREAM, 0);
 	else my_socket->sock = sceNetSocket("Server Socket", SCE_NET_AF_INET, SCE_NET_SOCK_DGRAM, SCE_NET_IPPROTO_UDP);
 	#ifndef SKIP_ERROR_HANDLING
-		if (my_socket->sock <= 0) return luaL_error(L, "invalid socket.");
+	if (my_socket->sock <= 0) return luaL_error(L, "invalid socket.");
 	#endif
 
 	int _true = 1;
@@ -228,7 +228,7 @@ static int lua_createserver(lua_State *L) {
 	
 	int err = sceNetBind(my_socket->sock, (SceNetSockaddr*)&addrTo, sizeof(addrTo));
 	#ifndef SKIP_ERROR_HANDLING
-		if (err != 0) return luaL_error(L, "bind error.");
+	if (err != 0) return luaL_error(L, "bind error.");
 	#endif
 
 	sceNetSetsockopt(my_socket->sock, SCE_NET_SOL_SOCKET, SCE_NET_SO_NBIO, &_true, sizeof(_true));
@@ -236,20 +236,20 @@ static int lua_createserver(lua_State *L) {
 	if (type == SCE_NET_IPPROTO_TCP){
 		err = sceNetListen(my_socket->sock, 1);
 		#ifndef SKIP_ERROR_HANDLING
-			if (err != 0) return luaL_error(L, "listen error.");
+		if (err != 0) return luaL_error(L, "listen error.");
 		#endif
 	}
 	
 	my_socket->magic = 0xDEADDEAD;
 	lua_pushinteger(L,(uint32_t)my_socket);
-return 1;
+	return 1;
 }
 
 static int lua_send(lua_State *L)
 {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING	
-		if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	
 	Socket* my_socket = (Socket*)luaL_checkinteger(L, 1);
@@ -257,9 +257,9 @@ static int lua_send(lua_State *L)
 	char* text = (char*)luaL_checklstring(L, 2, &size);
 
 	#ifndef SKIP_ERROR_HANDLING
-		if (my_socket->magic != 0xDEADDEAD) return luaL_error(L, "attempt to access wrong memory block type");
-		if (my_socket->serverSocket) return luaL_error(L, "send not allowed for server sockets.");
-		if (!text) return luaL_error(L, "Socket.send() expected a string.");
+	if (my_socket->magic != 0xDEADDEAD) return luaL_error(L, "attempt to access wrong memory block type");
+	if (my_socket->serverSocket) return luaL_error(L, "send not allowed for server sockets.");
+	if (!text) return luaL_error(L, "Socket.send() expected a string.");
 	#endif
 	
 	int result = sceNetSend(my_socket->sock, text, size, 0);
@@ -271,15 +271,15 @@ static int lua_recv(lua_State *L)
 {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-		if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	
 	Socket* my_socket = (Socket*)luaL_checkinteger(L, 1);
 	uint32_t size = luaL_checkinteger(L, 2);
 	
 	#ifndef SKIP_ERROR_HANDLING
-		if (my_socket->magic != 0xDEADDEAD) return luaL_error(L, "attempt to access wrong memory block type");			
-		if (my_socket->serverSocket) return luaL_error(L, "recv not allowed for server sockets.");
+	if (my_socket->magic != 0xDEADDEAD) return luaL_error(L, "attempt to access wrong memory block type");			
+	if (my_socket->serverSocket) return luaL_error(L, "recv not allowed for server sockets.");
 	#endif
 
 	char* data = (char*)malloc(size);
@@ -294,14 +294,14 @@ static int lua_accept(lua_State *L)
 {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-		if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	
 	Socket* my_socket = (Socket*)luaL_checkinteger(L, 1);
 	
 	#ifndef SKIP_ERROR_HANDLING
-		if (my_socket->magic != 0xDEADDEAD) return luaL_error(L, "attempt to access wrong memory block type");
-		if (!my_socket->serverSocket) return luaL_error(L, "accept allowed for server sockets only.");
+	if (my_socket->magic != 0xDEADDEAD) return luaL_error(L, "attempt to access wrong memory block type");
+	if (!my_socket->serverSocket) return luaL_error(L, "accept allowed for server sockets only.");
 	#endif
 
 	SceNetSockaddrIn addrAccept;
@@ -324,13 +324,13 @@ static int lua_closeSock(lua_State *L)
 {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-		if (argc != 1) return luaL_error(L, "Socket.close() takes one argument.");
+	if (argc != 1) return luaL_error(L, "Socket.close() takes one argument.");
 	#endif
 	
 	Socket* my_socket = (Socket*)luaL_checkinteger(L, 1);
 	
 	#ifndef SKIP_ERROR_HANDLING
-		if (my_socket->magic != 0xDEADDEAD) return luaL_error(L, "attempt to access wrong memory block type");
+	if (my_socket->magic != 0xDEADDEAD) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
 	
 	sceNetSocketClose(my_socket->sock);
@@ -342,7 +342,7 @@ static int lua_connect(lua_State *L)
 {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-		if (argc != 2 && argc != 3)  return luaL_error(L, "wrong number of arguments");
+	if (argc != 2 && argc != 3)  return luaL_error(L, "wrong number of arguments");
 	#endif
 	
 	// Getting arguments
@@ -362,10 +362,10 @@ static int lua_connect(lua_State *L)
 	if (type == SCE_NET_IPPROTO_TCP) my_socket->sock = sceNetSocket("Socket", SCE_NET_AF_INET, SCE_NET_SOCK_STREAM, 0);
 	else my_socket->sock = sceNetSocket("Socket", SCE_NET_AF_INET, SCE_NET_SOCK_DGRAM, SCE_NET_IPPROTO_UDP);
 	#ifndef SKIP_ERROR_HANDLING
-		if (my_socket->sock < 0){
-			free(my_socket);
-			return luaL_error(L, "Failed creating socket.");
-		}
+	if (my_socket->sock < 0){
+		free(my_socket);
+		return luaL_error(L, "Failed creating socket.");
+	}
 	#endif
 	
 	// Resolving host
@@ -379,11 +379,11 @@ static int lua_connect(lua_State *L)
 	if (type == SCE_NET_IPPROTO_TCP){
 		int res = sceNetConnect(my_socket->sock, (SceNetSockaddr*)&addrTo, sizeof(SceNetSockaddrIn));
 		#ifndef SKIP_ERROR_HANDLING
-			if(res < 0){
-				sceNetSocketClose(my_socket->sock);
-				free(my_socket);
-				return luaL_error(L, "Failed connecting to the server.");
-			}
+		if(res < 0){
+			sceNetSocketClose(my_socket->sock);
+			free(my_socket);
+			return luaL_error(L, "Failed connecting to the server.");
+		}
 		#endif
 	}
 	
@@ -397,25 +397,25 @@ static int lua_connect(lua_State *L)
 
 //Register our Network Functions
 static const luaL_Reg Network_functions[] = {
-  {"initFTP",				lua_initFTP},
-  {"termFTP",				lua_termFTP},
-  {"getIPAddress",			lua_getip},
-  {"getMacAddress",			lua_getmac},
-  {"isWifiEnabled",			lua_wifi},
-  {"getWifiLevel",			lua_wifilv},
+  {"initFTP",        lua_initFTP},
+  {"termFTP",        lua_termFTP},
+  {"getIPAddress",   lua_getip},
+  {"getMacAddress",  lua_getmac},
+  {"isWifiEnabled",  lua_wifi},
+  {"getWifiLevel",   lua_wifilv},
   {0, 0}
 };
 
 //Register our Socket Functions
 static const luaL_Reg Socket_functions[] = {
-  {"init",					lua_initSock},
-  {"term",					lua_termSock},
-  {"createServerSocket",	lua_createserver},
-  {"send",					lua_send},
-  {"receive",				lua_recv},
-  {"accept",				lua_accept},
-  {"close",					lua_closeSock},
-  {"connect",				lua_connect},
+  {"init",               lua_initSock},
+  {"term",               lua_termSock},
+  {"createServerSocket", lua_createserver},
+  {"send",               lua_send},
+  {"receive",            lua_recv},
+  {"accept",             lua_accept},
+  {"close",              lua_closeSock},
+  {"connect",            lua_connect},
   {0, 0}
 };
 

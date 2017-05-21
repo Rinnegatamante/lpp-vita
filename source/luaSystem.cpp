@@ -3,17 +3,17 @@
 #------  This File is Part Of : ----------------------------------------------------------------------------------------#
 #------- _  -------------------  ______   _   --------------------------------------------------------------------------#
 #------ | | ------------------- (_____ \ | |  --------------------------------------------------------------------------#
-#------ | | ---  _   _   ____    _____) )| |  ____  _   _   ____   ____   ----------------------------------------------#
+#------ | | ---  _   _   ____	_____) )| |  ____  _   _   ____   ____   ----------------------------------------------#
 #------ | | --- | | | | / _  |  |  ____/ | | / _  || | | | / _  ) / ___)  ----------------------------------------------#
-#------ | |_____| |_| |( ( | |  | |      | |( ( | || |_| |( (/ / | |  --------------------------------------------------#
-#------ |_______)\____| \_||_|  |_|      |_| \_||_| \__  | \____)|_|  --------------------------------------------------#
+#------ | |_____| |_| |( ( | |  | |	  | |( ( | || |_| |( (/ / | |  --------------------------------------------------#
+#------ |_______)\____| \_||_|  |_|	  |_| \_||_| \__  | \____)|_|  --------------------------------------------------#
 #------------------------------------------------- (____/  -------------------------------------------------------------#
 #------------------------   ______   _   -------------------------------------------------------------------------------#
 #------------------------  (_____ \ | |  -------------------------------------------------------------------------------#
 #------------------------   _____) )| | _   _   ___   ------------------------------------------------------------------#
 #------------------------  |  ____/ | || | | | /___)  ------------------------------------------------------------------#
-#------------------------  | |      | || |_| ||___ |  ------------------------------------------------------------------#
-#------------------------  |_|      |_| \____|(___/   ------------------------------------------------------------------#
+#------------------------  | |	  | || |_| ||___ |  ------------------------------------------------------------------#
+#------------------------  |_|	  |_| \____|(___/   ------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Licensed under the GPL License --------------------------------------------------------------------------------------#
@@ -48,11 +48,10 @@ uint32_t SET = SEEK_SET;
 uint32_t CUR = SEEK_CUR;
 uint32_t END = SEEK_END;
 
-static int lua_dofile(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_dofile(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	char* file = (char*)luaL_checkstring(L,1);
 	unsigned char* buffer;
@@ -73,11 +72,10 @@ static int lua_dofile(lua_State *L)
 	return (int)dofilecont;
 }
 
-static int lua_launch(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_launch(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	char* file = (char*)luaL_checkstring(L,1);
 	unsigned char* buffer;
@@ -90,27 +88,25 @@ static int lua_launch(lua_State *L)
 	return 0;
 }
 
-static int lua_openfile(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_openfile(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *file_tbo = luaL_checkstring(L, 1);
 	int type = luaL_checkinteger(L, 2);
 	SceUID fileHandle = sceIoOpen(file_tbo, type, 0777);
 	#ifndef SKIP_ERROR_HANDLING
-    if (fileHandle < 0) return luaL_error(L, "cannot open requested file.");
+	if (fileHandle < 0) return luaL_error(L, "cannot open requested file.");
 	#endif
 	lua_pushinteger(L,fileHandle);
 	return 1;
 }
 
-static int lua_readfile(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_readfile(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceUID file = luaL_checkinteger(L, 1);
 	uint32_t size = luaL_checkinteger(L, 2);
@@ -122,11 +118,10 @@ static int lua_readfile(lua_State *L)
 	return 1;
 }
 
-static int lua_writefile(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_writefile(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 3) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	const char *text = luaL_checkstring(L, 2);
@@ -135,22 +130,20 @@ static int lua_writefile(lua_State *L)
 	return 0;
 }
 
-static int lua_closefile(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_closefile(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	sceIoClose(fileHandle);
 	return 0;
 }
 
-static int lua_seekfile(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_seekfile(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 3) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	int pos = luaL_checkinteger(L, 2);
@@ -159,11 +152,10 @@ static int lua_seekfile(lua_State *L)
 	return 0;
 }
 
-static int lua_sizefile(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_sizefile(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	uint32_t cur_off = sceIoLseek(fileHandle, 0, SEEK_CUR);
@@ -173,11 +165,10 @@ static int lua_sizefile(lua_State *L)
 	return 1;
 }
 
-static int lua_checkexist(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_checkexist(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *file_tbo = luaL_checkstring(L, 1);
 	SceUID fileHandle = sceIoOpen(file_tbo, SCE_O_RDONLY, 0777);
@@ -189,11 +180,10 @@ static int lua_checkexist(lua_State *L)
 	return 1;
 }
 
-static int lua_rename(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_rename(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *old_file = luaL_checkstring(L, 1);
 	const char *new_file = luaL_checkstring(L, 2);
@@ -201,44 +191,40 @@ static int lua_rename(lua_State *L)
 	return 0;
 }
 
-static int lua_removef(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_removef(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *old_file = luaL_checkstring(L, 1);
 	sceIoRemove(old_file);
 	return 0;
 }
 
-static int lua_removef2(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_removef2(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *old_file = luaL_checkstring(L, 1);
 	sceIoRmdir(old_file);
 	return 0;
 }
 
-static int lua_newdir(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_newdir(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *newdir = luaL_checkstring(L, 1);
 	sceIoMkdir(newdir, 0777);
 	return 0;
 }
 
-static int lua_exit(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_exit(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	char stringbuffer[256];
 	strcpy(stringbuffer,"lpp_shutdown");
@@ -246,22 +232,20 @@ static int lua_exit(lua_State *L)
 	return luaL_error(L, stringbuffer); //Fake LUA error
 }
 
-static int lua_wait(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_wait(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	int microsecs = luaL_checkinteger(L, 1);
 	sceKernelDelayThread(microsecs);
 	return 0;
 }
 
-static int lua_screenshot(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_screenshot(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1 && argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1 && argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *filename = luaL_checkstring(L, 1);
 	bool isJPG = (argc > 1) ? lua_toboolean(L, 2) : false;
@@ -322,8 +306,7 @@ static int lua_screenshot(lua_State *L)
 
 SceIoDirent g_dir;
 
-static int lua_dir(lua_State *L)
-{
+static int lua_dir(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0 && argc != 1) return luaL_error(L, "System.listDirectory([path]) takes zero or one argument");
@@ -356,8 +339,7 @@ static int lua_dir(lua_State *L)
 	return 1;  /* table is already on top */
 }
 
-static int lua_charging(lua_State *L)
-{
+static int lua_charging(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -366,8 +348,7 @@ static int lua_charging(lua_State *L)
 	return 1;
 }
 
-static int lua_percent(lua_State *L)
-{
+static int lua_percent(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -376,8 +357,7 @@ static int lua_percent(lua_State *L)
 	return 1;
 }
 
-static int lua_lifetime(lua_State *L)
-{
+static int lua_lifetime(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -386,8 +366,7 @@ static int lua_lifetime(lua_State *L)
 	return 1;
 }
 
-static int lua_nopower(lua_State *L)
-{
+static int lua_nopower(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -396,8 +375,7 @@ static int lua_nopower(lua_State *L)
 	return 0;
 }
 
-static int lua_setcpu(lua_State *L)
-{
+static int lua_setcpu(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
@@ -407,8 +385,7 @@ static int lua_setcpu(lua_State *L)
 	return 0;
 }
 
-static int lua_setbus(lua_State *L)
-{
+static int lua_setbus(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
@@ -418,8 +395,7 @@ static int lua_setbus(lua_State *L)
 	return 0;
 }
 
-static int lua_setgpu(lua_State *L)
-{
+static int lua_setgpu(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
@@ -429,8 +405,7 @@ static int lua_setgpu(lua_State *L)
 	return 0;
 }
 
-static int lua_setgpu2(lua_State *L)
-{
+static int lua_setgpu2(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
@@ -440,8 +415,7 @@ static int lua_setgpu2(lua_State *L)
 	return 0;
 }
 
-static int lua_getcpu(lua_State *L)
-{
+static int lua_getcpu(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -450,8 +424,7 @@ static int lua_getcpu(lua_State *L)
 	return 1;
 }
 
-static int lua_getbus(lua_State *L)
-{
+static int lua_getbus(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -460,8 +433,7 @@ static int lua_getbus(lua_State *L)
 	return 1;
 }
 
-static int lua_getgpu(lua_State *L)
-{
+static int lua_getgpu(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -470,8 +442,7 @@ static int lua_getgpu(lua_State *L)
 	return 1;
 }
 
-static int lua_getgpu2(lua_State *L)
-{
+static int lua_getgpu2(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -480,8 +451,7 @@ static int lua_getgpu2(lua_State *L)
 	return 1;
 }
 
-static int lua_gettime(lua_State *L)
-{
+static int lua_gettime(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -494,8 +464,7 @@ static int lua_gettime(lua_State *L)
 	return 3;
 }
 
-static int lua_getdate(lua_State *L)
-{
+static int lua_getdate(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -509,8 +478,7 @@ static int lua_getdate(lua_State *L)
 	return 4;
 }
 
-static int lua_nickname(lua_State *L)
-{
+static int lua_nickname(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -521,8 +489,7 @@ static int lua_nickname(lua_State *L)
 	return 1;
 }
 
-static int lua_lang(lua_State *L)
-{
+static int lua_lang(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -533,8 +500,7 @@ static int lua_lang(lua_State *L)
 	return 1;
 }
 
-static int lua_title(lua_State *L)
-{
+static int lua_title(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -545,8 +511,7 @@ static int lua_title(lua_State *L)
 	return 1;
 }
 
-static int lua_titleid(lua_State *L)
-{
+static int lua_titleid(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -557,8 +522,7 @@ static int lua_titleid(lua_State *L)
 	return 1;
 }
 
-static int lua_model(lua_State *L)
-{
+static int lua_model(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
@@ -696,11 +660,10 @@ static int lua_extractsfo(lua_State *L) {
 	}
 }
 
-static int lua_executeuri(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_executeuri(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *uri_string = luaL_checkstring(L, 1);
 	sceAppMgrLaunchAppByUri(0xFFFFF, uri_string);
@@ -711,47 +674,47 @@ static int lua_executeuri(lua_State *L)
 static const luaL_Reg System_functions[] = {
 
   // Dofile patched function
-  {"doNotUse",							lua_dofile},
+  {"doNotUse",                  lua_dofile},
   
-  {"openFile",							lua_openfile},
-  {"readFile",							lua_readfile},
-  {"writeFile",							lua_writefile},
-  {"closeFile",							lua_closefile},  
-  {"seekFile",							lua_seekfile},  
-  {"sizeFile",							lua_sizefile},  
-  {"doesFileExist",						lua_checkexist},
-  {"exit",								lua_exit},
-  {"rename",							lua_rename},
-  {"deleteFile",						lua_removef},
-  {"deleteDirectory",					lua_removef2},
-  {"createDirectory",					lua_newdir},
-  {"listDirectory",						lua_dir},
-  {"wait",								lua_wait},
-  {"isBatteryCharging",					lua_charging},
-  {"getBatteryPercentage",				lua_percent},
-  {"getBatteryLife",					lua_lifetime},
-  {"powerTick",							lua_nopower},
-  {"setCpuSpeed",						lua_setcpu},
-  {"getCpuSpeed",						lua_getcpu},
-  {"setBusSpeed",						lua_setbus},
-  {"getBusSpeed",						lua_getbus},
-  {"setGpuSpeed",						lua_setgpu},
-  {"getGpuSpeed",						lua_getgpu},
-  {"setGpuXbarSpeed",					lua_setgpu2},
-  {"getGpuXbarSpeed",					lua_getgpu2},
-  {"launchEboot",						lua_launch},
-  {"getTime",							lua_gettime},
-  {"getDate",							lua_getdate},
-  {"getUsername",						lua_nickname},
-  {"getLanguage",						lua_lang},
-  {"getModel",							lua_model},
-  {"getTitle",							lua_title},
-  {"getTitleID",						lua_titleid},
-  {"extractSFO",						lua_extractsfo},
-  {"extractZIP",						lua_ZipExtract},
-  {"extractFromZIP",					lua_getfilefromzip},
-  {"takeScreenshot",					lua_screenshot},
-  {"executeUri",					lua_executeuri},	
+  {"openFile",                  lua_openfile},
+  {"readFile",                  lua_readfile},
+  {"writeFile",                 lua_writefile},
+  {"closeFile",                 lua_closefile},  
+  {"seekFile",                  lua_seekfile},  
+  {"sizeFile",                  lua_sizefile},  
+  {"doesFileExist",             lua_checkexist},
+  {"exit",                      lua_exit},
+  {"rename",                    lua_rename},
+  {"deleteFile",                lua_removef},
+  {"deleteDirectory",           lua_removef2},
+  {"createDirectory",           lua_newdir},
+  {"listDirectory",             lua_dir},
+  {"wait",                      lua_wait},
+  {"isBatteryCharging",         lua_charging},
+  {"getBatteryPercentage",      lua_percent},
+  {"getBatteryLife",            lua_lifetime},
+  {"powerTick",                 lua_nopower},
+  {"setCpuSpeed",               lua_setcpu},
+  {"getCpuSpeed",               lua_getcpu},
+  {"setBusSpeed",               lua_setbus},
+  {"getBusSpeed",               lua_getbus},
+  {"setGpuSpeed",               lua_setgpu},
+  {"getGpuSpeed",               lua_getgpu},
+  {"setGpuXbarSpeed",           lua_setgpu2},
+  {"getGpuXbarSpeed",           lua_getgpu2},
+  {"launchEboot",               lua_launch},
+  {"getTime",                   lua_gettime},
+  {"getDate",                   lua_getdate},
+  {"getUsername",               lua_nickname},
+  {"getLanguage",               lua_lang},
+  {"getModel",                  lua_model},
+  {"getTitle",                  lua_title},
+  {"getTitleID",                lua_titleid},
+  {"extractSFO",                lua_extractsfo},
+  {"extractZIP",                lua_ZipExtract},
+  {"extractFromZIP",            lua_getfilefromzip},
+  {"takeScreenshot",            lua_screenshot},
+  {"executeUri",                lua_executeuri},	
   {0, 0}
 };
 

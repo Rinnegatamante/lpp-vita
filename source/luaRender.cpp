@@ -103,11 +103,10 @@ struct model{
 	GLuint glTexture[1];
 };
 
-static int lua_init(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_init(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 3) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 3) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	uint32_t w = luaL_checkinteger(L, 1);
 	uint32_t h = luaL_checkinteger(L, 2);
@@ -128,31 +127,28 @@ static int lua_init(lua_State *L)
 	return 0;
 }
 
-static int lua_initblend(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_initblend(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return 0;
 }
 
-static int lua_termblend(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_termblend(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	vglSwap();
 	return 0;
 }
 
-static int lua_term(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_term(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	vglClose();
 	return 0;
@@ -160,7 +156,7 @@ static int lua_term(lua_State *L)
 
 static int lua_newVertex(lua_State *L){
 	int argc = lua_gettop(L);
-    #ifndef SKIP_ERROR_HANDLING
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 8) return luaL_error(L, "wrong number of arguments");
 	#endif
 	vertex* res = (vertex*)malloc(sizeof(vertex));
@@ -178,7 +174,7 @@ static int lua_newVertex(lua_State *L){
 
 static int lua_loadmodel(lua_State *L){
 	int argc = lua_gettop(L);
-    #ifndef SKIP_ERROR_HANDLING
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	luaL_checktype(L, 1, LUA_TTABLE);
@@ -236,8 +232,8 @@ static int lua_loadmodel(lua_State *L){
 
 static int lua_loadobj(lua_State *L){
 	int argc = lua_gettop(L);
-    #ifndef SKIP_ERROR_HANDLING
-		if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *file_tbo = luaL_checkstring(L, 1); //Model filename
 	const char* text = luaL_checkstring(L, 2); // Texture filename
@@ -505,7 +501,7 @@ static int lua_loadobj(lua_State *L){
 
 static int lua_unloadmodel(lua_State *L){
 	int argc = lua_gettop(L);
-    #ifndef SKIP_ERROR_HANDLING
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	model* mdl = (model*)luaL_checkinteger(L, 1);
@@ -526,7 +522,7 @@ static int lua_unloadmodel(lua_State *L){
 
 static int lua_delVertex(lua_State *L){
 	int argc = lua_gettop(L);
-    #ifndef SKIP_ERROR_HANDLING
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	vertex* v = (vertex*)luaL_checkinteger(L, 1);
@@ -536,7 +532,7 @@ static int lua_delVertex(lua_State *L){
 
 static int lua_drawmodel(lua_State *L){
 	int argc = lua_gettop(L);
-    #ifndef SKIP_ERROR_HANDLING
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 6) return luaL_error(L, "wrong number of arguments");
 	#endif
 	model* mdl = (model*)luaL_checkinteger(L, 1);
@@ -569,16 +565,16 @@ static int lua_drawmodel(lua_State *L){
 
 //Register our Render Functions
 static const luaL_Reg Render_functions[] = {
-	{"init",							lua_init},
-	{"term",							lua_term},
-	{"initBlend",						lua_initblend},
-	{"termBlend",						lua_termblend},
-	{"createVertex",					lua_newVertex},
-	{"destroyVertex",					lua_delVertex},
-	{"loadModel",						lua_loadmodel},
-	{"loadObject",						lua_loadobj},
-	{"unloadModel",						lua_unloadmodel},
-	{"drawModel",						lua_drawmodel},
+	{"init",           lua_init},
+	{"term",           lua_term},
+	{"initBlend",      lua_initblend},
+	{"termBlend",      lua_termblend},
+	{"createVertex",   lua_newVertex},
+	{"destroyVertex",  lua_delVertex},
+	{"loadModel",      lua_loadmodel},
+	{"loadObject",     lua_loadobj},
+	{"unloadModel",    lua_unloadmodel},
+	{"drawModel",      lua_drawmodel},
 	{0, 0}
 };
 

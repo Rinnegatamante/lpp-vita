@@ -204,10 +204,11 @@ static int audioThread(unsigned int args, void* arg){
 	
 }
 
-static int lua_init(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+static int lua_init(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
 	
 	if (!initialized){
 	
@@ -228,10 +229,11 @@ static int lua_init(lua_State *L)
 	return 0;
 }
 
-static int lua_term(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+static int lua_term(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
 	
 	if (initialized){
 		
@@ -251,30 +253,33 @@ static int lua_term(lua_State *L)
 	return 0;
 }
 
-static int lua_closesong(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_closesong(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	mus->closeTrigger = true;
 	mus->pauseTrigger = true;
 	return 0;
 }
 
-static int lua_pause(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_pause(lua_State *L){
+	#ifndef SKIP_ERROR_HANDLING
+	int argc = lua_gettop(L);
+	#endif
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	if (mus->isPlaying) mus->pauseTrigger = true;
-	
+
 	return 0;
 }
 
-static int lua_setvol(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+static int lua_setvol(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	int vol = luaL_checkinteger(L, 2);
 	vol = (vol < 0) ? 0 : ((vol > 32767) ? 32767 : vol);
@@ -282,38 +287,42 @@ static int lua_setvol(lua_State *L)
 	return 0;
 }
 
-static int lua_getvol(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_getvol(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	lua_pushinteger(L, mus->volume);
 	return 1;
 }
 
-static int lua_isplaying(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_isplaying(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	lua_pushboolean(L,mus->isPlaying);	
 	return 1;
 }
 
-static int lua_resume(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_resume(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	if (!mus->isPlaying) mus->pauseTrigger = true;
 	
 	return 0;
 }
 
-static int lua_openMp3(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_openMp3(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
 	const char* path = luaL_checkstring(L, 1);
 	
 	// Opening file and checking for magic
@@ -335,10 +344,11 @@ static int lua_openMp3(lua_State *L)
 	return 1;
 }
 
-static int lua_openMidi(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_openMidi(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
 	const char* path = luaL_checkstring(L, 1);
 	
 	// Opening file and checking for magic
@@ -360,10 +370,11 @@ static int lua_openMidi(lua_State *L)
 	return 1;
 }
 
-static int lua_openOgg(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_openOgg(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
 	const char* path = luaL_checkstring(L, 1);
 	
 	// Opening file and checking for magic
@@ -385,10 +396,11 @@ static int lua_openOgg(lua_State *L)
 	return 1;
 }
 
-static int lua_openWav(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+static int lua_openWav(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
 	const char* path = luaL_checkstring(L, 1);
 	
 	// Opening file and checking for magic
@@ -410,10 +422,11 @@ static int lua_openWav(lua_State *L)
 	return 1;
 }
 
-static int lua_play(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+static int lua_play(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	bool loop = lua_toboolean(L, 2);
 	
@@ -457,19 +470,19 @@ static int lua_play(lua_State *L)
 
 //Register our Sound Functions
 static const luaL_Reg Sound_functions[] = {
-	{"init",						lua_init},
-	{"term",						lua_term},
-	{"openWav",						lua_openWav},
-	{"openMp3",						lua_openMp3},
-	{"openMidi",					lua_openMidi},
-	{"openOgg",						lua_openOgg},
-	{"play",						lua_play},
-	{"setVolume",					lua_setvol},
-	{"getVolume",					lua_getvol},
-	{"pause",						lua_pause},
-	{"resume",						lua_resume},
-	{"isPlaying",					lua_isplaying},
-	{"close",						lua_closesong},
+	{"init",         lua_init},
+	{"term",         lua_term},
+	{"openWav",      lua_openWav},
+	{"openMp3",      lua_openMp3},
+	{"openMidi",     lua_openMidi},
+	{"openOgg",      lua_openOgg},
+	{"play",         lua_play},
+	{"setVolume",    lua_setvol},
+	{"getVolume",    lua_getvol},
+	{"pause",        lua_pause},
+	{"resume",       lua_resume},
+	{"isPlaying",    lua_isplaying},
+	{"close",        lua_closesong},
 	{0, 0}
 };
 

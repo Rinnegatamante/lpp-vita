@@ -51,9 +51,8 @@ extern bool keyboardStarted;
 bool draw_state = false;
 #endif
 
-static int lua_print(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_print(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
     if (argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments.");
 	#endif
@@ -70,17 +69,16 @@ static int lua_print(lua_State *L)
 	return 0;
 }
 
-static int lua_pixel(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_pixel(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state && argc == 3) return luaL_error(L, "drawPixel can't be called outside a blending phase for on screen drawing.");
 	#endif
 	float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
+	float y = luaL_checknumber(L, 2);
 	uint32_t color = luaL_checkinteger(L, 3);
 	if (argc == 3) vita2d_draw_pixel(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	else{
@@ -97,19 +95,18 @@ static int lua_pixel(lua_State *L)
 	return 0;
 }
 
-static int lua_rect(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_rect(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 5) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawRect can't be called outside a blending phase.");
 	#endif
 	float x1 = luaL_checknumber(L, 1);
-    float x2 = luaL_checknumber(L, 2);
+	float x2 = luaL_checknumber(L, 2);
 	float y1 = luaL_checknumber(L, 3);
-    float y2 = luaL_checknumber(L, 4);
+	float y2 = luaL_checknumber(L, 4);
 	int color = luaL_checkinteger(L,5);
 	if (x2 < x1){
 		int tmp = x2;
@@ -125,19 +122,18 @@ static int lua_rect(lua_State *L)
 	return 0;
 }
 
-static int lua_emptyrect(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_emptyrect(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 5) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawEmptyRect can't be called outside a blending phase.");
 	#endif
 	float x1 = luaL_checknumber(L, 1);
-    float x2 = luaL_checknumber(L, 2);
+	float x2 = luaL_checknumber(L, 2);
 	float y1 = luaL_checknumber(L, 3);
-    float y2 = luaL_checknumber(L, 4);
+	float y2 = luaL_checknumber(L, 4);
 	int color = luaL_checkinteger(L,5);
 	if (x2 < x1){
 		int tmp = x2;
@@ -156,19 +152,18 @@ static int lua_emptyrect(lua_State *L)
 	return 0;
 }
 
-static int lua_line(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_line(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 5) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawLine can't be called outside a blending phase.");
 	#endif
 	float x1 = luaL_checknumber(L, 1);
-    float x2 = luaL_checknumber(L, 2);
+	float x2 = luaL_checknumber(L, 2);
 	float y1 = luaL_checknumber(L, 3);
-    float y2 = luaL_checknumber(L, 4);
+	float y2 = luaL_checknumber(L, 4);
 	if (x2 < x1){
 		int tmp = x2;
 		x2 = x1;
@@ -184,17 +179,16 @@ static int lua_line(lua_State *L)
 	return 0;
 }
 
-static int lua_circle(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_circle(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 4) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 4) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawCircle can't be called outside a blending phase.");
 	#endif
 	float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
+	float y = luaL_checknumber(L, 2);
 	float radius = luaL_checknumber(L, 3);
 	int color = luaL_checkinteger(L,4);
 	vita2d_draw_fill_circle(x, y, radius, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
@@ -202,38 +196,37 @@ static int lua_circle(lua_State *L)
 }
 
 static int lua_init(lua_State *L) {
-    int argc = lua_gettop(L);
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	#ifdef PARANOID
 	if (draw_state) return luaL_error(L, "initBlend can't be called inside a blending phase.");
 	else draw_state = true;
 	#endif
-    vita2d_start_drawing();
+	vita2d_start_drawing();
     return 0;
 }
 
 static int lua_term(lua_State *L) {
-    int argc = lua_gettop(L);
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "termBlend can't be called outside a blending phase.");
 	else draw_state = false;
 	#endif
-    vita2d_end_drawing();
+	vita2d_end_drawing();
 	if (keyboardStarted) vita2d_common_dialog_update();
 	vita2d_wait_rendering_done();
     return 0;
 }
 
-static int lua_loadimg(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_loadimg(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	char* text = (char*)(luaL_checkstring(L, 1));
 	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
@@ -251,21 +244,20 @@ static int lua_loadimg(lua_State *L)
 	texture* ret = (texture*)malloc(sizeof(texture));
 	ret->magic = 0xABADBEEF;
 	ret->text = result;
-    lua_pushinteger(L, (uint32_t)(ret));
+	lua_pushinteger(L, (uint32_t)(ret));
 	return 1;
 }
 
-static int lua_drawimg(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_drawimg(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments");
+	if (argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawImage can't be called outside a blending phase.");
 	#endif
 	float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
+	float y = luaL_checknumber(L, 2);
 	texture* text = (texture*)(luaL_checkinteger(L, 3));
 	#ifndef SKIP_ERROR_HANDLING
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
@@ -277,17 +269,16 @@ static int lua_drawimg(lua_State *L)
 	return 0;
 }
 
-static int lua_drawimg_rotate(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_drawimg_rotate(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments");
+	if (argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawRotateImage can't be called outside a blending phase.");
 	#endif
 	float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
+	float y = luaL_checknumber(L, 2);
 	texture* text = (texture*)(luaL_checkinteger(L, 3));
 	float radius = luaL_checknumber(L, 4);
 	#ifndef SKIP_ERROR_HANDLING
@@ -300,20 +291,19 @@ static int lua_drawimg_rotate(lua_State *L)
 	return 0;
 }
 
-static int lua_drawimg_scale(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_drawimg_scale(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 5 && argc != 6) return luaL_error(L, "wrong number of arguments");
+	if (argc != 5 && argc != 6) return luaL_error(L, "wrong number of arguments");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawScaleImage can't be called outside a blending phase.");
 	#endif
 	float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
+	float y = luaL_checknumber(L, 2);
 	texture* text = (texture*)(luaL_checkinteger(L, 3));
 	float x_scale = luaL_checknumber(L, 4);
-    float y_scale = luaL_checknumber(L, 5);
+	float y_scale = luaL_checknumber(L, 5);
 	#ifndef SKIP_ERROR_HANDLING
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
 	#endif
@@ -324,21 +314,20 @@ static int lua_drawimg_scale(lua_State *L)
 	return 0;
 }
 
-static int lua_drawimg_part(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_drawimg_part(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 7 && argc != 8) return luaL_error(L, "wrong number of arguments");
+	if (argc != 7 && argc != 8) return luaL_error(L, "wrong number of arguments");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawPartialImage can't be called outside a blending phase.");
 	#endif
 	float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
+	float y = luaL_checknumber(L, 2);
 	int st_x = luaL_checkinteger(L, 3);
-    int st_y = luaL_checkinteger(L, 4);
+	int st_y = luaL_checkinteger(L, 4);
 	float width = luaL_checknumber(L, 5);
-    float height = luaL_checknumber(L, 6);
+	float height = luaL_checknumber(L, 6);
 	texture* text = (texture*)(luaL_checkinteger(L, 7));
 	#ifndef SKIP_ERROR_HANDLING
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
@@ -350,24 +339,23 @@ static int lua_drawimg_part(lua_State *L)
 	return 0;
 }
 
-static int lua_drawimg_full(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_drawimg_full(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 11 && argc != 10) return luaL_error(L, "wrong number of arguments");
+	if (argc != 11 && argc != 10) return luaL_error(L, "wrong number of arguments");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "drawImageExtended can't be called outside a blending phase.");
 	#endif
 	float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
+	float y = luaL_checknumber(L, 2);
 	int st_x = luaL_checkinteger(L, 3);
-    int st_y = luaL_checkinteger(L, 4);
+	int st_y = luaL_checkinteger(L, 4);
 	float width = luaL_checknumber(L, 5);
-    float height = luaL_checknumber(L, 6);
+	float height = luaL_checknumber(L, 6);
 	float radius = luaL_checknumber(L, 7);
 	float x_scale = luaL_checknumber(L, 8);
-    float y_scale = luaL_checknumber(L, 9);
+	float y_scale = luaL_checknumber(L, 9);
 	texture* text = (texture*)(luaL_checkinteger(L, 10));
 	#ifndef SKIP_ERROR_HANDLING
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
@@ -379,11 +367,10 @@ static int lua_drawimg_full(lua_State *L)
 	return 0;
 }
 
-static int lua_width(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_width(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	texture* text = (texture*)(luaL_checkinteger(L, 1));
 	#ifndef SKIP_ERROR_HANDLING
@@ -393,11 +380,10 @@ static int lua_width(lua_State *L)
 	return 1;
 }
 
-static int lua_height(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_height(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	texture* text = (texture*)(luaL_checkinteger(L, 1));
 	#ifndef SKIP_ERROR_HANDLING
@@ -407,11 +393,10 @@ static int lua_height(lua_State *L)
 	return 1;
 }
 
-static int lua_free(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_free(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	texture* text = (texture*)(luaL_checkinteger(L, 1));
 	#ifndef SKIP_ERROR_HANDLING
@@ -422,14 +407,13 @@ static int lua_free(lua_State *L)
 	return 0;
 }
 
-static int lua_createimage(lua_State *L)
-{
-    int argc = lua_gettop(L);
+static int lua_createimage(lua_State *L){
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	int w = luaL_checkinteger(L, 1);
-    int h = luaL_checkinteger(L, 2);
+	int h = luaL_checkinteger(L, 2);
 	texture* text = (texture*)malloc(sizeof(texture));
 	text->magic = 0xABADBEEF;
 	text->text = vita2d_create_empty_texture(w, h);
@@ -438,9 +422,9 @@ static int lua_createimage(lua_State *L)
 }
 
 static int lua_loadFont(lua_State *L) {
-    int argc = lua_gettop(L);
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	char* text = (char*)(luaL_checkstring(L, 1));
 	ttf* result = (ttf*)malloc(sizeof(ttf));
@@ -454,13 +438,13 @@ static int lua_loadFont(lua_State *L) {
 	#endif
 	result->magic = 0x4C464E54;
 	lua_pushinteger(L,(uint32_t)result);
-    return 1;
+	return 1;
 }
 
 static int lua_fsize(lua_State *L) {
-    int argc = lua_gettop(L);
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
 	int size = luaL_checkinteger(L,2);
@@ -468,13 +452,13 @@ static int lua_fsize(lua_State *L) {
 		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
 	font->size = size;
-    return 0;
+	return 0;
 }
 
 static int lua_unloadFont(lua_State *L) {
-    int argc = lua_gettop(L);
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
 	#ifndef SKIP_ERROR_HANDLING
@@ -482,58 +466,58 @@ static int lua_unloadFont(lua_State *L) {
 	#endif
 	vita2d_free_font(font->f);
 	free(font);
-    return 0;
+	return 0;
 }
 
 static int lua_fprint(lua_State *L) {
-    int argc = lua_gettop(L);
+	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 5) return luaL_error(L, "wrong number of arguments");
+	if (argc != 5) return luaL_error(L, "wrong number of arguments");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "print can't be called outside a blending phase.");
 	#endif
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
 	float x = luaL_checknumber(L, 2);
-    float y = luaL_checknumber(L, 3);
+	float y = luaL_checknumber(L, 3);
 	char* text = (char*)(luaL_checkstring(L, 4));
 	uint32_t color = luaL_checkinteger(L,5);
 	#ifndef SKIP_ERROR_HANDLING
 		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
 	vita2d_font_draw_text(font->f, x, y + font->size, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
-    return 0;
+	return 0;
 }
 
 //Register our Graphics Functions
 static const luaL_Reg Graphics_functions[] = {
-  {"initBlend",							lua_init},
-  {"termBlend",							lua_term},
-  {"debugPrint",						lua_print},
-  {"drawPixel",							lua_pixel},
-  {"drawLine",							lua_line},
-  {"fillRect",							lua_rect},
-  {"fillEmptyRect",						lua_emptyrect},
-  {"fillCircle",						lua_circle},
-  {"loadImage",							lua_loadimg},
-  {"drawImage",							lua_drawimg},
-  {"drawRotateImage",					lua_drawimg_rotate},
-  {"drawScaleImage",					lua_drawimg_scale},
-  {"drawPartialImage",					lua_drawimg_part},
-  {"drawImageExtended",					lua_drawimg_full},
-  {"createImage",						lua_createimage},
-  {"getImageWidth",						lua_width},
-  {"getImageHeight",					lua_height},
-  {"freeImage",							lua_free},
+  {"initBlend",           lua_init},
+  {"termBlend",           lua_term},
+  {"debugPrint",          lua_print},
+  {"drawPixel",           lua_pixel},
+  {"drawLine",            lua_line},
+  {"fillRect",            lua_rect},
+  {"fillEmptyRect",       lua_emptyrect},
+  {"fillCircle",          lua_circle},
+  {"loadImage",           lua_loadimg},
+  {"drawImage",           lua_drawimg},
+  {"drawRotateImage",     lua_drawimg_rotate},
+  {"drawScaleImage",      lua_drawimg_scale},
+  {"drawPartialImage",    lua_drawimg_part},
+  {"drawImageExtended",   lua_drawimg_full},
+  {"createImage",         lua_createimage},
+  {"getImageWidth",       lua_width},
+  {"getImageHeight",      lua_height},
+  {"freeImage",           lua_free},
   {0, 0}
 };
 
 //Register our Font Functions
 static const luaL_Reg Font_functions[] = {
-  {"load",					lua_loadFont}, 
-  {"print",					lua_fprint}, 
-  {"setPixelSizes",			lua_fsize}, 
-  {"unload",				lua_unloadFont}, 
+  {"load",            lua_loadFont}, 
+  {"print",           lua_fprint}, 
+  {"setPixelSizes",   lua_fsize}, 
+  {"unload",          lua_unloadFont}, 
   {0, 0}
 };
 

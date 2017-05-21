@@ -39,10 +39,9 @@
 
 SceCtrlActuator pad1, pad2;
 
-static int lua_readC(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
+static int lua_readC(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
 	int port = 0;
 	if (argc == 1) port = luaL_checkinteger(L, 1); 
 	SceCtrlData pad;
@@ -51,10 +50,9 @@ static int lua_readC(lua_State *L)
 	return 1;
 }
 
-static int lua_readleft(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
+static int lua_readleft(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
 	int port = 0;
 	if (argc == 1) port = luaL_checkinteger(L, 1); 
 	SceCtrlData pad;
@@ -64,10 +62,9 @@ static int lua_readleft(lua_State *L)
 	return 2;
 }
 
-static int lua_readright(lua_State *L)
-{
-    int argc = lua_gettop(L);
-    if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
+static int lua_readright(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
 	int port = 0;
 	if (argc == 1) port = luaL_checkinteger(L, 1); 
 	SceCtrlData pad;
@@ -77,18 +74,18 @@ static int lua_readright(lua_State *L)
 	return 2;
 }
 
-static int lua_check(lua_State *L)
-{
-	if (lua_gettop(L) != 2) return luaL_error(L, "wrong number of arguments.");
+static int lua_check(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 2) return luaL_error(L, "wrong number of arguments.");
 	int pad = luaL_checkinteger(L, 1);
 	int button = luaL_checkinteger(L, 2);
 	lua_pushboolean(L, (pad & button));
 	return 1;
 }
 
-static int lua_touchpad(lua_State *L)
-{
-	if (lua_gettop(L) != 0) return luaL_error(L, "wrong number of arguments.");
+static int lua_touchpad(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	SceTouchData touch;
 	sceTouchPeek(SCE_TOUCH_PORT_FRONT, &touch, 1);
 	for (SceUInt32 i=0;i<touch.reportNum;i++){
@@ -98,9 +95,9 @@ static int lua_touchpad(lua_State *L)
 	return touch.reportNum<<1;
 }
 
-static int lua_rumble(lua_State *L)
-{
-	if (lua_gettop(L) != 3) return luaL_error(L, "wrong number of arguments.");
+static int lua_rumble(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 3) return luaL_error(L, "wrong number of arguments.");
 	int port = luaL_checkinteger(L, 1);
 	uint8_t int_small = luaL_checkinteger(L, 2);
 	uint8_t int_large = luaL_checkinteger(L, 3);
@@ -123,9 +120,9 @@ static int lua_rumble(lua_State *L)
 	return 0;
 }
 
-static int lua_lightbar(lua_State *L)
-{
-	if (lua_gettop(L) != 2) return luaL_error(L, "wrong number of arguments.");
+static int lua_lightbar(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 2) return luaL_error(L, "wrong number of arguments.");
 	int port = luaL_checkinteger(L, 1);
 	uint32_t color = luaL_checkinteger(L, 2);
 	switch (port){
@@ -143,9 +140,9 @@ static int lua_lightbar(lua_State *L)
 	return 0;
 }
 
-static int lua_touchpad2(lua_State *L)
-{
-	if (lua_gettop(L) != 0) return luaL_error(L, "wrong number of arguments.");
+static int lua_touchpad2(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	SceTouchData touch;
 	sceTouchPeek(SCE_TOUCH_PORT_BACK, &touch, 1);
 	for (SceUInt32 i=0;i<touch.reportNum;i++){
@@ -157,14 +154,14 @@ static int lua_touchpad2(lua_State *L)
 
 //Register our Controls Functions
 static const luaL_Reg Controls_functions[] = {
-  {"read",								lua_readC},	
-  {"readLeftAnalog",					lua_readleft},	  
-  {"readRightAnalog",					lua_readright},	
-  {"rumble",							lua_rumble},
-  {"setLightbar",						lua_lightbar},
-  {"check",								lua_check},	
-  {"readTouch",							lua_touchpad},	
-  {"readRetroTouch",					lua_touchpad2},	
+  {"read",             lua_readC},	
+  {"readLeftAnalog",   lua_readleft},	  
+  {"readRightAnalog",  lua_readright},	
+  {"rumble",           lua_rumble},
+  {"setLightbar",      lua_lightbar},
+  {"check",            lua_check},	
+  {"readTouch",        lua_touchpad},	
+  {"readRetroTouch",   lua_touchpad2},	
   {0, 0}
 };
 
