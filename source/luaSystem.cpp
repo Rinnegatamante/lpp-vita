@@ -88,6 +88,22 @@ static int lua_launch(lua_State *L){
 	return 0;
 }
 
+static int lua_launch2(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments.");
+	#endif
+	char* titleid = (char*)luaL_checkstring(L,1);
+	char uri[32];
+	sprintf(uri, "psgm:play?titleid=%s", titleid);
+	int i;
+	for (i=0;i<2;i++){
+		sceKernelDelayThread(10000);
+		sceAppMgrLaunchAppByUri(0xFFFFF, uri);
+	}
+	return 0;
+}
+
 static int lua_openfile(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -703,6 +719,7 @@ static const luaL_Reg System_functions[] = {
   {"setGpuXbarSpeed",           lua_setgpu2},
   {"getGpuXbarSpeed",           lua_getgpu2},
   {"launchEboot",               lua_launch},
+  {"launchApp",                 lua_launch2},
   {"getTime",                   lua_gettime},
   {"getDate",                   lua_getdate},
   {"getUsername",               lua_nickname},
