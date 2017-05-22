@@ -152,6 +152,20 @@ static int lua_touchpad2(lua_State *L){
 	return touch.reportNum<<1;
 }
 
+static int lua_lock(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN | SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
+	return 0;
+}
+
+static int lua_unlock(lua_State *L){
+	int argc = lua_gettop(L);
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	sceShellUtilUnlock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN | SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
+	return 0;
+}
+
 //Register our Controls Functions
 static const luaL_Reg Controls_functions[] = {
   {"read",             lua_readC},	
@@ -162,6 +176,8 @@ static const luaL_Reg Controls_functions[] = {
   {"check",            lua_check},	
   {"readTouch",        lua_touchpad},	
   {"readRetroTouch",   lua_touchpad2},	
+  {"lockHomeButton",   lua_lock},	
+  {"unlockHomeButton", lua_unlock},	
   {0, 0}
 };
 

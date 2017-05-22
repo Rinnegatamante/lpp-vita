@@ -32,6 +32,7 @@ int main()
 	sceCommonDialogSetConfigParam(&(SceCommonDialogConfigParam){});
 	sceAppUtilMusicMount();
 	sceAppUtilPhotoMount();
+	sceShellUtilInitEvents(0);
 	
 	// Debug FTP stuffs
 	char vita_ip[16];

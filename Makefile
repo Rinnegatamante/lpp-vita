@@ -7,7 +7,7 @@ LIBS = -lTinyGL -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lvitashaders -lS
 	-lSceJpegEnc_stub -lSceAppMgr_stub -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
 	-lScePromoterUtil_stub -lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz \
-	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub
+	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub -lSceShellSvc_stub
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
