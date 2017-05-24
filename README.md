@@ -17,6 +17,8 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 ##### Graphics
 
 * Advanced 2D Graphics Rendering (GPU)
+* Basic 3D Graphics Rendering (GPU Soft-rendered)
+* Native support to 0BJ models
 * Native support to TTF fonts
 * Native support to BMP/PNG/JPG images
 
@@ -28,15 +30,19 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 * Controls system with full console support
 * Support to dualshock rumble feature for PSTV.
+* Support to home button locking/unlocking
 
 ##### Network
+
 * Built-in debug FTP server
 * Complete sockets system support
 
 ##### System
+
 * Access to a lot of Sony syscalls
 * I/O access for any filesystem
 * Native support to ZIP archives
+* Native support to SFO file descriptors
 
 ##### Utilities
 
