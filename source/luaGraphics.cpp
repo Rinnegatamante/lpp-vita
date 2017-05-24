@@ -215,7 +215,7 @@ static int lua_init(lua_State *L) {
 	else draw_state = true;
 	#endif
 	if (isRescaling) vita2d_start_drawing_advanced(scaler.fbo, VITA_2D_RESET_POOL | VITA_2D_SCENE_FRAGMENT_SET_DEPENDENCY);
-	else vita2d_start_drawing_advanced(NULL, VITA_2D_SCENE_VERTEX_WAIT_FOR_DEPENDENCY);
+	else vita2d_start_drawing();
     return 0;
 }
 
