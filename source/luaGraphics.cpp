@@ -45,7 +45,17 @@ struct texture{
 	vita2d_texture* text;
 };
 
+struct rescaler{
+	vita2d_texture* fbo;
+	int x;
+	int y;
+	float x_scale;
+	float y_scale;
+};
+
 extern bool keyboardStarted;
+bool isRescaling = false;
+rescaler scaler;
 
 #ifdef PARANOID
 bool draw_state = false;
@@ -204,7 +214,8 @@ static int lua_init(lua_State *L) {
 	if (draw_state) return luaL_error(L, "initBlend can't be called inside a blending phase.");
 	else draw_state = true;
 	#endif
-	vita2d_start_drawing();
+	if (isRescaling) vita2d_start_drawing_advanced(scaler.fbo, VITA_2D_RESET_POOL | VITA_2D_SCENE_FRAGMENT_SET_DEPENDENCY);
+	else vita2d_start_drawing_advanced(NULL, VITA_2D_SCENE_VERTEX_WAIT_FOR_DEPENDENCY);
     return 0;
 }
 
@@ -216,8 +227,13 @@ static int lua_term(lua_State *L) {
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "termBlend can't be called outside a blending phase.");
 	else draw_state = false;
-	#endif
+	#endif	
 	vita2d_end_drawing();
+	if (isRescaling){
+		vita2d_start_drawing_advanced(NULL, VITA_2D_SCENE_VERTEX_WAIT_FOR_DEPENDENCY);
+		vita2d_draw_texture_scale(scaler.fbo,scaler.x,scaler.y,scaler.x_scale,scaler.y_scale);
+		vita2d_end_drawing();
+	}
 	if (keyboardStarted) vita2d_common_dialog_update();
 	vita2d_wait_rendering_done();
     return 0;
@@ -237,7 +253,7 @@ static int lua_loadimg(lua_State *L){
 	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
 	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
 	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
-	else return luaL_error(L, "Error loading image.");
+	else return luaL_error(L, "Error loading image (invalid magic).");
 	#ifndef SKIP_ERROR_HANDLING
 	if (result == NULL) return luaL_error(L, "Error loading image.");
 	#endif
@@ -449,7 +465,7 @@ static int lua_fsize(lua_State *L) {
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
 	int size = luaL_checkinteger(L,2);
 	#ifndef SKIP_ERROR_HANDLING
-		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
 	font->size = size;
 	return 0;
@@ -462,7 +478,7 @@ static int lua_unloadFont(lua_State *L) {
 	#endif
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
 	#ifndef SKIP_ERROR_HANDLING
-		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
 	vita2d_free_font(font->f);
 	free(font);
@@ -483,9 +499,39 @@ static int lua_fprint(lua_State *L) {
 	char* text = (char*)(luaL_checkstring(L, 4));
 	uint32_t color = luaL_checkinteger(L,5);
 	#ifndef SKIP_ERROR_HANDLING
-		if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
 	vita2d_font_draw_text(font->f, x, y + font->size, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
+	return 0;
+}
+
+static int lua_rescaleron(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 4) return luaL_error(L, "wrong number of arguments");
+	if (isRescaling) return luaL_error(L, "cannot start two different rescalers together");
+	#endif
+	int x = luaL_checkinteger(L, 1);
+	int y = luaL_checkinteger(L, 2);
+	float x_scale = luaL_checknumber(L, 3);
+	float y_scale = luaL_checknumber(L, 4);
+	scaler.x = x;
+	scaler.y = y;
+	scaler.x_scale = x_scale;
+	scaler.y_scale = y_scale;
+	scaler.fbo = vita2d_create_empty_texture_format_advanced(960,544,SCE_GXM_TEXTURE_FORMAT_A8B8G8R8);
+	isRescaling = true;
+	return 0;
+}
+
+static int lua_rescaleroff(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!isRescaling) return luaL_error(L, "no rescaler available");
+	#endif
+	vita2d_free_texture(scaler.fbo);
+	isRescaling = false;
 	return 0;
 }
 
@@ -509,6 +555,8 @@ static const luaL_Reg Graphics_functions[] = {
   {"getImageWidth",       lua_width},
   {"getImageHeight",      lua_height},
   {"freeImage",           lua_free},
+  {"initRescaler",        lua_rescaleron},
+  {"termRescaler",        lua_rescaleroff},
   {0, 0}
 };
 
