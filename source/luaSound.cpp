@@ -451,12 +451,11 @@ static int lua_play(lua_State *L){
 	
 	// Wait till a thread is available
 	bool found = false;
-	while (!found){
-		for (int i=0; i<AUDIO_CHANNELS; i++){
-			found = availThreads[i];
-			if (found) break;
-		}
+	for (int i=0; i<AUDIO_CHANNELS; i++){
+		found = availThreads[i];
+		if (found) break;
 	}
+	if (!found) return 0;
 	
 	// Waiting till track slot is free
 	sceKernelWaitSema(NewTrack_Mutex, 1, NULL);
