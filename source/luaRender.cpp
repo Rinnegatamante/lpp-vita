@@ -36,15 +36,15 @@
 #include "include/math_utils.h"
 
 matrix4x4 _vita2d_projection_matrix;
-extern SceGxmContext *_vita2d_context;
-extern SceGxmVertexProgram *_vita2d_colorVertexProgram;
-extern SceGxmFragmentProgram *_vita2d_colorFragmentProgram;
-extern SceGxmVertexProgram *_vita2d_textureVertexProgram;
-extern SceGxmFragmentProgram *_vita2d_textureFragmentProgram;
-extern SceGxmFragmentProgram *_vita2d_textureTintFragmentProgram;
-extern const SceGxmProgramParameter *_vita2d_colorWvpParam;
-extern const SceGxmProgramParameter *_vita2d_textureWvpParam;
-extern SceGxmProgramParameter *_vita2d_textureTintColorParam;
+extern SceGxmContext* _vita2d_context;
+extern SceGxmVertexProgram* _vita2d_colorVertexProgram;
+extern SceGxmFragmentProgram* _vita2d_colorFragmentProgram;
+extern SceGxmVertexProgram* _vita2d_textureVertexProgram;
+extern SceGxmFragmentProgram* _vita2d_textureFragmentProgram;
+extern SceGxmFragmentProgram* _vita2d_textureTintFragmentProgram;
+extern const SceGxmProgramParameter* _vita2d_colorWvpParam;
+extern const SceGxmProgramParameter* _vita2d_textureWvpParam;
+extern SceGxmProgramParameter* _vita2d_textureTintColorParam;
 
 struct vertex{
 	float x;
@@ -480,9 +480,6 @@ static int lua_drawmodel(lua_State *L){
 	
 	vita2d_texture_vertex* vertices = (vita2d_texture_vertex*)vita2d_pool_memalign(mdl->facesCount * 3 * sizeof(vita2d_texture_vertex), sizeof(vita2d_texture_vertex));
 	uint16_t* indices = (uint16_t*)vita2d_pool_memalign(mdl->facesCount * 3 * sizeof(uint16_t), sizeof(uint16_t));
-	//glTranslatef(x,y,z);
-	//glRotatef(angleX,1.0f,0.0f,0.0f);
-	//glRotatef(angleY,0.0f,1.0f,0.0f);
 	vertexList* object = mdl->v;
 	int n = 0;
 	while (object != NULL){
