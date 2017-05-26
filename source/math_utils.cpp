@@ -1,6 +1,6 @@
 #include <string.h>
 #include <math.h>
-#include "math_utils.h"
+#include "include/math_utils.h"
 
 /*
  * Note: matrices are row-major.

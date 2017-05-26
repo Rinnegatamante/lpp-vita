@@ -33,9 +33,7 @@
 #include <vitasdk.h>
 #include <vita2d.h>
 #include "include/luaplayer.h"
-extern "C"{
-	#include "include/math_utils.h"
-};
+#include "include/math_utils.h"
 
 matrix4x4 _vita2d_projection_matrix;
 extern SceGxmContext* _vita2d_context;
@@ -457,22 +455,28 @@ static int lua_drawmodel(lua_State *L){
 	float z = luaL_checknumber(L, 4);
 	float angleX = luaL_checknumber(L, 5);
 	float angleY = luaL_checknumber(L, 6);
-	
+
 	matrix4x4 model_matrix;
 	matrix4x4 mvp_matrix;
+	matrix4x4 final_mvp_matrix;
+
+
 	
 	sceGxmSetVertexProgram(_vita2d_context, _vita2d_textureVertexProgram);
 	sceGxmSetFragmentProgram(_vita2d_context, _vita2d_textureFragmentProgram);
 	
 	matrix4x4_init_perspective(_vita2d_projection_matrix,45.0f,960.0f/544.0f,0.1f,100.0f);
+
 	matrix4x4_init_translation(model_matrix,x,y,z);
 	matrix4x4_rotate_x(model_matrix,DEG_TO_RAD(angleX));
 	matrix4x4_rotate_y(model_matrix,DEG_TO_RAD(angleY));
 	matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, model_matrix);
-	
+	matrix4x4_transpose(final_mvp_matrix,mvp_matrix);
+
+
 	void* vertex_wvp_buffer;
 	sceGxmReserveVertexDefaultUniformBuffer(_vita2d_context, &vertex_wvp_buffer);
-	sceGxmSetUniformDataF(vertex_wvp_buffer, _vita2d_textureWvpParam, 0, 16, (const float*)mvp_matrix);
+	sceGxmSetUniformDataF(vertex_wvp_buffer, _vita2d_textureWvpParam, 0, 16, (const float*)final_mvp_matrix);
 	
 	vita2d_texture_vertex* vertices = (vita2d_texture_vertex*)vita2d_pool_memalign(mdl->facesCount * 3 * sizeof(vita2d_texture_vertex), sizeof(vita2d_texture_vertex));
 	uint16_t* indices = (uint16_t*)vita2d_pool_memalign(mdl->facesCount * 3 * sizeof(uint16_t), sizeof(uint16_t));
@@ -490,7 +494,8 @@ static int lua_drawmodel(lua_State *L){
 	}
 	sceGxmSetFragmentTexture(_vita2d_context, 0, &mdl->texture->gxm_tex);
 	sceGxmSetVertexStream(_vita2d_context, 0, vertices);
-	sceGxmDraw(_vita2d_context, SCE_GXM_PRIMITIVE_TRIANGLE_STRIP, SCE_GXM_INDEX_FORMAT_U16, indices, mdl->facesCount * 3);
+	sceGxmDraw(_vita2d_context, SCE_GXM_PRIMITIVE_TRIANGLES, SCE_GXM_INDEX_FORMAT_U16, indices, mdl->facesCount * 3);
+	
 }
 
 //Register our Render Functions
