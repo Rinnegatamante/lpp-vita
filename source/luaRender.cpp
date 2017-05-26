@@ -108,6 +108,7 @@ static int lua_loadmodel(lua_State *L){
 	mdl->magic = 0xC0C0C0C0;
 	mdl->v = (vertexList*)malloc(sizeof(vertexList));
 	mdl->v->next = NULL;
+	mdl->facesCount = 0;
 	vertexList* mdl_ptr = mdl->v;
 	bool first = true;
 	char* text = (char*)(luaL_checkstring(L, 2));
@@ -140,6 +141,7 @@ static int lua_loadmodel(lua_State *L){
 			memcpy(&ptr[j*sizeof(vertex)], vert, sizeof(vertex));
 			lua_pop(L, 1);
 		}
+		mdl->facesCount++;
 	}
 	
 	mdl->texture = result;
