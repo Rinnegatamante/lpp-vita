@@ -430,6 +430,14 @@ static int lua_play(lua_State *L){
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	bool loop = lua_toboolean(L, 2);
 	
+	// Wait till a thread is available
+	bool found = false;
+	for (int i=0; i<AUDIO_CHANNELS; i++){
+		found = availThreads[i];
+		if (found) break;
+	}
+	if (!found) return 0;
+	
 	// Check if the music is already loaded into an audio thread
 	if (mus->audioThread != 0xFF){
 	
@@ -448,14 +456,6 @@ static int lua_play(lua_State *L){
 	mus->closeTrigger = false;
 	mus->isPlaying = true;
 	mus->volume = 32767;
-	
-	// Wait till a thread is available
-	bool found = false;
-	for (int i=0; i<AUDIO_CHANNELS; i++){
-		found = availThreads[i];
-		if (found) break;
-	}
-	if (!found) return 0;
 	
 	// Waiting till track slot is free
 	sceKernelWaitSema(NewTrack_Mutex, 1, NULL);
