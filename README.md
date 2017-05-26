@@ -69,6 +69,7 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Lua Game of Life](https://github.com/domis4/lua-gameoflife/)
 * [Galactic Federation](http://vitadb.rinnegatamante.it/#/info/206)
 * [Starfield Vita](http://vitadb.rinnegatamante.it/#/info/128)
+* [EUCLIOD](http://vitadb.rinnegatamante.it/#/info/263)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
@@ -77,6 +78,9 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Simple Text Editor](http://wololo.net/talk/viewtopic.php?f=116&t=47018)
 * [ePSP Bubble Installer](http://vitadb.rinnegatamante.it/#/info/124)
 * [Vita Object Loader](http://wololo.net/talk/viewtopic.php?f=116&t=47982)
+* [PKGEnabler](http://wololo.net/talk/viewtopic.php?f=116&t=48165)
+* [Firmware Reinstall](https://github.com/SilicaAndPina/Firmware-Reinstall)
+* [CEX2REX](https://github.com/SilicaAndPina/CEX-2-REX)
 
 ##### Engines & Interpreters
 * [RayCast3D Engine](http://wololo.net/talk/viewtopic.php?f=116&t=46379)
