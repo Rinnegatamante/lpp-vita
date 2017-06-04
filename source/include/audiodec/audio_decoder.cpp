@@ -26,6 +26,7 @@
 #include "decoder_oggvorbis.h"
 #include "decoder_libsndfile.h"
 #include "decoder_wav.h"
+#include "decoder_aiff.h"
 #include "audio_resampler.h"
 
 void AudioDecoder::Pause() {
@@ -189,6 +190,19 @@ std::unique_ptr<AudioDecoder> AudioDecoder::Create(FILE* file, const std::string
 			return std::unique_ptr<AudioDecoder>(new WavDecoder());
 #  endif
 		}
+	}
+
+#endif
+
+#ifdef WANT_FASTAIFF
+	// Try to use a basic decoder for faster aiff decoding
+	if (!strncmp(magic, "FORM", 4)) {
+		fseek(file, 0, SEEK_SET);
+#  ifdef USE_AUDIO_RESAMPLER
+			return std::unique_ptr<AudioDecoder>(new AudioResampler(new AiffDecoder()));
+#  else
+			return std::unique_ptr<AudioDecoder>(new AiffDecoder());
+#  endif
 	}
 
 #endif
