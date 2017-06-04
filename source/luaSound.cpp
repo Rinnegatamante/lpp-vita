@@ -422,6 +422,32 @@ static int lua_openWav(lua_State *L){
 	return 1;
 }
 
+static int lua_openAiff(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char* path = luaL_checkstring(L, 1);
+	
+	// Opening file and checking for magic
+	FILE* f = fopen(path, "rb");
+	if (f == NULL) return luaL_error(L, "file doesn't exist.");
+	uint32_t magic;
+	fread(&magic,1,4,f);
+	if (magic != 0x4D524F46) return luaL_error(L, "Corrupted wav file.");
+	fseek(f, 0, SEEK_SET);
+	
+	// Allocating and pushing music block
+	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
+	memblock->handle = f;
+	memblock->isPlaying = false;
+	memblock->audioThread = 0xFF;
+	memblock->tempBlock = false;
+	sprintf(memblock->filepath, "%s", path);
+	lua_pushinteger(L,(uint32_t)memblock);
+	return 1;
+}
+
 static int lua_play(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -472,6 +498,7 @@ static const luaL_Reg Sound_functions[] = {
 	{"init",         lua_init},
 	{"term",         lua_term},
 	{"openWav",      lua_openWav},
+	{"openAiff",     lua_openAiff},
 	{"openMp3",      lua_openMp3},
 	{"openMidi",     lua_openMidi},
 	{"openOgg",      lua_openOgg},
