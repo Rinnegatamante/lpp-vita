@@ -47,6 +47,9 @@ int FRDWR = SCE_O_RDWR;
 uint32_t SET = SEEK_SET;
 uint32_t CUR = SEEK_CUR;
 uint32_t END = SEEK_END;
+uint32_t AUTO_SUSPEND_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_AUTO_SUSPEND;
+uint32_t SCREEN_OFF_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_OFF;
+uint32_t SCREEN_DIMMING_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_DIMMING;
 
 static int lua_dofile(lua_State *L){
 	int argc = lua_gettop(L);
@@ -436,12 +439,23 @@ static int lua_remainbatt(lua_State *L){
 	return 1;
 }
 
-static int lua_nopower(lua_State *L){
+static int lua_offpower(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
-	sceKernelPowerTick(0);
+	int tmr = luaL_checkinteger(L, 1);
+	sceKernelPowerLock(tmr);
+	return 0;
+}
+
+static int lua_onpower(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	int tmr = luaL_checkinteger(L, 1);
+	sceKernelPowerUnlock(tmr);
 	return 0;
 }
 
@@ -740,6 +754,15 @@ static int lua_executeuri(lua_State *L){
 	return 0;
 }
 
+static int lua_reboot(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	scePowerRequestColdReset();
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -769,7 +792,8 @@ static const luaL_Reg System_functions[] = {
   {"getBatteryVolt",            lua_voltbatt},
   {"getBatteryHealth",          lua_healthbatt},
   {"getBatteryCycles",          lua_cyclebatt},
-  {"powerTick",                 lua_nopower},
+  {"disableTimer",              lua_offpower},
+  {"enableTimer",               lua_onpower},
   {"setCpuSpeed",               lua_setcpu},
   {"getCpuSpeed",               lua_getcpu},
   {"setBusSpeed",               lua_setbus},
@@ -791,7 +815,8 @@ static const luaL_Reg System_functions[] = {
   {"extractZIP",                lua_ZipExtract},
   {"extractFromZIP",            lua_getfilefromzip},
   {"takeScreenshot",            lua_screenshot},
-  {"executeUri",                lua_executeuri},	
+  {"executeUri",                lua_executeuri},
+  {"reboot",                    lua_reboot},  
   {0, 0}
 };
 
@@ -799,6 +824,9 @@ void luaSystem_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, System_functions, 0);
 	lua_setglobal(L, "System");
+	VariableRegister(L,AUTO_SUSPEND_TIMER);
+	VariableRegister(L,SCREEN_OFF_TIMER);
+	VariableRegister(L,SCREEN_DIMMING_TIMER);
 	VariableRegister(L,FREAD);
 	VariableRegister(L,FWRITE);
 	VariableRegister(L,FCREATE);
