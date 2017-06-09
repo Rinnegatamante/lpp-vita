@@ -24,7 +24,7 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 ##### Sounds
 
-* Sound system with support for WAV/MP3/MIDI/OGG audio files
+* Sound system with support for WAV/AIFF/MP3/MIDI/OGG/OPUS audio files
 
 ##### Controls
 

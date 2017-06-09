@@ -24,6 +24,7 @@
 #include "decoder_fmmidi.h"
 #include "decoder_mpg123.h"
 #include "decoder_oggvorbis.h"
+#include "decoder_oggopus.h"
 #include "decoder_libsndfile.h"
 #include "decoder_wav.h"
 #include "decoder_aiff.h"
@@ -131,9 +132,9 @@ std::unique_ptr<AudioDecoder> AudioDecoder::Create(FILE* file, const std::string
 	// Try to use MIDI decoder, use fallback(s) if available
 	if (!strncmp(magic, "MThd", 4)) {
 #ifndef HAVE_WILDMIDI
-		/* WildMidi is currently the only Audio_Decoder that needs the filename passed
-		 * directly, this avoids a warning about the possibly unused variable
-		 */
+	/* WildMidi is currently the only Audio_Decoder that needs the filename passed
+	 * directly, this avoids a warning about the possibly unused variable
+	 */
 		(void)filename;
 #else
 		static bool wildmidi_works = true;
@@ -166,13 +167,26 @@ std::unique_ptr<AudioDecoder> AudioDecoder::Create(FILE* file, const std::string
 
 	// Try to use internal OGG decoder
 	if (!strncmp(magic, "OggS", 4)) { // OGG
+		fseek(file, 29, SEEK_SET);
+		fread(magic, 4, 1, file);
+		fseek(file, 0, SEEK_SET);
+		if (!strncmp(magic, "vorb", 4)) { // OGG Vorbis
 #if defined(HAVE_TREMOR) || defined(HAVE_OGGVORBIS)
 #  ifdef USE_AUDIO_RESAMPLER
-		return std::unique_ptr<AudioDecoder>(new AudioResampler(new OggVorbisDecoder()));
+			return std::unique_ptr<AudioDecoder>(new AudioResampler(new OggVorbisDecoder()));
 #  else
-		return std::unique_ptr<AudioDecoder>(new OggVorbisDecoder());
+			return std::unique_ptr<AudioDecoder>(new OggVorbisDecoder());
 #  endif
 #endif
+		}else if (!strncmp(magic, "pusH", 4)) { // OGG Opus
+#if defined(HAVE_OPUSFILE)
+#  ifdef USE_AUDIO_RESAMPLER
+			return std::unique_ptr<AudioDecoder>(new AudioResampler(new OggOpusDecoder()));
+#  else
+			return std::unique_ptr<AudioDecoder>(new OggOpusDecoder());
+#  endif
+#endif
+		}
 	}
 	
 #ifdef WANT_FASTWAV

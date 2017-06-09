@@ -32,7 +32,7 @@ static uint16_t Endian_UInt16_Conversion(uint16_t value){
 
 AiffDecoder::AiffDecoder() 
 {
-	music_type = "wav";
+	music_type = "aiff";
 }
 
 AiffDecoder::~AiffDecoder() {

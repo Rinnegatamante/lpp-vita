@@ -7,7 +7,8 @@ LIBS = -lTinyGL -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lvitashaders -lS
 	-lSceJpegEnc_stub -lSceAppMgr_stub -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
 	-lScePromoterUtil_stub -lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz -lSceCamera_stub \
-	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub -lSceShellSvc_stub
+	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub -lSceShellSvc_stub \
+	-lopusfile -lopus
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
@@ -19,7 +20,8 @@ CC      = $(PREFIX)-gcc
 CXX      = $(PREFIX)-g++
 CFLAGS  = -fno-lto -g -Wl,-q -O3 -DWANT_FASTWAV -DHAVE_LIBSPEEXDSP \
 		-DHAVE_LIBSNDFILE -DHAVE_MPG123 -DWANT_FMMIDI=1 -DWANT_FASTAIFF \
-		-D_PSP2_NPDRMPACKAGE_H_ -DUSE_AUDIO_RESAMPLER -DHAVE_OGGVORBIS
+		-D_PSP2_NPDRMPACKAGE_H_ -DUSE_AUDIO_RESAMPLER -DHAVE_OGGVORBIS \
+		-DHAVE_OPUSFILE
 CXXFLAGS  = $(CFLAGS) -fno-exceptions -std=gnu++11 -fpermissive
 ASFLAGS = $(CFLAGS)
 

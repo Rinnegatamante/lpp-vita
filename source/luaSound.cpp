@@ -330,7 +330,10 @@ static int lua_openMp3(lua_State *L){
 	if (f == NULL) return luaL_error(L, "file doesn't exist.");
 	uint32_t magic;
 	fread(&magic,1,4,f);
-	if (magic != 0x03334449) return luaL_error(L, "Corrupted mp3 file.");
+	if (magic != 0x03334449){
+		fclose(f);
+		return luaL_error(L, "Corrupted mp3 file.");
+	}
 	fseek(f, 0, SEEK_SET);
 	
 	// Allocating and pushing music block
@@ -356,7 +359,10 @@ static int lua_openMidi(lua_State *L){
 	if (f == NULL) return luaL_error(L, "file doesn't exist.");
 	uint32_t magic;
 	fread(&magic,1,4,f);
-	if (magic != 0x6468544d) return luaL_error(L, "Corrupted midi file.");
+	if (magic != 0x6468544d){
+		fclose(f);
+		return luaL_error(L, "Corrupted midi file.");
+	}
 	fseek(f, 0, SEEK_SET);
 	
 	// Allocating and pushing music block
@@ -382,7 +388,51 @@ static int lua_openOgg(lua_State *L){
 	if (f == NULL) return luaL_error(L, "file doesn't exist.");
 	uint32_t magic;
 	fread(&magic,1,4,f);
-	if (magic != 0x5367674f) return luaL_error(L, "Corrupted ogg file.");
+	if (magic != 0x5367674f){
+		fclose(f);
+		return luaL_error(L, "Corrupted ogg file.");
+	}
+	fseek(f, 29, SEEK_SET);
+	fread(&magic,1,4,f);
+	if (magic != 0x62726f76){
+		fclose(f);
+		return luaL_error(L, "Invalid codec.");
+	}
+	fseek(f, 0, SEEK_SET);
+	
+	// Allocating and pushing music block
+	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
+	memblock->handle = f;
+	memblock->isPlaying = false;
+	memblock->audioThread = 0xFF;
+	memblock->tempBlock = false;
+	sprintf(memblock->filepath, "%s", path);
+	lua_pushinteger(L,(uint32_t)memblock);
+	return 1;
+}
+
+static int lua_openOpus(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char* path = luaL_checkstring(L, 1);
+	
+	// Opening file and checking for magic
+	FILE* f = fopen(path, "rb");
+	if (f == NULL) return luaL_error(L, "file doesn't exist.");
+	uint32_t magic;
+	fread(&magic,1,4,f);
+	if (magic != 0x5367674f){
+		fclose(f);
+		return luaL_error(L, "Corrupted opus file.");
+	}
+	fseek(f, 28, SEEK_SET);
+	fread(&magic,1,4,f);
+	if (magic != 0x7375704f){
+		fclose(f);
+		return luaL_error(L, "Invalid codec.");
+	}
 	fseek(f, 0, SEEK_SET);
 	
 	// Allocating and pushing music block
@@ -408,7 +458,10 @@ static int lua_openWav(lua_State *L){
 	if (f == NULL) return luaL_error(L, "file doesn't exist.");
 	uint32_t magic;
 	fread(&magic,1,4,f);
-	if (magic != 0x46464952) return luaL_error(L, "Corrupted wav file.");
+	if (magic != 0x46464952){
+		fclose(f);
+		return luaL_error(L, "Corrupted wav file.");
+	}
 	fseek(f, 0, SEEK_SET);
 	
 	// Allocating and pushing music block
@@ -434,7 +487,10 @@ static int lua_openAiff(lua_State *L){
 	if (f == NULL) return luaL_error(L, "file doesn't exist.");
 	uint32_t magic;
 	fread(&magic,1,4,f);
-	if (magic != 0x4D524F46) return luaL_error(L, "Corrupted wav file.");
+	if (magic != 0x4D524F46){
+		fclose(f);
+		return luaL_error(L, "Corrupted wav file.");
+	}
 	fseek(f, 0, SEEK_SET);
 	
 	// Allocating and pushing music block
@@ -502,6 +558,7 @@ static const luaL_Reg Sound_functions[] = {
 	{"openMp3",      lua_openMp3},
 	{"openMidi",     lua_openMidi},
 	{"openOgg",      lua_openOgg},
+	{"openOpus",     lua_openOpus},
 	{"play",         lua_play},
 	{"setVolume",    lua_setvol},
 	{"getVolume",    lua_getvol},
