@@ -307,11 +307,11 @@ static int lua_screenshot(lua_State *L){
 		void* buf_addr = NULL;
 		sceKernelGetMemBlockBase(memblock, &buf_addr);
 		SceJpegEncoderContext context = malloc(sceJpegEncoderGetContextSize());
-		sceJpegEncoderInit(context, param.width, param.height, PIXELFORMAT_YCBCR420 | PIXELFORMAT_CSC_ARGB_YCBCR, buf_addr + in_size, out_size);
+		sceJpegEncoderInit(context, param.width, param.height, SCE_JPEGENC_PIXELFORMAT_YCBCR420 | SCE_JPEGENC_PIXELFORMAT_CSC_ARGB_YCBCR, buf_addr + in_size, out_size);
 		sceJpegEncoderSetValidRegion(context, param.width, param.height);
 		sceJpegEncoderSetCompressionRatio(context, ratio);
 		sceJpegEncoderSetOutputAddr(context, buf_addr + in_size, out_size);
-		sceJpegEncoderCsc(context, buf_addr, param.base, param.pitch, PIXELFORMAT_ARGB8888);
+		sceJpegEncoderCsc(context, buf_addr, param.base, param.pitch, SCE_JPEGENC_PIXELFORMAT_ARGB8888);
 		int filesize = sceJpegEncoderEncode(context, buf_addr);
 		sceIoWrite(fd, buf_addr + in_size, filesize);
 		sceJpegEncoderEnd(context);
