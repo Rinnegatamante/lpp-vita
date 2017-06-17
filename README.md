@@ -24,7 +24,12 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 ##### Sounds
 
-* Sound system with support for WAV/AIFF/MP3/MIDI/OGG/OPUS audio files
+* Complete sound system with support for:
+	* WAVEform audio files (**.wav**) with PCM8/PCM16/ADPCM codecs.
+	* Audio Interchange File Format audio files (**.aif/.aiff**) with PCM8/PCM16 codecs.
+	* Moving Picture Expert Group-1/2 Audio Layer 3 audio files (**.mp3**) with MPEG-1 Audio Layer III/MPEG-2 Audio Layer III codecs.
+	* Musical Instrument Digital Interface audio files (**.midi**).
+	* Ogg Media audio files (**.ogg/.opus**) with Vorbis/Opus codecs.
 
 ##### Controls
 
