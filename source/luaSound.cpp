@@ -489,7 +489,7 @@ static int lua_openAiff(lua_State *L){
 	fread(&magic,1,4,f);
 	if (magic != 0x4D524F46){
 		fclose(f);
-		return luaL_error(L, "Corrupted wav file.");
+		return luaL_error(L, "Corrupted aiff file.");
 	}
 	fseek(f, 0, SEEK_SET);
 	
