@@ -166,6 +166,27 @@ static int lua_unlock(lua_State *L){
 	return 0;
 }
 
+static int lua_gettype(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	SceCtrlPortInfo pinfo;
+	sceCtrlGetControllerPortInfo(&pinfo);
+	lua_newtable(L);
+	int i = 1;
+	while (i <= 5) {
+		lua_pushnumber(L, i);
+		lua_newtable(L);
+		lua_pushstring(L, "type");
+		lua_pushinteger(L, pinfo.port[i-1]);
+		lua_settable(L, -3);
+		lua_settable(L, -3);
+		i++;
+	}
+	return 1;
+}
+
 //Register our Controls Functions
 static const luaL_Reg Controls_functions[] = {
   {"read",             lua_readC},	
@@ -178,6 +199,7 @@ static const luaL_Reg Controls_functions[] = {
   {"readRetroTouch",   lua_touchpad2},	
   {"lockHomeButton",   lua_lock},	
   {"unlockHomeButton", lua_unlock},	
+  {"getDeviceInfo",    lua_gettype},
   {0, 0}
 };
 
@@ -185,10 +207,16 @@ void luaControls_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Controls_functions, 0);
 	lua_setglobal(L, "Controls");
-	uint8_t FIRST_CTRL = 0;
-	uint8_t SECOND_CTRL = 2;
-	VariableRegister(L,FIRST_CTRL);
-	VariableRegister(L,SECOND_CTRL);
+	uint8_t UNPAIRED_DEV = 0;
+	uint8_t VITA_DEV = 1;
+	uint8_t VIRTUAL_DEV = 2;
+	uint8_t DS3_DEV = 4;
+	uint8_t DS4_DEV = 8;
+	VariableRegister(L,UNPAIRED_DEV);
+	VariableRegister(L,VITA_DEV);
+	VariableRegister(L,VIRTUAL_DEV);
+	VariableRegister(L,DS3_DEV);
+	VariableRegister(L,DS4_DEV);
 	VariableRegister(L,SCE_CTRL_UP);
 	VariableRegister(L,SCE_CTRL_DOWN);
 	VariableRegister(L,SCE_CTRL_LEFT);
