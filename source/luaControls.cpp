@@ -37,13 +37,20 @@
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 #define lerp(value, from_max, to_max) ((((value*10) * (to_max*10))/(from_max*10))/10)
 
-SceCtrlActuator pad1, pad2;
+SceCtrlActuator actuators[4];
 
 static int lua_readC(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	int port = 0;
-	if (argc == 1) port = luaL_checkinteger(L, 1); 
+	if (argc == 1){
+		port = luaL_checkinteger(L, 1);
+		#ifndef SKIP_ERROR_HANDLING
+		if (port > 5) return luaL_error(L, "wrong port number.");
+		#endif
+	}
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
 	lua_pushinteger(L, pad.buttons);
@@ -52,9 +59,16 @@ static int lua_readC(lua_State *L){
 
 static int lua_readleft(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	int port = 0;
-	if (argc == 1) port = luaL_checkinteger(L, 1); 
+	if (argc == 1){
+		port = luaL_checkinteger(L, 1);
+		#ifndef SKIP_ERROR_HANDLING
+		if (port > 5) return luaL_error(L, "wrong port number.");
+		#endif
+	}
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
 	lua_pushinteger(L, pad.lx);
@@ -64,9 +78,16 @@ static int lua_readleft(lua_State *L){
 
 static int lua_readright(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	int port = 0;
-	if (argc == 1) port = luaL_checkinteger(L, 1); 
+	if (argc == 1){
+		port = luaL_checkinteger(L, 1);
+		#ifndef SKIP_ERROR_HANDLING
+		if (port > 5) return luaL_error(L, "wrong port number.");
+		#endif
+	}
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
 	lua_pushinteger(L, pad.rx);
@@ -76,7 +97,9 @@ static int lua_readright(lua_State *L){
 
 static int lua_check(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 2) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	int pad = luaL_checkinteger(L, 1);
 	int button = luaL_checkinteger(L, 2);
 	lua_pushboolean(L, (pad & button));
@@ -97,52 +120,42 @@ static int lua_touchpad(lua_State *L){
 
 static int lua_rumble(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 3) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	int port = luaL_checkinteger(L, 1);
+	#ifndef SKIP_ERROR_HANDLING
+	if (port > 5) return luaL_error(L, "wrong port number.");
+	#endif
+	if (port == 0) port = 1;
 	uint8_t int_small = luaL_checkinteger(L, 2);
 	uint8_t int_large = luaL_checkinteger(L, 3);
-	switch (port){
-		case 0:
-		case 1:
-			pad1.small = int_small;
-			pad1.large = int_large;
-			sceCtrlSetActuator(1, &pad1);
-			break;
-		case 2:
-			pad2.small = int_small;
-			pad2.large = int_large;
-			sceCtrlSetActuator(2, &pad2);
-			break;
-		default:
-			return luaL_error(L, "wrong port number.");
-			break;
-	}	
+	actuators[port-1].small = int_small;
+	actuators[port-1].small = int_large;
+	sceCtrlSetActuator(port, &actuators[port-1]);
 	return 0;
 }
 
 static int lua_lightbar(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 2) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	int port = luaL_checkinteger(L, 1);
+	#ifndef SKIP_ERROR_HANDLING
+	if (port > 5) return luaL_error(L, "wrong port number.");
+	#endif
+	if (port == 0) port = 1;
 	uint32_t color = luaL_checkinteger(L, 2);
-	switch (port){
-		case 0:
-		case 1:
-			sceCtrlSetLightBar(1, color & 0xFF, (color>>8) & 0xFF, (color>>16) & 0xFF);
-			break;
-		case 2:
-			sceCtrlSetLightBar(2, color & 0xFF, (color>>8) & 0xFF, (color>>16) & 0xFF);
-			break;
-		default:
-			return luaL_error(L, "wrong port number.");
-			break;
-	}	
+	sceCtrlSetLightBar(port, color & 0xFF, (color>>8) & 0xFF, (color>>16) & 0xFF);
 	return 0;
 }
 
 static int lua_touchpad2(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	SceTouchData touch;
 	sceTouchPeek(SCE_TOUCH_PORT_BACK, &touch, 1);
 	for (SceUInt32 i=0;i<touch.reportNum;i++){
@@ -154,14 +167,18 @@ static int lua_touchpad2(lua_State *L){
 
 static int lua_lock(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN | SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
 	return 0;
 }
 
 static int lua_unlock(lua_State *L){
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	#endif
 	sceShellUtilUnlock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN | SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
 	return 0;
 }
