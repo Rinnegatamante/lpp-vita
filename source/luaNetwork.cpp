@@ -37,6 +37,7 @@ extern "C"{
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 void* net_memory = NULL;
 char vita_ip[16];
+bool isNet = false;
 
 typedef struct
 {
@@ -88,7 +89,10 @@ static struct hostent *gethostbyname(const char *name)
 
 static int lua_initFTP(lua_State *L) {
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
+	#endif
 	char vita_ip[16];
 	unsigned short int vita_port = 0;
 	if (ftpvita_init(vita_ip, &vita_port) < 0) return luaL_error(L, "cannot start FTP server (WiFi off?)");
@@ -104,14 +108,20 @@ static int lua_initFTP(lua_State *L) {
 
 static int lua_termFTP(lua_State *L) {
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
+	#endif
 	ftpvita_fini();
 	return 0;
 }
 
 static int lua_getip(lua_State *L) {
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
+	#endif
 	SceNetCtlInfo info;
 	if (sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_IP_ADDRESS, &info) < 0) strcpy(vita_ip, "127.0.0.1");
 	else strcpy(vita_ip, info.ip_address);
@@ -121,7 +131,10 @@ static int lua_getip(lua_State *L) {
 
 static int lua_getmac(lua_State *L) {
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
+	#endif
 	SceNetEtherAddr mac;
 	char macAddress[32];
 	sceNetGetMacAddress(&mac, 0);	
@@ -130,9 +143,12 @@ static int lua_getmac(lua_State *L) {
 	return 1;
 }
 
-static int lua_initSock(lua_State *L) {
+static int lua_init(lua_State *L) {
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (isNet) return luaL_error(L, "Network is already inited");
+	#endif
 	int ret = sceNetShowNetstat();
 	SceNetInitParam initparam;
 	if (ret == SCE_NET_ERROR_ENOTINIT) {
@@ -141,26 +157,20 @@ static int lua_initSock(lua_State *L) {
 		initparam.size = NET_INIT_SIZE;
 		initparam.flags = 0;
 		ret = sceNetInit(&initparam);
-		if (ret < 0) return luaL_error(L, "an error occurred while starting network.");
+		if (ret < 0) return -1;
 	}
 	sceNetCtlInit();
+	sceHttpInit(1*1024*1024);
+	isNet = 1;
 	return 0;
 }
 
 static int lua_wifi(lua_State *L) {
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	int ret = sceNetShowNetstat();
-	SceNetInitParam initparam;
-	if (ret == SCE_NET_ERROR_ENOTINIT) {
-		net_memory = malloc(NET_INIT_SIZE);
-		initparam.memory = net_memory;
-		initparam.size = NET_INIT_SIZE;
-		initparam.flags = 0;
-		ret = sceNetInit(&initparam);
-		if (ret < 0) return luaL_error(L, "an error occurred while starting network.");
-	}
-	sceNetCtlInit();
+	if (!isNet) return luaL_error(L, "Network is not inited");
+	#endif
 	int state;
 	sceNetCtlInetGetState(&state);
 	lua_pushboolean(L, state);
@@ -169,18 +179,10 @@ static int lua_wifi(lua_State *L) {
 
 static int lua_wifilv(lua_State *L) {
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	int ret = sceNetShowNetstat();
-	SceNetInitParam initparam;
-	if (ret == SCE_NET_ERROR_ENOTINIT) {
-		net_memory = malloc(NET_INIT_SIZE);
-		initparam.memory = net_memory;
-		initparam.size = NET_INIT_SIZE;
-		initparam.flags = 0;
-		ret = sceNetInit(&initparam);
-		if (ret < 0) return luaL_error(L, "an error occurred while starting network.");
-	}
-	sceNetCtlInit();
+	if (!isNet) return luaL_error(L, "Network is not inited");
+	#endif
 	int state;
 	SceNetCtlInfo info;
 	sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_RSSI_PERCENTAGE, &info);
@@ -188,12 +190,18 @@ static int lua_wifilv(lua_State *L) {
 	return 1;
 }
 
-static int lua_termSock(lua_State *L) {
+static int lua_term(lua_State *L) {
 	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
+	#endif
+	sceHttpTerm();
 	sceNetCtlTerm();
 	sceNetTerm();
 	if (net_memory != NULL) free(net_memory);
+	net_memory = NULL;
+	isNet = 0;
 	return 0;
 }
 
@@ -201,6 +209,7 @@ static int lua_createserver(lua_State *L) {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1 && argc != 2) return luaL_error(L, "Socket.createServerSocket(port) takes one argument.");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	int port = luaL_checkinteger(L, 1);
 	int type = SCE_NET_IPPROTO_TCP;
@@ -250,6 +259,7 @@ static int lua_send(lua_State *L)
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING	
 	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	
 	Socket* my_socket = (Socket*)luaL_checkinteger(L, 1);
@@ -272,6 +282,7 @@ static int lua_recv(lua_State *L)
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	
 	Socket* my_socket = (Socket*)luaL_checkinteger(L, 1);
@@ -295,6 +306,7 @@ static int lua_accept(lua_State *L)
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	
 	Socket* my_socket = (Socket*)luaL_checkinteger(L, 1);
@@ -325,6 +337,7 @@ static int lua_closeSock(lua_State *L)
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "Socket.close() takes one argument.");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	
 	Socket* my_socket = (Socket*)luaL_checkinteger(L, 1);
@@ -343,6 +356,7 @@ static int lua_connect(lua_State *L)
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 2 && argc != 3)  return luaL_error(L, "wrong number of arguments");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	
 	// Getting arguments
@@ -395,21 +409,81 @@ static int lua_connect(lua_State *L)
 	return 1;
 }
 
+static int lua_download(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc < 2 || argc > 5) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char* url = luaL_checkstring(L,1);
+	const char* file = luaL_checkstring(L,2);
+	const char* headers = (argc >= 3) ? luaL_checkstring(L,3) : NULL;
+	uint8_t method = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
+	const char* postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
+	int postsize = (argc >= 5) ? strlen(postdata) : 0;
+	int tpl = sceHttpCreateTemplate("lpp-vita app", 1, 1);	
+	int conn = sceHttpCreateConnectionWithURL(tpl, url, 0);
+	int request = sceHttpCreateRequestWithURL(conn, method, url, 0);
+	int handle = sceHttpSendRequest(request, postdata, postsize);
+	int fh = sceIoOpen(file, SCE_O_WRONLY | SCE_O_CREAT, 0777);
+	unsigned char data[16*1024];
+	int read = 0;
+	while ((read = sceHttpReadData(request, &data, sizeof(data))) > 0){
+		int write = sceIoWrite(fh, data, read);
+	}
+	sceIoClose(fh);
+	return 0;
+}
+
+static int lua_string(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc < 2 || argc > 5) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char* url = luaL_checkstring(L,1);
+	const char* file = luaL_checkstring(L,2);
+	const char* headers = (argc >= 3) ? luaL_checkstring(L,3) : NULL;
+	uint8_t method = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
+	const char* postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
+	int postsize = (argc >= 5) ? strlen(postdata) : 0;
+	int tpl = sceHttpCreateTemplate("lpp-vita app", 1, 1);	
+	int conn = sceHttpCreateConnectionWithURL(tpl, url, 0);
+	int request = sceHttpCreateRequestWithURL(conn, method, url, 0);
+	int handle = sceHttpSendRequest(request, postdata, postsize);
+	unsigned char *buffer = (unsigned char*)malloc(0x1000);
+	int read = 0;
+	int i = 0;
+	int len = 0x1000;
+	while ((read = sceHttpReadData(request, &buffer[i], len-i)) > 0){
+		i += read;
+		if (i >= len){
+			len += 0x1000;
+			buffer = (unsigned char*)realloc(buffer, len);
+		}
+	}
+	buffer = (unsigned char*)realloc(buffer, i+1);
+	buffer[i] = 0;
+	lua_pushlstring(L,(const char*)buffer,i);
+	free(buffer);
+	return 0;
+}
+
 //Register our Network Functions
 static const luaL_Reg Network_functions[] = {
+  {"init",           lua_init},
+  {"term",           lua_term},
   {"initFTP",        lua_initFTP},
   {"termFTP",        lua_termFTP},
   {"getIPAddress",   lua_getip},
   {"getMacAddress",  lua_getmac},
   {"isWifiEnabled",  lua_wifi},
   {"getWifiLevel",   lua_wifilv},
+  {"downloadFile",   lua_download},
+  {"requestString",  lua_string},
   {0, 0}
 };
 
 //Register our Socket Functions
 static const luaL_Reg Socket_functions[] = {
-  {"init",               lua_initSock},
-  {"term",               lua_termSock},
   {"createServerSocket", lua_createserver},
   {"send",               lua_send},
   {"receive",            lua_recv},
@@ -420,8 +494,18 @@ static const luaL_Reg Socket_functions[] = {
 };
 
 void luaNetwork_init(lua_State *L) {
-	VariableRegister(L,SCE_NET_IPPROTO_UDP);
-	VariableRegister(L,SCE_NET_IPPROTO_TCP);
+	uint8_t GET_METHOD = SCE_HTTP_METHOD_GET;
+	uint8_t POST_METHOD = SCE_HTTP_METHOD_POST;
+	uint8_t HEAD_METHOD = SCE_HTTP_METHOD_HEAD;
+	uint8_t OPTIONS_METHOD = SCE_HTTP_METHOD_OPTIONS;
+	uint8_t PUT_METHOD = SCE_HTTP_METHOD_PUT;
+	uint8_t DELETE_METHOD = SCE_HTTP_METHOD_DELETE;
+	uint8_t TRACE_METHOD = SCE_HTTP_METHOD_TRACE;
+	uint8_t CONNECT_METHOD = SCE_HTTP_METHOD_CONNECT;
+	uint8_t UDP_SOCKET = SCE_NET_IPPROTO_UDP;
+	uint8_t TCP_SOCKET = SCE_NET_IPPROTO_TCP;
+	VariableRegister(L,UDP_SOCKET);
+	VariableRegister(L,TCP_SOCKET);
 	lua_newtable(L);
 	luaL_setfuncs(L, Network_functions, 0);
 	lua_setglobal(L, "Network");

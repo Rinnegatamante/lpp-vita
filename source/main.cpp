@@ -28,6 +28,7 @@ int main()
 	
 	// Starting secondary modules and mounting secondary filesystems
 	sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
+	sceSysmoduleLoadModule(SCE_SYSMODULE_HTTP);
 	sceAppUtilInit(&(SceAppUtilInitParam){}, &(SceAppUtilBootParam){});
 	sceCommonDialogSetConfigParam(&(SceCommonDialogConfigParam){});
 	sceAppUtilMusicMount();
