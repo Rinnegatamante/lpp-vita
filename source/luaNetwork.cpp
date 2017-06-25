@@ -157,7 +157,7 @@ static int lua_init(lua_State *L) {
 		initparam.size = NET_INIT_SIZE;
 		initparam.flags = 0;
 		ret = sceNetInit(&initparam);
-		if (ret < 0) return -1;
+		if (ret < 0) return luaL_error(L, "an error occurred while starting network.");
 	}
 	sceNetCtlInit();
 	sceHttpInit(1*1024*1024);
@@ -416,11 +416,11 @@ static int lua_download(lua_State *L){
 	#endif
 	const char* url = luaL_checkstring(L,1);
 	const char* file = luaL_checkstring(L,2);
-	const char* headers = (argc >= 3) ? luaL_checkstring(L,3) : NULL;
+	const char* useragent = (argc >= 3) ? luaL_checkstring(L,3) : "lpp-vita app";
 	uint8_t method = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
 	const char* postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
 	int postsize = (argc >= 5) ? strlen(postdata) : 0;
-	int tpl = sceHttpCreateTemplate("lpp-vita app", 1, 1);	
+	int tpl = sceHttpCreateTemplate(useragent, 1, 1);	
 	int conn = sceHttpCreateConnectionWithURL(tpl, url, 0);
 	int request = sceHttpCreateRequestWithURL(conn, method, url, 0);
 	int handle = sceHttpSendRequest(request, postdata, postsize);
@@ -506,6 +506,14 @@ void luaNetwork_init(lua_State *L) {
 	uint8_t TCP_SOCKET = SCE_NET_IPPROTO_TCP;
 	VariableRegister(L,UDP_SOCKET);
 	VariableRegister(L,TCP_SOCKET);
+	VariableRegister(L,GET_METHOD);
+	VariableRegister(L,POST_METHOD);
+	VariableRegister(L,HEAD_METHOD);
+	VariableRegister(L,OPTIONS_METHOD);
+	VariableRegister(L,PUT_METHOD);
+	VariableRegister(L,DELETE_METHOD);
+	VariableRegister(L,TRACE_METHOD);
+	VariableRegister(L,CONNECT_METHOD);
 	lua_newtable(L);
 	luaL_setfuncs(L, Network_functions, 0);
 	lua_setglobal(L, "Network");
