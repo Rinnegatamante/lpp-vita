@@ -70,7 +70,7 @@ static int lua_dofile(lua_State *L){
 	}
 	lua_settop(L, 1);
 	if (luaL_loadbuffer(L, (const char*)buffer, strlen((const char*)buffer), NULL) != LUA_OK)	return lua_error(L);
-	lua_KFunction dofilecont = (lua_KFunction)(lua_gettop(L) - 1);
+	lua_CFunction dofilecont = (lua_CFunction)(lua_gettop(L) - 1);
 	lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
 	return (int)dofilecont;
 }

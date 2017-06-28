@@ -35,8 +35,7 @@
 #define __LUAPLAYER_H
 
 #include <stdlib.h>
-//#include <tdefs.h> //Not needed for compilation via Ubuntu (complains it's missing)
-#include "lua/lua.hpp"
+#include <lua.hpp>
 
 extern void luaC_collectgarbage (lua_State *L);
 
@@ -55,6 +54,13 @@ void luaNetwork_init(lua_State *L);
 void luaTimer_init(lua_State *L);
 void luaKeyboard_init(lua_State *L);
 void luaRender_init(lua_State *L);
+void bitlib_init(lua_State *L);
+
+// lua-compat
+void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);
+#define lua_callk(L, na, nr, ctx, cont) ((void)(ctx), (void)(cont), lua_call(L, na, nr))
+#define lua_rawlen(L, i) lua_objlen(L, i)
+#define LUA_OK 0
 
 extern int clr_color;
 extern char cur_dir[256];

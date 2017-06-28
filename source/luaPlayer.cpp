@@ -41,6 +41,20 @@ static lua_State *L;
 
 char errorMex[1024];
 
+// lua-compat
+void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
+  luaL_checkstack(L, nup+1, "too many upvalues");
+  for (; l->name != NULL; l++) {  /* fill the table with given functions */
+    int i;
+    lua_pushstring(L, l->name);
+    for (i = 0; i < nup; i++)  /* copy upvalues to the top */
+      lua_pushvalue(L, -(nup + 1));
+    lua_pushcclosure(L, l->func, nup);  /* closure with those upvalues */
+    lua_settable(L, -(nup + 3)); /* table must be below the upvalues, the name and the closure */
+  }
+  lua_pop(L, nup);  /* remove upvalues */
+}
+
 const char *runScript(const char* script, bool isStringBuffer)
 {
 	L = luaL_newstate();
@@ -49,6 +63,7 @@ const char *runScript(const char* script, bool isStringBuffer)
 	luaL_openlibs(L);
 	
 	// Modules
+	bitlib_init(L);
 	luaControls_init(L);
 	luaScreen_init(L);
 	luaGraphics_init(L);
@@ -65,7 +80,7 @@ const char *runScript(const char* script, bool isStringBuffer)
 	//Patching dofile function
 	char* patch = "dofile = System.doNotUse\n";
 	luaL_loadbuffer(L, patch, strlen(patch), NULL); 
-	lua_KFunction dofilecont = (lua_KFunction)(lua_gettop(L) - 1);
+	lua_CFunction dofilecont = (lua_CFunction)(lua_gettop(L) - 1);
 	lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
 	
 	if(!isStringBuffer) 
