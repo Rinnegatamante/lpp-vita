@@ -346,7 +346,9 @@ void Utils::SeedRandomNumberGenerator(int32_t seed) {
 	rng.seed(seed);
 }
 
+#ifndef EOF
 #  define EOF -1
+#endif
 
 // via https://stackoverflow.com/questions/6089231/
 std::string Utils::ReadLine(std::istream &is) {

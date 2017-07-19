@@ -308,13 +308,13 @@ static int lua_screenshot(lua_State *L){
 		void* buf_addr = NULL;
 		sceKernelGetMemBlockBase(memblock, &buf_addr);
 		SceJpegEncoderContext context = malloc(sceJpegEncoderGetContextSize());
-		sceJpegEncoderInit(context, param.width, param.height, SCE_JPEGENC_PIXELFORMAT_YCBCR420 | SCE_JPEGENC_PIXELFORMAT_CSC_ARGB_YCBCR, buf_addr + in_size, out_size);
+		sceJpegEncoderInit(context, param.width, param.height, (SceJpegEncoderPixelFormat)(SCE_JPEGENC_PIXELFORMAT_YCBCR420 | SCE_JPEGENC_PIXELFORMAT_CSC_ARGB_YCBCR), (void*)((uint32_t)buf_addr + in_size), out_size);
 		sceJpegEncoderSetValidRegion(context, param.width, param.height);
 		sceJpegEncoderSetCompressionRatio(context, ratio);
-		sceJpegEncoderSetOutputAddr(context, buf_addr + in_size, out_size);
+		sceJpegEncoderSetOutputAddr(context, (void*)((uint32_t)buf_addr + in_size), out_size);
 		sceJpegEncoderCsc(context, buf_addr, param.base, param.pitch, SCE_JPEGENC_PIXELFORMAT_ARGB8888);
 		int filesize = sceJpegEncoderEncode(context, buf_addr);
-		sceIoWrite(fd, buf_addr + in_size, filesize);
+		sceIoWrite(fd, (void*)((uint32_t)buf_addr + in_size), filesize);
 		sceJpegEncoderEnd(context);
 		free(context);
 		sceKernelFreeMemBlock(memblock);
@@ -446,7 +446,7 @@ static int lua_offpower(lua_State *L){
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	int tmr = luaL_checkinteger(L, 1);
-	sceKernelPowerLock(tmr);
+	sceKernelPowerLock((SceKernelPowerTickType)tmr);
 	return 0;
 }
 
@@ -456,7 +456,7 @@ static int lua_onpower(lua_State *L){
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	int tmr = luaL_checkinteger(L, 1);
-	sceKernelPowerUnlock(tmr);
+	sceKernelPowerUnlock((SceKernelPowerTickType)tmr);
 	return 0;
 }
 
@@ -751,7 +751,7 @@ static int lua_executeuri(lua_State *L){
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *uri_string = luaL_checkstring(L, 1);
-	sceAppMgrLaunchAppByUri(0xFFFFF, uri_string);
+	sceAppMgrLaunchAppByUri(0xFFFFF, (char*)uri_string);
 	return 0;
 }
 

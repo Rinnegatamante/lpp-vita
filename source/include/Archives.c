@@ -782,7 +782,7 @@ static int ZipOpenCurrentFile(Zip* file, const char *password)
 	if(password != NULL)
 	{
 		int i;
-		s->crc32tab = get_crc_table();
+		s->crc32tab = (const unsigned long*)get_crc_table();
 		ZipInitKeys(password, s->keys, s->crc32tab);
 
 		if(fseek(pfileinzipreadinfo->file, s->currentzipfileinfo->posinzip + s->currentzipfileinfo->bytebeforezip, SEEK_SET) != 0)

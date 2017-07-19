@@ -23,14 +23,17 @@ int main()
 
 	// Initializing touch screens and analogs
 	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG);
-	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, 1);
-	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, 1);
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, SCE_TOUCH_SAMPLING_STATE_START);
 	
 	// Starting secondary modules and mounting secondary filesystems
 	sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
 	sceSysmoduleLoadModule(SCE_SYSMODULE_HTTP);
-	sceAppUtilInit(&(SceAppUtilInitParam){}, &(SceAppUtilBootParam){});
-	sceCommonDialogSetConfigParam(&(SceCommonDialogConfigParam){});
+	SceAppUtilInitParam appUtilParam = {};
+	SceAppUtilBootParam appUtilBootParam = {};
+	SceCommonDialogConfigParam cmnDlgCfgParam = {};
+	sceAppUtilInit(&appUtilParam, &appUtilBootParam);
+	sceCommonDialogSetConfigParam(&cmnDlgCfgParam);
 	sceAppUtilMusicMount();
 	sceAppUtilPhotoMount();
 	sceShellUtilInitEvents(0);

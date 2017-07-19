@@ -98,7 +98,7 @@ static int lua_pixel(lua_State *L){
 		#endif
 		int intx = x;
 		int inty = y;
-		uint32_t* data = vita2d_texture_get_datap(text->text);
+		uint32_t* data = (uint32_t*)vita2d_texture_get_datap(text->text);
 		uint32_t pitch = vita2d_texture_get_stride(text->text)>>2;
 		data[intx+inty*pitch] = color;
 	}
@@ -214,7 +214,7 @@ static int lua_init(lua_State *L) {
 	if (draw_state) return luaL_error(L, "initBlend can't be called inside a blending phase.");
 	else draw_state = true;
 	#endif
-	if (isRescaling) vita2d_start_drawing_advanced(scaler.fbo, VITA_2D_RESET_POOL | VITA_2D_SCENE_FRAGMENT_SET_DEPENDENCY);
+	if (isRescaling) vita2d_start_drawing_advanced(scaler.fbo, (vita2d_start_drawing_flags)(VITA_2D_RESET_POOL | VITA_2D_SCENE_FRAGMENT_SET_DEPENDENCY));
 	else vita2d_start_drawing();
     return 0;
 }
