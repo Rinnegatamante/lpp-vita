@@ -38,6 +38,7 @@
 #define lerp(value, from_max, to_max) ((((value*10) * (to_max*10))/(from_max*10))/10)
 
 SceCtrlActuator actuators[4];
+extern bool unsafe_mode;
 
 static int lua_readC(lua_State *L){
 	int argc = lua_gettop(L);
@@ -204,6 +205,18 @@ static int lua_gettype(lua_State *L) {
 	return 1;
 }
 
+static int lua_headset(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	#endif
+	SceCtrlData pad;
+	sceCtrlPeekBufferPositive(0, &pad, 1);
+	lua_pushboolean(L, (pad.buttons & SCE_CTRL_HEADPHONE));
+	return 1;
+}
+
 //Register our Controls Functions
 static const luaL_Reg Controls_functions[] = {
   {"read",             lua_readC},	
@@ -217,6 +230,7 @@ static const luaL_Reg Controls_functions[] = {
   {"lockHomeButton",   lua_lock},	
   {"unlockHomeButton", lua_unlock},	
   {"getDeviceInfo",    lua_gettype},
+  {"headsetStatus",    lua_headset},
   {0, 0}
 };
 
@@ -246,4 +260,7 @@ void luaControls_init(lua_State *L) {
 	VariableRegister(L,SCE_CTRL_RTRIGGER);
 	VariableRegister(L,SCE_CTRL_START);
 	VariableRegister(L,SCE_CTRL_SELECT);
+	VariableRegister(L,SCE_CTRL_POWER);
+	VariableRegister(L,SCE_CTRL_VOLUP);
+	VariableRegister(L,SCE_CTRL_VOLDOWN);
 }
