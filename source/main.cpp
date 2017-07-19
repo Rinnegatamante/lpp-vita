@@ -15,8 +15,8 @@ int _newlib_heap_size_user = 192 * 1024 * 1024;
 const char *errMsg;
 extern char errorMex[];
 unsigned char *script;
-int script_files = 0;
 int clr_color;
+bool unsafe_mode = true;
 
 int main()
 {
@@ -34,6 +34,11 @@ int main()
 	sceAppUtilMusicMount();
 	sceAppUtilPhotoMount();
 	sceShellUtilInitEvents(0);
+	
+	// Check what mode lpp-vita is currently running on
+	SceUID fd = sceIoOpen("os0:/psp2bootconfig.skprx", SCE_O_RDONLY, 0777);
+	if (fd < 0) unsafe_mode = false;
+	else sceIoClose(fd);
 	
 	// Debug FTP stuffs
 	char vita_ip[16];

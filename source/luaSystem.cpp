@@ -50,6 +50,7 @@ uint32_t END = SEEK_END;
 uint32_t AUTO_SUSPEND_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_AUTO_SUSPEND;
 uint32_t SCREEN_OFF_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_OFF;
 uint32_t SCREEN_DIMMING_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_DIMMING;
+extern bool unsafe_mode;
 
 static int lua_dofile(lua_State *L){
 	int argc = lua_gettop(L);
@@ -763,6 +764,15 @@ static int lua_reboot(lua_State *L){
 	return 0;
 }
 
+static int lua_issafe(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	lua_pushboolean(L, !unsafe_mode);
+	return 1;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -817,6 +827,7 @@ static const luaL_Reg System_functions[] = {
   {"takeScreenshot",            lua_screenshot},
   {"executeUri",                lua_executeuri},
   {"reboot",                    lua_reboot},  
+  {"isSafeMode",                lua_issafe},  
   {0, 0}
 };
 
