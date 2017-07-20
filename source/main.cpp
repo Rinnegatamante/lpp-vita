@@ -3,9 +3,10 @@
 #include <string.h>
 #include <malloc.h>
 #include <vitasdk.h>
+#include <vita2d.h>
+#include <vita2d_ext.h>
 #include "include/luaplayer.h"
 extern "C"{
-	#include <vita2d.h>
 	#include "include/ftp/ftp.h"
 }
 extern vita2d_pgf* debug_font;
@@ -49,6 +50,7 @@ int main()
 	
 	// Initializing graphics device
 	vita2d_init();
+	vita2d_ext_init(vita2d_get_context(),vita2d_get_shader_patcher());
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
 	vita2d_set_vblank_wait(0);
 	clr_color = 0x000000FF;
@@ -123,6 +125,7 @@ int main()
 	sceAppUtilPhotoUmount();
 	sceAppUtilMusicUmount();
 	sceAppUtilShutdown();
+	vita2d_ext_fini();
 	vita2d_fini();
 	sceKernelExitProcess(0);
 	return 0;

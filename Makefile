@@ -3,7 +3,7 @@ SOURCES		:= source/include/ftp source/include source source/include/audiodec
 			
 INCLUDES	:= include
 
-LIBS = -lTinyGL -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lvitashaders -lSceLibKernel_stub \
+LIBS = -lvorbisfile -lvorbis -logg -lsndfile -lvita2d_ext -lvita2d -lSceLibKernel_stub \
 	-lSceJpegEnc_stub -lSceAppMgr_stub -lSceCtrl_stub -lSceTouch_stub \
 	-lScePromoterUtil_stub -lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz -lSceCamera_stub \
