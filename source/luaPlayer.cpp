@@ -73,12 +73,13 @@ const char *runScript(const char* script, bool isStringBuffer)
 	luaTimer_init(L);
 	luaKeyboard_init(L);
 	luaRender_init(L);
+	luaMic_init(L);
 	
 	int s = 0;
 	const char *errMsg = NULL;
 	
 	//Patching dofile function
-	char* patch = "dofile = System.doNotUse\n";
+	const char* patch = "dofile = System.doNotUse\n";
 	luaL_loadbuffer(L, patch, strlen(patch), NULL); 
 	lua_CFunction dofilecont = (lua_CFunction)(lua_gettop(L) - 1);
 	lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);

@@ -37,9 +37,10 @@
 #define stringify(str) #str
 #define BooleanRegister(lua, value) do { lua_pushboolean(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
-#define BUFSIZE 8192 // Max dimension of audio buffer size
-#define NSAMPLES 2048 // Number of samples for output
-#define AUDIO_CHANNELS 8 // PSVITA has 8 available audio channels
+#define BUFSIZE        8192 // Max dimension of audio buffer size
+#define BUFSIZE_MONO   4096 // Dimension of audio buffer files for mono tracks
+#define NSAMPLES       2048 // Number of samples for output
+#define AUDIO_CHANNELS 8    // PSVITA has 8 available audio channels
 
 // Music block struct
 struct DecodedMusic{
@@ -57,13 +58,16 @@ struct DecodedMusic{
 	bool tempBlock;
 };
 
-SceUID AudioThreads[AUDIO_CHANNELS], Audio_Mutex, NewTrack_Mutex;
+SceUID AudioThreads[AUDIO_CHANNELS], MicThread, Audio_Mutex, NewTrack_Mutex;
 DecodedMusic* new_track = NULL;
 bool initialized = false;
 bool availThreads[AUDIO_CHANNELS];
 std::unique_ptr<AudioDecoder> audio_decoder[AUDIO_CHANNELS];
 volatile bool mustExit = false;
 uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDIO_CHANNELS macro
+extern int micThread(SceSize args, void* argc);
+extern SceUID Mic_Mutex;
+extern bool termMic;
 
 // Audio thread code
 static int audioThread(unsigned int args, void* arg){
@@ -74,7 +78,7 @@ static int audioThread(unsigned int args, void* arg){
 	
 	// Initializing audio port
 	int ch = sceAudioOutOpenPort(SCE_AUDIO_OUT_PORT_TYPE_MAIN, NSAMPLES, 48000, SCE_AUDIO_OUT_MODE_STEREO);
-	sceAudioOutSetConfig(ch, -1, -1, -1);
+	sceAudioOutSetConfig(ch, -1, -1, (SceAudioOutMode)-1);
 	
 	DecodedMusic* mus;
 	int old_volume;
@@ -105,15 +109,45 @@ static int audioThread(unsigned int args, void* arg){
 		
 		// Setting audio channel volume
 		int vol_stereo[] = {32767, 32767};
-		sceAudioOutSetVolume(ch, SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH, vol_stereo);
+		sceAudioOutSetVolume(ch, (SceAudioOutChannelFlag)(SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH), vol_stereo);
 		old_volume = 32767;
 		
 		// Initializing audio decoder
 		audio_decoder[id] = AudioDecoder::Create(mus->handle, "Track");
-		if (audio_decoder[id] == NULL) continue; // TODO: Find why this case apparently can happen
+		if (audio_decoder[id] == NULL){ // TODO: Find why this case apparently can happen
+			if (mus->tempBlock){
+				free(mus);
+				mus = NULL;
+			}else{
+				mus->handle = fopen(mus->filepath,"rb");
+				mus->audioThread = 0xFF;
+			}
+			availThreads[id] = true;
+			continue; 
+		}
 		audio_decoder[id]->Open(mus->handle);
 		audio_decoder[id]->SetLooping(mus->loop);
 		audio_decoder[id]->SetFormat(48000, AudioDecoder::Format::S16, 2);
+		
+		// Checking resampler output mode
+		int rate, chns;
+		AudioDecoder::Format fmt;
+		audio_decoder[id]->GetFormat(rate, fmt, chns);
+		
+		if (rate != 48000){ // That should not happen
+			audio_decoder[id].reset();
+			if (mus->tempBlock){
+				free(mus);
+				mus = NULL;
+			}else{
+				mus->handle = fopen(mus->filepath,"rb");
+				mus->audioThread = 0xFF;
+			}
+			availThreads[id] = true;
+			continue;
+		}
+		
+		sceAudioOutSetConfig(ch, -1, -1, (SceAudioOutMode)(chns-1));
 		
 		// Initializing audio buffers
 		mus->audiobuf = (uint8_t*)malloc(BUFSIZE);
@@ -160,7 +194,7 @@ static int audioThread(unsigned int args, void* arg){
 			// Check if a volume change request arrived
 			if (mus->volume != old_volume){
 				int vol_stereo_new[] = {mus->volume, mus->volume};
-				sceAudioOutSetVolume(ch, SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH, vol_stereo_new);
+				sceAudioOutSetVolume(ch, (SceAudioOutChannelFlag)(SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH), vol_stereo_new);
 				old_volume = mus->volume;
 			}
 			
@@ -172,7 +206,7 @@ static int audioThread(unsigned int args, void* arg){
 				// Update audio output
 				if (mus->cur_audiobuf == mus->audiobuf) mus->cur_audiobuf = mus->audiobuf2;
 				else mus->cur_audiobuf = mus->audiobuf;
-				audio_decoder[id]->Decode(mus->cur_audiobuf, BUFSIZE);	
+				audio_decoder[id]->Decode(mus->cur_audiobuf, (chns > 1) ? BUFSIZE : BUFSIZE_MONO);	
 				sceAudioOutOutput(ch, mus->cur_audiobuf);
 				
 			}else{
@@ -215,6 +249,7 @@ static int lua_init(lua_State *L){
 		// Creating audio mutexs
 		Audio_Mutex = sceKernelCreateSema("Audio Mutex", 0, 0, 1, NULL);
 		NewTrack_Mutex = sceKernelCreateSema("NewTrack Mutex", 0, 1, 1, NULL);
+		Mic_Mutex = sceKernelCreateSema("Mic Mutex", 0, 0, 1, NULL);
 		
 		// Starting audio threads
 		for (int i=0;i < AUDIO_CHANNELS; i++){
@@ -223,7 +258,11 @@ static int lua_init(lua_State *L){
 			int res = sceKernelStartThread(AudioThreads[i], sizeof(ids[i]), &ids[i]);
 			if (res != 0) return luaL_error(L, "Failed to init an audio thread.");
 		}
-	
+		
+		// Starting mic thread
+		MicThread = sceKernelCreateThread("Mic Thread", &micThread, 0x10000100, 0x10000, 0, 0, NULL);
+		int res = sceKernelStartThread(MicThread, 0, NULL);
+		
 		initialized = true;
 	}
 	return 0;
@@ -245,8 +284,14 @@ static int lua_term(lua_State *L){
 		}
 		mustExit = false;
 		
-		// Deleting audio mutex
+		// Starting exit procedure for mic thread
+		termMic = true;
+		sceKernelSignalSema(Mic_Mutex, 1);
+		sceKernelWaitThreadEnd(MicThread, NULL, NULL);
+		
+		// Deleting audio mutexes
 		sceKernelDeleteSema(Audio_Mutex);
+		sceKernelDeleteSema(Mic_Mutex);
 		
 		initialized = false;
 	}
