@@ -31,9 +31,23 @@
 
 #include <string.h>
 #include <vitasdk.h>
-#include <GL/gl.h>
 #include <vita2d.h>
 #include "include/luaplayer.h"
+
+extern "C"{
+	#include "include/math_utils.h"
+}
+
+matrix4x4 _vita2d_projection_matrix;
+extern SceGxmContext* _vita2d_context;
+extern SceGxmVertexProgram* _vita2d_colorVertexProgram;
+extern SceGxmFragmentProgram* _vita2d_colorFragmentProgram;
+extern SceGxmVertexProgram* _vita2d_textureVertexProgram;
+extern SceGxmFragmentProgram* _vita2d_textureFragmentProgram;
+extern SceGxmFragmentProgram* _vita2d_textureTintFragmentProgram;
+extern const SceGxmProgramParameter* _vita2d_colorWvpParam;
+extern const SceGxmProgramParameter* _vita2d_textureWvpParam;
+extern SceGxmProgramParameter* _vita2d_textureTintColorParam;
 
 struct vertex{
 	float x;
@@ -46,7 +60,7 @@ struct vertex{
 	float n3;
 };
 
-struct vertexList{ // We'll use hardcoded GL_TRIANGLES for lpp-3ds compatibility
+struct vertexList{ // We'll use hardcoded triangles primitives for lpp-3ds compatibility
 	vertex v1;
 	vertex v2;
 	vertex v3;
@@ -58,101 +72,12 @@ struct rawVertexList{
 	rawVertexList* next;
 };
 
-struct Image {
-	unsigned long sizeX;
-	unsigned long sizeY;
-	char* data;
-};
-
-Image* ImageLoad(vita2d_texture* tmp){
-	if (tmp == NULL) return NULL;
-	Image* image = (Image*)malloc(sizeof(Image));
-	image->sizeY = vita2d_texture_get_height(tmp);
-	image->sizeX = vita2d_texture_get_width(tmp);
-	image->data = (char*)malloc(image->sizeY*image->sizeX*3);
-	char* rgba_buf = (char*)vita2d_texture_get_datap(tmp);
-	for (int y=0; y < image->sizeY; y++){
-		for (int x=0; x < image->sizeX; x++){
-			int idx = (x + y * image->sizeX);
-			*(uint32_t*)(&(image->data[idx*3])) = ((*(uint32_t*)&(rgba_buf[(x + (image->sizeY - y - 1) * image->sizeX)<<2]) & 0x00FFFFFF) | (*(uint32_t*)(&(image->data[idx*3])) & 0xFF000000));
-		}
-	}
-	vita2d_free_texture(tmp);
-	return image;
-}
-
-Image* PngLoad(const char* filename){
-	vita2d_texture* tmp = vita2d_load_PNG_file(filename);
-	return ImageLoad(tmp);
-}
-
-Image* BitmapLoad(const char* filename){
-	vita2d_texture* tmp = vita2d_load_BMP_file(filename);
-	return ImageLoad(tmp);
-}
-
-Image* JpegLoad(const char* filename){
-	vita2d_texture* tmp = vita2d_load_JPEG_file(filename);
-	return ImageLoad(tmp);
-}
-
 struct model{
 	uint32_t magic;
 	vertexList* v;
-	Image* texture;
-	GLuint glTexture[1];
+	vita2d_texture* texture;
+	uint32_t facesCount;
 };
-
-static int lua_init(lua_State *L){
-	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 3) return luaL_error(L, "wrong number of arguments.");
-	#endif
-	uint32_t w = luaL_checkinteger(L, 1);
-	uint32_t h = luaL_checkinteger(L, 2);
-	uint32_t clr = luaL_checkinteger(L, 3);
-	vglInit(w, h);
-	float a = (clr >> 24) / 255.0f;
-	float b = ((clr << 8) >> 24) / 255.0f;
-	float g = ((clr << 16) >> 24) / 255.0f;
-	float r = ((clr << 24) >> 24) / 255.0f;
-	glClearColor(r, g, b, a);
-	glClearDepth(1.0);
-	glEnable(GL_DEPTH_TEST);
-	glShadeModel(GL_SMOOTH);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.0f,(GLfloat)w/(GLfloat)h,0.1f,100.0f);
-	glMatrixMode(GL_MODELVIEW);
-	return 0;
-}
-
-static int lua_initblend(lua_State *L){
-	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	#endif
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	return 0;
-}
-
-static int lua_termblend(lua_State *L){
-	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	#endif
-	vglSwap();
-	return 0;
-}
-
-static int lua_term(lua_State *L){
-	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	#endif
-	vglClose();
-	return 0;
-}
 
 static int lua_newVertex(lua_State *L){
 	int argc = lua_gettop(L);
@@ -163,8 +88,8 @@ static int lua_newVertex(lua_State *L){
 	res->x = luaL_checknumber(L, 1);
 	res->y = luaL_checknumber(L, 2);
 	res->z = luaL_checknumber(L, 3);
-	res->t1 = luaL_checknumber(L, 4);
-	res->t2 = luaL_checknumber(L, 5);
+	res->t2 = luaL_checknumber(L, 4);
+	res->t1 = luaL_checknumber(L, 5);
 	res->n1 = luaL_checknumber(L, 6);
 	res->n2 = luaL_checknumber(L, 7);
 	res->n3 = luaL_checknumber(L, 8);
@@ -186,6 +111,7 @@ static int lua_loadmodel(lua_State *L){
 	mdl->magic = 0xC0C0C0C0;
 	mdl->v = (vertexList*)malloc(sizeof(vertexList));
 	mdl->v->next = NULL;
+	mdl->facesCount = 0;
 	vertexList* mdl_ptr = mdl->v;
 	bool first = true;
 	char* text = (char*)(luaL_checkstring(L, 2));
@@ -193,20 +119,15 @@ static int lua_loadmodel(lua_State *L){
 	uint16_t magic;
 	sceIoRead(file, &magic, 2);
 	sceIoClose(file);
-	Image* result;
-	if (magic == 0x4D42) result = BitmapLoad(text);
-	else if (magic == 0xD8FF) result = JpegLoad(text);
-	else if (magic == 0x5089) result = PngLoad(text);
-	else return luaL_error(L, "Error loading image.");
+	vita2d_texture* result;
+	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
+	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
+	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
+	else return luaL_error(L, "Error loading texture (wrong magic).");
 	#ifndef SKIP_ERROR_HANDLING
-	if (result == NULL) return luaL_error(L, "Error loading image.");
+	if (result == NULL) return luaL_error(L, "Error loading texture.");
 	#endif
-	glGenTextures(1, &mdl->glTexture[0]);
-	glBindTexture(GL_TEXTURE_2D, mdl->glTexture[0]);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, 3, result->sizeX, result->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, result->data);
-	glEnable(GL_TEXTURE_2D);
+	mdl->texture = result;
 	
 	// Creating vertex list
 	for (int i = 0; i < len; i+=3){
@@ -223,6 +144,7 @@ static int lua_loadmodel(lua_State *L){
 			memcpy(&ptr[j*sizeof(vertex)], vert, sizeof(vertex));
 			lua_pop(L, 1);
 		}
+		mdl->facesCount++;
 	}
 	
 	mdl->texture = result;
@@ -243,11 +165,11 @@ static int lua_loadobj(lua_State *L){
 	uint16_t magic;
 	sceIoRead(file, &magic, 2);
 	sceIoClose(file);
-	Image* result;
-	if (magic == 0x4D42) result = BitmapLoad(text);
-	else if (magic == 0xD8FF) result = JpegLoad(text);
-	else if (magic == 0x5089) result = PngLoad(text);
-	else return luaL_error(L, "Error loading image.");
+	vita2d_texture* result;
+	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
+	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
+	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
+	else return luaL_error(L, "Error loading image (wrong magic).");
 	#ifndef SKIP_ERROR_HANDLING
 	if (result == NULL) return luaL_error(L, "Error loading image.");
 	#endif
@@ -402,8 +324,8 @@ static int lua_loadobj(lua_State *L){
 					tmp = tmp->next;
 					t_idx++;
 				}
-				faces->vert->t1 = tmp->vert->t1;
-				faces->vert->t2 = tmp->vert->t2;
+				faces->vert->t2 = tmp->vert->t1;
+				faces->vert->t1 = tmp->vert->t2;
 			}else{
 				faces->vert->t1 = 0.0f;
 				faces->vert->t2 = 0.0f;
@@ -484,14 +406,9 @@ static int lua_loadobj(lua_State *L){
 		free(tmp_init->vert);
 		free(tmp_init);
 	}
+	res_m->facesCount = len / 3;
 	
 	// Setting texture
-	glGenTextures(1, &res_m->glTexture[0]);
-	glBindTexture(GL_TEXTURE_2D, res_m->glTexture[0]);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, 3, result->sizeX, result->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, result->data);
-	glEnable(GL_TEXTURE_2D);
 	res_m->texture = result;
 	
 	// Create a model object and push it into Lua stack
@@ -514,8 +431,7 @@ static int lua_unloadmodel(lua_State *L){
 		v = v->next;
 		free(old);
 	}
-	free(mdl->texture->data);
-	free(mdl->texture);
+	vita2d_free_texture(mdl->texture);
 	free(mdl);
 	return 0;
 }
@@ -544,31 +460,48 @@ static int lua_drawmodel(lua_State *L){
 	float z = luaL_checknumber(L, 4);
 	float angleX = luaL_checknumber(L, 5);
 	float angleY = luaL_checknumber(L, 6);
-	glLoadIdentity();
-	glTranslatef(x,y,z);
-	glRotatef(angleX,1.0f,0.0f,0.0f);
-	glRotatef(angleY,0.0f,1.0f,0.0f);
-	glBindTexture(GL_TEXTURE_2D, mdl->glTexture[0]);
-	glBegin(GL_TRIANGLES);
+
+	matrix4x4 model_matrix;
+	matrix4x4 mvp_matrix;
+	matrix4x4 final_mvp_matrix;
+	
+	sceGxmSetVertexProgram(_vita2d_context, _vita2d_textureVertexProgram);
+	sceGxmSetFragmentProgram(_vita2d_context, _vita2d_textureFragmentProgram);
+	
+	matrix4x4_init_perspective(_vita2d_projection_matrix,45.0f,960.0f/544.0f,0.1f,100.0f);
+
+	matrix4x4_init_translation(model_matrix,x,y,z);
+	matrix4x4_rotate_x(model_matrix,DEG_TO_RAD(angleX));
+	matrix4x4_rotate_y(model_matrix,DEG_TO_RAD(angleY));
+	matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, model_matrix);
+	matrix4x4_transpose(final_mvp_matrix,mvp_matrix);
+
+	void* vertex_wvp_buffer;
+	sceGxmReserveVertexDefaultUniformBuffer(_vita2d_context, &vertex_wvp_buffer);
+	sceGxmSetUniformDataF(vertex_wvp_buffer, _vita2d_textureWvpParam, 0, 16, (const float*)final_mvp_matrix);
+	
+	vita2d_texture_vertex* vertices = (vita2d_texture_vertex*)vita2d_pool_memalign(mdl->facesCount * 3 * sizeof(vita2d_texture_vertex), sizeof(vita2d_texture_vertex));
+	uint16_t* indices = (uint16_t*)vita2d_pool_memalign(mdl->facesCount * 3 * sizeof(uint16_t), sizeof(uint16_t));
 	vertexList* object = mdl->v;
+	int n = 0;
 	while (object != NULL){
-		glTexCoord2f(object->v1.t1,object->v1.t2);
-		glVertex3f(object->v1.x,object->v1.y,object->v1.z);
-		glTexCoord2f(object->v2.t1,object->v2.t2);
-		glVertex3f(object->v2.x,object->v2.y,object->v2.z);
-		glTexCoord2f(object->v3.t1,object->v3.t2);
-		glVertex3f(object->v3.x,object->v3.y,object->v3.z);
+		memcpy(&vertices[n], &object->v1, sizeof(vita2d_texture_vertex));
+		memcpy(&vertices[n+1], &object->v2, sizeof(vita2d_texture_vertex));
+		memcpy(&vertices[n+2], &object->v3, sizeof(vita2d_texture_vertex));
+		indices[n] = n;
+		indices[n+1] = n+1;
+		indices[n+2] = n+2;
 		object = object->next;
+		n += 3;
 	}
-	glEnd();
+	sceGxmSetFragmentTexture(_vita2d_context, 0, &mdl->texture->gxm_tex);
+	sceGxmSetVertexStream(_vita2d_context, 0, vertices);
+	sceGxmDraw(_vita2d_context, SCE_GXM_PRIMITIVE_TRIANGLES, SCE_GXM_INDEX_FORMAT_U16, indices, mdl->facesCount * 3);
+	
 }
 
 //Register our Render Functions
 static const luaL_Reg Render_functions[] = {
-	{"init",           lua_init},
-	{"term",           lua_term},
-	{"initBlend",      lua_initblend},
-	{"termBlend",      lua_termblend},
 	{"createVertex",   lua_newVertex},
 	{"destroyVertex",  lua_delVertex},
 	{"loadModel",      lua_loadmodel},

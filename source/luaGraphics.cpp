@@ -214,8 +214,10 @@ static int lua_init(lua_State *L) {
 	if (draw_state) return luaL_error(L, "initBlend can't be called inside a blending phase.");
 	else draw_state = true;
 	#endif
-	if (isRescaling) vita2d_start_drawing_advanced(scaler.fbo, (vita2d_start_drawing_flags)(VITA_2D_RESET_POOL | VITA_2D_SCENE_FRAGMENT_SET_DEPENDENCY));
-	else vita2d_start_drawing();
+	if (isRescaling){
+		vita2d_pool_reset();
+		vita2d_start_drawing_advanced(scaler.fbo, SCE_GXM_SCENE_FRAGMENT_SET_DEPENDENCY);
+	}else vita2d_start_drawing();
     return 0;
 }
 
@@ -230,7 +232,7 @@ static int lua_term(lua_State *L) {
 	#endif	
 	vita2d_end_drawing();
 	if (isRescaling){
-		vita2d_start_drawing_advanced(NULL, VITA_2D_SCENE_VERTEX_WAIT_FOR_DEPENDENCY);
+		vita2d_start_drawing_advanced(NULL, SCE_GXM_SCENE_VERTEX_WAIT_FOR_DEPENDENCY);
 		vita2d_draw_texture_scale(scaler.fbo,scaler.x,scaler.y,scaler.x_scale,scaler.y_scale);
 		vita2d_end_drawing();
 	}
@@ -432,7 +434,7 @@ static int lua_createimage(lua_State *L){
 	int h = luaL_checkinteger(L, 2);
 	texture* text = (texture*)malloc(sizeof(texture));
 	text->magic = 0xABADBEEF;
-	text->text = vita2d_create_empty_texture(w, h);
+	text->text = vita2d_create_empty_texture_rendertarget(w, h, SCE_GXM_TEXTURE_FORMAT_A8B8G8R8);
 	lua_pushinteger(L, (uint32_t)text);
 	return 1;
 }
@@ -519,7 +521,7 @@ static int lua_rescaleron(lua_State *L) {
 	scaler.y = y;
 	scaler.x_scale = x_scale;
 	scaler.y_scale = y_scale;
-	scaler.fbo = vita2d_create_empty_texture_format_advanced(960,544,SCE_GXM_TEXTURE_FORMAT_A8B8G8R8);
+	scaler.fbo = vita2d_create_empty_texture_format(960,544,SCE_GXM_TEXTURE_FORMAT_A8B8G8R8);
 	isRescaling = true;
 	return 0;
 }

@@ -3,9 +3,9 @@
 #include <string.h>
 #include <malloc.h>
 #include <vitasdk.h>
+#include <vita2d.h>
 #include "include/luaplayer.h"
 extern "C"{
-	#include <vita2d.h>
 	#include "include/ftp/ftp.h"
 }
 extern vita2d_pgf* debug_font;
