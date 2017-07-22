@@ -217,6 +217,32 @@ static int lua_headset(lua_State *L) {
 	return 1;
 }
 
+static int lua_accel(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	SceMotionSensorState sensor;
+	sceMotionGetSensorState(&sensor, 1);
+	lua_pushnumber(L, sensor.accelerometer.x);
+	lua_pushnumber(L, sensor.accelerometer.y);
+	lua_pushnumber(L, sensor.accelerometer.z);
+	return 3;
+}
+
+static int lua_gyro(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	SceMotionSensorState sensor;
+	sceMotionGetSensorState(&sensor, 1);
+	lua_pushnumber(L, sensor.gyro.x);
+	lua_pushnumber(L, sensor.gyro.y);
+	lua_pushnumber(L, sensor.gyro.z);
+	return 3;
+}
+
 //Register our Controls Functions
 static const luaL_Reg Controls_functions[] = {
   {"read",             lua_readC},	
@@ -231,6 +257,8 @@ static const luaL_Reg Controls_functions[] = {
   {"unlockHomeButton", lua_unlock},	
   {"getDeviceInfo",    lua_gettype},
   {"headsetStatus",    lua_headset},
+  {"readAccel",        lua_accel},
+  {"readGyro",         lua_gyro},
   {0, 0}
 };
 

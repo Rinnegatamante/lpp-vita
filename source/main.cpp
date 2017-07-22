@@ -37,6 +37,8 @@ int main()
 	sceAppUtilMusicMount();
 	sceAppUtilPhotoMount();
 	sceShellUtilInitEvents(0);
+	sceMotionStartSampling();
+	sceMotionMagnetometerOn();
 	
 	// Check what mode lpp-vita is currently running on
 	SceUID fd = sceIoOpen("os0:/psp2bootconfig.skprx", SCE_O_RDONLY, 0777);
@@ -120,10 +122,14 @@ int main()
 		}
 	}
 	
+	sceMotionMagnetometerOff();
+	sceMotionStopSampling();
 	sceAppUtilPhotoUmount();
 	sceAppUtilMusicUmount();
 	sceAppUtilShutdown();
 	vita2d_fini();
+	sceSysmoduleUnloadModule(SCE_SYSMODULE_NET);
+	sceSysmoduleUnloadModule(SCE_SYSMODULE_HTTP);
 	sceKernelExitProcess(0);
 	return 0;
 }
