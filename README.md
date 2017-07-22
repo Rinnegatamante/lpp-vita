@@ -17,10 +17,11 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 ##### Graphics
 
 * Advanced 2D Graphics Rendering (GPU)
-* Basic 3D Graphics Rendering (GPU Soft-rendered)
+* Basic 3D Graphics Rendering (GPU)
 * Native support to 0BJ models
 * Native support to TTF fonts
 * Native support to BMP/PNG/JPG images
+* Built-in rescaler to perform portings from [lpp-3ds](https://github.com/Rinnegatamante/lpp-3ds) easily.
 
 ##### Sounds
 
@@ -36,11 +37,15 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 * Controls system with full console support
 * Support to dualshock rumble feature for PSTV.
 * Support to home button locking/unlocking
+* Support to lightbar color change for PSTV.
+* Support to gyroscope and accelerometer reading.
+* Support to both touchpads reading.
 
 ##### Network
 
 * Built-in debug FTP server
 * Complete sockets system support
+* Native support to HTTP requests
 
 ##### System
 
