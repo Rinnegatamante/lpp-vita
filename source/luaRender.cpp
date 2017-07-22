@@ -88,8 +88,8 @@ static int lua_newVertex(lua_State *L){
 	res->x = luaL_checknumber(L, 1);
 	res->y = luaL_checknumber(L, 2);
 	res->z = luaL_checknumber(L, 3);
-	res->t2 = luaL_checknumber(L, 4);
-	res->t1 = luaL_checknumber(L, 5);
+	res->t1 = luaL_checknumber(L, 4);
+	res->t2 = 1.0f - luaL_checknumber(L, 5);
 	res->n1 = luaL_checknumber(L, 6);
 	res->n2 = luaL_checknumber(L, 7);
 	res->n3 = luaL_checknumber(L, 8);
@@ -148,6 +148,8 @@ static int lua_loadmodel(lua_State *L){
 	}
 	
 	mdl->texture = result;
+	vita2d_texture_set_filters(mdl->texture, SCE_GXM_TEXTURE_FILTER_LINEAR, SCE_GXM_TEXTURE_FILTER_LINEAR);
+	
 	lua_pushinteger(L, (uint32_t)mdl);
 	return 1;
 }
@@ -324,8 +326,8 @@ static int lua_loadobj(lua_State *L){
 					tmp = tmp->next;
 					t_idx++;
 				}
-				faces->vert->t2 = tmp->vert->t1;
-				faces->vert->t1 = tmp->vert->t2;
+				faces->vert->t1 = tmp->vert->t1;
+				faces->vert->t2 = 1.0f - tmp->vert->t2;
 			}else{
 				faces->vert->t1 = 0.0f;
 				faces->vert->t2 = 0.0f;
@@ -410,6 +412,7 @@ static int lua_loadobj(lua_State *L){
 	
 	// Setting texture
 	res_m->texture = result;
+	vita2d_texture_set_filters(res_m->texture, SCE_GXM_TEXTURE_FILTER_LINEAR, SCE_GXM_TEXTURE_FILTER_LINEAR);
 	
 	// Create a model object and push it into Lua stack
 	lua_pushinteger(L, (uint32_t)res_m);
