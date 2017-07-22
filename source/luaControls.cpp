@@ -39,6 +39,7 @@
 
 SceCtrlActuator actuators[4];
 extern bool unsafe_mode;
+bool sensors_enabled = false;
 
 static int lua_readC(lua_State *L){
 	int argc = lua_gettop(L);
@@ -221,6 +222,7 @@ static int lua_accel(lua_State *L) {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!sensors_enabled) return luaL_error(L, "you must enable sensors reading to use this function.");
 	#endif
 	SceMotionSensorState sensor;
 	sceMotionGetSensorState(&sensor, 1);
@@ -234,6 +236,7 @@ static int lua_gyro(lua_State *L) {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!sensors_enabled) return luaL_error(L, "you must enable sensors reading to use this function.");
 	#endif
 	SceMotionSensorState sensor;
 	sceMotionGetSensorState(&sensor, 1);
@@ -241,6 +244,32 @@ static int lua_gyro(lua_State *L) {
 	lua_pushnumber(L, sensor.gyro.y);
 	lua_pushnumber(L, sensor.gyro.z);
 	return 3;
+}
+
+static int lua_enablesensors(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	if (!sensors_enabled){
+		sceMotionStartSampling();
+		sceMotionMagnetometerOn();
+		sensors_enabled = true;
+	}
+	return 0;
+}
+
+static int lua_disablesensors(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	if (sensors_enabled){
+		sceMotionStopSampling();
+		sceMotionMagnetometerOff();
+		sensors_enabled = false;
+	}
+	return 0;
 }
 
 //Register our Controls Functions
@@ -259,6 +288,10 @@ static const luaL_Reg Controls_functions[] = {
   {"headsetStatus",    lua_headset},
   {"readAccel",        lua_accel},
   {"readGyro",         lua_gyro},
+  {"enableGyro",       lua_enablesensors},	
+  {"enableAccel",      lua_enablesensors},	
+  {"disableGyro",      lua_disablesensors},	
+  {"disableAccel",     lua_disablesensors}, 
   {0, 0}
 };
 
