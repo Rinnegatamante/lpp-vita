@@ -29,10 +29,15 @@ int main()
 	// Starting secondary modules and mounting secondary filesystems
 	sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
 	sceSysmoduleLoadModule(SCE_SYSMODULE_HTTP);
-	SceAppUtilInitParam appUtilParam = {};
-	SceAppUtilBootParam appUtilBootParam = {};
-	SceCommonDialogConfigParam cmnDlgCfgParam = {};
+	SceAppUtilInitParam appUtilParam;
+	SceAppUtilBootParam appUtilBootParam;
+	memset(&appUtilParam, 0, sizeof(SceAppUtilInitParam));
+	memset(&appUtilBootParam, 0, sizeof(SceAppUtilBootParam));
 	sceAppUtilInit(&appUtilParam, &appUtilBootParam);
+	SceCommonDialogConfigParam cmnDlgCfgParam;
+	sceCommonDialogConfigParamInit(&cmnDlgCfgParam);
+	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, (int *)&cmnDlgCfgParam.language);
+	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_ENTER_BUTTON, (int *)&cmnDlgCfgParam.enterButtonAssign);
 	sceCommonDialogSetConfigParam(&cmnDlgCfgParam);
 	sceAppUtilMusicMount();
 	sceAppUtilPhotoMount();
