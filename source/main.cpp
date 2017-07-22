@@ -53,7 +53,7 @@ int main()
 	unsigned short int vita_port = 0;
 	
 	// Initializing graphics device
-	vita2d_init();
+	vita2d_init_advanced(0x800000);
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
 	vita2d_set_vblank_wait(0);
 	clr_color = 0x000000FF;
