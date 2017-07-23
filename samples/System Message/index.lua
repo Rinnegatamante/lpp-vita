@@ -1,7 +1,6 @@
 -- Initializing a system message
-System.setMessage("This sample will show a progressbar message. It will take 10 seconds to finish. Do you want to start this sample?", false, BUTTON_YES_NO)
+System.setMessage("This sample will show a progressbar message.\nIt will take 20 seconds to finish.\nDo you want to start this sample?", false, BUTTON_YES_NO)
 ret = nil
-messageBox = true
 messageIdx = 1
 prog_timer = nil
 progress = 10
@@ -14,7 +13,7 @@ while true do
 	Screen.clear()
 	
 	-- Checking for message status
-	if messageBox then
+	if messageIdx < 3 then
 		status = System.getMessageState()
 		
 		-- Updating progressbar status
@@ -43,14 +42,13 @@ while true do
 				if messageIdx == 3 then
 					
 					-- Sample finished, showing result
-					messageBox = false
 					ret = "Sample finished"
 					Timer.destroy(prog_timer)
 					
 				else
 					
 					-- Starting progressbar message
-					System.setMessage("Progressbar sample in progress. Please wait...", true)
+					System.setMessage("Progressbar sample in progress.\nPlease wait...", true)
 					System.setMessageProgMsg("0%%")
 					prog_timer = Timer.new()
 					
