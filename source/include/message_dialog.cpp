@@ -102,6 +102,7 @@ int sceMsgDialogInit(const SceMsgDialogParam *param) {
 	switch (dlg.mode){
 		case SCE_MSG_DIALOG_MODE_PROGRESS_BAR:
 			sprintf(dlg.msg, (char*)param->progBarParam->msg);
+			sprintf(dlg.submsg, " ");
 			dlg.progress = 0;
 			break;
 		case SCE_MSG_DIALOG_MODE_USER_MSG:
@@ -132,6 +133,7 @@ int sceMsgDialogInit(const SceMsgDialogParam *param) {
 	char* str = dlg.msg;
 	char* spc = strstr(str, " ");
 	char* last_spc = NULL;
+	char* next_newline = strstr(str, "\n");
 	char buf[512];
 	float len = 0.0f;
 	if (spc != NULL){
@@ -142,7 +144,15 @@ int sceMsgDialogInit(const SceMsgDialogParam *param) {
 	}
 	uint8_t lines = 1;
 	while (spc != NULL){
-		if (len < LINE_MAX_WIDTH){
+		if ((next_newline != NULL) && (next_newline < spc)){
+			str = next_newline;
+			next_newline = strstr(str + 1, "\n");
+			spc[0] = 0;
+			sprintf(buf, str);
+			spc[0] = ' ';
+			len = vita2d_pgf_text_width(debug_font, 1.0f, buf);
+			lines++;
+		}else if (len < LINE_MAX_WIDTH){
 			last_spc = spc;
 			spc = strstr(spc + 1, " ");
 			if (spc != NULL){
@@ -261,6 +271,6 @@ int sceMsgDialogProgressBarSetValue(SceMsgDialogProgressBarTarget target, SceUIn
 int sceMsgDialogProgressBarSetMsg( SceMsgDialogProgressBarTarget target, const SceChar8 *barMsg ){
 	sprintf(dlg.submsg, (char*)barMsg);
 	float submsg_width = vita2d_pgf_text_width(debug_font, 0.8f, dlg.submsg);
-	dlg.submsg_x = MSGDIALOG_X + MSGDIALOG_X - submsg_width / 2;
+	dlg.submsg_x = MSGDIALOG_X * 2 - submsg_width / 2;
 	return 0;
 }
