@@ -64,7 +64,7 @@ bool draw_state = false;
 static int lua_print(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	#ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "debugPrint can't be called outside a blending phase.");
@@ -218,7 +218,7 @@ static int lua_init(lua_State *L) {
 		vita2d_pool_reset();
 		vita2d_start_drawing_advanced(scaler.fbo, SCE_GXM_SCENE_FRAGMENT_SET_DEPENDENCY);
 	}else vita2d_start_drawing();
-    return 0;
+	return 0;
 }
 
 static int lua_term(lua_State *L) {
@@ -238,7 +238,7 @@ static int lua_term(lua_State *L) {
 	}
 	if (keyboardStarted) vita2d_common_dialog_update();
 	vita2d_wait_rendering_done();
-    return 0;
+	return 0;
 }
 
 static int lua_loadimg(lua_State *L){

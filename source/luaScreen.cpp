@@ -48,10 +48,9 @@ static int lua_clear(lua_State *L){
 	#endif
 	if (argc == 1){
 		int color = luaL_checkinteger(L,1);
-		if (color == clr_color) vita2d_clear_screen();
-		else{
-		vita2d_set_clear_color(RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
-		clr_color = color;
+		if (color != clr_color){
+			vita2d_set_clear_color(RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+			clr_color = color;
 		}
 	}
 	vita2d_clear_screen();
