@@ -17,6 +17,7 @@ extern char errorMex[];
 unsigned char *script;
 int clr_color;
 bool unsafe_mode = true;
+SceCommonDialogConfigParam cmnDlgCfgParam;
 
 int main()
 {
@@ -34,7 +35,6 @@ int main()
 	memset(&appUtilParam, 0, sizeof(SceAppUtilInitParam));
 	memset(&appUtilBootParam, 0, sizeof(SceAppUtilBootParam));
 	sceAppUtilInit(&appUtilParam, &appUtilBootParam);
-	SceCommonDialogConfigParam cmnDlgCfgParam;
 	sceCommonDialogConfigParamInit(&cmnDlgCfgParam);
 	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, (int *)&cmnDlgCfgParam.language);
 	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_ENTER_BUTTON, (int *)&cmnDlgCfgParam.enterButtonAssign);

@@ -51,6 +51,10 @@ uint32_t AUTO_SUSPEND_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_AUTO_SUSPEND;
 uint32_t SCREEN_OFF_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_OFF;
 uint32_t SCREEN_DIMMING_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_DIMMING;
 extern bool unsafe_mode;
+SceMsgDialogProgressBarParam barParam;
+SceMsgDialogUserMessageParam msgParam;
+bool messageStarted = false;
+char messageText[512];
 
 static int lua_dofile(lua_State *L){
 	int argc = lua_gettop(L);
@@ -773,6 +777,91 @@ static int lua_issafe(lua_State *L){
 	return 1;
 }
 
+static int lua_setmsg(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (messageStarted) return luaL_error(L, "cannot start multiple message instances.");
+	if (argc != 3 && argc != 2) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char* text = luaL_checkstring(L, 1);
+	bool progressbar = lua_toboolean(L, 2);
+	int buttons = 0;
+	if (argc == 3) buttons = luaL_checkinteger(L, 3);
+	#ifndef SKIP_ERROR_HANDLING
+	if (buttons > 4 || buttons < 0) return luaL_error(L, "invalid buttons type argument.");
+	#endif
+	sprintf(messageText, text);
+	SceMsgDialogParam param;
+	sceMsgDialogParamInit(&param);
+	if (progressbar){
+		param.mode = SCE_MSG_DIALOG_MODE_PROGRESS_BAR;
+		memset(&barParam, 0, sizeof(SceMsgDialogProgressBarParam));
+		barParam.msg = (const SceChar8*)messageText;
+		barParam.barType = SCE_MSG_DIALOG_PROGRESSBAR_TYPE_PERCENTAGE;
+		param.progBarParam = &barParam;
+	}else{
+		param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
+		memset(&msgParam, 0, sizeof(SceMsgDialogUserMessageParam));
+		msgParam.msg = (const SceChar8*)messageText;
+		msgParam.buttonType = buttons;
+		param.userMsgParam = &msgParam;
+	}
+	if (sceMsgDialogInit(&param) < 0) return luaL_error(L, "an error occurred when starting message instance.");
+	messageStarted = true;
+	return 0;
+}
+
+static int lua_getmsg(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (!messageStarted) return luaL_error(L, "no message instances available.");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	SceCommonDialogStatus status = sceMsgDialogGetStatus();
+	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
+		SceMsgDialogResult result;
+		memset(&result, 0, sizeof(SceMsgDialogResult));
+		sceMsgDialogGetResult(&result);
+		if (result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) status = (SceCommonDialogStatus)3; // CANCELED status, look at luaKeyboard.cpp
+		sceMsgDialogTerm();
+		messageStarted = false;
+	}else status = (SceCommonDialogStatus)1; // RUNNING status, look at luaKeyboard.cpp
+	lua_pushinteger(L, (uint32_t)status);
+	return 1;
+}
+
+static int lua_setprogmsg(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (!messageStarted) return luaL_error(L, "no message instances available.");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char* msg = luaL_checkstring(L, 1);
+	sceMsgDialogProgressBarSetMsg(SCE_MSG_DIALOG_PROGRESSBAR_TARGET_BAR_DEFAULT, (const SceChar8*)msg);
+	return 0;
+}
+
+static int lua_setprogbar(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (!messageStarted) return luaL_error(L, "no message instances available.");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	int val = luaL_checkinteger(L, 1);
+	sceMsgDialogProgressBarSetValue(SCE_MSG_DIALOG_PROGRESSBAR_TARGET_BAR_DEFAULT, val);
+	return 0;
+}
+
+static int lua_closemsg(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (!messageStarted) return luaL_error(L, "no message instances available.");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	sceMsgDialogClose();
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -827,7 +916,12 @@ static const luaL_Reg System_functions[] = {
   {"takeScreenshot",            lua_screenshot},
   {"executeUri",                lua_executeuri},
   {"reboot",                    lua_reboot},  
-  {"isSafeMode",                lua_issafe},  
+  {"isSafeMode",                lua_issafe},
+  {"setMessage",                lua_setmsg},
+  {"getMessageState",           lua_getmsg},
+  {"setMessageProgress",        lua_setprogbar},
+  {"setMessageProgMsg",         lua_setprogmsg},
+  {"closeMessage",              lua_closemsg},
   {0, 0}
 };
 
@@ -835,6 +929,16 @@ void luaSystem_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, System_functions, 0);
 	lua_setglobal(L, "System");
+	int BUTTON_OK = 0;
+	int BUTTON_YES_NO = 1;
+	int BUTTON_NONE = 2;
+	int BUTTON_OK_CANCEL = 3;
+	int BUTTON_CANCEL = 4;
+	VariableRegister(L,BUTTON_OK);
+	VariableRegister(L,BUTTON_YES_NO);
+	VariableRegister(L,BUTTON_NONE);
+	VariableRegister(L,BUTTON_OK_CANCEL);
+	VariableRegister(L,BUTTON_CANCEL);
 	VariableRegister(L,AUTO_SUSPEND_TIMER);
 	VariableRegister(L,SCREEN_OFF_TIMER);
 	VariableRegister(L,SCREEN_DIMMING_TIMER);
