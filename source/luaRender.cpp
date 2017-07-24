@@ -31,12 +31,17 @@
 
 #include <string.h>
 #include <vitasdk.h>
+extern "C"{
+	#include <utils.h> // utils.h file from vita2d
+}
 #include <vita2d.h>
 #include "include/luaplayer.h"
 
 extern "C"{
 	#include "include/math_utils.h"
 }
+
+#define ALIGN(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
 
 static matrix4x4 _vita2d_projection_matrix;
 extern SceGxmContext* _vita2d_context;
@@ -74,7 +79,9 @@ struct rawVertexList{
 
 struct model{
 	uint32_t magic;
-	vertexList* v;
+	vita2d_texture_vertex* vertexList;
+	uint16_t* idxList;
+	SceUID memblocks[2];
 	vita2d_texture* texture;
 	uint32_t facesCount;
 };
@@ -109,10 +116,10 @@ static int lua_loadmodel(lua_State *L){
 	#endif
 	model* mdl = (model*)malloc(sizeof(model));
 	mdl->magic = 0xC0C0C0C0;
-	mdl->v = (vertexList*)malloc(sizeof(vertexList));
-	mdl->v->next = NULL;
 	mdl->facesCount = 0;
-	vertexList* mdl_ptr = mdl->v;
+	vertexList* mdl_ptr = (vertexList*)malloc(sizeof(vertexList));
+	vertexList* vlist = mdl_ptr;
+	mdl_ptr->next = NULL;
 	bool first = true;
 	char* text = (char*)(luaL_checkstring(L, 2));
 	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
@@ -147,6 +154,38 @@ static int lua_loadmodel(lua_State *L){
 		mdl->facesCount++;
 	}
 	
+	// Allocating vertices on VRAM
+	uint32_t listSize = ALIGN(mdl->facesCount * 3 * sizeof(vita2d_texture_vertex), sizeof(vita2d_texture_vertex));
+	uint32_t idxSize = ALIGN(mdl->facesCount * 3 * sizeof(uint16_t), sizeof(uint16_t));
+	SceUID vertexListID;
+	SceUID idxListID;
+	vita2d_texture_vertex* vertexListPtr = (vita2d_texture_vertex*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW,listSize,sizeof(void *),SCE_GXM_MEMORY_ATTRIB_READ,&vertexListID);
+	uint16_t* idxList = (uint16_t*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW,idxSize,sizeof(void *),SCE_GXM_MEMORY_ATTRIB_READ,&idxListID);
+	vertexList* object = vlist;
+	int n = 0;
+	while (object != NULL){
+		memcpy(&vertexListPtr[n], &object->v1, sizeof(vita2d_texture_vertex));
+		memcpy(&vertexListPtr[n+1], &object->v2, sizeof(vita2d_texture_vertex));
+		memcpy(&vertexListPtr[n+2], &object->v3, sizeof(vita2d_texture_vertex));
+		idxList[n] = n;
+		idxList[n+1] = n+1;
+		idxList[n+2] = n+2;
+		object = object->next;
+		n += 3;
+	}
+	while (vlist != NULL){
+		vertexList* old = vlist;
+		vlist = vlist->next;
+		free(old);
+	}
+	
+	// Properly finishing populating model object
+	mdl->vertexList = vertexListPtr;
+	mdl->idxList = idxList;
+	mdl->memblocks[0] = vertexListID;
+	mdl->memblocks[1] = idxListID;
+	
+	// Populating texture field
 	mdl->texture = result;
 	vita2d_texture_set_filters(mdl->texture, SCE_GXM_TEXTURE_FILTER_LINEAR, SCE_GXM_TEXTURE_FILTER_LINEAR);
 	
@@ -382,7 +421,7 @@ static int lua_loadobj(lua_State *L){
 	model* res_m = (model*)malloc(sizeof(model));
 	res_m->magic = 0xC0C0C0C0;
 	vertexList* vlist = (vertexList*)malloc(sizeof(vertexList));
-	res_m->v = vlist;
+	vertexList* vlist_start = vlist;
 	vlist->next = NULL;
 	bool first = true;
 	for(int i = 0; i < len; i+=3) {
@@ -414,7 +453,39 @@ static int lua_loadobj(lua_State *L){
 	res_m->texture = result;
 	vita2d_texture_set_filters(res_m->texture, SCE_GXM_TEXTURE_FILTER_LINEAR, SCE_GXM_TEXTURE_FILTER_LINEAR);
 	
-	// Create a model object and push it into Lua stack
+	// Allocating vertices on VRAM
+	vlist = vlist_start;
+	uint32_t listSize = ALIGN(res_m->facesCount * 3 * sizeof(vita2d_texture_vertex), sizeof(vita2d_texture_vertex));
+	uint32_t idxSize = ALIGN(res_m->facesCount * 3 * sizeof(uint16_t), sizeof(uint16_t));
+	SceUID vertexListID;
+	SceUID idxListID;
+	vita2d_texture_vertex* vertexListPtr = (vita2d_texture_vertex*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW,listSize,sizeof(void *),SCE_GXM_MEMORY_ATTRIB_READ,&vertexListID);
+	uint16_t* idxList = (uint16_t*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW,idxSize,sizeof(void *),SCE_GXM_MEMORY_ATTRIB_READ,&idxListID);
+	vertexList* object = vlist;
+	int n = 0;
+	while (object != NULL){
+		memcpy(&vertexListPtr[n], &object->v1, sizeof(vita2d_texture_vertex));
+		memcpy(&vertexListPtr[n+1], &object->v2, sizeof(vita2d_texture_vertex));
+		memcpy(&vertexListPtr[n+2], &object->v3, sizeof(vita2d_texture_vertex));
+		idxList[n] = n;
+		idxList[n+1] = n+1;
+		idxList[n+2] = n+2;
+		object = object->next;
+		n += 3;
+	}
+	while (vlist != NULL){
+		vertexList* old = vlist;
+		vlist = vlist->next;
+		free(old);
+	}
+	
+	// Properly finishing populating model object
+	res_m->vertexList = vertexListPtr;
+	res_m->idxList = idxList;
+	res_m->memblocks[0] = vertexListID;
+	res_m->memblocks[1] = idxListID;
+	
+	// Push model object into Lua stack
 	lua_pushinteger(L, (uint32_t)res_m);
 	return 1;
 }
@@ -428,12 +499,8 @@ static int lua_unloadmodel(lua_State *L){
 	#ifndef SKIP_ERROR_HANDLING
 	if (mdl->magic != 0xC0C0C0C0) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
-	vertexList* v = mdl->v;
-	while (v != NULL){
-		vertexList* old = v;
-		v = v->next;
-		free(old);
-	}
+	gpu_free(mdl->memblocks[0]);
+	gpu_free(mdl->memblocks[1]);
 	vita2d_free_texture(mdl->texture);
 	free(mdl);
 	return 0;
@@ -483,23 +550,9 @@ static int lua_drawmodel(lua_State *L){
 	sceGxmReserveVertexDefaultUniformBuffer(_vita2d_context, &vertex_wvp_buffer);
 	sceGxmSetUniformDataF(vertex_wvp_buffer, _vita2d_textureWvpParam, 0, 16, (const float*)final_mvp_matrix);
 	
-	vita2d_texture_vertex* vertices = (vita2d_texture_vertex*)vita2d_pool_memalign(mdl->facesCount * 3 * sizeof(vita2d_texture_vertex), sizeof(vita2d_texture_vertex));
-	uint16_t* indices = (uint16_t*)vita2d_pool_memalign(mdl->facesCount * 3 * sizeof(uint16_t), sizeof(uint16_t));
-	vertexList* object = mdl->v;
-	int n = 0;
-	while (object != NULL){
-		memcpy(&vertices[n], &object->v1, sizeof(vita2d_texture_vertex));
-		memcpy(&vertices[n+1], &object->v2, sizeof(vita2d_texture_vertex));
-		memcpy(&vertices[n+2], &object->v3, sizeof(vita2d_texture_vertex));
-		indices[n] = n;
-		indices[n+1] = n+1;
-		indices[n+2] = n+2;
-		object = object->next;
-		n += 3;
-	}
 	sceGxmSetFragmentTexture(_vita2d_context, 0, &mdl->texture->gxm_tex);
-	sceGxmSetVertexStream(_vita2d_context, 0, vertices);
-	sceGxmDraw(_vita2d_context, SCE_GXM_PRIMITIVE_TRIANGLES, SCE_GXM_INDEX_FORMAT_U16, indices, mdl->facesCount * 3);
+	sceGxmSetVertexStream(_vita2d_context, 0, mdl->vertexList);
+	sceGxmDraw(_vita2d_context, SCE_GXM_PRIMITIVE_TRIANGLES, SCE_GXM_INDEX_FORMAT_U16, mdl->idxList, mdl->facesCount * 3);
 	
 }
 
