@@ -82,7 +82,7 @@ struct model{
 	vita2d_texture_vertex* vertexList;
 	uint16_t* idxList;
 	SceUID memblocks[2];
-	vita2d_texture* texture;
+	lpp_texture* texture;
 	uint32_t facesCount;
 };
 
@@ -104,6 +104,21 @@ static int lua_newVertex(lua_State *L){
 	return 1;
 }
 
+static int lua_settext(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	#endif
+	model* mdl = (model*)(luaL_checkinteger(L, 1));
+	lpp_texture* txt = (lpp_texture*)(luaL_checkinteger(L, 2));
+	#ifndef SKIP_ERROR_HANDLING
+	if (mdl->magic != 0xC0C0C0C0) luaL_error(L, "attempt to access wrong memory block type.");
+	if (txt->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	#endif
+	mdl->texture = txt;
+	return 0;
+}
+
 static int lua_loadmodel(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -121,20 +136,11 @@ static int lua_loadmodel(lua_State *L){
 	vertexList* vlist = mdl_ptr;
 	mdl_ptr->next = NULL;
 	bool first = true;
-	char* text = (char*)(luaL_checkstring(L, 2));
-	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
-	uint16_t magic;
-	sceIoRead(file, &magic, 2);
-	sceIoClose(file);
-	vita2d_texture* result;
-	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
-	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
-	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
-	else return luaL_error(L, "Error loading texture (wrong magic).");
+	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 2));
 	#ifndef SKIP_ERROR_HANDLING
-	if (result == NULL) return luaL_error(L, "Error loading texture.");
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
 	#endif
-	mdl->texture = result;
+	mdl->texture = text;
 	
 	// Creating vertex list
 	for (int i = 0; i < len; i+=3){
@@ -185,10 +191,6 @@ static int lua_loadmodel(lua_State *L){
 	mdl->memblocks[0] = vertexListID;
 	mdl->memblocks[1] = idxListID;
 	
-	// Populating texture field
-	mdl->texture = result;
-	vita2d_texture_set_filters(mdl->texture, SCE_GXM_TEXTURE_FILTER_LINEAR, SCE_GXM_TEXTURE_FILTER_LINEAR);
-	
 	lua_pushinteger(L, (uint32_t)mdl);
 	return 1;
 }
@@ -199,24 +201,15 @@ static int lua_loadobj(lua_State *L){
 	if (argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char *file_tbo = luaL_checkstring(L, 1); //Model filename
-	const char* text = luaL_checkstring(L, 2); // Texture filename
 	
 	// Loading texture
-	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
-	uint16_t magic;
-	sceIoRead(file, &magic, 2);
-	sceIoClose(file);
-	vita2d_texture* result;
-	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
-	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
-	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
-	else return luaL_error(L, "Error loading image (wrong magic).");
+	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 2));
 	#ifndef SKIP_ERROR_HANDLING
-	if (result == NULL) return luaL_error(L, "Error loading image.");
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
 	#endif
 	
 	// Opening model file and loading it on RAM
-	file = sceIoOpen(file_tbo, SCE_O_RDONLY, 0777);
+	int file = sceIoOpen(file_tbo, SCE_O_RDONLY, 0777);
 	uint32_t size = sceIoLseek(file, 0, SEEK_END);
 	sceIoLseek(file, 0, SEEK_SET);
 	char* content = (char*)malloc(size+1);
@@ -450,8 +443,7 @@ static int lua_loadobj(lua_State *L){
 	res_m->facesCount = len / 3;
 	
 	// Setting texture
-	res_m->texture = result;
-	vita2d_texture_set_filters(res_m->texture, SCE_GXM_TEXTURE_FILTER_LINEAR, SCE_GXM_TEXTURE_FILTER_LINEAR);
+	res_m->texture = text;
 	
 	// Allocating vertices on VRAM
 	vlist = vlist_start;
@@ -501,7 +493,6 @@ static int lua_unloadmodel(lua_State *L){
 	#endif
 	gpu_free(mdl->memblocks[0]);
 	gpu_free(mdl->memblocks[1]);
-	vita2d_free_texture(mdl->texture);
 	free(mdl);
 	return 0;
 }
@@ -550,7 +541,7 @@ static int lua_drawmodel(lua_State *L){
 	sceGxmReserveVertexDefaultUniformBuffer(_vita2d_context, &vertex_wvp_buffer);
 	sceGxmSetUniformDataF(vertex_wvp_buffer, _vita2d_textureWvpParam, 0, 16, (const float*)final_mvp_matrix);
 	
-	sceGxmSetFragmentTexture(_vita2d_context, 0, &mdl->texture->gxm_tex);
+	sceGxmSetFragmentTexture(_vita2d_context, 0, &mdl->texture->text->gxm_tex);
 	sceGxmSetVertexStream(_vita2d_context, 0, mdl->vertexList);
 	sceGxmDraw(_vita2d_context, SCE_GXM_PRIMITIVE_TRIANGLES, SCE_GXM_INDEX_FORMAT_U16, mdl->idxList, mdl->facesCount * 3);
 	
@@ -564,6 +555,7 @@ static const luaL_Reg Render_functions[] = {
 	{"loadObject",     lua_loadobj},
 	{"unloadModel",    lua_unloadmodel},
 	{"drawModel",      lua_drawmodel},
+	{"useTexture",     lua_settext},
 	{0, 0}
 };
 

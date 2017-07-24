@@ -78,4 +78,10 @@ extern volatile bool termMic;
 extern int micThread(SceSize args, void* argc);
 extern SceUID Mic_Mutex;
 
+// Internal structs
+struct lpp_texture{
+	uint32_t magic;
+	vita2d_texture* text;
+};
+
 #endif
