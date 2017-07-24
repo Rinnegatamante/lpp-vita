@@ -32,6 +32,7 @@
 #include <vitasdk.h>
 #include <vita2d.h>
 #include "include/luaplayer.h"
+#include "include/message_dialog.h"
 
 vita2d_pgf* debug_font;
 struct ttf{
@@ -53,14 +54,11 @@ struct rescaler{
 	float y_scale;
 };
 
-extern bool keyboardStarted;
-extern bool messageStarted;
-bool isRescaling = false;
-rescaler scaler;
-extern void sceMsgDialogDraw();
+static bool isRescaling = false;
+static rescaler scaler;
 
 #ifdef PARANOID
-bool draw_state = false;
+static bool draw_state = false;
 #endif
 
 static int lua_print(lua_State *L){

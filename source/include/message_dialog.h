@@ -24,58 +24,8 @@
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Credits : -----------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
-#- Smealum for ctrulib and ftpony src ----------------------------------------------------------------------------------#
-#- StapleButter for debug font -----------------------------------------------------------------------------------------#
-#- Lode Vandevenne for lodepng -----------------------------------------------------------------------------------------#
-#- Jean-loup Gailly and Mark Adler for zlib ----------------------------------------------------------------------------#
-#- Special thanks to Aurelio for testing, bug-fixing and various help with codes and implementations -------------------#
+#- All the devs involved in Rejuvenate and vita-toolchain --------------------------------------------------------------#
+#- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
 
-#ifndef __LUAPLAYER_H
-#define __LUAPLAYER_H
-
-#include <stdlib.h>
-#include <lua.hpp>
-#include <vitasdk.h>
-#include <vita2d.h>
-
-extern void luaC_collectgarbage (lua_State *L);
-
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define CLAMP(val, min, max) ((val)>(max)?(max):((val)<(min)?(min):(val)))
-
-const char *runScript(const char* script, bool isStringBuffer);
-void luaC_collectgarbage (lua_State *L);
-
-void luaControls_init(lua_State *L);
-void luaCamera_init(lua_State *L);
-void luaScreen_init(lua_State *L);
-void luaGraphics_init(lua_State *L);
-void luaSound_init(lua_State *L);
-void luaSystem_init(lua_State *L);
-void luaNetwork_init(lua_State *L);
-void luaTimer_init(lua_State *L);
-void luaKeyboard_init(lua_State *L);
-void luaRender_init(lua_State *L);
-void luaMic_init(lua_State *L);
-void bitlib_init(lua_State *L);
-
-// lua-compat
-void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);
-#define lua_callk(L, na, nr, ctx, cont) ((void)(ctx), (void)(cont), lua_call(L, na, nr))
-#define lua_rawlen(L, i) lua_objlen(L, i)
-#define LUA_OK 0
-
-// Internal variables
-extern int clr_color;
-extern char errorMex[];
-extern vita2d_pgf* debug_font;
-extern bool unsafe_mode;
-extern bool keyboardStarted;
-extern bool messageStarted;
-extern SceCommonDialogConfigParam cmnDlgCfgParam;
-extern volatile bool termMic;
-extern int micThread(SceSize args, void* argc);
-extern SceUID Mic_Mutex;
-
-#endif
+void sceMsgDialogDraw();

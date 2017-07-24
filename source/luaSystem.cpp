@@ -40,21 +40,20 @@ extern "C"{
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 #define ALIGN(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
 
-int FREAD = SCE_O_RDONLY;
-int FWRITE = SCE_O_WRONLY;
-int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
-int FRDWR = SCE_O_RDWR;
-uint32_t SET = SEEK_SET;
-uint32_t CUR = SEEK_CUR;
-uint32_t END = SEEK_END;
-uint32_t AUTO_SUSPEND_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_AUTO_SUSPEND;
-uint32_t SCREEN_OFF_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_OFF;
-uint32_t SCREEN_DIMMING_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_DIMMING;
-extern bool unsafe_mode;
-SceMsgDialogProgressBarParam barParam;
-SceMsgDialogUserMessageParam msgParam;
+static int FREAD = SCE_O_RDONLY;
+static int FWRITE = SCE_O_WRONLY;
+static int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
+static int FRDWR = SCE_O_RDWR;
+static uint32_t SET = SEEK_SET;
+static uint32_t CUR = SEEK_CUR;
+static uint32_t END = SEEK_END;
+static uint32_t AUTO_SUSPEND_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_AUTO_SUSPEND;
+static uint32_t SCREEN_OFF_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_OFF;
+static uint32_t SCREEN_DIMMING_TIMER = SCE_KERNEL_POWER_TICK_DISABLE_OLED_DIMMING;
+static SceMsgDialogProgressBarParam barParam;
+static SceMsgDialogUserMessageParam msgParam;
 bool messageStarted = false;
-char messageText[512];
+static char messageText[512];
 
 static int lua_dofile(lua_State *L){
 	int argc = lua_gettop(L);

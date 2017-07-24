@@ -35,9 +35,10 @@ extern "C"{
 }
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
-void* net_memory = NULL;
-char vita_ip[16];
-bool isNet = false;
+
+static void* net_memory = NULL;
+static char vita_ip[16];
+static bool isNet = false;
 
 typedef struct
 {

@@ -38,7 +38,7 @@ extern "C"{
 	#include "include/math_utils.h"
 }
 
-matrix4x4 _vita2d_projection_matrix;
+static matrix4x4 _vita2d_projection_matrix;
 extern SceGxmContext* _vita2d_context;
 extern SceGxmVertexProgram* _vita2d_colorVertexProgram;
 extern SceGxmFragmentProgram* _vita2d_colorFragmentProgram;

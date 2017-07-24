@@ -34,19 +34,20 @@
 #include <malloc.h>
 #include "include/luaplayer.h"
 
-// Internal recorder state
 #define MIC_SAMPLERATE 16000
 #define MIC_GRAIN      256
 #define MIC_GRAIN_X_2  512
-volatile bool isSampling = false;
-volatile bool termSampling = false;
+
+// Internal recorder state
+static volatile bool isSampling = false;
+static volatile bool termSampling = false;
 volatile bool termMic = false;
-uint16_t* audioBuf = NULL;
-uint16_t resampleBuffer[256];
-uint32_t bufSize = 0;
-uint32_t resampleNum = 0;
-uint32_t bufPos = 0;
-int samplerate = 0;
+static uint16_t* audioBuf = NULL;
+static uint16_t resampleBuffer[256];
+static uint32_t bufSize = 0;
+static uint32_t resampleNum = 0;
+static uint32_t bufPos = 0;
+static int samplerate = 0;
 SceUID Mic_Mutex;
 
 int micThread(SceSize args, void* argc){

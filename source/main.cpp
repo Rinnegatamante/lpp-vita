@@ -8,13 +8,11 @@
 extern "C"{
 	#include "include/ftp/ftp.h"
 }
-extern vita2d_pgf* debug_font;
 
 int _newlib_heap_size_user = 192 * 1024 * 1024;
 
-const char *errMsg;
-extern char errorMex[];
-unsigned char *script;
+static const char* errMsg;
+static unsigned char* script;
 int clr_color;
 bool unsafe_mode = true;
 SceCommonDialogConfigParam cmnDlgCfgParam;

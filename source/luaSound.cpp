@@ -58,16 +58,13 @@ struct DecodedMusic{
 	bool tempBlock;
 };
 
-SceUID AudioThreads[AUDIO_CHANNELS], MicThread, Audio_Mutex, NewTrack_Mutex;
-DecodedMusic* new_track = NULL;
-bool initialized = false;
-bool availThreads[AUDIO_CHANNELS];
+static SceUID AudioThreads[AUDIO_CHANNELS], MicThread, Audio_Mutex, NewTrack_Mutex;
+static DecodedMusic* new_track = NULL;
+static bool initialized = false;
+static bool availThreads[AUDIO_CHANNELS];
 std::unique_ptr<AudioDecoder> audio_decoder[AUDIO_CHANNELS];
-volatile bool mustExit = false;
-uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDIO_CHANNELS macro
-extern int micThread(SceSize args, void* argc);
-extern SceUID Mic_Mutex;
-extern bool termMic;
+static volatile bool mustExit = false;
+static uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDIO_CHANNELS macro
 
 // Audio thread code
 static int audioThread(unsigned int args, void* arg){

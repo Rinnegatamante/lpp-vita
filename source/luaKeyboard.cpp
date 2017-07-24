@@ -41,9 +41,9 @@
 static uint16_t title[SCE_IME_DIALOG_MAX_TITLE_LENGTH];
 static uint16_t initial_text[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
 static uint16_t input_text[SCE_IME_DIALOG_MAX_TEXT_LENGTH + 1];
-uint8_t FINISHED = 2;
-uint8_t RUNNING = 1;
-uint8_t CANCELED = 3;
+static uint8_t FINISHED = 2;
+static uint8_t RUNNING = 1;
+static uint8_t CANCELED = 3;
 bool keyboardStarted = false;
 
 static int lua_setup(lua_State *L){
