@@ -425,13 +425,16 @@ static int lua_free(lua_State *L){
 static int lua_createimage(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
 	#endif
 	int w = luaL_checkinteger(L, 1);
 	int h = luaL_checkinteger(L, 2);
+	uint32_t color = 0xFFFFFFFF;
+	if (argc == 3) color = luaL_checkinteger(L, 3);
 	lpp_texture* text = (lpp_texture*)malloc(sizeof(lpp_texture));
 	text->magic = 0xABADBEEF;
 	text->text = vita2d_create_empty_texture_rendertarget(w, h, SCE_GXM_TEXTURE_FORMAT_A8B8G8R8);
+	memset(vita2d_texture_get_datap(text->text), color, (vita2d_texture_get_stride(text->text) * h) << 2);
 	lua_pushinteger(L, (uint32_t)text);
 	return 1;
 }
