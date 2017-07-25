@@ -37,9 +37,8 @@
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 #define lerp(value, from_max, to_max) ((((value*10) * (to_max*10))/(from_max*10))/10)
 
-SceCtrlActuator actuators[4];
-extern bool unsafe_mode;
-bool sensors_enabled = false;
+static SceCtrlActuator actuators[4];
+static bool sensors_enabled = false;
 
 static int lua_readC(lua_State *L){
 	int argc = lua_gettop(L);
@@ -265,11 +264,23 @@ static int lua_disablesensors(lua_State *L) {
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	if (sensors_enabled){
-		sceMotionStopSampling();
 		sceMotionMagnetometerOff();
+		sceMotionStopSampling();
 		sensors_enabled = false;
 	}
 	return 0;
+}
+
+static int lua_getenter(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	int val;
+	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_ENTER_BUTTON, &val);
+	if (val == 0) lua_pushinteger(L, SCE_CTRL_CIRCLE);
+	else lua_pushinteger(L, SCE_CTRL_CROSS);
+	return 1;
 }
 
 //Register our Controls Functions
@@ -291,7 +302,8 @@ static const luaL_Reg Controls_functions[] = {
   {"enableGyro",       lua_enablesensors},	
   {"enableAccel",      lua_enablesensors},	
   {"disableGyro",      lua_disablesensors},	
-  {"disableAccel",     lua_disablesensors}, 
+  {"disableAccel",     lua_disablesensors},
+  {"getEnterButton",   lua_getenter}, 
   {0, 0}
 };
 
@@ -324,4 +336,5 @@ void luaControls_init(lua_State *L) {
 	VariableRegister(L,SCE_CTRL_POWER);
 	VariableRegister(L,SCE_CTRL_VOLUP);
 	VariableRegister(L,SCE_CTRL_VOLDOWN);
+	VariableRegister(L,SCE_CTRL_PSBUTTON);
 }
