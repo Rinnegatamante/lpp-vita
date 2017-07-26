@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['get_5fmethod',['GET_METHOD',['../enum_h_t_t_p_method.html#a79ed3d5fa2e6c457692ee4de7bf5dd81',1,'HTTPMethod']]],
   ['geta',['getA',['../group___color.html#gabd769380ecf90a43d877e1e242c1b285',1,'Color']]],
   ['getb',['getB',['../group___color.html#ga7feef96388004defa7b4c4cc16fcac2a',1,'Color']]],
   ['getbatterycapacity',['getBatteryCapacity',['../group___system.html#ga02f7dbeeb2e38180c96c3c5ee1b6cf45',1,'System']]],
@@ -19,7 +20,9 @@ var searchData=
   ['getgpuspeed',['getGpuSpeed',['../group___system.html#gab73e8e8c82bc52b6e840842d8a9a868a',1,'System']]],
   ['getgpuxbarspeed',['getGpuXbarSpeed',['../group___system.html#gaba4f72e7b612e12d903cdc875c0e29a2',1,'System']]],
   ['getinput',['getInput',['../group___keyboard.html#ga31a3d8953f2cacf53d1a86aed5ef2251',1,'Keyboard']]],
+  ['getipadddress',['getIPAdddress',['../group___network.html#ga895c9c3dc1756726a583135ca1d822e5',1,'Network']]],
   ['getlanguage',['getLanguage',['../group___system.html#ga8bb2e22a2c5f0202258dfb01137ce131',1,'System']]],
+  ['getmacadddress',['getMacAdddress',['../group___network.html#gac2d4cfa0fea236c2a6c79129c000d6d6',1,'Network']]],
   ['getmessagestate',['getMessageState',['../group___system.html#gaf1b24f0bba9a6468ff1c5ccb0d349623',1,'System']]],
   ['getmodel',['getModel',['../group___system.html#ga91c05f432ce136840db3203e4bc13e8b',1,'System']]],
   ['getpixel',['getPixel',['../group___screen.html#ga1e25ca6e1d7ea2fd59365e2838e347ec',1,'Screen']]],
@@ -28,5 +31,6 @@ var searchData=
   ['gettime',['getTime',['../group___system.html#gad4454a865c4433caf4e5d213c44d934d',1,'System.getTime()'],['../group___timer.html#gadf1ace8b9a24eafd2a5cc0a7e7ecb828',1,'Timer.getTime()']]],
   ['gettitle',['getTitle',['../group___system.html#gab93961ec16fa1174dba210432413c33a',1,'System']]],
   ['gettitleid',['getTitleID',['../group___system.html#ga4cebba1989779b29c71cbc9689e26f67',1,'System']]],
-  ['getusername',['getUsername',['../group___system.html#ga3ee7360459d3da608e490c493b22d807',1,'System']]]
+  ['getusername',['getUsername',['../group___system.html#ga3ee7360459d3da608e490c493b22d807',1,'System']]],
+  ['getwifilevel',['getWifiLevel',['../group___network.html#ga90e7803f4352c457ef5b9cce205b8f03',1,'Network']]]
 ];

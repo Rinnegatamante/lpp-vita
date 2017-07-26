@@ -20,6 +20,7 @@ var searchData=
   ['screen_5fdimming_5ftimer',['SCREEN_DIMMING_TIMER',['../enum_power_timer.html#a9e111b8ed72a4da3095526fddba1c961',1,'PowerTimer']]],
   ['screen_5foff_5ftimer',['SCREEN_OFF_TIMER',['../enum_power_timer.html#abbca8ce5cfa78c65d67146f8ec0cbefe',1,'PowerTimer']]],
   ['seekfile',['seekFile',['../group___system.html#gac8e46ae6ff354561bafcee9e46b0bf96',1,'System']]],
+  ['send',['send',['../group___socket.html#gae16c6a1e958ee8e5bc145a660ab83d94',1,'Socket']]],
   ['set',['SET',['../enum_i_o_seek.html#a93493d373aa9ce8f91846202db39d92b',1,'IOSeek']]],
   ['setbusspeed',['setBusSpeed',['../group___system.html#ga298e7be2da1634d0e43d5647416f5c7c',1,'System.setBusSpeed(int clock)'],['../class_system.html#ga298e7be2da1634d0e43d5647416f5c7c',1,'System.setBusSpeed(int clock)']]],
   ['setcpuspeed',['setCpuSpeed',['../group___system.html#ga58ed1deddc593816b9d90cd917fdca51',1,'System']]],
@@ -30,6 +31,7 @@ var searchData=
   ['setmessageprogress',['setMessageProgress',['../group___system.html#ga72390271c1640a8c97e610dc2b17a3f5',1,'System']]],
   ['settime',['setTime',['../group___timer.html#ga0e3ca4e13cb7601f8396fe9a04ab0c56',1,'Timer']]],
   ['sizefile',['sizeFile',['../group___system.html#ga2a809ca1149f8610a15145a4f3fb6131',1,'System']]],
+  ['socket',['Socket',['../class_socket.html',1,'Socket'],['../group___socket.html',1,'(Global Namespace)']]],
   ['start',['start',['../group___keyboard.html#ga1221b5d96389bf8a5935fbe9eb514ff8',1,'Keyboard.start()'],['../group___mic.html#ga3c12ec469676dd80f2e23a2923997a45',1,'Mic.start()']]],
   ['stop',['stop',['../group___mic.html#ga5db070218a52de0bb9313ecd7176eb1b',1,'Mic']]],
   ['system',['System',['../class_system.html',1,'System'],['../group___system.html',1,'(Global Namespace)']]]

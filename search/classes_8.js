@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['timer',['Timer',['../class_timer.html',1,'']]]
+  ['powertimer',['PowerTimer',['../enum_power_timer.html',1,'']]]
 ];

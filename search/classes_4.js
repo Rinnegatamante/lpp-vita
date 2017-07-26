@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['keyboard',['Keyboard',['../class_keyboard.html',1,'']]],
-  ['keymode',['KeyMode',['../enum_key_mode.html',1,'']]],
-  ['keytype',['KeyType',['../enum_key_type.html',1,'']]]
+  ['ioflags',['IOFlags',['../enum_i_o_flags.html',1,'']]],
+  ['ioseek',['IOSeek',['../enum_i_o_seek.html',1,'']]]
 ];

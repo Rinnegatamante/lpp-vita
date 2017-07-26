@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['mode_5fpassword',['MODE_PASSWORD',['../enum_key_mode.html#a18048e2ae3e47b71f59f6451912ac3a6',1,'KeyMode']]],
-  ['mode_5ftext',['MODE_TEXT',['../enum_key_mode.html#a0621211e22ad9b533783ea28753f1807',1,'KeyMode']]]
+  ['get_5fmethod',['GET_METHOD',['../enum_h_t_t_p_method.html#a79ed3d5fa2e6c457692ee4de7bf5dd81',1,'HTTPMethod']]]
 ];

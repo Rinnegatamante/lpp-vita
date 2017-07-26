@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['ioflags',['IOFlags',['../enum_i_o_flags.html',1,'']]],
-  ['ioseek',['IOSeek',['../enum_i_o_seek.html',1,'']]]
+  ['httpmethod',['HTTPMethod',['../enum_h_t_t_p_method.html',1,'']]]
 ];

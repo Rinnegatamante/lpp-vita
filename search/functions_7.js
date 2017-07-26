@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['launchapp',['launchApp',['../group___system.html#ga04ce05a96942036a08f32fd216813be2',1,'System']]],
-  ['launcheboot',['launchEboot',['../group___system.html#gad0f3902e772cc97e1803fd5e265870ad',1,'System']]],
-  ['listdirectory',['listDirectory',['../group___system.html#ga890e02cce3002fd501994a1d7ca1c478',1,'System']]],
-  ['lockhomebutton',['lockHomeButton',['../group___controls.html#ga3cb18c7ed588bde36168074fc2fb2a39',1,'Controls']]]
+  ['init',['init',['../group___network.html#gab71ba746b794a1ee8b8690f1e9341afd',1,'Network']]],
+  ['initftp',['initFTP',['../group___network.html#ga5f1232e6d96726709077d0408fb92b62',1,'Network']]],
+  ['isbatterycharging',['isBatteryCharging',['../group___system.html#ga64c4605ff87f9365239849768938237e',1,'System']]],
+  ['isplaying',['isPlaying',['../group___timer.html#ga1a70fff1a759d16891dc0568ca643e37',1,'Timer']]],
+  ['isrecording',['isRecording',['../group___mic.html#gace638722549b3613f82ea61ed4db7a77',1,'Mic']]],
+  ['issafemode',['isSafeMode',['../group___system.html#ga3d2766da42923c3067c0330a34d1c123',1,'System']]],
+  ['iswifienabled',['isWifiEnabled',['../group___network.html#ga68364a294bfbc858041e0c4a6d6a152c',1,'Network']]]
 ];

@@ -1,15 +1,18 @@
 var searchData=
 [
-  ['seekfile',['seekFile',['../group___system.html#gac8e46ae6ff354561bafcee9e46b0bf96',1,'System']]],
-  ['setbusspeed',['setBusSpeed',['../group___system.html#ga298e7be2da1634d0e43d5647416f5c7c',1,'System.setBusSpeed(int clock)'],['../class_system.html#ga298e7be2da1634d0e43d5647416f5c7c',1,'System.setBusSpeed(int clock)']]],
-  ['setcpuspeed',['setCpuSpeed',['../group___system.html#ga58ed1deddc593816b9d90cd917fdca51',1,'System']]],
-  ['setgpuspeed',['setGpuSpeed',['../group___system.html#ga26c6e3a1cab2d8933697739435ee93b9',1,'System']]],
-  ['setlightbar',['setLightbar',['../group___controls.html#ga5872108b7a466bed2e5f65a8ef49719f',1,'Controls']]],
-  ['setmessage',['setMessage',['../group___system.html#ga4adcdbf382cfdddeabfc9cbd0fa4f759',1,'System']]],
-  ['setmessageprogmsg',['setMessageProgMsg',['../group___system.html#gabdf230aa4480f5411c466541f0c4beee',1,'System']]],
-  ['setmessageprogress',['setMessageProgress',['../group___system.html#ga72390271c1640a8c97e610dc2b17a3f5',1,'System']]],
-  ['settime',['setTime',['../group___timer.html#ga0e3ca4e13cb7601f8396fe9a04ab0c56',1,'Timer']]],
-  ['sizefile',['sizeFile',['../group___system.html#ga2a809ca1149f8610a15145a4f3fb6131',1,'System']]],
-  ['start',['start',['../group___keyboard.html#ga1221b5d96389bf8a5935fbe9eb514ff8',1,'Keyboard.start()'],['../group___mic.html#ga3c12ec469676dd80f2e23a2923997a45',1,'Mic.start()']]],
-  ['stop',['stop',['../group___mic.html#ga5db070218a52de0bb9313ecd7176eb1b',1,'Mic']]]
+  ['read',['read',['../group___controls.html#gaadbf066f9514db8dd2107684a4c1f9d3',1,'Controls']]],
+  ['readaccel',['readAccel',['../group___controls.html#gae21ae4f103f7df110f0012cd21939f1a',1,'Controls']]],
+  ['readfile',['readFile',['../group___system.html#gaf094d8ec4f73bf195578b58ced7419aa',1,'System']]],
+  ['readgyro',['readGyro',['../group___controls.html#ga8d1aa4c957a4a9e56156013f83662ae8',1,'Controls']]],
+  ['readleftanalog',['readLeftAnalog',['../group___controls.html#ga3ae98593acccf13de260f2ca8070dfe0',1,'Controls']]],
+  ['readretrotouch',['readRetroTouch',['../group___controls.html#ga6509483282f861fb47ea8928b808a9d4',1,'Controls']]],
+  ['readrightanalog',['readRightAnalog',['../group___controls.html#ga90b36b5573d7df85c242a8405d286c9a',1,'Controls']]],
+  ['readtouch',['readTouch',['../group___controls.html#gaa8fcd0345ba12dff2b466d0a30604860',1,'Controls']]],
+  ['reboot',['reboot',['../group___system.html#gada550a4addf092cfd85ff76d2fe91974',1,'System']]],
+  ['receive',['receive',['../group___socket.html#ga465594476772303628edc7b98807d789',1,'Socket']]],
+  ['rename',['rename',['../group___system.html#gad584b3b4a7b371867a8bb7919c294a60',1,'System']]],
+  ['requeststring',['requestString',['../group___network.html#gac5e0af37a7baf7235593a655dffb94e7',1,'Network']]],
+  ['reset',['reset',['../group___timer.html#gaf2a82caf2de07f1a37411f47475c4919',1,'Timer']]],
+  ['resume',['resume',['../group___mic.html#gad27601d6f18e79115121edc9ab637c79',1,'Mic.resume()'],['../group___timer.html#ga6776216e2ee92d2c31d54a6b8cf8eb5f',1,'Timer.resume()']]],
+  ['rumble',['rumble',['../group___controls.html#gaad4eb90fdda74a358f1556c92d80bb67',1,'Controls']]]
 ];
