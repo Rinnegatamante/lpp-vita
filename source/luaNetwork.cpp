@@ -438,14 +438,13 @@ static int lua_download(lua_State *L){
 static int lua_string(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc < 2 || argc > 5) return luaL_error(L, "wrong number of arguments");
+	if (argc < 1 || argc > 4) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char* url = luaL_checkstring(L,1);
-	const char* file = luaL_checkstring(L,2);
-	const char* headers = (argc >= 3) ? luaL_checkstring(L,3) : NULL;
-	uint8_t method = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
-	const char* postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
-	int postsize = (argc >= 5) ? strlen(postdata) : 0;
+	const char* headers = (argc >= 2) ? luaL_checkstring(L,2) : NULL;
+	uint8_t method = (argc >= 3) ? luaL_checkinteger(L,3) : SCE_HTTP_METHOD_GET;
+	const char* postdata = (argc >= 4) ? luaL_checkstring(L,4) : NULL;
+	int postsize = (argc >= 4) ? strlen(postdata) : 0;
 	int tpl = sceHttpCreateTemplate("lpp-vita app", 1, 1);	
 	int conn = sceHttpCreateConnectionWithURL(tpl, url, 0);
 	int request = sceHttpCreateRequestWithURL(conn, method, url, 0);
