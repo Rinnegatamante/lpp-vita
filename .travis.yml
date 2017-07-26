@@ -23,6 +23,8 @@ addons:
       - doxygen-gui
       - graphviz
 
+script:      
+
 # Generate and deploy documentation
 after_success:
   - cd $TRAVIS_BUILD_DIR
