@@ -38,7 +38,10 @@ vita2d_pgf* debug_font;
 struct ttf{
 	uint32_t magic;
 	vita2d_font* f;
+	vita2d_pgf* f2;
+	vita2d_pvf* f3;
 	int size;
+	float scale;
 };
 
 struct rescaler{
@@ -447,11 +450,14 @@ static int lua_loadFont(lua_State *L) {
 	char* text = (char*)(luaL_checkstring(L, 1));
 	ttf* result = (ttf*)malloc(sizeof(ttf));
 	result->size = 16;
-	result->f = vita2d_load_font_file(text);
+	result->scale = 0.919f;
+	result->f = vita2d_load_font_file(text); // TTF font
+	if (result->f == NULL) result->f2 = vita2d_load_custom_pgf(text);
+	if (result->f2 == NULL) result->f3 = vita2d_load_custom_pvf(text);
 	#ifndef SKIP_ERROR_HANDLING
-	if (result->f == NULL){
+	if (result->f3 == NULL){
 		free(result);
-		return luaL_error(L, "cannot load ttf font");
+		return luaL_error(L, "cannot load font file");
 	}
 	#endif
 	result->magic = 0x4C464E54;
@@ -470,6 +476,7 @@ static int lua_fsize(lua_State *L) {
 	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
 	font->size = size;
+	font->scale = size / 17.402f;
 	return 0;
 }
 
@@ -482,7 +489,9 @@ static int lua_unloadFont(lua_State *L) {
 	#ifndef SKIP_ERROR_HANDLING
 	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
-	vita2d_free_font(font->f);
+	if (font->f != NULL) vita2d_free_font(font->f);
+	else if (font->f2 != NULL) vita2d_free_pgf(font->f2);
+	else vita2d_free_pvf(font->f3);
 	free(font);
 	return 0;
 }
@@ -503,7 +512,9 @@ static int lua_fprint(lua_State *L) {
 	#ifndef SKIP_ERROR_HANDLING
 	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 	#endif
-	vita2d_font_draw_text(font->f, x, y + font->size, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
+	if (font->f != NULL) vita2d_font_draw_text(font->f, x, y + font->size, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
+	else if (font->f2 != NULL) vita2d_pgf_draw_text(font->f2, x, y + 17.402 * font->scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->scale, text);
+	else vita2d_pvf_draw_text(font->f3, x, y + 17.402 * font->scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->scale, text);
 	return 0;
 }
 
