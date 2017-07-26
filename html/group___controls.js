@@ -1,0 +1,47 @@
+var group___controls =
+[
+    [ "DevType", "enum_dev_type.html", [
+      [ "UNPAIRED_DEV", "enum_dev_type.html#a6c69ea3eb3f5697fa0ba310fe3cfed58", null ],
+      [ "VITA_DEV", "enum_dev_type.html#a486556217a0301b04a2eaeb1901fb13a", null ],
+      [ "VIRTUAL_DEV", "enum_dev_type.html#a6c7b410874968f75f5dbbe7c121201fb", null ],
+      [ "DS3_DEV", "enum_dev_type.html#a6f7d9ee05f79f75f2f72c0ce9e28d670", null ],
+      [ "DS4_DEV", "enum_dev_type.html#ac0b1dcf12c759f22b08b0ff6c9415210", null ]
+    ] ],
+    [ "Ctrl", "enum_ctrl.html", [
+      [ "SCE_CTRL_UP", "enum_ctrl.html#a21e3c1a3d3978e995ebc522e166dc2f1", null ],
+      [ "SCE_CTRL_DOWN", "enum_ctrl.html#a5fe646775ff4a0537f3d78f6573fb3ff", null ],
+      [ "SCE_CTRL_LEFT", "enum_ctrl.html#a79a7adafa027f9af7292b35bf2bd54a6", null ],
+      [ "SCE_CTRL_RIGHT", "enum_ctrl.html#a769e6cc68ac9dda17af4b0da1a7eaed5", null ],
+      [ "SCE_CTRL_CROSS", "enum_ctrl.html#a15906a58d46c7d791b2ff05844696219", null ],
+      [ "SCE_CTRL_CIRCLE", "enum_ctrl.html#ad804d5eedd8cf052a7883e03f9b59b05", null ],
+      [ "SCE_CTRL_SQUARE", "enum_ctrl.html#ae5afafa3e2263e2cd75722c3750bedb2", null ],
+      [ "SCE_CTRL_TRIANGLE", "enum_ctrl.html#ab52edf0fe014a6ed32cbc2880f33bad1", null ],
+      [ "SCE_CTRL_LTRIGGER", "enum_ctrl.html#af31cc6cbe68f6d5bb1b5b0b5f87234b2", null ],
+      [ "SCE_CTRL_RTRIGGER", "enum_ctrl.html#abb4db3972a84c007aa256add86f29c6a", null ],
+      [ "SCE_CTRL_START", "enum_ctrl.html#aced46146eee69986f5cf2b519f0faa4a", null ],
+      [ "SCE_CTRL_SELECT", "enum_ctrl.html#a558152b4122bc22856642fd620621675", null ],
+      [ "SCE_CTRL_POWER", "enum_ctrl.html#a1d56666afeaf20ddf614fd1a579e40a3", null ],
+      [ "SCE_CTRL_VOLUP", "enum_ctrl.html#ad618bb6db29e84d53ce794635732b8d6", null ],
+      [ "SCE_CTRL_VOLDOWN", "enum_ctrl.html#a7694f0076d66b9eeef38c478d8a85fdf", null ],
+      [ "SCE_CTRL_PSBUTTON", "enum_ctrl.html#ae3f5b890b06613eb2beb42bb17d5f13c", null ]
+    ] ],
+    [ "read", "group___controls.html#gaadbf066f9514db8dd2107684a4c1f9d3", null ],
+    [ "readLeftAnalog", "group___controls.html#ga3ae98593acccf13de260f2ca8070dfe0", null ],
+    [ "readRightAnalog", "group___controls.html#ga90b36b5573d7df85c242a8405d286c9a", null ],
+    [ "readTouch", "group___controls.html#gaa8fcd0345ba12dff2b466d0a30604860", null ],
+    [ "readRetroTouch", "group___controls.html#ga6509483282f861fb47ea8928b808a9d4", null ],
+    [ "check", "group___controls.html#ga1030b7edc8ed6cc001444014887da3af", null ],
+    [ "rumble", "group___controls.html#gaad4eb90fdda74a358f1556c92d80bb67", null ],
+    [ "setLightbar", "group___controls.html#ga5872108b7a466bed2e5f65a8ef49719f", null ],
+    [ "lockHomeButton", "group___controls.html#ga3cb18c7ed588bde36168074fc2fb2a39", null ],
+    [ "unlockHomeButton", "group___controls.html#ga20db9693a6543ed3277bf8ec657cee7e", null ],
+    [ "getDeviceInfo", "group___controls.html#ga81e22d39201949c7cc5848a88f1971f5", null ],
+    [ "headsetStatus", "group___controls.html#ga59bdaac5e13268b56863f64124756391", null ],
+    [ "getEnterButton", "group___controls.html#ga2056a2f9c40ce53ec590a13bfe599a79", null ],
+    [ "enableGyro", "group___controls.html#ga7ef78c4b57b5a8eea1f07c074817ad54", null ],
+    [ "enableAccel", "group___controls.html#gac2bc1ab4a2b04dcc041139fbad1da02c", null ],
+    [ "disableGyro", "group___controls.html#ga7f834313ae3ca6a4522ad0d5eaeca352", null ],
+    [ "disableAccel", "group___controls.html#ga4cd39e513e9cb297ccf9835fbc9e40a0", null ],
+    [ "readGyro", "group___controls.html#ga8d1aa4c957a4a9e56156013f83662ae8", null ],
+    [ "readAccel", "group___controls.html#gae21ae4f103f7df110f0012cd21939f1a", null ]
+];
