@@ -1,8 +1,8 @@
 var searchData=
 [
   ['get_5fmethod',['GET_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da94c1e365674be8a670ea97334c2aad74',1,'luaNetwork.cpp']]],
-  ['geta',['getA',['../group___color.html#ga9a49c9ef24e652b9b0a238aee63c749f',1,'Color::getA()'],['../group___color.html#ga44693abf144907aaa6249aaa7157aaa0',1,'getA():&#160;luaScreen.cpp']]],
-  ['getb',['getB',['../group___color.html#gab68b2c7bfb7587fe2887e75765141ab8',1,'Color::getB()'],['../group___color.html#ga7266b07ceb6b55f114e7334393948e31',1,'getB():&#160;luaScreen.cpp']]],
+  ['geta',['getA',['../group___color.html#ga9a49c9ef24e652b9b0a238aee63c749f',1,'Color']]],
+  ['getb',['getB',['../group___color.html#gab68b2c7bfb7587fe2887e75765141ab8',1,'Color']]],
   ['getbatterycapacity',['getBatteryCapacity',['../group___system.html#ga458ba3c787ae236eb46f864d28551933',1,'System']]],
   ['getbatterycycles',['getBatteryCycles',['../group___system.html#ga34447aff6b039daf8f305507c8ab7f4b',1,'System']]],
   ['getbatteryfullcapacity',['getBatteryFullCapacity',['../group___system.html#ga0fe49d3f253ec79e00bd93f2e75af2e7',1,'System']]],
@@ -16,21 +16,21 @@ var searchData=
   ['getdate',['getDate',['../group___system.html#gacb3dd094cd82df88c5d8475a466173da',1,'System']]],
   ['getdeviceinfo',['getDeviceInfo',['../group___controls.html#gafeb5b6ad31d465d2ea0355e796d11a27',1,'Controls']]],
   ['getenterbutton',['getEnterButton',['../group___controls.html#ga7f6a33f1e0d249923877abc6eea6e09a',1,'Controls']]],
-  ['getg',['getG',['../group___color.html#gaa742df0be392596056442582a77681a2',1,'Color::getG()'],['../group___color.html#ga5895add9e450d03193b2db2fba90f83b',1,'getG():&#160;luaScreen.cpp']]],
+  ['getg',['getG',['../group___color.html#gaa742df0be392596056442582a77681a2',1,'Color']]],
   ['getgpuspeed',['getGpuSpeed',['../group___system.html#ga1e72ab3cccf95a53362f5ea17edcf295',1,'System']]],
   ['getgpuxbarspeed',['getGpuXbarSpeed',['../group___system.html#ga0dfeddb6754b9bdf9e5db8c568b1d127',1,'System']]],
   ['getinput',['getInput',['../group___keyboard.html#gaee54328ece94b848e0c69d67aa0d0bd8',1,'Keyboard']]],
-  ['getipadddress',['getIPAdddress',['../group___network.html#ga7d3b64f04abbca677f1ad837066f5e96',1,'Network::getIPAdddress()'],['../group___network.html#ga3ac5209888eb88bc3bdc937538df4464',1,'getIPAdddress():&#160;luaNetwork.cpp']]],
+  ['getipadddress',['getIPAdddress',['../group___network.html#ga7d3b64f04abbca677f1ad837066f5e96',1,'Network']]],
   ['getlanguage',['getLanguage',['../group___system.html#gadef4e61c735f79e232a029d25f526dce',1,'System']]],
-  ['getmacadddress',['getMacAdddress',['../group___network.html#ga09aa45bb74f03b4701987ef84c78b995',1,'Network::getMacAdddress()'],['../group___network.html#ga0290fa7a510dc68846c9a7485d9a1024',1,'getMacAdddress():&#160;luaNetwork.cpp']]],
+  ['getmacadddress',['getMacAdddress',['../group___network.html#ga09aa45bb74f03b4701987ef84c78b995',1,'Network']]],
   ['getmessagestate',['getMessageState',['../group___system.html#ga53054964e2b08b230c2a256fdb4e28ac',1,'System']]],
   ['getmodel',['getModel',['../group___system.html#gaec598b30c0d06a9e56d3c1c17ad56f99',1,'System']]],
-  ['getpixel',['getPixel',['../group___screen.html#gae46019205e0706aaf7ec66906f39f141',1,'luaScreen.cpp']]],
-  ['getr',['getR',['../group___color.html#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8',1,'Color::getR()'],['../group___color.html#ga96ca0d552ffa728e134ee9714820ad22',1,'getR():&#160;luaScreen.cpp']]],
+  ['getpixel',['getPixel',['../group___screen.html#gaa2a50bbe248a91c38271c8a96dde95df',1,'Screen']]],
+  ['getr',['getR',['../group___color.html#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8',1,'Color']]],
   ['getstate',['getState',['../group___keyboard.html#ga0496cf4908c6c82661ffb27cea5d838c',1,'Keyboard']]],
   ['gettime',['getTime',['../group___system.html#ga6c22ea39ba26fd9d843c34e1df9602d6',1,'System::getTime()'],['../group___timer.html#ga32099cb6bc702a69522fae58767376b8',1,'Timer::getTime()']]],
   ['gettitle',['getTitle',['../group___system.html#ga26a65a0c12c8e4f98051b62057002742',1,'System']]],
   ['gettitleid',['getTitleID',['../group___system.html#gadec1b4d88d7cbeeba5b30c6339080744',1,'System']]],
   ['getusername',['getUsername',['../group___system.html#ga8a345acaf4ae23c2edefde72d75e35f8',1,'System']]],
-  ['getwifilevel',['getWifiLevel',['../group___network.html#ga6e72caac5bb0ba1249e7c95bfd78281f',1,'Network::getWifiLevel()'],['../group___network.html#gac98bc6394abc79e04a42a2147f7027b6',1,'getWifiLevel():&#160;luaNetwork.cpp']]]
+  ['getwifilevel',['getWifiLevel',['../group___network.html#ga6e72caac5bb0ba1249e7c95bfd78281f',1,'Network']]]
 ];

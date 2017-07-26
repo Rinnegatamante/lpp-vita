@@ -9,9 +9,9 @@ var searchData=
   ['readrightanalog',['readRightAnalog',['../group___controls.html#gaac2bfdbcec6f2c7f0c16d71c707f71f8',1,'Controls']]],
   ['readtouch',['readTouch',['../group___controls.html#gafd32d04a50d40b6fc80e9e6acf8fc990',1,'Controls']]],
   ['reboot',['reboot',['../group___system.html#ga23984244aa92f7902124fbc78ebfa228',1,'System']]],
-  ['receive',['receive',['../group___socket.html#gaa8af80ae44b5573c871dfe986e569a4f',1,'luaNetwork.cpp']]],
+  ['receive',['receive',['../group___socket.html#gaa8af80ae44b5573c871dfe986e569a4f',1,'luaSocket.cpp']]],
   ['rename',['rename',['../group___system.html#ga87f67f8eef2972cfe2c7ef14248d6231',1,'System']]],
-  ['requeststring',['requestString',['../group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92',1,'Network::requestString()'],['../group___network.html#ga7e81e2b6e0d8706669702df9a6fea3b8',1,'requestString():&#160;luaNetwork.cpp']]],
+  ['requeststring',['requestString',['../group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92',1,'Network']]],
   ['reset',['reset',['../group___timer.html#gac66190516c06b8584cc2df50f7318c90',1,'Timer']]],
   ['resume',['resume',['../group___mic.html#ga993631703e28871f640ee49eb6b21130',1,'Mic::resume()'],['../group___timer.html#gaaea65117b7ec76a443e3388e2680c71c',1,'Timer::resume()']]],
   ['rumble',['rumble',['../group___controls.html#gaeb2a0d781e4ac121094056ebd64ba3a5',1,'Controls']]]

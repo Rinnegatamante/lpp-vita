@@ -1,9 +1,8 @@
 var searchData=
 [
   ['takescreenshot',['takeScreenshot',['../group___system.html#ga445e5fe0f276edbfe49bd288e5a017fa',1,'System']]],
-  ['tcp_5fsocket',['TCP_SOCKET',['../group___socket.html#gab585f41bbbfdb2985a55b917c0360122',1,'luaNetwork.cpp']]],
-  ['term',['term',['../group___network.html#ga46a1eb199529496a3560c8d162f492a2',1,'Network::term()'],['../group___network.html#ga5f682c18f0feab03040c4546e6a66abb',1,'term():&#160;luaNetwork.cpp']]],
-  ['termftp',['termFTP',['../group___network.html#gab931ed5f9102ee0803dcd659ccd2b799',1,'Network::termFTP()'],['../group___network.html#ga870d7f8e5102b1fd118a4849faf3b3ff',1,'termFTP():&#160;luaNetwork.cpp']]],
+  ['term',['term',['../group___network.html#ga46a1eb199529496a3560c8d162f492a2',1,'Network']]],
+  ['termftp',['termFTP',['../group___network.html#gab931ed5f9102ee0803dcd659ccd2b799',1,'Network']]],
   ['timer',['Timer',['../class_timer.html',1,'Timer'],['../group___timer.html',1,'(Global Namespace)']]],
   ['trace_5fmethod',['TRACE_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da2cd231aca8f1b2f19fc13d07cb6faa2e',1,'luaNetwork.cpp']]],
   ['type_5fdefault',['TYPE_DEFAULT',['../group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca80d7bb9558588a28f24aec4c019fdbd6',1,'luaKeyboard.cpp']]],

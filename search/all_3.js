@@ -10,7 +10,7 @@ var searchData=
   ['disabletimer',['disableTimer',['../group___system.html#ga6a67e3f1875df888ad107c94b69d1ebb',1,'System']]],
   ['dlgstate',['DlgState',['../group___system.html#ga43732228a5490969d94095326d6bc623',1,'luaSystem.cpp']]],
   ['doesfileexist',['doesFileExist',['../group___system.html#gabd81dfb67363e668ccb7d4f014cb09c2',1,'System']]],
-  ['downloadfile',['downloadFile',['../group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2',1,'Network::downloadFile()'],['../group___network.html#ga3d4a9a9ec33edb017113f1ef6d6ff074',1,'downloadFile():&#160;luaNetwork.cpp']]],
+  ['downloadfile',['downloadFile',['../group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2',1,'Network']]],
   ['ds3_5fdev',['DS3_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46bad3dc541607b5e2802dd50bfec0231b2e',1,'luaControls.cpp']]],
   ['ds4_5fdev',['DS4_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46ba4ae554f1652694b6da3ad70d2d488a36',1,'luaControls.cpp']]]
 ];

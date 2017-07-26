@@ -1,6 +1,7 @@
 var group___socket =
 [
-    [ "createServerSocket", "group___socket.html#ga866683db9a2a19c5573adab935552506", null ],
+    [ "NetProtocol", "group___socket.html#ga5e092e45f47b7121b20693b23e554b63", null ],
+    [ "createServerSocket", "group___socket.html#gad9a9c7b3f2b0c95326fc4f24dfcb38b5", null ],
     [ "connect", "group___socket.html#ga3dfaf383019e9e0564973bb473d5eb30", null ],
     [ "send", "group___socket.html#gace75c491e51a41d4e3daad6244924c47", null ],
     [ "receive", "group___socket.html#gaa8af80ae44b5573c871dfe986e569a4f", null ],

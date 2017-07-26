@@ -7,5 +7,5 @@ var searchData=
   ['disablegyro',['disableGyro',['../group___controls.html#gab80038e57f38499a766da8a5b9b13346',1,'Controls']]],
   ['disabletimer',['disableTimer',['../group___system.html#ga6a67e3f1875df888ad107c94b69d1ebb',1,'System']]],
   ['doesfileexist',['doesFileExist',['../group___system.html#gabd81dfb67363e668ccb7d4f014cb09c2',1,'System']]],
-  ['downloadfile',['downloadFile',['../group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2',1,'Network::downloadFile()'],['../group___network.html#ga3d4a9a9ec33edb017113f1ef6d6ff074',1,'downloadFile():&#160;luaNetwork.cpp']]]
+  ['downloadfile',['downloadFile',['../group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2',1,'Network']]]
 ];
