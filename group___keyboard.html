@@ -102,23 +102,32 @@ $(document).ready(function(){initNavTree('group___keyboard.html','');});
 <div class="title">Keyboard</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Module that handles system keyboard.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_key_mode.html">KeyMode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_keyboard.html">Keyboard</a> modes to use with <a class="el" href="group___keyboard.html#ga1221b5d96389bf8a5935fbe9eb514ff8" title="Start a keyboard instance. ">Keyboard.start</a>.  <a href="enum_key_mode.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_key_type.html">KeyType</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_keyboard.html">Keyboard</a> types to use with <a class="el" href="group___keyboard.html#ga1221b5d96389bf8a5935fbe9eb514ff8" title="Start a keyboard instance. ">Keyboard.start</a>.  <a href="enum_key_type.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga1221b5d96389bf8a5935fbe9eb514ff8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#ga1221b5d96389bf8a5935fbe9eb514ff8">Keyboard.start</a> (string title, string text, int length, <a class="el" href="enum_key_type.html">KeyType</a> type, <a class="el" href="enum_key_mode.html">KeyMode</a> mode)</td></tr>
+<tr class="memdesc:ga1221b5d96389bf8a5935fbe9eb514ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a keyboard instance.  <a href="#ga1221b5d96389bf8a5935fbe9eb514ff8">More...</a><br/></td></tr>
 <tr class="separator:ga1221b5d96389bf8a5935fbe9eb514ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaebb0a4f90b49c1fbe9bd9130daf4c8dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="enum_dlg_state.html">DlgState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gaebb0a4f90b49c1fbe9bd9130daf4c8dd">Keyboard.getState</a> (void)</td></tr>
+<tr class="memdesc:gaebb0a4f90b49c1fbe9bd9130daf4c8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get keyboard state.  <a href="#gaebb0a4f90b49c1fbe9bd9130daf4c8dd">More...</a><br/></td></tr>
 <tr class="separator:gaebb0a4f90b49c1fbe9bd9130daf4c8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga31a3d8953f2cacf53d1a86aed5ef2251"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#ga31a3d8953f2cacf53d1a86aed5ef2251">Keyboard.getInput</a> (void)</td></tr>
+<tr class="memdesc:ga31a3d8953f2cacf53d1a86aed5ef2251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get keyboard user input.  <a href="#ga31a3d8953f2cacf53d1a86aed5ef2251">More...</a><br/></td></tr>
 <tr class="separator:ga31a3d8953f2cacf53d1a86aed5ef2251"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac04501e3e229012cc1c0d9bb75b2c339"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gac04501e3e229012cc1c0d9bb75b2c339">Keyboard.clear</a> (void)</td></tr>
+<tr class="memdesc:gac04501e3e229012cc1c0d9bb75b2c339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close current system keyboard instance.  <a href="#gac04501e3e229012cc1c0d9bb75b2c339">More...</a><br/></td></tr>
 <tr class="separator:gac04501e3e229012cc1c0d9bb75b2c339"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -165,7 +174,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Start a keyboard instance.</p>
+
+<p>Start a keyboard instance. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">Keyboard.start(<span class="stringliteral">&quot;Insert a text&quot;</span>, <span class="stringliteral">&quot;Text&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -194,7 +204,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get keyboard state.</p>
+
+<p>Get keyboard state. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">state = Keyboard.getState()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Current state of the system keyboard instance. </dd></dl>
@@ -214,7 +225,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get keyboard user input.</p>
+
+<p>Get keyboard user input. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> Keyboard.getState() == FINISHED then</div>
 <div class="line">    result_text = <a class="code" href="class_keyboard.html">Keyboard</a>.<a class="code" href="group___keyboard.html#ga31a3d8953f2cacf53d1a86aed5ef2251">getInput</a>()</div>
 <div class="line">end</div>
@@ -236,7 +248,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Close current system keyboard instance.</p>
+
+<p>Close current system keyboard instance. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">Keyboard.clear()</div>
 </div><!-- fragment --> </dd></dl>
 

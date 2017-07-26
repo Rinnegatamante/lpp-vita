@@ -102,127 +102,188 @@ $(document).ready(function(){initNavTree('group___system.html','');});
 <div class="title">System</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Module that handles system related utilities.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_i_o_flags.html">IOFlags</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">I/O attributes to use with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b" title="Open a file. ">System.openFile</a>.  <a href="enum_i_o_flags.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_i_o_seek.html">IOSeek</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">I/O seek modes to use with <a class="el" href="group___system.html#gac8e46ae6ff354561bafcee9e46b0bf96" title="Move cursor of an opened file. ">System.seekFile</a>.  <a href="enum_i_o_seek.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_power_timer.html">PowerTimer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Power management timer features.  <a href="enum_power_timer.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_btn_mode.html">BtnMode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buttons schemes for <a class="el" href="group___system.html#ga4adcdbf382cfdddeabfc9cbd0fa4f759" title="Start a system message instance. ">System.setMessage</a>.  <a href="enum_btn_mode.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_dlg_state.html">DlgState</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dialog states for system messages and system keyboard.  <a href="enum_dlg_state.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga99ff90094d878e7d68cde220c05e980b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b">System.openFile</a> (string filename, <a class="el" href="enum_i_o_flags.html">IOFlags</a> flags)</td></tr>
+<tr class="memdesc:ga99ff90094d878e7d68cde220c05e980b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open a file.  <a href="#ga99ff90094d878e7d68cde220c05e980b">More...</a><br/></td></tr>
 <tr class="separator:ga99ff90094d878e7d68cde220c05e980b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga047318093a2a67cbc7881d6762ae5da8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga047318093a2a67cbc7881d6762ae5da8">System.writeFile</a> (int handle, string text, int len)</td></tr>
+<tr class="memdesc:ga047318093a2a67cbc7881d6762ae5da8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write into an opened file.  <a href="#ga047318093a2a67cbc7881d6762ae5da8">More...</a><br/></td></tr>
 <tr class="separator:ga047318093a2a67cbc7881d6762ae5da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf094d8ec4f73bf195578b58ced7419aa"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaf094d8ec4f73bf195578b58ced7419aa">System.readFile</a> (int handle, int len)</td></tr>
+<tr class="memdesc:gaf094d8ec4f73bf195578b58ced7419aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from an opened file.  <a href="#gaf094d8ec4f73bf195578b58ced7419aa">More...</a><br/></td></tr>
 <tr class="separator:gaf094d8ec4f73bf195578b58ced7419aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac8e46ae6ff354561bafcee9e46b0bf96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gac8e46ae6ff354561bafcee9e46b0bf96">System.seekFile</a> (int handle, int pos, <a class="el" href="enum_i_o_seek.html">IOSeek</a> seek)</td></tr>
+<tr class="memdesc:gac8e46ae6ff354561bafcee9e46b0bf96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move cursor of an opened file.  <a href="#gac8e46ae6ff354561bafcee9e46b0bf96">More...</a><br/></td></tr>
 <tr class="separator:gac8e46ae6ff354561bafcee9e46b0bf96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2a809ca1149f8610a15145a4f3fb6131"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga2a809ca1149f8610a15145a4f3fb6131">System.sizeFile</a> (int handle)</td></tr>
+<tr class="memdesc:ga2a809ca1149f8610a15145a4f3fb6131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate size of an opened file in bytes.  <a href="#ga2a809ca1149f8610a15145a4f3fb6131">More...</a><br/></td></tr>
 <tr class="separator:ga2a809ca1149f8610a15145a4f3fb6131"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga08c999bbbdd0e35d3b952c8ab2ce4343"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga08c999bbbdd0e35d3b952c8ab2ce4343">System.closeFile</a> (int handle)</td></tr>
+<tr class="memdesc:ga08c999bbbdd0e35d3b952c8ab2ce4343"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close an opened file.  <a href="#ga08c999bbbdd0e35d3b952c8ab2ce4343">More...</a><br/></td></tr>
 <tr class="separator:ga08c999bbbdd0e35d3b952c8ab2ce4343"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7c5c54a6b22b4cb2907dac539c26f50e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga7c5c54a6b22b4cb2907dac539c26f50e">System.doesFileExist</a> (string filename)</td></tr>
+<tr class="memdesc:ga7c5c54a6b22b4cb2907dac539c26f50e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file exists.  <a href="#ga7c5c54a6b22b4cb2907dac539c26f50e">More...</a><br/></td></tr>
 <tr class="separator:ga7c5c54a6b22b4cb2907dac539c26f50e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad584b3b4a7b371867a8bb7919c294a60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gad584b3b4a7b371867a8bb7919c294a60">System.rename</a> (string filename, string filename2)</td></tr>
+<tr class="memdesc:gad584b3b4a7b371867a8bb7919c294a60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rename or move a file.  <a href="#gad584b3b4a7b371867a8bb7919c294a60">More...</a><br/></td></tr>
 <tr class="separator:gad584b3b4a7b371867a8bb7919c294a60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab6ad5367d611f36dd2e9d640a42cdfb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gab6ad5367d611f36dd2e9d640a42cdfb5">System.deleteFile</a> (string filename)</td></tr>
+<tr class="memdesc:gab6ad5367d611f36dd2e9d640a42cdfb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete a file.  <a href="#gab6ad5367d611f36dd2e9d640a42cdfb5">More...</a><br/></td></tr>
 <tr class="separator:gab6ad5367d611f36dd2e9d640a42cdfb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga20a8fefaa016ce9d70a5d97c9d143690"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga20a8fefaa016ce9d70a5d97c9d143690">System.deleteDirectory</a> (string dirname)</td></tr>
+<tr class="memdesc:ga20a8fefaa016ce9d70a5d97c9d143690"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete a directory.  <a href="#ga20a8fefaa016ce9d70a5d97c9d143690">More...</a><br/></td></tr>
 <tr class="separator:ga20a8fefaa016ce9d70a5d97c9d143690"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaab1b661f7813ea392f2d06716fbe5d77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaab1b661f7813ea392f2d06716fbe5d77">System.createDirectory</a> (string dirname)</td></tr>
+<tr class="memdesc:gaab1b661f7813ea392f2d06716fbe5d77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new directory.  <a href="#gaab1b661f7813ea392f2d06716fbe5d77">More...</a><br/></td></tr>
 <tr class="separator:gaab1b661f7813ea392f2d06716fbe5d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga890e02cce3002fd501994a1d7ca1c478"><td class="memItemLeft" align="right" valign="top">table&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga890e02cce3002fd501994a1d7ca1c478">System.listDirectory</a> (string dirname)</td></tr>
+<tr class="memdesc:ga890e02cce3002fd501994a1d7ca1c478"><td class="mdescLeft">&#160;</td><td class="mdescRight">List a directory contents.  <a href="#ga890e02cce3002fd501994a1d7ca1c478">More...</a><br/></td></tr>
 <tr class="separator:ga890e02cce3002fd501994a1d7ca1c478"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaaafdfb4d380604eedc4affc500aafb07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaaafdfb4d380604eedc4affc500aafb07">System.exit</a> (void)</td></tr>
+<tr class="memdesc:gaaafdfb4d380604eedc4affc500aafb07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the interpreter.  <a href="#gaaafdfb4d380604eedc4affc500aafb07">More...</a><br/></td></tr>
 <tr class="separator:gaaafdfb4d380604eedc4affc500aafb07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga90b40c3216203debd15b7ab5ac3b4d11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga90b40c3216203debd15b7ab5ac3b4d11">System.wait</a> (int msecs)</td></tr>
+<tr class="memdesc:ga90b40c3216203debd15b7ab5ac3b4d11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleep the application for a certain time.  <a href="#ga90b40c3216203debd15b7ab5ac3b4d11">More...</a><br/></td></tr>
 <tr class="separator:ga90b40c3216203debd15b7ab5ac3b4d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga64c4605ff87f9365239849768938237e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga64c4605ff87f9365239849768938237e">System.isBatteryCharging</a> (void)</td></tr>
+<tr class="memdesc:ga64c4605ff87f9365239849768938237e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the battery is under charge.  <a href="#ga64c4605ff87f9365239849768938237e">More...</a><br/></td></tr>
 <tr class="separator:ga64c4605ff87f9365239849768938237e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga599d05c1bc54b4e618d82ee5462741ba"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga599d05c1bc54b4e618d82ee5462741ba">System.getBatteryPercentage</a> (void)</td></tr>
+<tr class="memdesc:ga599d05c1bc54b4e618d82ee5462741ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current battery life percentage.  <a href="#ga599d05c1bc54b4e618d82ee5462741ba">More...</a><br/></td></tr>
 <tr class="separator:ga599d05c1bc54b4e618d82ee5462741ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad6a189ff52476a4cbf638ef533ef396d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gad6a189ff52476a4cbf638ef533ef396d">System.getBatteryLife</a> (void)</td></tr>
+<tr class="memdesc:gad6a189ff52476a4cbf638ef533ef396d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current battery life.  <a href="#gad6a189ff52476a4cbf638ef533ef396d">More...</a><br/></td></tr>
 <tr class="separator:gad6a189ff52476a4cbf638ef533ef396d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga02f7dbeeb2e38180c96c3c5ee1b6cf45"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga02f7dbeeb2e38180c96c3c5ee1b6cf45">System.getBatteryCapacity</a> (void)</td></tr>
+<tr class="memdesc:ga02f7dbeeb2e38180c96c3c5ee1b6cf45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current battery capacity.  <a href="#ga02f7dbeeb2e38180c96c3c5ee1b6cf45">More...</a><br/></td></tr>
 <tr class="separator:ga02f7dbeeb2e38180c96c3c5ee1b6cf45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga88f23761680bbc2c3224a675379f0e3b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga88f23761680bbc2c3224a675379f0e3b">System.getBatteryFullCapacity</a> (void)</td></tr>
+<tr class="memdesc:ga88f23761680bbc2c3224a675379f0e3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get full battery capacity.  <a href="#ga88f23761680bbc2c3224a675379f0e3b">More...</a><br/></td></tr>
 <tr class="separator:ga88f23761680bbc2c3224a675379f0e3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf3ceb62ad684aba2d1c1a887ea1b2ca8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaf3ceb62ad684aba2d1c1a887ea1b2ca8">System.getBatteryTemp</a> (void)</td></tr>
+<tr class="memdesc:gaf3ceb62ad684aba2d1c1a887ea1b2ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get battery temperature.  <a href="#gaf3ceb62ad684aba2d1c1a887ea1b2ca8">More...</a><br/></td></tr>
 <tr class="separator:gaf3ceb62ad684aba2d1c1a887ea1b2ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga49c2ae004c17d42026a26ce68f7dacf5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga49c2ae004c17d42026a26ce68f7dacf5">System.getBatteryVolt</a> (void)</td></tr>
+<tr class="memdesc:ga49c2ae004c17d42026a26ce68f7dacf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get battery voltage.  <a href="#ga49c2ae004c17d42026a26ce68f7dacf5">More...</a><br/></td></tr>
 <tr class="separator:ga49c2ae004c17d42026a26ce68f7dacf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabeb2d90c090492712d5bf0c4200c2258"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gabeb2d90c090492712d5bf0c4200c2258">System.getBatteryHealth</a> (void)</td></tr>
+<tr class="memdesc:gabeb2d90c090492712d5bf0c4200c2258"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get battery state of health percentage.  <a href="#gabeb2d90c090492712d5bf0c4200c2258">More...</a><br/></td></tr>
 <tr class="separator:gabeb2d90c090492712d5bf0c4200c2258"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaea2b1084a4bed6cd1922a29f39ee7140"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaea2b1084a4bed6cd1922a29f39ee7140">System.getBatteryCycles</a> (void)</td></tr>
+<tr class="memdesc:gaea2b1084a4bed6cd1922a29f39ee7140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get battery cycles count.  <a href="#gaea2b1084a4bed6cd1922a29f39ee7140">More...</a><br/></td></tr>
 <tr class="separator:gaea2b1084a4bed6cd1922a29f39ee7140"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae9d27507e5906897411d96e3c51a963b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gae9d27507e5906897411d96e3c51a963b">System.disableTimer</a> (<a class="el" href="enum_power_timer.html">PowerTimer</a> timer)</td></tr>
+<tr class="memdesc:gae9d27507e5906897411d96e3c51a963b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables a power management timer feature.  <a href="#gae9d27507e5906897411d96e3c51a963b">More...</a><br/></td></tr>
 <tr class="separator:gae9d27507e5906897411d96e3c51a963b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0aea7bc9f2d6e95a7cf4d24b6e0dcfd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga0aea7bc9f2d6e95a7cf4d24b6e0dcfd2">System.enableTimer</a> (<a class="el" href="enum_power_timer.html">PowerTimer</a> timer)</td></tr>
+<tr class="memdesc:ga0aea7bc9f2d6e95a7cf4d24b6e0dcfd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables a power management timer feature.  <a href="#ga0aea7bc9f2d6e95a7cf4d24b6e0dcfd2">More...</a><br/></td></tr>
 <tr class="separator:ga0aea7bc9f2d6e95a7cf4d24b6e0dcfd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga58ed1deddc593816b9d90cd917fdca51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga58ed1deddc593816b9d90cd917fdca51">System.setCpuSpeed</a> (int clock)</td></tr>
+<tr class="memdesc:ga58ed1deddc593816b9d90cd917fdca51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set CPU clock speed.  <a href="#ga58ed1deddc593816b9d90cd917fdca51">More...</a><br/></td></tr>
 <tr class="separator:ga58ed1deddc593816b9d90cd917fdca51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga26c6e3a1cab2d8933697739435ee93b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga26c6e3a1cab2d8933697739435ee93b9">System.setGpuSpeed</a> (int clock)</td></tr>
+<tr class="memdesc:ga26c6e3a1cab2d8933697739435ee93b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set GPU clock speed.  <a href="#ga26c6e3a1cab2d8933697739435ee93b9">More...</a><br/></td></tr>
 <tr class="separator:ga26c6e3a1cab2d8933697739435ee93b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga298e7be2da1634d0e43d5647416f5c7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga298e7be2da1634d0e43d5647416f5c7c">System.setBusSpeed</a> (int clock)</td></tr>
+<tr class="memdesc:ga298e7be2da1634d0e43d5647416f5c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set BUS clock speed.  <a href="#ga298e7be2da1634d0e43d5647416f5c7c">More...</a><br/></td></tr>
 <tr class="separator:ga298e7be2da1634d0e43d5647416f5c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga241fd1cf915e84a71ec5d43c7b5529f4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga241fd1cf915e84a71ec5d43c7b5529f4">System.getCpuSpeed</a> (void)</td></tr>
+<tr class="memdesc:ga241fd1cf915e84a71ec5d43c7b5529f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get CPU clock speed.  <a href="#ga241fd1cf915e84a71ec5d43c7b5529f4">More...</a><br/></td></tr>
 <tr class="separator:ga241fd1cf915e84a71ec5d43c7b5529f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab73e8e8c82bc52b6e840842d8a9a868a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gab73e8e8c82bc52b6e840842d8a9a868a">System.getGpuSpeed</a> (void)</td></tr>
+<tr class="memdesc:gab73e8e8c82bc52b6e840842d8a9a868a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get GPU clock speed.  <a href="#gab73e8e8c82bc52b6e840842d8a9a868a">More...</a><br/></td></tr>
 <tr class="separator:gab73e8e8c82bc52b6e840842d8a9a868a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaee7e5b47cd7ff8f5a2b74c3392035a06"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaee7e5b47cd7ff8f5a2b74c3392035a06">System.getBusSpeed</a> (void)</td></tr>
+<tr class="memdesc:gaee7e5b47cd7ff8f5a2b74c3392035a06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get BUS clock speed.  <a href="#gaee7e5b47cd7ff8f5a2b74c3392035a06">More...</a><br/></td></tr>
 <tr class="separator:gaee7e5b47cd7ff8f5a2b74c3392035a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaba4f72e7b612e12d903cdc875c0e29a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaba4f72e7b612e12d903cdc875c0e29a2">System.getGpuXbarSpeed</a> (void)</td></tr>
+<tr class="memdesc:gaba4f72e7b612e12d903cdc875c0e29a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get GPU Crossbar clock speed.  <a href="#gaba4f72e7b612e12d903cdc875c0e29a2">More...</a><br/></td></tr>
 <tr class="separator:gaba4f72e7b612e12d903cdc875c0e29a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad0f3902e772cc97e1803fd5e265870ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gad0f3902e772cc97e1803fd5e265870ad">System.launchEboot</a> (string filename)</td></tr>
+<tr class="memdesc:gad0f3902e772cc97e1803fd5e265870ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Launches a binary file.  <a href="#gad0f3902e772cc97e1803fd5e265870ad">More...</a><br/></td></tr>
 <tr class="separator:gad0f3902e772cc97e1803fd5e265870ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga04ce05a96942036a08f32fd216813be2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga04ce05a96942036a08f32fd216813be2">System.launchApp</a> (string titleid)</td></tr>
+<tr class="memdesc:ga04ce05a96942036a08f32fd216813be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Launches an installed application.  <a href="#ga04ce05a96942036a08f32fd216813be2">More...</a><br/></td></tr>
 <tr class="separator:ga04ce05a96942036a08f32fd216813be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad4454a865c4433caf4e5d213c44d934d"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gad4454a865c4433caf4e5d213c44d934d">System.getTime</a> (void)</td></tr>
+<tr class="memdesc:gad4454a865c4433caf4e5d213c44d934d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get console time.  <a href="#gad4454a865c4433caf4e5d213c44d934d">More...</a><br/></td></tr>
 <tr class="separator:gad4454a865c4433caf4e5d213c44d934d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2a490ea7d36fc51b2572740e19c73ada"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga2a490ea7d36fc51b2572740e19c73ada">System.getDate</a> (void)</td></tr>
+<tr class="memdesc:ga2a490ea7d36fc51b2572740e19c73ada"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get console date.  <a href="#ga2a490ea7d36fc51b2572740e19c73ada">More...</a><br/></td></tr>
 <tr class="separator:ga2a490ea7d36fc51b2572740e19c73ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3ee7360459d3da608e490c493b22d807"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga3ee7360459d3da608e490c493b22d807">System.getUsername</a> (void)</td></tr>
+<tr class="memdesc:ga3ee7360459d3da608e490c493b22d807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get account username.  <a href="#ga3ee7360459d3da608e490c493b22d807">More...</a><br/></td></tr>
 <tr class="separator:ga3ee7360459d3da608e490c493b22d807"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8bb2e22a2c5f0202258dfb01137ce131"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga8bb2e22a2c5f0202258dfb01137ce131">System.getLanguage</a> (void)</td></tr>
+<tr class="memdesc:ga8bb2e22a2c5f0202258dfb01137ce131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get console language.  <a href="#ga8bb2e22a2c5f0202258dfb01137ce131">More...</a><br/></td></tr>
 <tr class="separator:ga8bb2e22a2c5f0202258dfb01137ce131"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga91c05f432ce136840db3203e4bc13e8b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga91c05f432ce136840db3203e4bc13e8b">System.getModel</a> (void)</td></tr>
+<tr class="memdesc:ga91c05f432ce136840db3203e4bc13e8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get console model.  <a href="#ga91c05f432ce136840db3203e4bc13e8b">More...</a><br/></td></tr>
 <tr class="separator:ga91c05f432ce136840db3203e4bc13e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab93961ec16fa1174dba210432413c33a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gab93961ec16fa1174dba210432413c33a">System.getTitle</a> (void)</td></tr>
+<tr class="memdesc:gab93961ec16fa1174dba210432413c33a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get running application title.  <a href="#gab93961ec16fa1174dba210432413c33a">More...</a><br/></td></tr>
 <tr class="separator:gab93961ec16fa1174dba210432413c33a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4cebba1989779b29c71cbc9689e26f67"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga4cebba1989779b29c71cbc9689e26f67">System.getTitleID</a> (void)</td></tr>
+<tr class="memdesc:ga4cebba1989779b29c71cbc9689e26f67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get running application title ID.  <a href="#ga4cebba1989779b29c71cbc9689e26f67">More...</a><br/></td></tr>
 <tr class="separator:ga4cebba1989779b29c71cbc9689e26f67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae00049fdb4cf161f30fe6d94bac447fd"><td class="memItemLeft" align="right" valign="top">table&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gae00049fdb4cf161f30fe6d94bac447fd">System.extractSFO</a> (string filename)</td></tr>
+<tr class="memdesc:gae00049fdb4cf161f30fe6d94bac447fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract info from an SFO file.  <a href="#gae00049fdb4cf161f30fe6d94bac447fd">More...</a><br/></td></tr>
 <tr class="separator:gae00049fdb4cf161f30fe6d94bac447fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5602c8bcedc35917cafb1004a0f8d476"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga5602c8bcedc35917cafb1004a0f8d476">System.extractZIP</a> (string filename, string dirname, string password)</td></tr>
+<tr class="memdesc:ga5602c8bcedc35917cafb1004a0f8d476"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a ZIP file.  <a href="#ga5602c8bcedc35917cafb1004a0f8d476">More...</a><br/></td></tr>
 <tr class="separator:ga5602c8bcedc35917cafb1004a0f8d476"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae638076b65b8d378364e0b1010a32fc3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gae638076b65b8d378364e0b1010a32fc3">System.extractFromZIP</a> (string filename, string file, string dirname, string password)</td></tr>
+<tr class="memdesc:gae638076b65b8d378364e0b1010a32fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a specific file from a ZIP file.  <a href="#gae638076b65b8d378364e0b1010a32fc3">More...</a><br/></td></tr>
 <tr class="separator:gae638076b65b8d378364e0b1010a32fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4e7bf5042c87cdc616d555cdfdf62ace"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga4e7bf5042c87cdc616d555cdfdf62ace">System.takeScreenshot</a> (string filename, bool use_jpg, int ratio)</td></tr>
+<tr class="memdesc:ga4e7bf5042c87cdc616d555cdfdf62ace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take a screenshot.  <a href="#ga4e7bf5042c87cdc616d555cdfdf62ace">More...</a><br/></td></tr>
 <tr class="separator:ga4e7bf5042c87cdc616d555cdfdf62ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga30e944647205510aa641d77e9673135a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga30e944647205510aa641d77e9673135a">System.executeUri</a> (string uri)</td></tr>
+<tr class="memdesc:ga30e944647205510aa641d77e9673135a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute an URI call.  <a href="#ga30e944647205510aa641d77e9673135a">More...</a><br/></td></tr>
 <tr class="separator:ga30e944647205510aa641d77e9673135a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gada550a4addf092cfd85ff76d2fe91974"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gada550a4addf092cfd85ff76d2fe91974">System.reboot</a> (void)</td></tr>
+<tr class="memdesc:gada550a4addf092cfd85ff76d2fe91974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reboot the console.  <a href="#gada550a4addf092cfd85ff76d2fe91974">More...</a><br/></td></tr>
 <tr class="separator:gada550a4addf092cfd85ff76d2fe91974"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3d2766da42923c3067c0330a34d1c123"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga3d2766da42923c3067c0330a34d1c123">System.isSafeMode</a> (void)</td></tr>
+<tr class="memdesc:ga3d2766da42923c3067c0330a34d1c123"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get if application is running in safe mode.  <a href="#ga3d2766da42923c3067c0330a34d1c123">More...</a><br/></td></tr>
 <tr class="separator:ga3d2766da42923c3067c0330a34d1c123"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4adcdbf382cfdddeabfc9cbd0fa4f759"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga4adcdbf382cfdddeabfc9cbd0fa4f759">System.setMessage</a> (string text, bool progressbar, <a class="el" href="enum_btn_mode.html">BtnMode</a> buttons)</td></tr>
+<tr class="memdesc:ga4adcdbf382cfdddeabfc9cbd0fa4f759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a system message instance.  <a href="#ga4adcdbf382cfdddeabfc9cbd0fa4f759">More...</a><br/></td></tr>
 <tr class="separator:ga4adcdbf382cfdddeabfc9cbd0fa4f759"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf1b24f0bba9a6468ff1c5ccb0d349623"><td class="memItemLeft" align="right" valign="top"><a class="el" href="enum_dlg_state.html">DlgState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaf1b24f0bba9a6468ff1c5ccb0d349623">System.getMessageState</a> (void)</td></tr>
+<tr class="memdesc:gaf1b24f0bba9a6468ff1c5ccb0d349623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current system message instance state.  <a href="#gaf1b24f0bba9a6468ff1c5ccb0d349623">More...</a><br/></td></tr>
 <tr class="separator:gaf1b24f0bba9a6468ff1c5ccb0d349623"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga72390271c1640a8c97e610dc2b17a3f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga72390271c1640a8c97e610dc2b17a3f5">System.setMessageProgress</a> (int progress)</td></tr>
+<tr class="memdesc:ga72390271c1640a8c97e610dc2b17a3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set current progress for the system message instance.  <a href="#ga72390271c1640a8c97e610dc2b17a3f5">More...</a><br/></td></tr>
 <tr class="separator:ga72390271c1640a8c97e610dc2b17a3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabdf230aa4480f5411c466541f0c4beee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gabdf230aa4480f5411c466541f0c4beee">System.setMessageProgMsg</a> (string text)</td></tr>
+<tr class="memdesc:gabdf230aa4480f5411c466541f0c4beee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a submessage for the system message instance.  <a href="#gabdf230aa4480f5411c466541f0c4beee">More...</a><br/></td></tr>
 <tr class="separator:gabdf230aa4480f5411c466541f0c4beee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga696c0d64a7d7c95578dbffc578e9388d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga696c0d64a7d7c95578dbffc578e9388d">System.closeMessage</a> (void)</td></tr>
+<tr class="memdesc:ga696c0d64a7d7c95578dbffc578e9388d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the current system message instance.  <a href="#ga696c0d64a7d7c95578dbffc578e9388d">More...</a><br/></td></tr>
 <tr class="separator:ga696c0d64a7d7c95578dbffc578e9388d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -251,7 +312,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Open a file.</p>
+
+<p>Open a file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">handle = System.openFile(<span class="stringliteral">&quot;ux0:/data/file.txt&quot;</span>, FREAD)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -294,12 +356,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Write into an opened file.</p>
+
+<p>Write into an opened file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.writeFile(handle, <span class="stringliteral">&quot;Test&quot;</span>, 4)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b">System.openFile</a>. </td></tr>
+    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b" title="Open a file. ">System.openFile</a>. </td></tr>
     <tr><td class="paramname">text</td><td>- The text to write on file. </td></tr>
     <tr><td class="paramname">len</td><td>- Length of the text. </td></tr>
   </table>
@@ -331,12 +394,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Read from an opened file.</p>
+
+<p>Read from an opened file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">text = System.readFile(handle, 4)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b">System.openFile</a>. </td></tr>
+    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b" title="Open a file. ">System.openFile</a>. </td></tr>
     <tr><td class="paramname">len</td><td>- Length of the string to read in bytes.</td></tr>
   </table>
   </dd>
@@ -374,12 +438,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Move cursor of an opened file.</p>
+
+<p>Move cursor of an opened file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.seekFile(handle, 0, END)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b">System.openFile</a>. </td></tr>
+    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b" title="Open a file. ">System.openFile</a>. </td></tr>
     <tr><td class="paramname">pos</td><td>- Position to set. </td></tr>
     <tr><td class="paramname">seek</td><td>- Start point for the position. </td></tr>
   </table>
@@ -401,12 +466,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Calculate size of an opened file in bytes.</p>
+
+<p>Calculate size of an opened file in bytes. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">size = System.sizeFile(handle)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b">System.openFile</a>.</td></tr>
+    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b" title="Open a file. ">System.openFile</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -427,12 +493,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Close an opened file.</p>
+
+<p>Close an opened file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.closeFile(handle)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b">System.openFile</a>. </td></tr>
+    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b" title="Open a file. ">System.openFile</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -452,7 +519,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Check if a file exists.</p>
+
+<p>Check if a file exists. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> System.doesFileExist(<span class="stringliteral">&quot;ux0:/data/file.txt&quot;</span>) then</div>
 <div class="line">    handle = <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga99ff90094d878e7d68cde220c05e980b">openFile</a>(<span class="stringliteral">&quot;ux0:/data/file.txt&quot;</span>, FREAD)</div>
 <div class="line">end</div>
@@ -490,7 +558,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Rename or move a file.</p>
+
+<p>Rename or move a file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.rename(<span class="stringliteral">&quot;ux0:/data/old.txt&quot;</span>, <span class="stringliteral">&quot;ux0:/data/new.txt&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -516,7 +585,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Delete a file.</p>
+
+<p>Delete a file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.deleteFile(<span class="stringliteral">&quot;ux0:/data/file.txt&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -541,7 +611,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Delete a directory.</p>
+
+<p>Delete a directory. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.deleteDirectory(<span class="stringliteral">&quot;ux0:/data/dir&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -566,7 +637,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create a new directory.</p>
+
+<p>Create a new directory. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.createDirectory(<span class="stringliteral">&quot;ux0:/data/dir&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -591,7 +663,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>List a directory contents.</p>
+
+<p>List a directory contents. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">files = System.listDirectory(<span class="stringliteral">&quot;ux0:/data/dir&quot;</span>)</div>
 <div class="line">name = files[0].name</div>
 <div class="line">size = files[0].size</div>
@@ -620,7 +693,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Close the interpreter.</p>
+
+<p>Close the interpreter. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.exit()</div>
 </div><!-- fragment --> </dd></dl>
 
@@ -639,7 +713,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sleep the application for a certain time.</p>
+
+<p>Sleep the application for a certain time. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.wait(1000000)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -664,7 +739,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Check if the battery is under charge.</p>
+
+<p>Check if the battery is under charge. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> System.isBatteryCharging() then</div>
 <div class="line">    Graphics.debugPrint(0, 0, <span class="stringliteral">&quot;Battery is charging&quot;</span>, <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#gade5612162130ae0d723309fe84174f9e">new</a>(255, 255, 255))</div>
 <div class="line">end</div>
@@ -686,7 +762,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get current battery life percentage.</p>
+
+<p>Get current battery life percentage. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">life = System.getBatteryPercentage()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The battery life percentage. </dd></dl>
@@ -706,7 +783,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get current battery life.</p>
+
+<p>Get current battery life. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">life = System.getBatteryLife()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The battery life in seconds. </dd></dl>
@@ -726,7 +804,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get current battery capacity.</p>
+
+<p>Get current battery capacity. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">cap = System.getBatteryCapacity()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The battery capacity in mAh. </dd></dl>
@@ -746,7 +825,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get full battery capacity.</p>
+
+<p>Get full battery capacity. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">cap_max = System.getBatteryFullCapacity()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The battery full capacity in mAh. </dd></dl>
@@ -766,7 +846,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get battery temperature.</p>
+
+<p>Get battery temperature. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">temp = System.getBatteryTemp()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The battery temperature in Celsius. </dd></dl>
@@ -786,7 +867,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get battery voltage.</p>
+
+<p>Get battery voltage. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">voltage = System.getBatteryVolt()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The battery voltage in mV. </dd></dl>
@@ -806,7 +888,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get battery state of health percentage.</p>
+
+<p>Get battery state of health percentage. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">soh = System.getBatteryHealth()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The battery state of health percentage. </dd></dl>
@@ -826,7 +909,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get battery cycles count.</p>
+
+<p>Get battery cycles count. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">cycles = System.getBatteryCycles()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The battery cycles count. </dd></dl>
@@ -846,7 +930,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Disables a power management timer feature.</p>
+
+<p>Disables a power management timer feature. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.disableTimer(SCREEN_DIMMING_TIMER)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -871,7 +956,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Enables a power management timer feature.</p>
+
+<p>Enables a power management timer feature. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.enableTimer(SCREEN_DIMMING_TIMER)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -896,7 +982,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set CPU clock speed.</p>
+
+<p>Set CPU clock speed. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.setCpuSpeed(444)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -922,7 +1009,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set GPU clock speed.</p>
+
+<p>Set GPU clock speed. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.setGpuSpeed(222)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -948,7 +1036,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set BUS clock speed.</p>
+
+<p>Set BUS clock speed. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.setBusSpeed(222)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -974,7 +1063,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get CPU clock speed.</p>
+
+<p>Get CPU clock speed. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">clock = System.getCpuSpeed()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The CPU clock speed in Mhz. </dd></dl>
@@ -994,7 +1084,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get GPU clock speed.</p>
+
+<p>Get GPU clock speed. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">clock = System.getGpuSpeed()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The GPU clock speed in Mhz. </dd></dl>
@@ -1014,7 +1105,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get BUS clock speed.</p>
+
+<p>Get BUS clock speed. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">clock = System.getBusSpeed()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The BUS clock speed in Mhz. </dd></dl>
@@ -1034,7 +1126,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get GPU Crossbar clock speed.</p>
+
+<p>Get GPU Crossbar clock speed. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">clock = System.getGpuXbarSpeed()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The GPU Crossbar clock speed in Mhz. </dd></dl>
@@ -1054,7 +1147,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Launches a binary file.</p>
+
+<p>Launches a binary file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.launchEboot(<span class="stringliteral">&quot;app0:/updater.bin&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1080,7 +1174,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Launches an installed application.</p>
+
+<p>Launches an installed application. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.launchApp(<span class="stringliteral">&quot;MLCL00001&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1105,7 +1200,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get console time.</p>
+
+<p>Get console time. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">h,m,s = System.getTime()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Three values owning hours, minutes and seconds. </dd></dl>
@@ -1125,7 +1221,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get console date.</p>
+
+<p>Get console date. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">day_num, d, m, y = System.getDate()</div>
 <div class="line"><span class="keywordflow">if</span> day_num == 1 then</div>
 <div class="line">    day_name = <span class="stringliteral">&quot;Monday&quot;</span></div>
@@ -1148,7 +1245,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get account username.</p>
+
+<p>Get account username. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">username = System.getUsername()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The username set on the running console account. </dd></dl>
@@ -1168,7 +1266,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get console language.</p>
+
+<p>Get console language. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">lang = System.getLanguage()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The language ID currently set on the console.</dd></dl>
@@ -1189,7 +1288,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get console model.</p>
+
+<p>Get console model. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">model = System.getModel()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0x10000 if PSVITA, 0x20000 if PSTV. </dd></dl>
@@ -1209,7 +1309,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get running application title.</p>
+
+<p>Get running application title. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">title = System.getTitle()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The running application title. </dd></dl>
@@ -1229,7 +1330,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get running application title ID.</p>
+
+<p>Get running application title ID. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">title_id = System.getTitleID()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The running application title ID. </dd></dl>
@@ -1249,7 +1351,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Extract info from an SFO file.</p>
+
+<p>Extract info from an SFO file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">info = System.extractSFO(<span class="stringliteral">&quot;app0:/sce_sys/param.sfo&quot;</span>)</div>
 <div class="line">app_version = info.version</div>
 <div class="line">app_title = info.title</div>
@@ -1295,7 +1398,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Extract a ZIP file.</p>
+
+<p>Extract a ZIP file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.extractZIP(<span class="stringliteral">&quot;app0:/files.zip&quot;</span>, <span class="stringliteral">&quot;ux0:/data/app_files&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1346,7 +1450,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Extract a specific file from a ZIP file.</p>
+
+<p>Extract a specific file from a ZIP file. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.extractFromZIP(<span class="stringliteral">&quot;app0:/files.zip&quot;</span>, <span class="stringliteral">&quot;image.jpg&quot;</span> <span class="stringliteral">&quot;ux0:/data/app_files&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1392,7 +1497,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Take a screenshot.</p>
+
+<p>Take a screenshot. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.takeScreenshot(<span class="stringliteral">&quot;ux0:/data/shot.jpg&quot;</span>, <span class="keyword">true</span>, 255)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1420,7 +1526,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Execute an URI call.</p>
+
+<p>Execute an URI call. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.executeURI(<span class="stringliteral">&quot;psgm:play?titleid=MLCL00001&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1445,7 +1552,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reboot the console.</p>
+
+<p>Reboot the console. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.reboot()</div>
 </div><!-- fragment --> </dd></dl>
 
@@ -1464,7 +1572,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get if application is running in safe mode.</p>
+
+<p>Get if application is running in safe mode. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> System.isSafeMode() then</div>
 <div class="line">    mode = <span class="stringliteral">&quot;safe&quot;</span></div>
 <div class="line">end</div>
@@ -1502,7 +1611,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Start a system message instance.</p>
+
+<p>Start a system message instance. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.setMessage(<span class="stringliteral">&quot;Do you want to start this app?&quot;</span>, <span class="keyword">false</span>, BUTTON_YES_NO)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1530,7 +1640,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get current system message instance state.</p>
+
+<p>Get current system message instance state. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">state = System.getMessageState()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Current state of the system message instance. </dd></dl>
@@ -1550,7 +1661,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set current progress for the system message instance.</p>
+
+<p>Set current progress for the system message instance. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.setMessageProgress(10)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1578,7 +1690,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set a submessage for the system message instance.</p>
+
+<p>Set a submessage for the system message instance. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.setMessageProgMsg(<span class="stringliteral">&quot;10%%&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1604,7 +1717,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Close the current system message instance.</p>
+
+<p>Close the current system message instance. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">System.closeMessage()</div>
 </div><!-- fragment --> </dd></dl>
 
