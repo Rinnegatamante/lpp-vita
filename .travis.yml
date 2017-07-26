@@ -3,30 +3,32 @@ sudo: false
 
 # Blacklist
 branches:
-  except:
-    - gh-pages
+   except:
+      - gh-pages
 
 # Environment variables
 env:
-  global:
-    - GH_REPO_NAME: lpp-vita
-    - DOXYFILE: $TRAVIS_BUILD_DIR/doc/Doxyfile
-    - GH_REPO_REF: github.com/Rinnegatamante/lpp-vita.git
+   global:
+      - GH_REPO_NAME: lpp-vita
+      - DOXYFILE: $TRAVIS_BUILD_DIR/doc/Doxyfile
+      - GH_REPO_REF: github.com/Rinnegatamante/lpp-vita.git
 
 # Install dependencies
 addons:
-  apt:
-    packages:
-      - doxygen
-      - doxygen-doc
-      - doxygen-latex
-      - doxygen-gui
-      - graphviz
+   apt:
+      packages:
+         - doxygen
+         - doxygen-doc
+         - doxygen-latex
+         - doxygen-gui
+         - graphviz
 
-script:      
+script:
+   - cd $TRAVIS_BUILD_DIR
+   - cd doc
 
 # Generate and deploy documentation
 after_success:
-  - cd $TRAVIS_BUILD_DIR
-  - chmod +x deployDoc.sh
-  - ./deployDoc.sh
+   - cd $TRAVIS_BUILD_DIR
+   - chmod +x deployDoc.sh
+   - ./deployDoc.sh
