@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['wait',['wait',['../group___system.html#ga90b40c3216203debd15b7ab5ac3b4d11',1,'System']]],
-  ['waitvblankstart',['waitVblankStart',['../group___screen.html#gac27d996488ce19aacbc4a2355440f558',1,'Screen']]],
-  ['writefile',['writeFile',['../group___system.html#ga047318093a2a67cbc7881d6762ae5da8',1,'System']]]
+  ['wait',['wait',['../group___system.html#ga638446f490b45bebb84257ee06a50c7c',1,'System']]],
+  ['waitvblankstart',['waitVblankStart',['../group___screen.html#ga70d61a7f40b25f995c5f4c01b497eb44',1,'luaScreen.cpp']]],
+  ['writefile',['writeFile',['../group___system.html#ga37be909679c7fbe5909323536816d81b',1,'System']]]
 ];

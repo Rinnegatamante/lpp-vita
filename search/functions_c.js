@@ -1,18 +1,18 @@
 var searchData=
 [
-  ['read',['read',['../group___controls.html#gaadbf066f9514db8dd2107684a4c1f9d3',1,'Controls']]],
-  ['readaccel',['readAccel',['../group___controls.html#gae21ae4f103f7df110f0012cd21939f1a',1,'Controls']]],
-  ['readfile',['readFile',['../group___system.html#gaf094d8ec4f73bf195578b58ced7419aa',1,'System']]],
-  ['readgyro',['readGyro',['../group___controls.html#ga8d1aa4c957a4a9e56156013f83662ae8',1,'Controls']]],
-  ['readleftanalog',['readLeftAnalog',['../group___controls.html#ga3ae98593acccf13de260f2ca8070dfe0',1,'Controls']]],
-  ['readretrotouch',['readRetroTouch',['../group___controls.html#ga6509483282f861fb47ea8928b808a9d4',1,'Controls']]],
-  ['readrightanalog',['readRightAnalog',['../group___controls.html#ga90b36b5573d7df85c242a8405d286c9a',1,'Controls']]],
-  ['readtouch',['readTouch',['../group___controls.html#gaa8fcd0345ba12dff2b466d0a30604860',1,'Controls']]],
-  ['reboot',['reboot',['../group___system.html#gada550a4addf092cfd85ff76d2fe91974',1,'System']]],
-  ['receive',['receive',['../group___socket.html#ga465594476772303628edc7b98807d789',1,'Socket']]],
-  ['rename',['rename',['../group___system.html#gad584b3b4a7b371867a8bb7919c294a60',1,'System']]],
-  ['requeststring',['requestString',['../group___network.html#gac5e0af37a7baf7235593a655dffb94e7',1,'Network']]],
-  ['reset',['reset',['../group___timer.html#gaf2a82caf2de07f1a37411f47475c4919',1,'Timer']]],
-  ['resume',['resume',['../group___mic.html#gad27601d6f18e79115121edc9ab637c79',1,'Mic.resume()'],['../group___timer.html#ga6776216e2ee92d2c31d54a6b8cf8eb5f',1,'Timer.resume()']]],
-  ['rumble',['rumble',['../group___controls.html#gaad4eb90fdda74a358f1556c92d80bb67',1,'Controls']]]
+  ['read',['read',['../group___controls.html#ga51b8cb55395145c8029df38d9adb1910',1,'Controls']]],
+  ['readaccel',['readAccel',['../group___controls.html#ga6594a4313cc39ecfff663c847d7ea0f8',1,'Controls']]],
+  ['readfile',['readFile',['../group___system.html#ga624dd7473ef91ca83ba568bdb367e263',1,'System']]],
+  ['readgyro',['readGyro',['../group___controls.html#gaaedc2596a87e61ebe465923fffa8b944',1,'Controls']]],
+  ['readleftanalog',['readLeftAnalog',['../group___controls.html#ga2ad697b385cdd13b62477d4334e19ffa',1,'Controls']]],
+  ['readretrotouch',['readRetroTouch',['../group___controls.html#gaccd5874290bcbc849809cba4647b00c1',1,'Controls']]],
+  ['readrightanalog',['readRightAnalog',['../group___controls.html#gaac2bfdbcec6f2c7f0c16d71c707f71f8',1,'Controls']]],
+  ['readtouch',['readTouch',['../group___controls.html#gafd32d04a50d40b6fc80e9e6acf8fc990',1,'Controls']]],
+  ['reboot',['reboot',['../group___system.html#ga23984244aa92f7902124fbc78ebfa228',1,'System']]],
+  ['receive',['receive',['../group___socket.html#gaa8af80ae44b5573c871dfe986e569a4f',1,'luaNetwork.cpp']]],
+  ['rename',['rename',['../group___system.html#ga87f67f8eef2972cfe2c7ef14248d6231',1,'System']]],
+  ['requeststring',['requestString',['../group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92',1,'Network::requestString()'],['../group___network.html#ga7e81e2b6e0d8706669702df9a6fea3b8',1,'requestString():&#160;luaNetwork.cpp']]],
+  ['reset',['reset',['../group___timer.html#gac66190516c06b8584cc2df50f7318c90',1,'Timer']]],
+  ['resume',['resume',['../group___mic.html#ga993631703e28871f640ee49eb6b21130',1,'Mic::resume()'],['../group___timer.html#gaaea65117b7ec76a443e3388e2680c71c',1,'Timer::resume()']]],
+  ['rumble',['rumble',['../group___controls.html#gaeb2a0d781e4ac121094056ebd64ba3a5',1,'Controls']]]
 ];

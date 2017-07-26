@@ -1,8 +1,8 @@
 var group___mic =
 [
-    [ "start", "group___mic.html#ga3c12ec469676dd80f2e23a2923997a45", null ],
-    [ "stop", "group___mic.html#ga5db070218a52de0bb9313ecd7176eb1b", null ],
-    [ "pause", "group___mic.html#ga029f364b7aae9fb9918117a4e12c6643", null ],
-    [ "resume", "group___mic.html#gad27601d6f18e79115121edc9ab637c79", null ],
-    [ "isRecording", "group___mic.html#gace638722549b3613f82ea61ed4db7a77", null ]
+    [ "start", "group___mic.html#ga77e92b061bc5f3226ba25f8dabcd61ad", null ],
+    [ "stop", "group___mic.html#gac31098391103c94dba667cd0a6178ec7", null ],
+    [ "pause", "group___mic.html#gaec7c0fc03bdbb00c18f11fe538073ec8", null ],
+    [ "resume", "group___mic.html#ga993631703e28871f640ee49eb6b21130", null ],
+    [ "isRecording", "group___mic.html#ga7bbda9d9beeb5ea46a856381495055d0", null ]
 ];

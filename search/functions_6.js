@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['headsetstatus',['headsetStatus',['../group___controls.html#ga59bdaac5e13268b56863f64124756391',1,'Controls']]]
+  ['headsetstatus',['headsetStatus',['../group___controls.html#gaea76d672f53969e2c9892cffbf474128',1,'Controls']]]
 ];

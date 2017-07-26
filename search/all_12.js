@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['udp_5fsocket',['UDP_SOCKET',['../enum_net_protocol.html#a2f8c46fb13c48ff5ecff6ecfa4c3063b',1,'NetProtocol']]],
-  ['unlockhomebutton',['unlockHomeButton',['../group___controls.html#ga20db9693a6543ed3277bf8ec657cee7e',1,'Controls']]],
-  ['unpaired_5fdev',['UNPAIRED_DEV',['../enum_dev_type.html#a6c69ea3eb3f5697fa0ba310fe3cfed58',1,'DevType']]]
+  ['unlockhomebutton',['unlockHomeButton',['../group___controls.html#gacec557849101bb976fbc2ce145cf0ab4',1,'Controls']]],
+  ['unpaired_5fdev',['UNPAIRED_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46ba11f8e260910964cfaa46b1e41db1a122',1,'luaControls.cpp']]]
 ];

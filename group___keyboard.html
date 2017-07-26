@@ -85,7 +85,7 @@ $(document).ready(function(){initNavTree('group___keyboard.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -96,7 +96,7 @@ $(document).ready(function(){initNavTree('group___keyboard.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Keyboard</div>  </div>
@@ -106,36 +106,96 @@ $(document).ready(function(){initNavTree('group___keyboard.html','');});
 <p>Module that handles system keyboard.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_key_mode.html">KeyMode</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_keyboard.html">Keyboard</a> modes to use with <a class="el" href="group___keyboard.html#ga1221b5d96389bf8a5935fbe9eb514ff8" title="Start a keyboard instance. ">Keyboard.start</a>.  <a href="enum_key_mode.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enum_key_type.html">KeyType</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_keyboard.html">Keyboard</a> types to use with <a class="el" href="group___keyboard.html#ga1221b5d96389bf8a5935fbe9eb514ff8" title="Start a keyboard instance. ">Keyboard.start</a>.  <a href="enum_key_type.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:gaa5ba9d9240f5529dfc08e534bf766949"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gaa5ba9d9240f5529dfc08e534bf766949">KeyMode</a> { <a class="el" href="group___keyboard.html#ggaa5ba9d9240f5529dfc08e534bf766949a0122b273e154813f963af22467ac766b">MODE_TEXT</a>, 
+<a class="el" href="group___keyboard.html#ggaa5ba9d9240f5529dfc08e534bf766949a496198ee0d172c2bc9adcc5b316d36e1">MODE_PASSWORD</a>
+ }</td></tr>
+<tr class="memdesc:gaa5ba9d9240f5529dfc08e534bf766949"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_keyboard.html">Keyboard</a> modes to use with <a class="el" href="group___keyboard.html#ga37a32961b6c5b4c03c3e450c6751d81e" title="Start a keyboard instance. ">Keyboard.start</a>.  <a href="group___keyboard.html#gaa5ba9d9240f5529dfc08e534bf766949">More...</a><br/></td></tr>
+<tr class="separator:gaa5ba9d9240f5529dfc08e534bf766949"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaab0feaba617470cb4aa830dc5935238c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gaab0feaba617470cb4aa830dc5935238c">KeyType</a> { <a class="el" href="group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca80d7bb9558588a28f24aec4c019fdbd6">TYPE_DEFAULT</a>, 
+<a class="el" href="group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca6323f3e097be6daf8a1c807a28f8a172">TYPE_LATIN</a>, 
+<a class="el" href="group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca23633c59862fb4d180b9b35e9f61ca18">TYPE_NUMBER</a>, 
+<a class="el" href="group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca56d72d701f1106319b74f03049e8b8ec">TYPE_NUMBER_EXT</a>
+ }</td></tr>
+<tr class="memdesc:gaab0feaba617470cb4aa830dc5935238c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_keyboard.html">Keyboard</a> types to use with <a class="el" href="group___keyboard.html#ga37a32961b6c5b4c03c3e450c6751d81e" title="Start a keyboard instance. ">Keyboard.start</a>.  <a href="group___keyboard.html#gaab0feaba617470cb4aa830dc5935238c">More...</a><br/></td></tr>
+<tr class="separator:gaab0feaba617470cb4aa830dc5935238c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga1221b5d96389bf8a5935fbe9eb514ff8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#ga1221b5d96389bf8a5935fbe9eb514ff8">Keyboard.start</a> (string title, string text, int length, <a class="el" href="enum_key_type.html">KeyType</a> type, <a class="el" href="enum_key_mode.html">KeyMode</a> mode)</td></tr>
-<tr class="memdesc:ga1221b5d96389bf8a5935fbe9eb514ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a keyboard instance.  <a href="#ga1221b5d96389bf8a5935fbe9eb514ff8">More...</a><br/></td></tr>
-<tr class="separator:ga1221b5d96389bf8a5935fbe9eb514ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaebb0a4f90b49c1fbe9bd9130daf4c8dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="enum_dlg_state.html">DlgState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gaebb0a4f90b49c1fbe9bd9130daf4c8dd">Keyboard.getState</a> (void)</td></tr>
-<tr class="memdesc:gaebb0a4f90b49c1fbe9bd9130daf4c8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get keyboard state.  <a href="#gaebb0a4f90b49c1fbe9bd9130daf4c8dd">More...</a><br/></td></tr>
-<tr class="separator:gaebb0a4f90b49c1fbe9bd9130daf4c8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga31a3d8953f2cacf53d1a86aed5ef2251"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#ga31a3d8953f2cacf53d1a86aed5ef2251">Keyboard.getInput</a> (void)</td></tr>
-<tr class="memdesc:ga31a3d8953f2cacf53d1a86aed5ef2251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get keyboard user input.  <a href="#ga31a3d8953f2cacf53d1a86aed5ef2251">More...</a><br/></td></tr>
-<tr class="separator:ga31a3d8953f2cacf53d1a86aed5ef2251"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac04501e3e229012cc1c0d9bb75b2c339"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gac04501e3e229012cc1c0d9bb75b2c339">Keyboard.clear</a> (void)</td></tr>
-<tr class="memdesc:gac04501e3e229012cc1c0d9bb75b2c339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close current system keyboard instance.  <a href="#gac04501e3e229012cc1c0d9bb75b2c339">More...</a><br/></td></tr>
-<tr class="separator:gac04501e3e229012cc1c0d9bb75b2c339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37a32961b6c5b4c03c3e450c6751d81e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#ga37a32961b6c5b4c03c3e450c6751d81e">Keyboard.start</a> (string title, string text, int length, <a class="el" href="group___keyboard.html#gaab0feaba617470cb4aa830dc5935238c">KeyType</a> type, <a class="el" href="group___keyboard.html#gaa5ba9d9240f5529dfc08e534bf766949">KeyMode</a> mode)</td></tr>
+<tr class="memdesc:ga37a32961b6c5b4c03c3e450c6751d81e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a keyboard instance.  <a href="#ga37a32961b6c5b4c03c3e450c6751d81e">More...</a><br/></td></tr>
+<tr class="separator:ga37a32961b6c5b4c03c3e450c6751d81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0496cf4908c6c82661ffb27cea5d838c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___system.html#ga43732228a5490969d94095326d6bc623">DlgState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#ga0496cf4908c6c82661ffb27cea5d838c">Keyboard.getState</a> (void)</td></tr>
+<tr class="memdesc:ga0496cf4908c6c82661ffb27cea5d838c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get keyboard state.  <a href="#ga0496cf4908c6c82661ffb27cea5d838c">More...</a><br/></td></tr>
+<tr class="separator:ga0496cf4908c6c82661ffb27cea5d838c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee54328ece94b848e0c69d67aa0d0bd8"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gaee54328ece94b848e0c69d67aa0d0bd8">Keyboard.getInput</a> (void)</td></tr>
+<tr class="memdesc:gaee54328ece94b848e0c69d67aa0d0bd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get keyboard user input.  <a href="#gaee54328ece94b848e0c69d67aa0d0bd8">More...</a><br/></td></tr>
+<tr class="separator:gaee54328ece94b848e0c69d67aa0d0bd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa4b7da924f46c835e2fb11a4cb140210"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gaa4b7da924f46c835e2fb11a4cb140210">Keyboard.clear</a> (void)</td></tr>
+<tr class="memdesc:gaa4b7da924f46c835e2fb11a4cb140210"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close current system keyboard instance.  <a href="#gaa4b7da924f46c835e2fb11a4cb140210">More...</a><br/></td></tr>
+<tr class="separator:gaa4b7da924f46c835e2fb11a4cb140210"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles system keyboard. </p>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ga1221b5d96389bf8a5935fbe9eb514ff8"></a>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a class="anchor" id="gaa5ba9d9240f5529dfc08e534bf766949"></a>
 <div class="memitem">
 <div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group___keyboard.html#gaa5ba9d9240f5529dfc08e534bf766949">KeyMode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_keyboard.html">Keyboard</a> modes to use with <a class="el" href="group___keyboard.html#ga37a32961b6c5b4c03c3e450c6751d81e" title="Start a keyboard instance. ">Keyboard.start</a>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="ggaa5ba9d9240f5529dfc08e534bf766949a0122b273e154813f963af22467ac766b"></a>MODE_TEXT</em>&#160;</td><td class="fielddoc">
+<p>Text mode. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ggaa5ba9d9240f5529dfc08e534bf766949a496198ee0d172c2bc9adcc5b316d36e1"></a>MODE_PASSWORD</em>&#160;</td><td class="fielddoc">
+<p>Password mode. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="gaab0feaba617470cb4aa830dc5935238c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group___keyboard.html#gaab0feaba617470cb4aa830dc5935238c">KeyType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_keyboard.html">Keyboard</a> types to use with <a class="el" href="group___keyboard.html#ga37a32961b6c5b4c03c3e450c6751d81e" title="Start a keyboard instance. ">Keyboard.start</a>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="ggaab0feaba617470cb4aa830dc5935238ca80d7bb9558588a28f24aec4c019fdbd6"></a>TYPE_DEFAULT</em>&#160;</td><td class="fielddoc">
+<p>Default type. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ggaab0feaba617470cb4aa830dc5935238ca6323f3e097be6daf8a1c807a28f8a172"></a>TYPE_LATIN</em>&#160;</td><td class="fielddoc">
+<p>Latin encode type. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ggaab0feaba617470cb4aa830dc5935238ca23633c59862fb4d180b9b35e9f61ca18"></a>TYPE_NUMBER</em>&#160;</td><td class="fielddoc">
+<p>Basic number type. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ggaab0feaba617470cb4aa830dc5935238ca56d72d701f1106319b74f03049e8b8ec"></a>TYPE_NUMBER_EXT</em>&#160;</td><td class="fielddoc">
+<p>Extended number type. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ga37a32961b6c5b4c03c3e450c6751d81e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Keyboard.start </td>
@@ -158,13 +218,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="enum_key_type.html">KeyType</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___keyboard.html#gaab0feaba617470cb4aa830dc5935238c">KeyType</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="enum_key_mode.html">KeyMode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___keyboard.html#gaa5ba9d9240f5529dfc08e534bf766949">KeyMode</a>&#160;</td>
           <td class="paramname"><em>mode</em>&#160;</td>
         </tr>
         <tr>
@@ -173,10 +233,15 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Start a keyboard instance. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">Keyboard.start(<span class="stringliteral">&quot;Insert a text&quot;</span>, <span class="stringliteral">&quot;Text&quot;</span>)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_keyboard.html">Keyboard</a>.<a class="code" href="group___keyboard.html#ga37a32961b6c5b4c03c3e450c6751d81e">start</a>(<span class="stringliteral">&quot;Insert a text&quot;</span>, <span class="stringliteral">&quot;Text&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -191,30 +256,41 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaebb0a4f90b49c1fbe9bd9130daf4c8dd"></a>
+<a class="anchor" id="ga0496cf4908c6c82661ffb27cea5d838c"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="enum_dlg_state.html">DlgState</a> Keyboard.getState </td>
+          <td class="memname"><a class="el" href="group___system.html#ga43732228a5490969d94095326d6bc623">DlgState</a> Keyboard.getState </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Get keyboard state. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">state = Keyboard.getState()</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">state = <a class="code" href="class_keyboard.html">Keyboard</a>.<a class="code" href="group___keyboard.html#ga0496cf4908c6c82661ffb27cea5d838c">getState</a>()</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Current state of the system keyboard instance. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga31a3d8953f2cacf53d1a86aed5ef2251"></a>
+<a class="anchor" id="gaee54328ece94b848e0c69d67aa0d0bd8"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">string Keyboard.getInput </td>
@@ -224,20 +300,28 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Get keyboard user input. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> Keyboard.getState() == FINISHED then</div>
-<div class="line">    result_text = <a class="code" href="class_keyboard.html">Keyboard</a>.<a class="code" href="group___keyboard.html#ga31a3d8953f2cacf53d1a86aed5ef2251">getInput</a>()</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> <a class="code" href="class_keyboard.html">Keyboard</a>.<a class="code" href="group___keyboard.html#ga0496cf4908c6c82661ffb27cea5d838c">getState</a>() == <a class="code" href="group___system.html#gga43732228a5490969d94095326d6bc623adbd1812bee789fbf3548cf79d3f2b400">FINISHED</a> then</div>
+<div class="line">        result_text = <a class="code" href="class_keyboard.html">Keyboard</a>.<a class="code" href="group___keyboard.html#gaee54328ece94b848e0c69d67aa0d0bd8">getInput</a>()</div>
 <div class="line">end</div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The text entered by the user. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="gac04501e3e229012cc1c0d9bb75b2c339"></a>
+<a class="anchor" id="gaa4b7da924f46c835e2fb11a4cb140210"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Keyboard.clear </td>
@@ -247,10 +331,15 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Close current system keyboard instance. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">Keyboard.clear()</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_keyboard.html">Keyboard</a>.<a class="code" href="group___keyboard.html#gaa4b7da924f46c835e2fb11a4cb140210">clear</a>()</div>
 </div><!-- fragment --> </dd></dl>
 
 </div>

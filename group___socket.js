@@ -1,13 +1,9 @@
 var group___socket =
 [
-    [ "NetProtocol", "enum_net_protocol.html", [
-      [ "TCP_SOCKET", "enum_net_protocol.html#aa09c7aa07f082382b0dbad52477683b9", null ],
-      [ "UDP_SOCKET", "enum_net_protocol.html#a2f8c46fb13c48ff5ecff6ecfa4c3063b", null ]
-    ] ],
-    [ "createServerSocket", "group___socket.html#gac08bcc8a7a41e31f335256e17bad7f84", null ],
-    [ "connect", "group___socket.html#gacfce9661b561d951357075cc1ea56497", null ],
-    [ "send", "group___socket.html#gae16c6a1e958ee8e5bc145a660ab83d94", null ],
-    [ "receive", "group___socket.html#ga465594476772303628edc7b98807d789", null ],
-    [ "accept", "group___socket.html#ga8fc3afe848d9dbf1d814d863a3deca87", null ],
-    [ "close", "group___socket.html#ga4896f611211d2d377296c1a234b524f1", null ]
+    [ "createServerSocket", "group___socket.html#ga866683db9a2a19c5573adab935552506", null ],
+    [ "connect", "group___socket.html#ga3dfaf383019e9e0564973bb473d5eb30", null ],
+    [ "send", "group___socket.html#gace75c491e51a41d4e3daad6244924c47", null ],
+    [ "receive", "group___socket.html#gaa8af80ae44b5573c871dfe986e569a4f", null ],
+    [ "accept", "group___socket.html#gadb6f0c8e4a5cb42e2f9863a958009bed", null ],
+    [ "close", "group___socket.html#gaae4f5cab6227e7242e2bf230986fd46c", null ]
 ];

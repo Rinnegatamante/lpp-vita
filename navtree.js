@@ -7,7 +7,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"enum_btn_mode.html"
+"group___color.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

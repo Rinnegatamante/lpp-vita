@@ -85,7 +85,7 @@ $(document).ready(function(){initNavTree('group___color.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -107,28 +107,46 @@ $(document).ready(function(){initNavTree('group___color.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gade5612162130ae0d723309fe84174f9e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#gade5612162130ae0d723309fe84174f9e">Color.new</a> (int r, int g, int b, int a)</td></tr>
-<tr class="memdesc:gade5612162130ae0d723309fe84174f9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new color.  <a href="#gade5612162130ae0d723309fe84174f9e">More...</a><br/></td></tr>
-<tr class="separator:gade5612162130ae0d723309fe84174f9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac1af4f8c7f5380e3db9352b3f67cc837"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#gac1af4f8c7f5380e3db9352b3f67cc837">Color.getR</a> (int clr)</td></tr>
-<tr class="memdesc:gac1af4f8c7f5380e3db9352b3f67cc837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the R channel value of a color.  <a href="#gac1af4f8c7f5380e3db9352b3f67cc837">More...</a><br/></td></tr>
-<tr class="separator:gac1af4f8c7f5380e3db9352b3f67cc837"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0944be329292ec8bb992460749ad7287"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga0944be329292ec8bb992460749ad7287">Color.getG</a> (int clr)</td></tr>
-<tr class="memdesc:ga0944be329292ec8bb992460749ad7287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the G channel value of a color.  <a href="#ga0944be329292ec8bb992460749ad7287">More...</a><br/></td></tr>
-<tr class="separator:ga0944be329292ec8bb992460749ad7287"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7feef96388004defa7b4c4cc16fcac2a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga7feef96388004defa7b4c4cc16fcac2a">Color.getB</a> (int clr)</td></tr>
-<tr class="memdesc:ga7feef96388004defa7b4c4cc16fcac2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the B channel value of a color.  <a href="#ga7feef96388004defa7b4c4cc16fcac2a">More...</a><br/></td></tr>
-<tr class="separator:ga7feef96388004defa7b4c4cc16fcac2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabd769380ecf90a43d877e1e242c1b285"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#gabd769380ecf90a43d877e1e242c1b285">Color.getA</a> (int clr)</td></tr>
-<tr class="memdesc:gabd769380ecf90a43d877e1e242c1b285"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the A channel value of a color.  <a href="#gabd769380ecf90a43d877e1e242c1b285">More...</a><br/></td></tr>
-<tr class="separator:gabd769380ecf90a43d877e1e242c1b285"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0158af6c6318c57c8079c652a9783ba4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">Color.new</a> (int r, int g, int b, int a)</td></tr>
+<tr class="memdesc:ga0158af6c6318c57c8079c652a9783ba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new color.  <a href="#ga0158af6c6318c57c8079c652a9783ba4">More...</a><br/></td></tr>
+<tr class="separator:ga0158af6c6318c57c8079c652a9783ba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga55ea32e02b08c4a8bb48cd0e7bc8e7b8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8">Color.getR</a> (int clr)</td></tr>
+<tr class="memdesc:ga55ea32e02b08c4a8bb48cd0e7bc8e7b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the R channel value of a color.  <a href="#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8">More...</a><br/></td></tr>
+<tr class="separator:ga55ea32e02b08c4a8bb48cd0e7bc8e7b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa742df0be392596056442582a77681a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#gaa742df0be392596056442582a77681a2">Color.getG</a> (int clr)</td></tr>
+<tr class="memdesc:gaa742df0be392596056442582a77681a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the G channel value of a color.  <a href="#gaa742df0be392596056442582a77681a2">More...</a><br/></td></tr>
+<tr class="separator:gaa742df0be392596056442582a77681a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab68b2c7bfb7587fe2887e75765141ab8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#gab68b2c7bfb7587fe2887e75765141ab8">Color.getB</a> (int clr)</td></tr>
+<tr class="memdesc:gab68b2c7bfb7587fe2887e75765141ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the B channel value of a color.  <a href="#gab68b2c7bfb7587fe2887e75765141ab8">More...</a><br/></td></tr>
+<tr class="separator:gab68b2c7bfb7587fe2887e75765141ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a49c9ef24e652b9b0a238aee63c749f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga9a49c9ef24e652b9b0a238aee63c749f">Color.getA</a> (int clr)</td></tr>
+<tr class="memdesc:ga9a49c9ef24e652b9b0a238aee63c749f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the A channel value of a color.  <a href="#ga9a49c9ef24e652b9b0a238aee63c749f">More...</a><br/></td></tr>
+<tr class="separator:ga9a49c9ef24e652b9b0a238aee63c749f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaec0bd9f417da216a040a8295e8f6639e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#gaec0bd9f417da216a040a8295e8f6639e">new</a> (int r, int g, int b, int a)</td></tr>
+<tr class="memdesc:gaec0bd9f417da216a040a8295e8f6639e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new color.  <a href="#gaec0bd9f417da216a040a8295e8f6639e">More...</a><br/></td></tr>
+<tr class="separator:gaec0bd9f417da216a040a8295e8f6639e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga96ca0d552ffa728e134ee9714820ad22"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga96ca0d552ffa728e134ee9714820ad22">getR</a> (int clr)</td></tr>
+<tr class="memdesc:ga96ca0d552ffa728e134ee9714820ad22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the R channel value of a color.  <a href="#ga96ca0d552ffa728e134ee9714820ad22">More...</a><br/></td></tr>
+<tr class="separator:ga96ca0d552ffa728e134ee9714820ad22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5895add9e450d03193b2db2fba90f83b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga5895add9e450d03193b2db2fba90f83b">getG</a> (int clr)</td></tr>
+<tr class="memdesc:ga5895add9e450d03193b2db2fba90f83b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the G channel value of a color.  <a href="#ga5895add9e450d03193b2db2fba90f83b">More...</a><br/></td></tr>
+<tr class="separator:ga5895add9e450d03193b2db2fba90f83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7266b07ceb6b55f114e7334393948e31"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga7266b07ceb6b55f114e7334393948e31">getB</a> (int clr)</td></tr>
+<tr class="memdesc:ga7266b07ceb6b55f114e7334393948e31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the B channel value of a color.  <a href="#ga7266b07ceb6b55f114e7334393948e31">More...</a><br/></td></tr>
+<tr class="separator:ga7266b07ceb6b55f114e7334393948e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44693abf144907aaa6249aaa7157aaa0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___color.html#ga44693abf144907aaa6249aaa7157aaa0">getA</a> (int clr)</td></tr>
+<tr class="memdesc:ga44693abf144907aaa6249aaa7157aaa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the A channel value of a color.  <a href="#ga44693abf144907aaa6249aaa7157aaa0">More...</a><br/></td></tr>
+<tr class="separator:ga44693abf144907aaa6249aaa7157aaa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles colors and their management. </p>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="gade5612162130ae0d723309fe84174f9e"></a>
+<a class="anchor" id="ga0158af6c6318c57c8079c652a9783ba4"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int Color.new </td>
@@ -160,10 +178,15 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Create a new color. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">my_color = Color.new(255, 200, 100, 255)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">my_color = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(255, 200, 100, 255)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -178,9 +201,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gac1af4f8c7f5380e3db9352b3f67cc837"></a>
+<a class="anchor" id="ga55ea32e02b08c4a8bb48cd0e7bc8e7b8"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int Color.getR </td>
@@ -190,14 +216,19 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Return the R channel value of a color. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">r = Color.getR(my_color)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">r = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8">getR</a>(my_color)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#gade5612162130ae0d723309fe84174f9e" title="Create a new color. ">Color.new</a>.</td></tr>
+    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4" title="Create a new color. ">Color.new</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -205,9 +236,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga0944be329292ec8bb992460749ad7287"></a>
+<a class="anchor" id="gaa742df0be392596056442582a77681a2"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int Color.getG </td>
@@ -217,14 +251,19 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Return the G channel value of a color. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">g = Color.getG(my_color)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">g = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#gaa742df0be392596056442582a77681a2">getG</a>(my_color)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#gade5612162130ae0d723309fe84174f9e" title="Create a new color. ">Color.new</a>.</td></tr>
+    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4" title="Create a new color. ">Color.new</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -232,9 +271,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga7feef96388004defa7b4c4cc16fcac2a"></a>
+<a class="anchor" id="gab68b2c7bfb7587fe2887e75765141ab8"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int Color.getB </td>
@@ -244,14 +286,19 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Return the B channel value of a color. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">b = Color.getB(my_color)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">b = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#gab68b2c7bfb7587fe2887e75765141ab8">getB</a>(my_color)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#gade5612162130ae0d723309fe84174f9e" title="Create a new color. ">Color.new</a>.</td></tr>
+    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4" title="Create a new color. ">Color.new</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -259,9 +306,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gabd769380ecf90a43d877e1e242c1b285"></a>
+<a class="anchor" id="ga9a49c9ef24e652b9b0a238aee63c749f"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int Color.getA </td>
@@ -271,14 +321,179 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Return the A channel value of a color. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">a = Color.getA(my_color)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">a = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga9a49c9ef24e652b9b0a238aee63c749f">getA</a>(my_color)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#gade5612162130ae0d723309fe84174f9e" title="Create a new color. ">Color.new</a>.</td></tr>
+    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4" title="Create a new color. ">Color.new</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The A channel value of the color. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaec0bd9f417da216a040a8295e8f6639e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Screen.new </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a new color. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">my_color = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(255, 200, 100, 255)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>- R channel value. </td></tr>
+    <tr><td class="paramname">g</td><td>- G channel value. </td></tr>
+    <tr><td class="paramname">b</td><td>- B channel value. </td></tr>
+    <tr><td class="paramname">a</td><td>- A channel value <b>(optional)</b>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The combined RGBA color. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga96ca0d552ffa728e134ee9714820ad22"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Screen.getR </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>clr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the R channel value of a color. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">r = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8">getR</a>(my_color)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4" title="Create a new color. ">Color.new</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The R channel value of the color. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga5895add9e450d03193b2db2fba90f83b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Screen.getG </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>clr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the G channel value of a color. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">g = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#gaa742df0be392596056442582a77681a2">getG</a>(my_color)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4" title="Create a new color. ">Color.new</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The G channel value of the color. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga7266b07ceb6b55f114e7334393948e31"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Screen.getB </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>clr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the B channel value of a color. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">b = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#gab68b2c7bfb7587fe2887e75765141ab8">getB</a>(my_color)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4" title="Create a new color. ">Color.new</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The B channel value of the color. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga44693abf144907aaa6249aaa7157aaa0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Screen.getA </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>clr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the A channel value of a color. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">a = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga9a49c9ef24e652b9b0a238aee63c749f">getA</a>(my_color)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clr</td><td>- A color created with <a class="el" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4" title="Create a new color. ">Color.new</a>.</td></tr>
   </table>
   </dd>
 </dl>
