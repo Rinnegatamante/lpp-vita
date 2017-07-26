@@ -441,11 +441,11 @@ static int lua_string(lua_State *L){
 	if (argc < 1 || argc > 4) return luaL_error(L, "wrong number of arguments");
 	#endif
 	const char* url = luaL_checkstring(L,1);
-	const char* headers = (argc >= 2) ? luaL_checkstring(L,2) : NULL;
+	const char* useragent = (argc >= 2) ? luaL_checkstring(L,2) : "lpp-vita app";
 	uint8_t method = (argc >= 3) ? luaL_checkinteger(L,3) : SCE_HTTP_METHOD_GET;
 	const char* postdata = (argc >= 4) ? luaL_checkstring(L,4) : NULL;
 	int postsize = (argc >= 4) ? strlen(postdata) : 0;
-	int tpl = sceHttpCreateTemplate("lpp-vita app", 1, 1);	
+	int tpl = sceHttpCreateTemplate(useragent, 1, 1);	
 	int conn = sceHttpCreateConnectionWithURL(tpl, url, 0);
 	int request = sceHttpCreateRequestWithURL(conn, method, url, 0);
 	int handle = sceHttpSendRequest(request, postdata, postsize);
