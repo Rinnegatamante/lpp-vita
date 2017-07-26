@@ -82,8 +82,10 @@ if [ -d "html" ] && [ -f "html/index.html" ]; then
 
     echo 'Uploading documentation to the gh-pages branch...'
 	
+	# Patching C++ classes to look like Lua ones
 	mv html/* .
 	rm -rf html
+	sed -i -- 's/::/./g' group*.html
 	
     # Add everything in this directory (the Doxygen code documentation) to the
     # gh-pages branch.
