@@ -1,23 +1,13 @@
 var NAVTREE =
 [
   [ "Lua Player Plus Vita", "index.html", [
-    [ "Modules", "modules.html", "modules" ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
-      [ "Class Index", "classes.html", null ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ]
-      ] ]
-    ] ]
+    [ "Modules", "modules.html", "modules" ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"annotated.html",
-"group___system.html#gaf3ceb62ad684aba2d1c1a887ea1b2ca8"
+"enum_btn_mode.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
