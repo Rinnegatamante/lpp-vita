@@ -41,7 +41,7 @@ enum PowerTimer{
 enum BtnMode{
 	BUTTON_NONE,       //!< No buttons.
 	BUTTON_OK,         //!< OK button only.
-	BUTTON_CANCEL      //!< CANCEL button only.
+	BUTTON_CANCEL,     //!< CANCEL button only.
 	BUTTON_OK_CANCEL,  //!< OK and CANCEL buttons.
 	BUTTON_YES_NO,     //!< YES and NO buttons.
 };
