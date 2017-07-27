@@ -8,6 +8,7 @@ var modules =
     [ "Render", "group___render.html", "group___render" ],
     [ "Screen", "group___screen.html", "group___screen" ],
     [ "Socket", "group___socket.html", "group___socket" ],
+    [ "Sound", "group___sound.html", "group___sound" ],
     [ "System", "group___system.html", "group___system" ],
     [ "Timer", "group___timer.html", "group___timer" ]
 ];

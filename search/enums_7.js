@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['powertimer',['PowerTimer',['../group___system.html#gaa87f56921e4e4587ca7c9503e017feb5',1,'luaSystem.cpp']]]
+  ['netprotocol',['NetProtocol',['../group___socket.html#ga5e092e45f47b7121b20693b23e554b63',1,'luaSocket.cpp']]]
 ];

@@ -14,7 +14,7 @@ var searchData=
   ['render',['Render',['../class_render.html',1,'Render'],['../group___render.html',1,'(Global Namespace)']]],
   ['requeststring',['requestString',['../group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92',1,'Network']]],
   ['reset',['reset',['../group___timer.html#gac66190516c06b8584cc2df50f7318c90',1,'Timer']]],
-  ['resume',['resume',['../group___mic.html#ga993631703e28871f640ee49eb6b21130',1,'Mic::resume()'],['../group___timer.html#gaaea65117b7ec76a443e3388e2680c71c',1,'Timer::resume()']]],
+  ['resume',['resume',['../group___mic.html#ga993631703e28871f640ee49eb6b21130',1,'Mic::resume()'],['../group___sound.html#ga24d98abea091a3336840a21b72bfc285',1,'Sound::resume()'],['../group___timer.html#gaaea65117b7ec76a443e3388e2680c71c',1,'Timer::resume()']]],
   ['rumble',['rumble',['../group___controls.html#gaeb2a0d781e4ac121094056ebd64ba3a5',1,'Controls']]],
   ['running',['RUNNING',['../group___system.html#gga43732228a5490969d94095326d6bc623a1061be6c3fb88d32829cba6f6b2be304',1,'luaSystem.cpp']]]
 ];
