@@ -1,6 +1,7 @@
 var NAVTREE =
 [
   [ "Lua Player Plus Vita", "index.html", [
+    [ "Lua Player Plus Vita - Documentation", "index.html", null ],
     [ "Modules", "modules.html", "modules" ]
   ] ]
 ];

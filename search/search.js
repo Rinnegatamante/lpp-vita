@@ -12,7 +12,8 @@ var indexSectionsWithContent =
   2: "acdefghilnoprstuw",
   3: "bcdhiknp",
   4: "abcdefghmoprstuv",
-  5: "ckmnrst"
+  5: "ckmnrst",
+  6: "l"
 };
 
 var indexSectionNames =
@@ -22,7 +23,8 @@ var indexSectionNames =
   2: "functions",
   3: "enums",
   4: "enumvalues",
-  5: "groups"
+  5: "groups",
+  6: "pages"
 };
 
 function convertToId(search)
