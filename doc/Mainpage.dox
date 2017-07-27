@@ -18,6 +18,16 @@ Lua Player Plus Vita is released under the terms of the [GPLv3 license](https://
 
 ------------------------------
 
+## Safe mode limitations ##
+
+When using the safe eboot.bin for your application, you'll have a few limitations:\n\n
+
+- Cannot open files from paths different than <b>ux0:/data</b> or <b>app0:/</b>.
+- Cannot intercept <b>SCE_CTRL_VOLUP</b>, <b>SCE_CTRL_VOLDOWN</b>, <b>SCE_CTRL_POWER</b> buttons.
+- Cannot use <b>Controls.headsetStatus</b> function.
+
+------------------------------
+
 ## Useful links ##
 Source of lpp-vita: https://github.com/Rinnegatamante/lpp-vita\n
 Nightly builds: http://rinnegatamante.it/lpp-nightly.php\n
