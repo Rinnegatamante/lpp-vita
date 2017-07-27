@@ -12,6 +12,7 @@ var searchData=
   ['controls',['Controls',['../class_controls.html',1,'Controls'],['../group___controls.html',1,'(Global Namespace)']]],
   ['createdirectory',['createDirectory',['../group___system.html#gae9720fe43ebbf9ab4626012354cf7145',1,'System']]],
   ['createserversocket',['createServerSocket',['../group___socket.html#gad9a9c7b3f2b0c95326fc4f24dfcb38b5',1,'luaSocket.cpp']]],
+  ['createvertex',['createVertex',['../group___render.html#gabe48fb2b8a251ba19483e74bdf2956f0',1,'Render']]],
   ['ctrl',['Ctrl',['../group___controls.html#ga8c72c82f024ad6af2e49918de816504f',1,'luaControls.cpp']]],
   ['cur',['CUR',['../group___system.html#gaede096e25f7549841a8abe53eabcdf47',1,'luaSystem.cpp']]]
 ];

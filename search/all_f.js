@@ -11,6 +11,7 @@ var searchData=
   ['reboot',['reboot',['../group___system.html#ga23984244aa92f7902124fbc78ebfa228',1,'System']]],
   ['receive',['receive',['../group___socket.html#gaa8af80ae44b5573c871dfe986e569a4f',1,'luaSocket.cpp']]],
   ['rename',['rename',['../group___system.html#ga87f67f8eef2972cfe2c7ef14248d6231',1,'System']]],
+  ['render',['Render',['../class_render.html',1,'Render'],['../group___render.html',1,'(Global Namespace)']]],
   ['requeststring',['requestString',['../group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92',1,'Network']]],
   ['reset',['reset',['../group___timer.html#gac66190516c06b8584cc2df50f7318c90',1,'Timer']]],
   ['resume',['resume',['../group___mic.html#ga993631703e28871f640ee49eb6b21130',1,'Mic::resume()'],['../group___timer.html#gaaea65117b7ec76a443e3388e2680c71c',1,'Timer::resume()']]],

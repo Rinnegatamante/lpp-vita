@@ -7,5 +7,6 @@ var searchData=
   ['closemessage',['closeMessage',['../group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716',1,'System']]],
   ['connect',['connect',['../group___socket.html#ga3dfaf383019e9e0564973bb473d5eb30',1,'luaSocket.cpp']]],
   ['createdirectory',['createDirectory',['../group___system.html#gae9720fe43ebbf9ab4626012354cf7145',1,'System']]],
-  ['createserversocket',['createServerSocket',['../group___socket.html#gad9a9c7b3f2b0c95326fc4f24dfcb38b5',1,'luaSocket.cpp']]]
+  ['createserversocket',['createServerSocket',['../group___socket.html#gad9a9c7b3f2b0c95326fc4f24dfcb38b5',1,'luaSocket.cpp']]],
+  ['createvertex',['createVertex',['../group___render.html#gabe48fb2b8a251ba19483e74bdf2956f0',1,'Render']]]
 ];
