@@ -35,7 +35,7 @@ class Render {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * v = Render.destroyVertex(v)
+		 * Render.destroyVertex(v)
 		 * @endcode
 		 *
 		 * @param v - Vertex ID created with Render.createVertex to destroy.
