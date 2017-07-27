@@ -19,6 +19,7 @@ var group___system =
     [ "BtnMode", "group___system.html#ga8fee6c54f66e48b74b293af4dd3c1d66", [
       [ "BUTTON_NONE", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66a44b65ff2efb4231ba8109b9f72b7ad6d", null ],
       [ "BUTTON_OK", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66a3534e510a800f1a3975a255756f0246d", null ],
+      [ "BUTTON_CANCEL", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66a01e57e92a807e483cfef323155958b48", null ],
       [ "BUTTON_OK_CANCEL", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66aa99deb54ea8d7b7d451f9253df471809", null ],
       [ "BUTTON_YES_NO", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66aeb60aed202f5142f5663d204c11d84a7", null ]
     ] ],
