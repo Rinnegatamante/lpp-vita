@@ -21,7 +21,7 @@ class Screen {
 		 * @note If clr is passed, that color will be used for successive calls too.
 		 * @note This function must be called during rendering phase (See ::Graphics).
 		 */
-		void clear(int clr){}
+		void clear(int clr);
 		
 		/**
 		 * Flip the screen.
@@ -33,7 +33,7 @@ class Screen {
 		 * @endcode
 		 *
 		 */
-		void flip(void){}
+		void flip(void);
 		
 		/**
 		 * Get a pixel color from the screen framebuffer.
@@ -49,7 +49,7 @@ class Screen {
 		 *
 		 * @return The pixel color value (See ::Color).
 		 */
-		int getPixel(int x, int y){}
+		int getPixel(int x, int y);
 		
 		/**
 		 * Wait screen vertical synchronization (VSync).
@@ -61,6 +61,6 @@ class Screen {
 		 * @endcode
 		 *
 		 */
-		void waitVblankStart(void){}
+		void waitVblankStart(void);
 
 }

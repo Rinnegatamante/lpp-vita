@@ -74,7 +74,7 @@ class System{
 		 *
 		 * @return A valid file handle.
 		 */
-		int openFile(string filename, IOFlags flags){}
+		int openFile(string filename, IOFlags flags);
 		
 		/**
 		 * Write into an opened file.
@@ -89,7 +89,7 @@ class System{
 		 * @param text - The text to write on file.
 		 * @param len - Length of the text.
 		 */
-		void writeFile(int handle, string text, int len){}
+		void writeFile(int handle, string text, int len);
 		
 		/**
 		 * Read from an opened file.
@@ -105,7 +105,7 @@ class System{
 		 *
 		 * @return The read string.
 		 */
-		string readFile(int handle, int len){}
+		string readFile(int handle, int len);
 		
 		/**
 		 * Move cursor of an opened file.
@@ -120,7 +120,7 @@ class System{
 		 * @param pos - Position to set.
 		 * @param seek - Start point for the position.
 		 */
-		void seekFile(int handle, int pos, IOSeek seek){}
+		void seekFile(int handle, int pos, IOSeek seek);
 		
 		/**
 		 * Calculate size of an opened file in bytes.
@@ -135,7 +135,7 @@ class System{
 		 *
 		 * @return Filesize in bytes.
 		 */
-		int sizeFile(int handle){}
+		int sizeFile(int handle);
 		
 		/**
 		 * Close an opened file.
@@ -148,7 +148,7 @@ class System{
 		 *
 		 * @param handle - A file handle opened with ::System.openFile.
 		 */
-		void closeFile(int handle){}
+		void closeFile(int handle);
 		
 		/**
 		 * Check if a file exists.
@@ -165,7 +165,7 @@ class System{
 		 *
 		 * @return true if exists, false otherwise.
 		 */
-		bool doesFileExist(string filename){}
+		bool doesFileExist(string filename);
 		
 		/**
 		 * Rename or move a file.
@@ -179,7 +179,7 @@ class System{
 		 * @param filename - Filename to be renamed.
 		 * @param filename2 - New filename.
 		 */
-		void rename(string filename, string filename2){}
+		void rename(string filename, string filename2);
 		
 		/**
 		 * Delete a file.
@@ -192,7 +192,7 @@ class System{
 		 *
 		 * @param filename - Filename to be removed.
 		 */
-		void deleteFile(string filename){}
+		void deleteFile(string filename);
 		
 		/**
 		 * Delete a directory.
@@ -205,7 +205,7 @@ class System{
 		 *
 		 * @param dirname - Path to be removed.
 		 */
-		void deleteDirectory(string dirname){}
+		void deleteDirectory(string dirname);
 		
 		/**
 		 * Create a new directory.
@@ -218,7 +218,7 @@ class System{
 		 *
 		 * @param dirname - Path to be created.
 		 */
-		void createDirectory(string dirname){}
+		void createDirectory(string dirname);
 		
 		/**
 		 * List a directory contents.
@@ -236,7 +236,7 @@ class System{
 		 *
 		 * @return A table with the listed files info (See the example above).
 		 */
-		table listDirectory(string dirname){}
+		table listDirectory(string dirname);
 		
 		/**
 		 * Close the interpreter.
@@ -247,7 +247,7 @@ class System{
 		 * System.exit()
 		 * @endcode
 		 */
-		void exit(void){}
+		void exit(void);
 		
 		/**
 		 * Sleep the application for a certain time.
@@ -260,7 +260,7 @@ class System{
 		 *
 		 * @param msecs - Time to wait in microseconds.
 		 */
-		void wait(int msecs){}
+		void wait(int msecs);
 		
 		/**
 		 * Check if the battery is under charge.
@@ -275,7 +275,7 @@ class System{
 		 *
 		 * @return true if charging, false otherwise.
 		 */
-		bool isBatteryCharging(void){}
+		bool isBatteryCharging(void);
 		
 		/**
 		 * Get current battery life percentage.
@@ -288,7 +288,7 @@ class System{
 		 *
 		 * @return The battery life percentage.
 		 */
-		int getBatteryPercentage(void){}
+		int getBatteryPercentage(void);
 		
 		/**
 		 * Get current battery life.
@@ -301,7 +301,7 @@ class System{
 		 *
 		 * @return The battery life in seconds.
 		 */
-		int getBatteryLife(void){}
+		int getBatteryLife(void);
 		
 		/**
 		 * Get current battery capacity.
@@ -314,7 +314,7 @@ class System{
 		 *
 		 * @return The battery capacity in mAh.
 		 */
-		int getBatteryCapacity(void){}
+		int getBatteryCapacity(void);
 		
 		/**
 		 * Get full battery capacity.
@@ -327,7 +327,7 @@ class System{
 		 *
 		 * @return The battery full capacity in mAh.
 		 */
-		int getBatteryFullCapacity(void){}
+		int getBatteryFullCapacity(void);
 		
 		/**
 		 * Get battery temperature.
@@ -340,7 +340,7 @@ class System{
 		 *
 		 * @return The battery temperature in Celsius.
 		 */
-		int getBatteryTemp(void){}
+		int getBatteryTemp(void);
 		
 		/**
 		 * Get battery voltage.
@@ -353,7 +353,7 @@ class System{
 		 *
 		 * @return The battery voltage in mV.
 		 */
-		int getBatteryVolt(void){}
+		int getBatteryVolt(void);
 		
 		/**
 		 * Get battery state of health percentage.
@@ -366,7 +366,7 @@ class System{
 		 *
 		 * @return The battery state of health percentage.
 		 */
-		int getBatteryHealth(void){}
+		int getBatteryHealth(void);
 		
 		/**
 		 * Get battery cycles count.
@@ -379,7 +379,7 @@ class System{
 		 *
 		 * @return The battery cycles count.
 		 */
-		int getBatteryCycles(void){}
+		int getBatteryCycles(void);
 		
 		/**
 		 * Disables a power management timer feature.
@@ -392,7 +392,7 @@ class System{
 		 *
 		 * @param timer - The timer feature to disable.
 		 */
-		void disableTimer(PowerTimer timer){}
+		void disableTimer(PowerTimer timer);
 		
 		/**
 		 * Enables a power management timer feature.
@@ -405,7 +405,7 @@ class System{
 		 *
 		 * @param timer - The timer feature to enable.
 		 */
-		void enableTimer(PowerTimer timer){}
+		void enableTimer(PowerTimer timer);
 		
 		/**
 		 * Set CPU clock speed.
@@ -420,7 +420,7 @@ class System{
 		 *
 		 * @note Clock must be between 0 and 444.
 		 */
-		void setCpuSpeed(int clock){}
+		void setCpuSpeed(int clock);
 		
 		/**
 		 * Set GPU clock speed.
@@ -435,7 +435,7 @@ class System{
 		 *
 		 * @note Clock must be between 0 and 222.
 		 */
-		void setGpuSpeed(int clock){}
+		void setGpuSpeed(int clock);
 		
 		/**
 		 * Set BUS clock speed.
@@ -450,7 +450,7 @@ class System{
 		 *
 		 * @note Clock must be between 0 and 222.
 		 */
-		void setBusSpeed(int clock){}
+		void setBusSpeed(int clock);
 		
 		/**
 		 * Set GPU Crossbar clock speed.
@@ -465,7 +465,7 @@ class System{
 		 *
 		 * @note Clock must be between 0 and 166.
 		 */
-		void setBusSpeed(int clock){}
+		void setBusSpeed(int clock);
 		
 		/**
 		 * Get CPU clock speed.
@@ -478,7 +478,7 @@ class System{
 		 *
 		 * @return The CPU clock speed in Mhz.
 		 */
-		int getCpuSpeed(void){}
+		int getCpuSpeed(void);
 		
 		/**
 		 * Get GPU clock speed.
@@ -491,7 +491,7 @@ class System{
 		 *
 		 * @return The GPU clock speed in Mhz.
 		 */
-		int getGpuSpeed(void){}
+		int getGpuSpeed(void);
 		
 		/**
 		 * Get BUS clock speed.
@@ -504,7 +504,7 @@ class System{
 		 *
 		 * @return The BUS clock speed in Mhz.
 		 */
-		int getBusSpeed(void){}
+		int getBusSpeed(void);
 		
 		/**
 		 * Get GPU Crossbar clock speed.
@@ -517,7 +517,7 @@ class System{
 		 *
 		 * @return The GPU Crossbar clock speed in Mhz.
 		 */
-		int getGpuXbarSpeed(void){}
+		int getGpuXbarSpeed(void);
 		
 		/**
 		 * Launches a binary file.
@@ -532,7 +532,7 @@ class System{
 		 *
 		 * @note The binary file to launch must be in app0 partition.
 		 */
-		void launchEboot(string filename){}
+		void launchEboot(string filename);
 		
 		/**
 		 * Launches an installed application.
@@ -545,7 +545,7 @@ class System{
 		 *
 		 * @param titleid - The title ID of the application to start.
 		 */
-		void launchApp(string titleid){}
+		void launchApp(string titleid);
 		
 		/**
 		 * Get console time.
@@ -558,7 +558,7 @@ class System{
 		 *
 		 * @return Three values owning hours, minutes and seconds.
 		 */
-		int[] getTime(void){}
+		int[] getTime(void);
 		
 		/**
 		 * Get console date.
@@ -574,7 +574,7 @@ class System{
 		 *
 		 * @return Four values owning day value, day, month, year.
 		 */
-		int[] getDate(void){}
+		int[] getDate(void);
 		
 		/**
 		 * Get account username.
@@ -587,7 +587,7 @@ class System{
 		 *
 		 * @return The username set on the running console account.
 		 */
-		string getUsername(void){}
+		string getUsername(void);
 		
 		/**
 		 * Get console language.
@@ -602,7 +602,7 @@ class System{
 		 *
 		 * @note For the available language IDs look at <a href="https://www.vitadevwiki.com/vita/Languages">this</a>.
 		 */
-		int getLanguage(void){}
+		int getLanguage(void);
 		
 		/**
 		 * Get console model.
@@ -615,7 +615,7 @@ class System{
 		 *
 		 * @return 0x10000 if PSVITA, 0x20000 if PSTV.
 		 */
-		int getModel(void){}
+		int getModel(void);
 		
 		/**
 		 * Get running application title.
@@ -628,7 +628,7 @@ class System{
 		 *
 		 * @return The running application title.
 		 */
-		string getTitle(void){}
+		string getTitle(void);
 		
 		/**
 		 * Get running application title ID.
@@ -641,7 +641,7 @@ class System{
 		 *
 		 * @return The running application title ID.
 		 */
-		string getTitleID(void){}
+		string getTitleID(void);
 		
 		/**
 		 * Extract info from an SFO file.
@@ -660,7 +660,7 @@ class System{
 		 *
 		 * @return A table with a proper set of info (Look at the sample above).
 		 */
-		table extractSFO(string filename){}
+		table extractSFO(string filename);
 		
 		/**
 		 * Extract a ZIP file.
@@ -679,7 +679,7 @@ class System{
 		 *
 		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
 		 */
-		int extractZIP(string filename, string dirname, string password){}
+		int extractZIP(string filename, string dirname, string password);
 		
 		/**
 		 * Extract a specific file from a ZIP file.
@@ -699,7 +699,7 @@ class System{
 		 *
 		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
 		 */
-		bool extractFromZIP(string filename, string file, string dirname, string password){}
+		bool extractFromZIP(string filename, string file, string dirname, string password);
 		
 		/**
 		 * Take a screenshot.
@@ -716,7 +716,7 @@ class System{
 		 *
 		 * @note <b>ratio</b> must be between 0 and 255.
 		 */
-		void takeScreenshot(string filename, bool use_jpg, int ratio){}
+		void takeScreenshot(string filename, bool use_jpg, int ratio);
 		
 		/**
 		 * Execute an URI call.
@@ -729,7 +729,7 @@ class System{
 		 *
 		 * @param uri - URI to exec.
 		 */
-		void executeUri(string uri){}
+		void executeUri(string uri);
 		
 		/**
 		 * Reboot the console.
@@ -740,7 +740,7 @@ class System{
 		 * System.reboot()
 		 * @endcode
 		 */
-		int reboot(void){}
+		int reboot(void);
 		
 		/**
 		 * Get if application is running in safe mode.
@@ -755,7 +755,7 @@ class System{
 		 *
 		 * @return true if in safe mode, false otherwise.
 		 */
-		bool isSafeMode(void){}
+		bool isSafeMode(void);
 		
 		/**
 		 * Start a system message instance.
@@ -772,7 +772,7 @@ class System{
 		 *
 		 * @note If <b>progressbar</b> is true, <b>buttons</b> will not affect the system message.
 		 */
-		void setMessage(string text, bool progressbar, BtnMode buttons){}
+		void setMessage(string text, bool progressbar, BtnMode buttons);
 		
 		/**
 		 * Get current system message instance state.
@@ -785,7 +785,7 @@ class System{
 		 *
 		 * @return Current state of the system message instance.
 		 */
-		DlgState getMessageState(void){}
+		DlgState getMessageState(void);
 		
 		/**
 		 * Set current progress for the system message instance.
@@ -801,7 +801,7 @@ class System{
 		 * @note This function affects only progressbar system messages.
 		 * @note <b>progress</b> must be between 0 and 100.
 		 */
-		void setMessageProgress(int progress){}
+		void setMessageProgress(int progress);
 		
 		/**
 		 * Set a submessage for the system message instance.
@@ -816,7 +816,7 @@ class System{
 		 *
 		 * @note This function affects only progressbar system messages.
 		 */
-		void setMessageProgMsg(string text){}
+		void setMessageProgMsg(string text);
 		
 		/**
 		 * Close the current system message instance.
@@ -827,6 +827,6 @@ class System{
 		 * System.closeMessage()
 		 * @endcode
 		 */
-		void closeMessage(void){}
+		void closeMessage(void);
 
 }

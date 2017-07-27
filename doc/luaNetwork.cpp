@@ -31,7 +31,7 @@ class Network {
 		 * Network.init()
 		 * @endcode
 		 */
-		void init(void){}
+		void init(void);
 		
 		/**
 		 * Terminate network system.
@@ -42,7 +42,7 @@ class Network {
 		 * Network.term()
 		 * @endcode
 		 */
-		void term(void){}
+		void term(void);
 		
 		/**
 		 * Initialize debug FTP.
@@ -53,7 +53,7 @@ class Network {
 		 * Network.initFTP()
 		 * @endcode
 		 */
-		void initFTP(void){}
+		void initFTP(void);
 		
 		/**
 		 * Terminate debug FTP.
@@ -64,7 +64,7 @@ class Network {
 		 * Network.termFTP()
 		 * @endcode
 		 */
-		void termFTP(void){}
+		void termFTP(void);
 		
 		/**
 		 * Get console IP address.
@@ -77,7 +77,7 @@ class Network {
 		 *
 		 * @return The IP Address of the console.
 		 */
-		string getIPAdddress(void){}
+		string getIPAdddress(void);
 		
 		/**
 		 * Get console Mac address.
@@ -90,7 +90,7 @@ class Network {
 		 *
 		 * @return The Mac Address of the console.
 		 */
-		string getMacAdddress(void){}
+		string getMacAdddress(void);
 		
 		/**
 		 * Check if WiFi is available.
@@ -105,7 +105,7 @@ class Network {
 		 *
 		 * @return true if available, false otherwise.
 		 */
-		bool isWifiEnabled(void){}
+		bool isWifiEnabled(void);
 		
 		/**
 		 * Get WiFi strength level.
@@ -118,7 +118,7 @@ class Network {
 		 *
 		 * @return The WiFi strength level percentage.
 		 */
-		int getWifiLevel(void){}
+		int getWifiLevel(void);
 		
 		/**
 		 * Download a file via HTTP protocol.
@@ -138,7 +138,7 @@ class Network {
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
 		 */
-		void downloadFile(string url, string file, string useragent, HTTPMethod method, string postdata){}
+		void downloadFile(string url, string file, string useragent, HTTPMethod method, string postdata);
 		
 		/**
 		 * Get an HTTP request result.
@@ -159,6 +159,6 @@ class Network {
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
 		 */
-		string requestString(string url, string useragent, HTTPMethod method, string postdata){}
+		string requestString(string url, string useragent, HTTPMethod method, string postdata);
 
 }

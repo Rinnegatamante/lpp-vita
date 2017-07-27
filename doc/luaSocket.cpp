@@ -32,7 +32,7 @@ class Socket {
 		 *
 		 * @note If not specified, \link NetProtocol::TCP_SOCKET TCP_SOCKET\endlink is used as default.
 		 */
-		int createServerSocket(int port, NetProtocol protocol){}
+		int createServerSocket(int port, NetProtocol protocol);
 		
 		/**
 		 * Connect to a server.
@@ -51,7 +51,7 @@ class Socket {
 		 *
 		 * @note If not specified, \link NetProtocol::TCP_SOCKET TCP_SOCKET\endlink is used as default.
 		 */
-		int connect(string host, int port, NetProtocol protocol){}
+		int connect(string host, int port, NetProtocol protocol);
 		
 		/**
 		 * Send data via socket.
@@ -67,7 +67,7 @@ class Socket {
 		 *
 		 * @return Length of the sent data in bytes.
 		 */
-		int send(int sock, string data){}
+		int send(int sock, string data);
 		
 		/**
 		 * Send data via socket.
@@ -85,7 +85,7 @@ class Socket {
 		 *
 		 * @note The received data can be smaller than <b>size</b>.
 		 */
-		string receive(int sock, int size){}
+		string receive(int sock, int size);
 		
 		/**
 		 * Accept new connections for a server socket.
@@ -100,7 +100,7 @@ class Socket {
 		 *
 		 * @return A valid client socket id.
 		 */
-		int accept(int sock){}
+		int accept(int sock);
 		
 		/**
 		 * Close a socket.
@@ -113,6 +113,6 @@ class Socket {
 		 *
 		 * @param sock - A valid socket id.
 		 */
-		void close(int sock){}
+		void close(int sock);
 
 }

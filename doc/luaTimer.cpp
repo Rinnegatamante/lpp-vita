@@ -20,7 +20,7 @@ class Timer {
 		 *
 		 * @note The created timer will be already in playing state.
 		 */
-		int new(void){}
+		int new(void);
 		
 		/**
 		 * Get a system timer time.
@@ -35,7 +35,7 @@ class Timer {
 		 *
 		 * @return The time of the given timer in milliseconds.
 		 */
-		int getTime(int timer){}
+		int getTime(int timer);
 		
 		/**
 		 * Set a system timer time.
@@ -49,7 +49,7 @@ class Timer {
 		 * @param timer - The timer ID to set the time of.
 		 * @param msecs - The time to set in milliseconds.
 		 */
-		void setTime(int timer, int msecs){}
+		void setTime(int timer, int msecs);
 		
 		/**
 		 * Destroy a system timer.
@@ -62,7 +62,7 @@ class Timer {
 		 *
 		 * @param timer - The timer ID to destroy.
 		 */
-		void destroy(int timer){}
+		void destroy(int timer);
 		
 		/**
 		 * Pause a system timer.
@@ -75,7 +75,7 @@ class Timer {
 		 *
 		 * @param timer - The timer ID to pause.
 		 */
-		void pause(int timer){}
+		void pause(int timer);
 		
 		/**
 		 * Resume a system timer.
@@ -88,7 +88,7 @@ class Timer {
 		 *
 		 * @param timer - The timer ID to resume.
 		 */
-		void resume(int timer){}
+		void resume(int timer);
 		
 		/**
 		 * Reset a system timer time.
@@ -101,7 +101,7 @@ class Timer {
 		 *
 		 * @param timer - The timer ID to reset.
 		 */
-		void reset(int timer){}
+		void reset(int timer);
 		
 		/**
 		 * Check if a system timer is in playing state.
@@ -118,6 +118,6 @@ class Timer {
 		 *
 		 * @return true if playing, false otherwise.
 		 */
-		bool isPlaying(int timer){}
+		bool isPlaying(int timer);
 		
 }

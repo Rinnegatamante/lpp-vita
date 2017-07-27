@@ -23,7 +23,7 @@ class Color {
 		 *
 		 * @return The combined RGBA color.
 		 */
-		int new(int r, int g, int b, int a){}
+		int new(int r, int g, int b, int a);
 		
 		/**
 		 * Return the R channel value of a color.
@@ -38,7 +38,7 @@ class Color {
 		 *
 		 * @return The R channel value of the color.
 		 */
-		int getR(int clr){}
+		int getR(int clr);
 		
 		/**
 		 * Return the G channel value of a color.
@@ -53,7 +53,7 @@ class Color {
 		 *
 		 * @return The G channel value of the color.
 		 */
-		int getG(int clr){}
+		int getG(int clr);
 		
 		/**
 		 * Return the B channel value of a color.
@@ -68,7 +68,7 @@ class Color {
 		 *
 		 * @return The B channel value of the color.
 		 */
-		int getB(int clr){}
+		int getB(int clr);
 		
 		/**
 		 * Return the A channel value of a color.
@@ -83,6 +83,6 @@ class Color {
 		 *
 		 * @return The A channel value of the color.
 		 */
-		int getA(int clr){} 
+		int getA(int clr); 
 
 }

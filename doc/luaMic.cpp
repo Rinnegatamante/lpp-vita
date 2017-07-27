@@ -21,7 +21,7 @@ class Mic {
 		 *
 		 * @note <b>samplerate</b> must be a multiple of 16000.
 		 */
-		int start(int time, int samplerate){}
+		int start(int time, int samplerate);
 		
 		/**
 		 * Stop microphone recording and save result.
@@ -36,7 +36,7 @@ class Mic {
 		 *
 		 * @note The resulting file will always be a mono WAV file.
 		 */
-		void stop(string filename){}
+		void stop(string filename);
 		
 		/**
 		 * Pause microphone recording.
@@ -47,7 +47,7 @@ class Mic {
 		 * Mic.pause()
 		 * @endcode
 		 */
-		void pause(void){}
+		void pause(void);
 		
 		/**
 		 * Resume microphone recording.
@@ -58,7 +58,7 @@ class Mic {
 		 * Mic.resume()
 		 * @endcode
 		 */
-		void resume(void){}
+		void resume(void);
 		
 		/**
 		 * Check if the microphone is recording.
@@ -73,6 +73,6 @@ class Mic {
 		 *
 		 * @return true if recording, false otherwise.
 		 */
-		bool isRecording(void){}
+		bool isRecording(void);
 	
 }

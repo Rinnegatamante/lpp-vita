@@ -42,7 +42,7 @@ class Keyboard {
 		 * @param type - The keyboard type <b>(optional)</b>.
 		 * @param mode - The keyboard mode <b>(optional)</b>.
 		 */
-		void start(string title, string text, int length, KeyType type, KeyMode mode){}
+		void start(string title, string text, int length, KeyType type, KeyMode mode);
 		
 		/**
 		 * Get keyboard state.
@@ -55,7 +55,7 @@ class Keyboard {
 		 *
 		 * @return Current state of the system keyboard instance.
 		 */
-		DlgState getState(void){}
+		DlgState getState(void);
 		
 		/**
 		 * Get keyboard user input.
@@ -70,7 +70,7 @@ class Keyboard {
 		 *
 		 * @return The text entered by the user.
 		 */
-		string getInput(void){}
+		string getInput(void);
 		
 		/**
 		 * Close current system keyboard instance.
@@ -81,6 +81,6 @@ class Keyboard {
 		 * Keyboard.clear()
 		 * @endcode
 		 */
-		void clear(void){}
+		void clear(void);
 	
 }
