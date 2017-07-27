@@ -9,7 +9,7 @@ var searchData=
   ['readrightanalog',['readRightAnalog',['../group___controls.html#gaac2bfdbcec6f2c7f0c16d71c707f71f8',1,'Controls']]],
   ['readtouch',['readTouch',['../group___controls.html#gafd32d04a50d40b6fc80e9e6acf8fc990',1,'Controls']]],
   ['reboot',['reboot',['../group___system.html#ga23984244aa92f7902124fbc78ebfa228',1,'System']]],
-  ['receive',['receive',['../group___socket.html#gaa8af80ae44b5573c871dfe986e569a4f',1,'luaSocket.cpp']]],
+  ['receive',['receive',['../group___socket.html#ga55312ad5557bdeecd6ac5d3b71389c89',1,'Socket']]],
   ['rename',['rename',['../group___system.html#ga87f67f8eef2972cfe2c7ef14248d6231',1,'System']]],
   ['render',['Render',['../class_render.html',1,'Render'],['../group___render.html',1,'(Global Namespace)']]],
   ['requeststring',['requestString',['../group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92',1,'Network']]],

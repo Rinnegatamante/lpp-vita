@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['get_5fmethod',['GET_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da94c1e365674be8a670ea97334c2aad74',1,'luaNetwork.cpp']]]
+  ['delete_5fmethod',['DELETE_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da9aefb87828e288051243ce5fadbbf747',1,'luaNetwork.cpp']]],
+  ['ds3_5fdev',['DS3_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46bad3dc541607b5e2802dd50bfec0231b2e',1,'luaControls.cpp']]],
+  ['ds4_5fdev',['DS4_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46ba4ae554f1652694b6da3ad70d2d488a36',1,'luaControls.cpp']]]
 ];

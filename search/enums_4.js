@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['keymode',['KeyMode',['../group___keyboard.html#gaa5ba9d9240f5529dfc08e534bf766949',1,'luaKeyboard.cpp']]],
-  ['keytype',['KeyType',['../group___keyboard.html#gaab0feaba617470cb4aa830dc5935238c',1,'luaKeyboard.cpp']]]
+  ['ioflags',['IOFlags',['../group___system.html#ga315c5a593dbbd779d315a8c6a59e2520',1,'luaSystem.cpp']]],
+  ['ioseek',['IOSeek',['../group___system.html#ga5483daccb9b3446fc823c35c753e93ad',1,'luaSystem.cpp']]]
 ];

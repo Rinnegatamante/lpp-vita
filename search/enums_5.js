@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['netprotocol',['NetProtocol',['../group___socket.html#ga5e092e45f47b7121b20693b23e554b63',1,'luaSocket.cpp']]]
+  ['keymode',['KeyMode',['../group___keyboard.html#gaa5ba9d9240f5529dfc08e534bf766949',1,'luaKeyboard.cpp']]],
+  ['keytype',['KeyType',['../group___keyboard.html#gaab0feaba617470cb4aa830dc5935238c',1,'luaKeyboard.cpp']]]
 ];

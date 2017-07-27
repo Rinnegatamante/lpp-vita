@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ctrl',['Ctrl',['../group___controls.html#ga8c72c82f024ad6af2e49918de816504f',1,'luaControls.cpp']]]
+  ['btnmode',['BtnMode',['../group___system.html#ga8fee6c54f66e48b74b293af4dd3c1d66',1,'luaSystem.cpp']]]
 ];

@@ -3,6 +3,7 @@ var searchData=
   ['init',['init',['../group___network.html#ga3f6cbbb08c541f67aedb155a38cb5730',1,'Network']]],
   ['initftp',['initFTP',['../group___network.html#ga036eb0959e183f8257762dc077509f81',1,'Network']]],
   ['ioflags',['IOFlags',['../group___system.html#ga315c5a593dbbd779d315a8c6a59e2520',1,'luaSystem.cpp']]],
+  ['ioseek',['IOSeek',['../group___system.html#ga5483daccb9b3446fc823c35c753e93ad',1,'luaSystem.cpp']]],
   ['isbatterycharging',['isBatteryCharging',['../group___system.html#gaadaec1f4a71acbab64f62975c231327d',1,'System']]],
   ['isplaying',['isPlaying',['../group___timer.html#ga7e88576e39a635970a069f05daa39066',1,'Timer']]],
   ['isrecording',['isRecording',['../group___mic.html#ga7bbda9d9beeb5ea46a856381495055d0',1,'Mic']]],

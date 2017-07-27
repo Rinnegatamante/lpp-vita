@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['canceled',['CANCELED',['../group___system.html#gga43732228a5490969d94095326d6bc623acf7f43e67077d0d24cf2ca297960e719',1,'luaSystem.cpp']]],
-  ['connect_5fmethod',['CONNECT_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47daad0be3c122ee38ecc15631cd4411a4a1',1,'luaNetwork.cpp']]]
+  ['auto_5fsuspend_5ftimer',['AUTO_SUSPEND_TIMER',['../group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5a96861ef7c039e7e122b371d9b966b432',1,'luaSystem.cpp']]]
 ];

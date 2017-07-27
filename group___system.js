@@ -6,6 +6,22 @@ var group___system =
       [ "FRDWR", "group___system.html#gga315c5a593dbbd779d315a8c6a59e2520a54d5c2e87d986efceb9d31adba862cad", null ],
       [ "FCREATE", "group___system.html#gga315c5a593dbbd779d315a8c6a59e2520ac6b8a7be7d5d430c9e4239c0b13b47d6", null ]
     ] ],
+    [ "IOSeek", "group___system.html#ga5483daccb9b3446fc823c35c753e93ad", [
+      [ "SET", "group___system.html#gga5483daccb9b3446fc823c35c753e93adab44c8101cc294c074709ec1b14211792", null ],
+      [ "CUR", "group___system.html#gga5483daccb9b3446fc823c35c753e93ada2a8f6c951407e54abc1a6d624a7f0447", null ],
+      [ "END", "group___system.html#gga5483daccb9b3446fc823c35c753e93adadc6f24fd6915a3f2786a1b7045406924", null ]
+    ] ],
+    [ "PowerTimer", "group___system.html#gaa87f56921e4e4587ca7c9503e017feb5", [
+      [ "AUTO_SUSPEND_TIMER", "group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5a96861ef7c039e7e122b371d9b966b432", null ],
+      [ "SCREEN_OFF_TIMER", "group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5a83898f603e5210a00b6f66199ebb7eec", null ],
+      [ "SCREEN_DIMMING_TIMER", "group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5ae9095b853f96804f440ff1b799bc1330", null ]
+    ] ],
+    [ "BtnMode", "group___system.html#ga8fee6c54f66e48b74b293af4dd3c1d66", [
+      [ "BUTTON_NONE", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66a44b65ff2efb4231ba8109b9f72b7ad6d", null ],
+      [ "BUTTON_OK", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66a3534e510a800f1a3975a255756f0246d", null ],
+      [ "BUTTON_OK_CANCEL", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66aa99deb54ea8d7b7d451f9253df471809", null ],
+      [ "BUTTON_YES_NO", "group___system.html#gga8fee6c54f66e48b74b293af4dd3c1d66aeb60aed202f5142f5663d204c11d84a7", null ]
+    ] ],
     [ "DlgState", "group___system.html#ga43732228a5490969d94095326d6bc623", [
       [ "RUNNING", "group___system.html#gga43732228a5490969d94095326d6bc623a1061be6c3fb88d32829cba6f6b2be304", null ],
       [ "FINISHED", "group___system.html#gga43732228a5490969d94095326d6bc623adbd1812bee789fbf3548cf79d3f2b400", null ],

@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['fcreate',['FCREATE',['../group___system.html#gga315c5a593dbbd779d315a8c6a59e2520ac6b8a7be7d5d430c9e4239c0b13b47d6',1,'luaSystem.cpp']]],
-  ['finished',['FINISHED',['../group___system.html#gga43732228a5490969d94095326d6bc623adbd1812bee789fbf3548cf79d3f2b400',1,'luaSystem.cpp']]],
-  ['frdwr',['FRDWR',['../group___system.html#gga315c5a593dbbd779d315a8c6a59e2520a54d5c2e87d986efceb9d31adba862cad',1,'luaSystem.cpp']]],
-  ['fread',['FREAD',['../group___system.html#gga315c5a593dbbd779d315a8c6a59e2520a5011b5822a8725c03505f3893ae19f84',1,'luaSystem.cpp']]],
-  ['fwrite',['FWRITE',['../group___system.html#gga315c5a593dbbd779d315a8c6a59e2520ae3a886b3f93f4b533f0c252b3db5b4c1',1,'luaSystem.cpp']]]
+  ['canceled',['CANCELED',['../group___system.html#gga43732228a5490969d94095326d6bc623acf7f43e67077d0d24cf2ca297960e719',1,'luaSystem.cpp']]],
+  ['connect_5fmethod',['CONNECT_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47daad0be3c122ee38ecc15631cd4411a4a1',1,'luaNetwork.cpp']]],
+  ['cur',['CUR',['../group___system.html#gga5483daccb9b3446fc823c35c753e93ada2a8f6c951407e54abc1a6d624a7f0447',1,'luaSystem.cpp']]]
 ];

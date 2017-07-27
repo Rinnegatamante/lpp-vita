@@ -85,7 +85,7 @@ $(document).ready(function(){initNavTree('group___socket.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -108,30 +108,32 @@ $(document).ready(function(){initNavTree('group___socket.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ga5e092e45f47b7121b20693b23e554b63"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">NetProtocol</a> </td></tr>
+<tr class="memitem:ga5e092e45f47b7121b20693b23e554b63"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">NetProtocol</a> { <a class="el" href="group___socket.html#gga5e092e45f47b7121b20693b23e554b63a0912f90f1ae57c92bd0786aae5e305f6">TCP_SOCKET</a>, 
+<a class="el" href="group___socket.html#gga5e092e45f47b7121b20693b23e554b63a1447da0e1e93c2c3f2ab01c2509efd1e">UDP_SOCKET</a>
+ }</td></tr>
 <tr class="memdesc:ga5e092e45f47b7121b20693b23e554b63"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_network.html">Network</a> protocols.  <a href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">More...</a><br/></td></tr>
 <tr class="separator:ga5e092e45f47b7121b20693b23e554b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gad9a9c7b3f2b0c95326fc4f24dfcb38b5"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">NetProtocol</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gad9a9c7b3f2b0c95326fc4f24dfcb38b5">createServerSocket</a> (int port, <a class="el" href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">NetProtocol</a> protocol)</td></tr>
-<tr class="memdesc:gad9a9c7b3f2b0c95326fc4f24dfcb38b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a server socket.  <a href="#gad9a9c7b3f2b0c95326fc4f24dfcb38b5">More...</a><br/></td></tr>
-<tr class="separator:gad9a9c7b3f2b0c95326fc4f24dfcb38b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3dfaf383019e9e0564973bb473d5eb30"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#ga3dfaf383019e9e0564973bb473d5eb30">connect</a> (string host, int port, <a class="el" href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">NetProtocol</a> protocol)</td></tr>
-<tr class="memdesc:ga3dfaf383019e9e0564973bb473d5eb30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect to a server.  <a href="#ga3dfaf383019e9e0564973bb473d5eb30">More...</a><br/></td></tr>
-<tr class="separator:ga3dfaf383019e9e0564973bb473d5eb30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gace75c491e51a41d4e3daad6244924c47"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gace75c491e51a41d4e3daad6244924c47">send</a> (int sock, string data)</td></tr>
-<tr class="memdesc:gace75c491e51a41d4e3daad6244924c47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data via socket.  <a href="#gace75c491e51a41d4e3daad6244924c47">More...</a><br/></td></tr>
-<tr class="separator:gace75c491e51a41d4e3daad6244924c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa8af80ae44b5573c871dfe986e569a4f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gaa8af80ae44b5573c871dfe986e569a4f">receive</a> (int sock, int size)</td></tr>
-<tr class="memdesc:gaa8af80ae44b5573c871dfe986e569a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data via socket.  <a href="#gaa8af80ae44b5573c871dfe986e569a4f">More...</a><br/></td></tr>
-<tr class="separator:gaa8af80ae44b5573c871dfe986e569a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadb6f0c8e4a5cb42e2f9863a958009bed"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gadb6f0c8e4a5cb42e2f9863a958009bed">accept</a> (int sock)</td></tr>
-<tr class="memdesc:gadb6f0c8e4a5cb42e2f9863a958009bed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept new connections for a server socket.  <a href="#gadb6f0c8e4a5cb42e2f9863a958009bed">More...</a><br/></td></tr>
-<tr class="separator:gadb6f0c8e4a5cb42e2f9863a958009bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaae4f5cab6227e7242e2bf230986fd46c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gaae4f5cab6227e7242e2bf230986fd46c">close</a> (int sock)</td></tr>
-<tr class="memdesc:gaae4f5cab6227e7242e2bf230986fd46c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close a socket.  <a href="#gaae4f5cab6227e7242e2bf230986fd46c">More...</a><br/></td></tr>
-<tr class="separator:gaae4f5cab6227e7242e2bf230986fd46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae251109f4ab78181e97f8d32030d66bf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gae251109f4ab78181e97f8d32030d66bf">Socket.createServerSocket</a> (int port, <a class="el" href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">NetProtocol</a> protocol)</td></tr>
+<tr class="memdesc:gae251109f4ab78181e97f8d32030d66bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a server socket.  <a href="#gae251109f4ab78181e97f8d32030d66bf">More...</a><br/></td></tr>
+<tr class="separator:gae251109f4ab78181e97f8d32030d66bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea7d2157c3b3c4ab9581abe32cdb31c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gaea7d2157c3b3c4ab9581abe32cdb31c4">Socket.connect</a> (string host, int port, <a class="el" href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">NetProtocol</a> protocol)</td></tr>
+<tr class="memdesc:gaea7d2157c3b3c4ab9581abe32cdb31c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect to a server.  <a href="#gaea7d2157c3b3c4ab9581abe32cdb31c4">More...</a><br/></td></tr>
+<tr class="separator:gaea7d2157c3b3c4ab9581abe32cdb31c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad34b24adc580002d0e1b66617712da03"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gad34b24adc580002d0e1b66617712da03">Socket.send</a> (int sock, string data)</td></tr>
+<tr class="memdesc:gad34b24adc580002d0e1b66617712da03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data via socket.  <a href="#gad34b24adc580002d0e1b66617712da03">More...</a><br/></td></tr>
+<tr class="separator:gad34b24adc580002d0e1b66617712da03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga55312ad5557bdeecd6ac5d3b71389c89"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#ga55312ad5557bdeecd6ac5d3b71389c89">Socket.receive</a> (int sock, int size)</td></tr>
+<tr class="memdesc:ga55312ad5557bdeecd6ac5d3b71389c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data via socket.  <a href="#ga55312ad5557bdeecd6ac5d3b71389c89">More...</a><br/></td></tr>
+<tr class="separator:ga55312ad5557bdeecd6ac5d3b71389c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga341fa9ab6c569845bdc485b4b43a3342"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#ga341fa9ab6c569845bdc485b4b43a3342">Socket.accept</a> (int sock)</td></tr>
+<tr class="memdesc:ga341fa9ab6c569845bdc485b4b43a3342"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept new connections for a server socket.  <a href="#ga341fa9ab6c569845bdc485b4b43a3342">More...</a><br/></td></tr>
+<tr class="separator:ga341fa9ab6c569845bdc485b4b43a3342"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae7df27b95fbc77d1478290a18e90585b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___socket.html#gae7df27b95fbc77d1478290a18e90585b">Socket.close</a> (int sock)</td></tr>
+<tr class="memdesc:gae7df27b95fbc77d1478290a18e90585b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close a socket.  <a href="#gae7df27b95fbc77d1478290a18e90585b">More...</a><br/></td></tr>
+<tr class="separator:gae7df27b95fbc77d1478290a18e90585b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles network sockets. </p>
@@ -147,16 +149,24 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p><a class="el" href="class_network.html">Network</a> protocols. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="gga5e092e45f47b7121b20693b23e554b63a0912f90f1ae57c92bd0786aae5e305f6"></a>TCP_SOCKET</em>&#160;</td><td class="fielddoc">
+<p>TCP protocol. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="gga5e092e45f47b7121b20693b23e554b63a1447da0e1e93c2c3f2ab01c2509efd1e"></a>UDP_SOCKET</em>&#160;</td><td class="fielddoc">
+<p>UDP protocol. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="gad9a9c7b3f2b0c95326fc4f24dfcb38b5"></a>
+<a class="anchor" id="gae251109f4ab78181e97f8d32030d66bf"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="group___socket.html#ga5e092e45f47b7121b20693b23e554b63">NetProtocol</a> createServerSocket </td>
+          <td class="memname">int Socket.createServerSocket </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>port</em>, </td>
@@ -176,7 +186,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Create a server socket. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">sock = Socket.createServerSocket(5000, TCP_SOCKET)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">sock = <a class="code" href="class_socket.html">Socket</a>.<a class="code" href="group___socket.html#gae251109f4ab78181e97f8d32030d66bf">createServerSocket</a>(5000, <a class="code" href="group___socket.html#gga5e092e45f47b7121b20693b23e554b63a0912f90f1ae57c92bd0786aae5e305f6">TCP_SOCKET</a>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -186,16 +196,16 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The created socket id.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If not specified, <a class="el" href="">TCP_SOCKET</a> is used as default. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If not specified, <a class="el" href="group___socket.html#gga5e092e45f47b7121b20693b23e554b63a0912f90f1ae57c92bd0786aae5e305f6">TCP_SOCKET</a> is used as default. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga3dfaf383019e9e0564973bb473d5eb30"></a>
+<a class="anchor" id="gaea7d2157c3b3c4ab9581abe32cdb31c4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int connect </td>
+          <td class="memname">int Socket.connect </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>host</em>, </td>
@@ -221,7 +231,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Connect to a server. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">sock = Socket.connect(<span class="stringliteral">&quot;192.168.1.8&quot;</span>, 5000)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">sock = <a class="code" href="class_socket.html">Socket</a>.<a class="code" href="group___socket.html#gaea7d2157c3b3c4ab9581abe32cdb31c4">connect</a>(<span class="stringliteral">&quot;192.168.1.8&quot;</span>, 5000)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -232,16 +242,16 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A valid client socket id.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If not specified, <a class="el" href="">TCP_SOCKET</a> is used as default. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If not specified, <a class="el" href="group___socket.html#gga5e092e45f47b7121b20693b23e554b63a0912f90f1ae57c92bd0786aae5e305f6">TCP_SOCKET</a> is used as default. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="gace75c491e51a41d4e3daad6244924c47"></a>
+<a class="anchor" id="gad34b24adc580002d0e1b66617712da03"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int send </td>
+          <td class="memname">int Socket.send </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>sock</em>, </td>
@@ -261,7 +271,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Send data via socket. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">Socket.send(sock, <span class="stringliteral">&quot;Hello World!&quot;</span>)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_socket.html">Socket</a>.<a class="code" href="group___socket.html#gad34b24adc580002d0e1b66617712da03">send</a>(sock, <span class="stringliteral">&quot;Hello World!&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -274,12 +284,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa8af80ae44b5573c871dfe986e569a4f"></a>
+<a class="anchor" id="ga55312ad5557bdeecd6ac5d3b71389c89"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string receive </td>
+          <td class="memname">string Socket.receive </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>sock</em>, </td>
@@ -299,7 +309,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Send data via socket. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">data = Socket.receive(sock, 32767)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">data = <a class="code" href="class_socket.html">Socket</a>.<a class="code" href="group___socket.html#ga55312ad5557bdeecd6ac5d3b71389c89">receive</a>(sock, 32767)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -313,12 +323,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gadb6f0c8e4a5cb42e2f9863a958009bed"></a>
+<a class="anchor" id="ga341fa9ab6c569845bdc485b4b43a3342"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int accept </td>
+          <td class="memname">int Socket.accept </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>sock</em></td><td>)</td>
@@ -328,7 +338,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Accept new connections for a server socket. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">client = Socket.accept(server)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">client = <a class="code" href="class_socket.html">Socket</a>.<a class="code" href="group___socket.html#ga341fa9ab6c569845bdc485b4b43a3342">accept</a>(server)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -340,12 +350,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaae4f5cab6227e7242e2bf230986fd46c"></a>
+<a class="anchor" id="gae7df27b95fbc77d1478290a18e90585b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void close </td>
+          <td class="memname">void Socket.close </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>sock</em></td><td>)</td>
@@ -355,7 +365,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Close a socket. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">Socket.close(sock)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_socket.html">Socket</a>.<a class="code" href="group___socket.html#gae7df27b95fbc77d1478290a18e90585b">close</a>(sock)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

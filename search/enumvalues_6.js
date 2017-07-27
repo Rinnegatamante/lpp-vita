@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['options_5fmethod',['OPTIONS_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da42dcacdb4a725f050cd600c84d2af41b',1,'luaNetwork.cpp']]]
+  ['get_5fmethod',['GET_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da94c1e365674be8a670ea97334c2aad74',1,'luaNetwork.cpp']]]
 ];

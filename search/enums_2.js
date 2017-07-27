@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['httpmethod',['HTTPMethod',['../group___network.html#ga837a089a977b319a11edfb8022d9e47d',1,'luaNetwork.cpp']]]
+  ['devtype',['DevType',['../group___controls.html#gacc6818b8521baa7c7802b20cd44ff46b',1,'luaControls.cpp']]],
+  ['dlgstate',['DlgState',['../group___system.html#ga43732228a5490969d94095326d6bc623',1,'luaSystem.cpp']]]
 ];

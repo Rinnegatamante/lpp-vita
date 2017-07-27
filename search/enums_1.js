@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['devtype',['DevType',['../group___controls.html#gacc6818b8521baa7c7802b20cd44ff46b',1,'luaControls.cpp']]],
-  ['dlgstate',['DlgState',['../group___system.html#ga43732228a5490969d94095326d6bc623',1,'luaSystem.cpp']]]
+  ['ctrl',['Ctrl',['../group___controls.html#ga8c72c82f024ad6af2e49918de816504f',1,'luaControls.cpp']]]
 ];
