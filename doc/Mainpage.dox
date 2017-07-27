@@ -1,0 +1,24 @@
+/**
+@author Rinnegatamante
+@brief Main page for presenting the lpp-vita documentation.
+@file
+*/
+
+/**
+@mainpage Lua Player Plus Vita - Documentation
+
+## Abstract ##
+
+This documentation contains documentation and usage samples for every function available with lpp-vita.\n
+It is aimed at people who want to write applications for the PSVita/PSTV in Lua with lpp-vita and want 
+to get an overview about the functions they can use.
+
+## License ##
+Lua Player Plus Vita is released under the terms of the [GPLv3 license](https://github.com/Rinnegatamante/lpp-vita/blob/master/LICENSE.txt), here is a [non-legally binding summary of what you can do](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
+
+------------------------------
+
+## Useful links ##
+Source of lpp-vita: https://github.com/Rinnegatamante/lpp-vita\n
+Nightly builds: http://rinnegatamante.it/lpp-nightly.php\n
+*/
