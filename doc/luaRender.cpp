@@ -35,7 +35,7 @@ class Render {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * v = Render.createVertex(1.0, 1.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0)
+		 * v = Render.destroyVertex(v)
 		 * @endcode
 		 *
 		 * @param v - Vertex ID created with Render.createVertex to destroy.
@@ -121,6 +121,8 @@ class Render {
 		 *
 		 * @param model - A valid model ID.
 		 * @param texture - Texture ID to use.
+		 *
+		 * @note The old texture is not unloaded automatically.
 		 */
 		void useTexture(int model, int texture);
 
