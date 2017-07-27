@@ -10,7 +10,7 @@
 enum NetProtocol{
 	TCP_SOCKET, //!< TCP protocol
 	UDP_SOCKET  //!< UDP protocol
-} 
+};
  
 class Socket {
 	

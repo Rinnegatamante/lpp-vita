@@ -12,7 +12,7 @@ enum IOFlags{
 	FWRITE, //!< Write attribute.
 	FRDWR,  //!< Read/Write attribute.
 	FCREATE //!< Create/Write attribute.
-}
+};
 
 /**
  * I/O seek modes to use with ::System.seekFile.
@@ -22,7 +22,7 @@ enum IOSeek{
 	SET,  //!< Starts from the begin of the file.
 	CUR,  //!< Starts from current position.
 	END  //!< Starts from the end of the file.
-}
+};
 
 /**
  * Power management timer features.
@@ -32,7 +32,7 @@ enum PowerTimer{
 	AUTO_SUSPEND_TIMER,   //!< Automatic console suspension.
 	SCREEN_OFF_TIMER,     //!< Automatic screen disabling.
 	SCREEN_DIMMING_TIMER  //!< Automatic screen dimming.
-}
+};
 
 /**
  * Buttons schemes for ::System.setMessage.
