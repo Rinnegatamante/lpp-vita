@@ -2,6 +2,7 @@ var modules =
 [
     [ "Color", "group___color.html", "group___color" ],
     [ "Controls", "group___controls.html", "group___controls" ],
+    [ "Font", "group___font.html", "group___font" ],
     [ "Keyboard", "group___keyboard.html", "group___keyboard" ],
     [ "Mic", "group___mic.html", "group___mic" ],
     [ "Network", "group___network.html", "group___network" ],

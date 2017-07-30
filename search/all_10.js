@@ -29,6 +29,7 @@ var searchData=
   ['setmessage',['setMessage',['../group___system.html#ga94fe31178878a48390b9c81fb94b1baa',1,'System']]],
   ['setmessageprogmsg',['setMessageProgMsg',['../group___system.html#gac9bcb46f5f17e209b2aad57edf6b6160',1,'System']]],
   ['setmessageprogress',['setMessageProgress',['../group___system.html#ga936ce3e71d984a64358e16a00d3991ff',1,'System']]],
+  ['setpixelsizes',['setPixelSizes',['../group___font.html#ga51c29405a7bef1c9a57ac908f44f37ce',1,'Font']]],
   ['settime',['setTime',['../group___timer.html#gaaa545bffe07ab5e32670979f93db1034',1,'Timer']]],
   ['setvolume',['setVolume',['../group___sound.html#ga418f6ad1f90227404d890e28188a2044',1,'Sound']]],
   ['sizefile',['sizeFile',['../group___system.html#ga906c7557ee9e15ff7ce7cdcafa073e34',1,'System']]],
