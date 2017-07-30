@@ -40,10 +40,6 @@ enum Ctrl{
 	SCE_CTRL_PSBUTTON   //!< PS button
 };
 
-/**
- * @class Controls
- * Class controls
- */
 class Controls {
 	
 	public:
