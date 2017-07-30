@@ -1,5 +1,6 @@
 var modules =
 [
+    [ "Camera", "group___camera.html", "group___camera" ],
     [ "Color", "group___color.html", "group___color" ],
     [ "Controls", "group___controls.html", "group___controls" ],
     [ "Font", "group___font.html", "group___font" ],
