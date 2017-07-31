@@ -42,9 +42,9 @@ enum CameraAntiFlick{
  */
 enum CameraISO{
 	ISO_AUTO,  //!< Automatic ISO speed mode
-	ISO_100,   //!< 100/21° ISO speed mode
-	ISO_200,   //!< 100/24° ISO speed mode
-	ISO_400    //!< 100/27° ISO speed mode
+	ISO_100,   //!< 100/21 ISO speed mode
+	ISO_200,   //!< 100/24 ISO speed mode
+	ISO_400    //!< 100/27 ISO speed mode
 };
 
 /**
