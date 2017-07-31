@@ -342,11 +342,11 @@ static int lua_drawimg_part(lua_State *L){
 	#endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
-	int st_x = luaL_checkinteger(L, 3);
-	int st_y = luaL_checkinteger(L, 4);
-	float width = luaL_checknumber(L, 5);
-	float height = luaL_checknumber(L, 6);
-	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 7));
+	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 3));
+	int st_x = luaL_checkinteger(L, 4);
+	int st_y = luaL_checkinteger(L, 5);
+	float width = luaL_checknumber(L, 6);
+	float height = luaL_checknumber(L, 7);
 	#ifndef SKIP_ERROR_HANDLING
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
 	#endif
@@ -367,14 +367,14 @@ static int lua_drawimg_full(lua_State *L){
 	#endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
-	int st_x = luaL_checkinteger(L, 3);
-	int st_y = luaL_checkinteger(L, 4);
-	float width = luaL_checknumber(L, 5);
-	float height = luaL_checknumber(L, 6);
-	float radius = luaL_checknumber(L, 7);
-	float x_scale = luaL_checknumber(L, 8);
-	float y_scale = luaL_checknumber(L, 9);
-	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 10));
+	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 3));
+	int st_x = luaL_checkinteger(L, 4);
+	int st_y = luaL_checkinteger(L, 5);
+	float width = luaL_checknumber(L, 6);
+	float height = luaL_checknumber(L, 7);
+	float radius = luaL_checknumber(L, 8);
+	float x_scale = luaL_checknumber(L, 9);
+	float y_scale = luaL_checknumber(L, 10);
 	#ifndef SKIP_ERROR_HANDLING
 	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
 	#endif
