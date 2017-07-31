@@ -123,7 +123,7 @@ local function WallRender(x,y,stride,top_wall,wh,cell_idx,offs)
 	else
 		scale_y = wh / getHeight(tmp)
 		scale_x = getWidth(tmp) / tile_size
-		drawImage(x+stride,y+top_wall+wh/2, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y, tmp)
+		drawImage(x+stride,y+top_wall+wh/2, tmp, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y)
 	end
 end
 local function WallRenderShad(x,y,stride,top_wall,wh,cell_idx,offs)
@@ -136,7 +136,7 @@ local function WallRenderShad(x,y,stride,top_wall,wh,cell_idx,offs)
 	else
 		scale_y = wh / getHeight(tmp)
 		scale_x = getWidth(tmp) / tile_size
-		drawImage(x+stride,y+top_wall+wh/2, offs * scale_x, 0, accuracy+1, getHeight(tmp), 0, 1.0, scale_y, tmp)
+		drawImage(x+stride,y+top_wall+wh/2, tmp, offs * scale_x, 0, accuracy+1, getHeight(tmp), 0, 1.0, scale_y)
 	end
 	scale_y = wh / tile_size
 	drawRect(x+stride-2,x+stride+accuracy+2,y+top_wall,y+top_wall+wh,genColor(shad_r,shad_g,shad_b,doMin(255,floor_num(shad_val / scale_y))))
@@ -152,7 +152,7 @@ local function WallFloorRender(x,y,stride,top_wall,wh,cell_idx,offs)
 	else
 		scale_y = wh / getHeight(tmp)
 		scale_x = getWidth(tmp) / tile_size
-		drawImage(x+stride,y+top_wall+wh/2, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y, tmp)
+		drawImage(x+stride,y+top_wall+wh/2, tmp, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y)
 	end
 end
 local function WallFloorRenderShad(x,y,stride,top_wall,wh,cell_idx,offs)
@@ -166,7 +166,7 @@ local function WallFloorRenderShad(x,y,stride,top_wall,wh,cell_idx,offs)
 	else
 		scale_y = wh / getHeight(tmp)
 		scale_x = getWidth(tmp) / tile_size
-		drawImage(x+stride,y+top_wall+wh/2, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y, tmp)
+		drawImage(x+stride,y+top_wall+wh/2, tmp, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y)
 	end
 	scale_y = wh / tile_size
 	drawRect(x+stride-2,x+stride+accuracy+2,y+top_wall,y+top_wall+wh,genColor(shad_r,shad_g,shad_b,doMin(255,floor_num(shad_val / scale_y))))
@@ -181,7 +181,7 @@ local function WallSkyRender(x,y,stride,top_wall,wh,cell_idx,offs)
 	else
 		scale_y = wh / getHeight(tmp)
 		scale_x = getWidth(tmp) / tile_size
-		drawImage(x+stride,y+top_wall+wh/2, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y, tmp)
+		drawImage(x+stride,y+top_wall+wh/2, tmp, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y)
 	end
 	scale_y = wh / tile_size
 	drawRect(x+stride,x+stride+accuracy,y+top_wall,y,floor_c)
@@ -197,7 +197,7 @@ local function WallSkyRenderShad(x,y,stride,top_wall,wh,cell_idx,offs)
 	else
 		scale_y = wh / getHeight(tmp)
 		scale_x = getWidth(tmp) / tile_size
-		drawImage(x+stride,y+top_wall+wh/2, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y, tmp)
+		drawImage(x+stride,y+top_wall+wh/2, tmp, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y)
 	end
 	scale_y = wh / tile_size
 	drawRect(x+stride-2,x+stride+accuracy+2,y+top_wall,y+top_wall+wh,genColor(shad_r,shad_g,shad_b,doMin(255,floor_num(shad_val / scale_y))))
@@ -212,7 +212,7 @@ local function WallFloorSkyRender(x,y,stride,top_wall,wh,cell_idx,offs)
 	else
 		scale_y = wh / getHeight(tmp)
 		scale_x = getWidth(tmp) / tile_size
-		drawImage(x+stride,y+top_wall+wh/2, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y, tmp)
+		drawImage(x+stride,y+top_wall+wh/2, tmp, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y)
 	end
 	drawRect(x+stride,x+stride+accuracy,y+top_wall+wh,vheight,floor_c)
 	drawRect(x+stride,x+stride+accuracy,y+top_wall,y,sky_c)
@@ -229,7 +229,7 @@ local function WallFloorSkyRenderShad(x,y,stride,top_wall,wh,cell_idx,offs)
 	else
 		scale_y = wh / getHeight(tmp)
 		scale_x = getWidth(tmp) / tile_size
-		drawImage(x+stride,y+top_wall+wh/2, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y, tmp)
+		drawImage(x+stride,y+top_wall+wh/2, tmp, offs * scale_x, 0, accuracy, getHeight(tmp), 0, 1.0, scale_y)
 	end
 	scale_y = wh / tile_size
 	drawRect(x+stride-2,x+stride+accuracy+2,y+top_wall,y+top_wall+wh,genColor(shad_r,shad_g,shad_b,doMin(255,floor_num(shad_val / scale_y))))
