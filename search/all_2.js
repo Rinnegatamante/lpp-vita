@@ -22,6 +22,7 @@ var searchData=
   ['connect_5fmethod',['CONNECT_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47daad0be3c122ee38ecc15631cd4411a4a1',1,'luaNetwork.cpp']]],
   ['controls',['Controls',['../class_controls.html',1,'Controls'],['../group___controls.html',1,'(Global Namespace)']]],
   ['createdirectory',['createDirectory',['../group___system.html#gae9720fe43ebbf9ab4626012354cf7145',1,'System']]],
+  ['createimage',['createImage',['../group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6',1,'Graphics']]],
   ['createserversocket',['createServerSocket',['../group___socket.html#gae251109f4ab78181e97f8d32030d66bf',1,'Socket']]],
   ['createvertex',['createVertex',['../group___render.html#gabe48fb2b8a251ba19483e74bdf2956f0',1,'Render']]],
   ['ctrl',['Ctrl',['../group___controls.html#ga8c72c82f024ad6af2e49918de816504f',1,'luaControls.cpp']]],

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['debugprint',['debugPrint',['../group___graphics.html#ga96fcdf38360384abbdc6b9def54f2119',1,'Graphics']]],
   ['delete_5fmethod',['DELETE_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da9aefb87828e288051243ce5fadbbf747',1,'luaNetwork.cpp']]],
   ['deletedirectory',['deleteDirectory',['../group___system.html#gabe363c50fc353f1b0122f7f04313adcb',1,'System']]],
   ['deletefile',['deleteFile',['../group___system.html#gaf1c8b8dc7297554c259ee8eb80a39926',1,'System']]],
@@ -12,7 +13,13 @@ var searchData=
   ['dlgstate',['DlgState',['../group___system.html#ga43732228a5490969d94095326d6bc623',1,'luaSystem.cpp']]],
   ['doesfileexist',['doesFileExist',['../group___system.html#gabd81dfb67363e668ccb7d4f014cb09c2',1,'System']]],
   ['downloadfile',['downloadFile',['../group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2',1,'Network']]],
+  ['drawimage',['drawImage',['../group___graphics.html#ga68ce7a33944635202efaf0b806b2f757',1,'Graphics']]],
+  ['drawline',['drawLine',['../group___graphics.html#ga4485c5b698c4067ccddc81d568e3d00d',1,'Graphics']]],
   ['drawmodel',['drawModel',['../group___render.html#gaa3b6bd62f7c05656b9186b0004531b72',1,'Render']]],
+  ['drawpartialimage',['drawPartialImage',['../group___graphics.html#gaaf5232232023a3c0f29932a54a442e74',1,'Graphics::drawPartialImage(number x, number y, int img, int x_start, int y_start, number width, number height, int color)'],['../group___graphics.html#ga455b2e8ac0b15743ff793605a080ae57',1,'Graphics::drawPartialImage(number x, number y, int img, int x_start, int y_start, number width, number height, number rad, number x_scale, number y_scale, int color)']]],
+  ['drawpixel',['drawPixel',['../group___graphics.html#gaba382443d1ef19990967a9491f7b1a84',1,'Graphics']]],
+  ['drawrotateimage',['drawRotateImage',['../group___graphics.html#gae8fd9802a332e387f881482358eb788b',1,'Graphics']]],
+  ['drawscaleimage',['drawScaleImage',['../group___graphics.html#ga0ff72ce6bc799c2cd1f0107ec043448f',1,'Graphics']]],
   ['ds3_5fdev',['DS3_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46bad3dc541607b5e2802dd50bfec0231b2e',1,'luaControls.cpp']]],
   ['ds4_5fdev',['DS4_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46ba4ae554f1652694b6da3ad70d2d488a36',1,'luaControls.cpp']]]
 ];

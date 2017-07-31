@@ -25,6 +25,8 @@ var searchData=
   ['getgain',['getGain',['../group___camera.html#ga8da4919f5222efc821fabbceea4ffbad',1,'Camera']]],
   ['getgpuspeed',['getGpuSpeed',['../group___system.html#ga1e72ab3cccf95a53362f5ea17edcf295',1,'System']]],
   ['getgpuxbarspeed',['getGpuXbarSpeed',['../group___system.html#ga0dfeddb6754b9bdf9e5db8c568b1d127',1,'System']]],
+  ['getimageheight',['getImageHeight',['../group___graphics.html#gaa7d1bddf17c526ce2bc14746d5c43de9',1,'Graphics']]],
+  ['getimagewidth',['getImageWidth',['../group___graphics.html#ga4ad52d3bcc82b8256254980da808ca89',1,'Graphics']]],
   ['getinput',['getInput',['../group___keyboard.html#gaee54328ece94b848e0c69d67aa0d0bd8',1,'Keyboard']]],
   ['getipadddress',['getIPAdddress',['../group___network.html#ga7d3b64f04abbca677f1ad837066f5e96',1,'Network']]],
   ['getiso',['getISO',['../group___camera.html#gae779a130184bc2daa22fa2355a3a8825',1,'Camera']]],
@@ -47,5 +49,6 @@ var searchData=
   ['getvolume',['getVolume',['../group___sound.html#ga9dad30e04bc5e17acf7be8715841af34',1,'Sound']]],
   ['getwhitebalance',['getWhiteBalance',['../group___camera.html#gabce49a805a664b20d748cb3812eb515e',1,'Camera']]],
   ['getwifilevel',['getWifiLevel',['../group___network.html#ga6e72caac5bb0ba1249e7c95bfd78281f',1,'Network']]],
-  ['getzoom',['getZoom',['../group___camera.html#ga310bac1a1ad81c3245036b3498f7524e',1,'Camera']]]
+  ['getzoom',['getZoom',['../group___camera.html#ga310bac1a1ad81c3245036b3498f7524e',1,'Camera']]],
+  ['graphics',['Graphics',['../class_graphics.html',1,'Graphics'],['../group___graphics.html',1,'(Global Namespace)']]]
 ];
