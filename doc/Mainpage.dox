@@ -26,6 +26,7 @@ When using the safe eboot.bin for your application, you'll have a few limitation
 - Cannot intercept <b>SCE_CTRL_VOLUP</b>, <b>SCE_CTRL_VOLDOWN</b>, <b>SCE_CTRL_POWER</b> buttons.
 - Cannot use <b>Controls.headsetStatus</b> function.
 \n
+
 ------------------------------
 
 ## Useful links ##

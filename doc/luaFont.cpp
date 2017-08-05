@@ -36,7 +36,7 @@ class Font {
 		void unload(int font);
 		
 		/**
-		 * Load a .ttf/.pgf/.pvf font file.
+		 * Set font size for drawing.
 		 * \ingroup Font
 		 *
 		 * @par Usage example:
