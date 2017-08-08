@@ -16,11 +16,11 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 ##### Graphics
 
-* Advanced 2D Graphics Rendering (GPU)
-* Basic 3D Graphics Rendering (GPU)
-* Native support to 0BJ models
-* Native support to TTF fonts
-* Native support to BMP/PNG/JPG images
+* Advanced 2D Graphics Rendering (GPU).
+* Basic 3D Graphics Rendering (GPU).
+* Native support to 0BJ models.
+* Native support to TTF/PGF/PVF fonts.
+* Native support to BMP/PNG/JPG images.
 * Built-in rescaler to perform portings from [lpp-3ds](https://github.com/Rinnegatamante/lpp-3ds) easily.
 
 ##### Sounds
@@ -34,30 +34,30 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 
 ##### Controls
 
-* Controls system with full console support
+* Controls system with full console support.
 * Support to dualshock rumble feature for PSTV.
-* Support to home button locking/unlocking
+* Support to home button locking/unlocking.
 * Support to lightbar color change for PSTV.
 * Support to gyroscope and accelerometer reading.
 * Support to both touchpads reading.
 
 ##### Network
 
-* Built-in debug FTP server
-* Complete sockets system support
-* Native support to HTTP requests
+* Built-in debug FTP server.
+* Complete sockets system support.
+* Native support to HTTP requests.
 
 ##### System
 
-* Access to a lot of Sony syscalls
-* I/O access for any filesystem
-* Native support to ZIP archives
-* Native support to SFO file descriptors
+* Access to a lot of Sony syscalls.
+* I/O access for any filesystem.
+* Native support to ZIP archives.
+* Native support to SFO file descriptors.
 
 ##### Utilities
 
-* Timer system
-* Advanced arithmetical functions support (math library)
+* Timer system.
+* Advanced arithmetical functions support (math library).
 
 # Nightly Builds
 
@@ -80,6 +80,7 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Galactic Federation](http://vitadb.rinnegatamante.it/#/info/206)
 * [Starfield Vita](http://vitadb.rinnegatamante.it/#/info/128)
 * [EUCLIOD](http://vitadb.rinnegatamante.it/#/info/263)
+* [Crazy Traffic Jam 3D](http://wololo.net/talk/viewtopic.php?f=116&t=48358)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
@@ -98,16 +99,19 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 
 # Compiling the source
 
-To correctly compile lpp-vita you'll need **vitasdk** installed and correctly set in your PATH environment variable. You'll also need the following libraries: **zlib**, **libmpg123**, **libogg**, **libvorbis**, **libsndfile**, **vita2dlib**, 
-**libftpvita**, **libpng**, **libjpeg**, **freetype**, **libspeexdsp**. You can install most of them with **vita-portlibs** and [EasyRPG Vita toolchain](https://ci.easyrpg.org/view/Toolchains/job/toolchain-vita/).<br><br>
+To correctly compile lpp-vita you'll need **vitasdk** installed and correctly set in your PATH environment variable. You'll also need the following libraries: **zlib**, **libmpg123**, **libogg**, **libvorbis**, **libsndfile**, **vita2d**, 
+**libftpvita**, **libpng**, **libjpeg-turbo**, **freetype**, **libspeexdsp**, **libopus**, **lua-jit**, **libdl**. You can install most of them with **vita-portlibs** and [EasyRPG Vita toolchain](https://ci.easyrpg.org/view/Toolchains/job/toolchain-vita/).<br><br>
 Lua Player Plus Vita supports different flags to enables some features:<br>
 **-DSKIP_ERROR_HANDLING** disables error handling for faster code execution.<br>
 **-DPARANOID** enables extra internal error handling.<br>
 
 # Credits
 
-* Everyone involved in vitasdk creation
-* xerpi for vita2dlib and debug FTP server code
-* gnmmarechal for testing the interpreter
-* Misledz for the Lua Player Plus logo
-* EasyRPG Team for the Audio Decoder used for Sound module
+* vitasdk contributors.
+* **xerpi** for vita2d and debug FTP code.
+* **gnmmarechal** for testing the interpreter.
+* **hyln9** for vita-luajit.
+* **frangarcj** for the help during 3D rendering feature addition.
+* **TheFloW** for some snippets i used and some ideas i borrowed.
+* Misledz for the Lua Player Plus logo.
+* EasyRPG Team for the Audio Decoder used for Sound module.
