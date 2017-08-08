@@ -1,3 +1,6 @@
+-- Initializing Network
+Network.init()
+
 -- Init debug FTP
 ip, port = Network.initFTP()
 
@@ -17,6 +20,7 @@ while true do
 	-- Check for input
 	if Controls.check(Controls.read(), SCE_CTRL_TRIANGLE) then
 		Network.termFTP()
+		Network.term()
 		break
 	end
 	
