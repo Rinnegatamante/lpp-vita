@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['imagefilter',['ImageFilter',['../group___graphics.html#ga70dac8233f8b9cc5e86d15a2c1f2f790',1,'luaGraphics.cpp']]],
   ['init',['init',['../group___camera.html#ga59250df69e237ed1aaab6d41d36565fd',1,'Camera::init()'],['../group___network.html#ga3f6cbbb08c541f67aedb155a38cb5730',1,'Network::init()'],['../group___sound.html#ga8f0f9eeae854569f7a7f110e3efec73a',1,'Sound::init()']]],
   ['initblend',['initBlend',['../group___graphics.html#ga112ceb496da0600c3a10e0134f5229d9',1,'Graphics']]],
   ['initftp',['initFTP',['../group___network.html#ga036eb0959e183f8257762dc077509f81',1,'Network']]],

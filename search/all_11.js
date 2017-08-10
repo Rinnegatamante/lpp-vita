@@ -31,6 +31,7 @@ var searchData=
   ['seteffect',['setEffect',['../group___camera.html#ga1a1f1735fa474b50a93428f228086e18',1,'Camera']]],
   ['setgain',['setGain',['../group___camera.html#ga1b349d4792f04b1a62231688932d04f5',1,'Camera']]],
   ['setgpuspeed',['setGpuSpeed',['../group___system.html#ga433903ccf1a7440abb6dfc7fa4c6359b',1,'System']]],
+  ['setimagefilters',['setImageFilters',['../group___graphics.html#ga0e381466c4cf01468bd19ede86f84f02',1,'Graphics']]],
   ['setiso',['setISO',['../group___camera.html#gabcfae960bb50bf78cd707451181b6132',1,'Camera']]],
   ['setlightbar',['setLightbar',['../group___controls.html#ga236fe3190ad0dcd2c7e8bf4bd5ab24eb',1,'Controls']]],
   ['setmessage',['setMessage',['../group___system.html#ga94fe31178878a48390b9c81fb94b1baa',1,'System']]],
