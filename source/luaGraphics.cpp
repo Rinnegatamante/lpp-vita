@@ -34,6 +34,9 @@
 #include "include/luaplayer.h"
 #include "include/message_dialog.h"
 
+#define stringify(str) #str
+#define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
+
 vita2d_pgf* debug_font;
 struct ttf{
 	uint32_t magic;
@@ -442,6 +445,21 @@ static int lua_createimage(lua_State *L){
 	return 1;
 }
 
+static int lua_filters(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	#endif
+	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
+	SceGxmTextureFilter min_filter = (SceGxmTextureFilter)(luaL_checkinteger(L, 2));
+	SceGxmTextureFilter mag_filter = (SceGxmTextureFilter)(luaL_checkinteger(L, 3));
+	#ifndef SKIP_ERROR_HANDLING
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	#endif
+	vita2d_texture_set_filters(text->text, min_filter, mag_filter);
+	return 0;
+}
+
 static int lua_loadFont(lua_State *L) {
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -565,6 +583,7 @@ static const luaL_Reg Graphics_functions[] = {
   {"drawPartialImage",    lua_drawimg_part},
   {"drawImageExtended",   lua_drawimg_full},
   {"createImage",         lua_createimage},
+  {"setImageFilters",     lua_filters},
   {"getImageWidth",       lua_width},
   {"getImageHeight",      lua_height},
   {"freeImage",           lua_free},
@@ -583,6 +602,14 @@ static const luaL_Reg Font_functions[] = {
 };
 
 void luaGraphics_init(lua_State *L) {
+	uint32_t FILTER_POINT = (uint32_t)SCE_GXM_TEXTURE_FILTER_POINT;
+	uint32_t FILTER_LINEAR = (uint32_t)SCE_GXM_TEXTURE_FILTER_LINEAR;
+	uint32_t FILTER_ANISO_POINT = (uint32_t)SCE_GXM_TEXTURE_FILTER_ANISO_LINEAR;
+	uint32_t FILTER_ANISO_LINEAR = (uint32_t)SCE_GXM_TEXTURE_FILTER_ANISO_POINT;
+	VariableRegister(L,FILTER_POINT);
+	VariableRegister(L,FILTER_LINEAR);
+	VariableRegister(L,FILTER_ANISO_POINT);
+	VariableRegister(L,FILTER_ANISO_LINEAR);
 	lua_newtable(L);
 	luaL_setfuncs(L, Graphics_functions, 0);
 	lua_setglobal(L, "Graphics");

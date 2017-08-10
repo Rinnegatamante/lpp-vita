@@ -3,6 +3,17 @@
  * Module that handles 2D rendering.
  */ 
 
+/**
+ * Image filters to use with ::Graphics.setImageFilters.
+ * \ingroup Graphics
+ */
+enum ImageFilter{
+	FILTER_POINT,       //!< Point filter
+	FILTER_LINEAR,      //!< Linear filter
+	FILTER_ANISO_POINT, //!< Anisotropic point filter
+	FILTER_ANISO_LINEAR //!< Anisotropic linear filter
+};
+ 
 class Graphics {
 	
 	public:
@@ -174,6 +185,21 @@ class Graphics {
 		 * @param img - A valid image id.
 		 */
 		void freeImage(int img);
+		
+		/**
+		 * Set filters to use for a given image.
+		 * \ingroup Graphics
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Graphics.setImageFilters(img, FILTER_LINEAR, FILTER_LINEAR)
+		 * @endcode
+		 *
+		 * @param img - A valid image id.
+		 * @param min_filter - Min filter to use.
+		 * @param mag_filter - Mag filter to use.
+		 */
+		void setImageFilters(int img, ImageFilter min_filter, ImageFilter mag_filter);
 		
 		/**
 		 * Get an image width.
