@@ -91,7 +91,7 @@ static int lua_pixel(lua_State *L){
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
 	uint32_t color = luaL_checkinteger(L, 3);
-	if (argc == 3) vita2d_draw_pixel(x, y, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	if (argc == 3) vita2d_draw_rectangle(x, y, 1, 1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	else{
 		lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 4));
 		#ifndef SKIP_ERROR_HANDLING
