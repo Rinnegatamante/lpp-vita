@@ -48,7 +48,7 @@ class Render {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * texture = Graphics.loadImasge("app0:/texture.png")
+		 * texture = Graphics.loadImage("app0:/texture.png")
 		 * mdl = Render.loadModel(vertices_table, texture)
 		 * @endcode
 		 *
@@ -65,7 +65,7 @@ class Render {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * texture = Graphics.loadImasge("app0:/texture.png")
+		 * texture = Graphics.loadImage("app0:/texture.png")
 		 * mdl = Render.loadObject("app0:/model.obj", texture)
 		 * @endcode
 		 *
@@ -116,7 +116,7 @@ class Render {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * texture = Graphics.loadImasge("app0:/texture.png")
+		 * texture = Graphics.loadImage("app0:/texture.png")
 		 * Render.useTexture(mdl, texture)
 		 * @endcode
 		 *
@@ -143,6 +143,6 @@ class Render {
 		 * @param rot_y - Y related rotation value of the camera.
 		 * @param rot_z - Z related rotation value of the camera.
 		 */
-		void setCamera(number x, number, y, number z, number rot_x, number rot_y, number rot_z);
+		void setCamera(number x, number y, number z, number rot_x, number rot_y, number rot_z);
 
 }
