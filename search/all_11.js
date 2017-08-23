@@ -26,7 +26,7 @@ var searchData=
   ['setbacklight',['setBacklight',['../group___camera.html#ga1f21a00e345c1dc5760bb9401ce26335',1,'Camera']]],
   ['setbrightness',['setBrightness',['../group___camera.html#ga3c684f188b636e363db137325a3b17cf',1,'Camera']]],
   ['setbusspeed',['setBusSpeed',['../group___system.html#ga557ddef1168009e9d703bba3a9620414',1,'System::setBusSpeed(int clock)'],['../class_system.html#ga557ddef1168009e9d703bba3a9620414',1,'System::setBusSpeed(int clock)']]],
-  ['setcamera',['setCamera',['../group___render.html#ga890dceacbe84da6c5038986b32568908',1,'Render']]],
+  ['setcamera',['setCamera',['../group___render.html#gab8935acffb2de1b643319ec4066af7c9',1,'Render']]],
   ['setcontrast',['setContrast',['../group___camera.html#gae2b743e4c1237393d431b5b9fdfae5c6',1,'Camera']]],
   ['setcpuspeed',['setCpuSpeed',['../group___system.html#ga8bddf2dc95b90190c1d49224c22ade16',1,'System']]],
   ['seteffect',['setEffect',['../group___camera.html#ga1a1f1735fa474b50a93428f228086e18',1,'Camera']]],

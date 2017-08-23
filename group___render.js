@@ -7,5 +7,5 @@ var group___render =
     [ "unloadModel", "group___render.html#ga8e217951fc915be273a4f898d2247138", null ],
     [ "drawModel", "group___render.html#gac96d15946ab37ea669f65e1afa0e7082", null ],
     [ "useTexture", "group___render.html#ga1f5538469280f46cfc62abb9390ce5b0", null ],
-    [ "setCamera", "group___render.html#ga890dceacbe84da6c5038986b32568908", null ]
+    [ "setCamera", "group___render.html#gab8935acffb2de1b643319ec4066af7c9", null ]
 ];
