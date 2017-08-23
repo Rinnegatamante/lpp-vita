@@ -122,12 +122,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8e217951fc915be273a4f898d2247138"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___render.html#ga8e217951fc915be273a4f898d2247138">Render.unloadModel</a> (int model)</td></tr>
 <tr class="memdesc:ga8e217951fc915be273a4f898d2247138"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free a model.  <a href="#ga8e217951fc915be273a4f898d2247138">More...</a><br/></td></tr>
 <tr class="separator:ga8e217951fc915be273a4f898d2247138"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa3b6bd62f7c05656b9186b0004531b72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___render.html#gaa3b6bd62f7c05656b9186b0004531b72">Render.drawModel</a> (int model, number x, number y, number z, number angleX, number angleY)</td></tr>
-<tr class="memdesc:gaa3b6bd62f7c05656b9186b0004531b72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a model on screen.  <a href="#gaa3b6bd62f7c05656b9186b0004531b72">More...</a><br/></td></tr>
-<tr class="separator:gaa3b6bd62f7c05656b9186b0004531b72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac96d15946ab37ea669f65e1afa0e7082"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___render.html#gac96d15946ab37ea669f65e1afa0e7082">Render.drawModel</a> (int model, number x, number y, number z, number angleX, number angleY, number angleZ)</td></tr>
+<tr class="memdesc:gac96d15946ab37ea669f65e1afa0e7082"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a model on screen.  <a href="#gac96d15946ab37ea669f65e1afa0e7082">More...</a><br/></td></tr>
+<tr class="separator:gac96d15946ab37ea669f65e1afa0e7082"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1f5538469280f46cfc62abb9390ce5b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___render.html#ga1f5538469280f46cfc62abb9390ce5b0">Render.useTexture</a> (int model, int texture)</td></tr>
 <tr class="memdesc:ga1f5538469280f46cfc62abb9390ce5b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a given texture for a model.  <a href="#ga1f5538469280f46cfc62abb9390ce5b0">More...</a><br/></td></tr>
 <tr class="separator:ga1f5538469280f46cfc62abb9390ce5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga890dceacbe84da6c5038986b32568908"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___render.html#ga890dceacbe84da6c5038986b32568908">Render.setCamera</a> (number x, number, y, number z, number rot_x, number rot_y, number rot_z)</td></tr>
+<tr class="memdesc:ga890dceacbe84da6c5038986b32568908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set view camera instance settings.  <a href="#ga890dceacbe84da6c5038986b32568908">More...</a><br/></td></tr>
+<tr class="separator:ga890dceacbe84da6c5038986b32568908"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles 3D rendering. </p>
@@ -343,7 +346,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa3b6bd62f7c05656b9186b0004531b72"></a>
+<a class="anchor" id="gac96d15946ab37ea669f65e1afa0e7082"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -381,7 +384,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">number&#160;</td>
-          <td class="paramname"><em>angleY</em>&#160;</td>
+          <td class="paramname"><em>angleY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>angleZ</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -392,7 +401,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Print a model on screen. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_render.html">Render</a>.<a class="code" href="group___render.html#gaa3b6bd62f7c05656b9186b0004531b72">drawModel</a>(mdl, 1.0, 1.0, -5.0, 1.0, 1.0)</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_render.html">Render</a>.<a class="code" href="group___render.html#gac96d15946ab37ea669f65e1afa0e7082">drawModel</a>(mdl, 1.0, 1.0, -5.0, 1.0, 1.0, 0.0)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -402,6 +411,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">z</td><td>- Z coordinate of the model. </td></tr>
     <tr><td class="paramname">angleX</td><td>- X rotation value of the model. </td></tr>
     <tr><td class="paramname">angleY</td><td>- Y rotation value of the model. </td></tr>
+    <tr><td class="paramname">angleZ</td><td>- Z rotation value of the model. </td></tr>
   </table>
   </dd>
 </dl>
@@ -444,6 +454,77 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>The old texture is not unloaded automatically. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga890dceacbe84da6c5038986b32568908"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Render.setCamera </td>
+          <td>(</td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">y&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>rot_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>rot_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>rot_z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set view camera instance settings. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_render.html">Render</a>.<a class="code" href="group___render.html#ga890dceacbe84da6c5038986b32568908">setCamera</a>(0.0, 1.0, 1.0, 0.0, 0.0, 0.0)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>- X coordinate of the camera. </td></tr>
+    <tr><td class="paramname">y</td><td>- Y coordinate of the camera. </td></tr>
+    <tr><td class="paramname">z</td><td>- Z coordinate of the camera. </td></tr>
+    <tr><td class="paramname">rot_x</td><td>- X related rotation value of the camera. </td></tr>
+    <tr><td class="paramname">rot_y</td><td>- Y related rotation value of the camera. </td></tr>
+    <tr><td class="paramname">rot_z</td><td>- Z related rotation value of the camera. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

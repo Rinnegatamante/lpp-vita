@@ -5,6 +5,7 @@ var group___render =
     [ "loadModel", "group___render.html#ga37f8821ddd6ccbd16e41ee1de8fb2be0", null ],
     [ "loadObject", "group___render.html#gaaa25060d936d426f1db1c6239c39565c", null ],
     [ "unloadModel", "group___render.html#ga8e217951fc915be273a4f898d2247138", null ],
-    [ "drawModel", "group___render.html#gaa3b6bd62f7c05656b9186b0004531b72", null ],
-    [ "useTexture", "group___render.html#ga1f5538469280f46cfc62abb9390ce5b0", null ]
+    [ "drawModel", "group___render.html#gac96d15946ab37ea669f65e1afa0e7082", null ],
+    [ "useTexture", "group___render.html#ga1f5538469280f46cfc62abb9390ce5b0", null ],
+    [ "setCamera", "group___render.html#ga890dceacbe84da6c5038986b32568908", null ]
 ];
