@@ -97,7 +97,7 @@ class Render {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * Render.drawModel(mdl, 1.0, 1.0, -5.0, 1.0, 1.0)
+		 * Render.drawModel(mdl, 1.0, 1.0, -5.0, 1.0, 1.0, 0.0)
 		 * @endcode
 		 *
 		 * @param model - A valid model ID.
@@ -106,8 +106,9 @@ class Render {
 		 * @param z - Z coordinate of the model.
 		 * @param angleX - X rotation value of the model.
 		 * @param angleY - Y rotation value of the model.
+		 * @param angleZ - Z rotation value of the model.
 		 */
-		void drawModel(int model, number x, number y, number z, number angleX, number angleY);
+		void drawModel(int model, number x, number y, number z, number angleX, number angleY, number angleZ);
 		
 		/**
 		 * Set a given texture for a model.
@@ -125,5 +126,23 @@ class Render {
 		 * @note The old texture is not unloaded automatically.
 		 */
 		void useTexture(int model, int texture);
+		
+		/**
+		 * Set view camera instance settings.
+		 * \ingroup Render
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Render.setCamera(0.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		 * @endcode
+		 *
+		 * @param x - X coordinate of the camera.
+		 * @param y - Y coordinate of the camera.
+		 * @param z - Z coordinate of the camera.
+		 * @param rot_x - X related rotation value of the camera.
+		 * @param rot_y - Y related rotation value of the camera.
+		 * @param rot_z - Z related rotation value of the camera.
+		 */
+		void setCamera(number x, number, y, number z, number rot_x, number rot_y, number rot_z);
 
 }

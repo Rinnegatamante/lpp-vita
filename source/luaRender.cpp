@@ -54,6 +54,14 @@ extern const SceGxmProgramParameter* _vita2d_colorWvpParam;
 extern const SceGxmProgramParameter* _vita2d_textureWvpParam;
 extern SceGxmProgramParameter* _vita2d_textureTintColorParam;
 
+// Camera instance
+struct camera {
+	vector3f pos;
+	vector3f rot;
+	matrix4x4 matrix;
+};
+camera cam;
+
 struct vertex{
 	float x;
 	float y;
@@ -510,7 +518,7 @@ static int lua_delVertex(lua_State *L){
 static int lua_drawmodel(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 6) return luaL_error(L, "wrong number of arguments");
+	if (argc != 7) return luaL_error(L, "wrong number of arguments");
 	#endif
 	model* mdl = (model*)luaL_checkinteger(L, 1);
 	#ifndef SKIP_ERROR_HANDLING
@@ -521,8 +529,10 @@ static int lua_drawmodel(lua_State *L){
 	float z = luaL_checknumber(L, 4);
 	float angleX = luaL_checknumber(L, 5);
 	float angleY = luaL_checknumber(L, 6);
+	float angleZ = luaL_checknumber(L, 7);
 
 	matrix4x4 model_matrix;
+	matrix4x4 modelview_matrix;
 	matrix4x4 mvp_matrix;
 	matrix4x4 final_mvp_matrix;
 	
@@ -534,7 +544,9 @@ static int lua_drawmodel(lua_State *L){
 	matrix4x4_init_translation(model_matrix,x,y,z);
 	matrix4x4_rotate_x(model_matrix,DEG_TO_RAD(angleX));
 	matrix4x4_rotate_y(model_matrix,DEG_TO_RAD(angleY));
-	matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, model_matrix);
+	matrix4x4_rotate_z(model_matrix,DEG_TO_RAD(angleZ));
+	matrix4x4_multiply(modelview_matrix, cam.matrix, model_matrix);
+	matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, modelview_matrix);
 	matrix4x4_transpose(final_mvp_matrix,mvp_matrix);
 
 	void* vertex_wvp_buffer;
@@ -545,6 +557,37 @@ static int lua_drawmodel(lua_State *L){
 	sceGxmSetVertexStream(_vita2d_context, 0, mdl->vertexList);
 	sceGxmDraw(_vita2d_context, SCE_GXM_PRIMITIVE_TRIANGLES, SCE_GXM_INDEX_FORMAT_U16, mdl->idxList, mdl->facesCount * 3);
 	
+	return 0;
+}
+
+static int lua_cam(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 6) return luaL_error(L, "wrong number of arguments");
+	#endif
+	cam.pos.x = luaL_checknumber(L, 1);
+	cam.pos.y = luaL_checknumber(L, 2);
+	cam.pos.z = luaL_checknumber(L, 3);
+	cam.rot.x = luaL_checknumber(L, 4);
+	cam.rot.y = luaL_checknumber(L, 5);
+	cam.rot.z = luaL_checknumber(L, 6);
+	
+	vector3f opposite;
+	matrix4x4 mtmp, morient, mtrans;
+	matrix4x4 mx, my, mz;
+	
+	vector3f_opposite(&opposite, &cam.pos);
+	
+	matrix4x4_init_translation_vector3f(mtrans, &opposite);
+	matrix4x4_init_rotation_x(mx, -cam.rot.x);
+	matrix4x4_init_rotation_y(my, -cam.rot.y);
+	matrix4x4_init_rotation_z(mz, -cam.rot.z);
+
+	matrix4x4_multiply(mtmp, mx, my);
+	matrix4x4_multiply(morient, mtmp, mz);
+	matrix4x4_multiply(cam.matrix, morient, mtrans);
+	
+	return 0;
 }
 
 //Register our Render Functions
@@ -556,10 +599,14 @@ static const luaL_Reg Render_functions[] = {
 	{"unloadModel",    lua_unloadmodel},
 	{"drawModel",      lua_drawmodel},
 	{"useTexture",     lua_settext},
+	{"setCamera",      lua_cam},
 	{0, 0}
 };
 
 void luaRender_init(lua_State *L) {
+	vector3f_init(&cam.pos, 0.0f, 0.0f, 0.0f);
+	vector3f_init(&cam.rot, 0.0f, 0.0f, 0.0f);
+	matrix4x4_identity(cam.matrix);
 	lua_newtable(L);
 	luaL_setfuncs(L, Render_functions, 0);
 	lua_setglobal(L, "Render");
