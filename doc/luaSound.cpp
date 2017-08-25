@@ -38,95 +38,23 @@ class Sound {
 		 */
 		void term(void);
 		
-		/**
-		 * Open a .wav audio file.
-		 * \ingroup Sound
-		 *
-		 * @par Usage example:
-		 * @code
-		 * snd = Sound.openWav("ux0:/data/audio.wav")
-		 * @endcode
-		 *
-		 * @param filename - Name of the file to open
-		 *
-		 * @return A valid sound ID.
-		 */
-		int openWav(string filename);
 		
 		/**
-		 * Open a .aif/.aiff audio file.
+		 * Open an audio file.
 		 * \ingroup Sound
 		 *
 		 * @par Usage example:
 		 * @code
-		 * snd = Sound.openAiff("ux0:/data/audio.aiff")
+		 * snd = Sound.open("ux0:/data/audio.opus")
 		 * @endcode
 		 *
 		 * @param filename - Name of the file to open
 		 *
 		 * @return A valid sound ID.
+		 *
+		 * @note Supported audio formats: .wav, .aif, .aiff, .opus, .ogg, .mid, .midi, .mp3.
 		 */
-		int openAiff(string filename);
-		
-		/**
-		 * Open a .mp3 audio file.
-		 * \ingroup Sound
-		 *
-		 * @par Usage example:
-		 * @code
-		 * snd = Sound.openMp3("ux0:/data/audio.mp3")
-		 * @endcode
-		 *
-		 * @param filename - Name of the file to open
-		 *
-		 * @return A valid sound ID.
-		 */
-		int openMp3(string filename);
-		
-		/**
-		 * Open a .mid/.midi audio file.
-		 * \ingroup Sound
-		 *
-		 * @par Usage example:
-		 * @code
-		 * snd = Sound.openMidi("ux0:/data/audio.mid")
-		 * @endcode
-		 *
-		 * @param filename - Name of the file to open
-		 *
-		 * @return A valid sound ID.
-		 */
-		int openMidi(string filename);
-		
-		/**
-		 * Open a .ogg audio file.
-		 * \ingroup Sound
-		 *
-		 * @par Usage example:
-		 * @code
-		 * snd = Sound.openOgg("ux0:/data/audio.ogg")
-		 * @endcode
-		 *
-		 * @param filename - Name of the file to open
-		 *
-		 * @return A valid sound ID.
-		 */
-		int openOgg(string filename);
-		
-		/**
-		 * Open a .opus audio file.
-		 * \ingroup Sound
-		 *
-		 * @par Usage example:
-		 * @code
-		 * snd = Sound.openOpus("ux0:/data/audio.opus")
-		 * @endcode
-		 *
-		 * @param filename - Name of the file to open
-		 *
-		 * @return A valid sound ID.
-		 */
-		int openOpus(string filename);
+		int open(string filename);
 		
 		/**
 		 * Plays a sound.
