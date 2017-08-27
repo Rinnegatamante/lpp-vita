@@ -40,6 +40,10 @@ extern "C"{
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 #define ALIGN(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
 
+#define FULL_EXTRACT 0
+#define FILE_EXTRACT 1
+#define EXTRACT_END  2
+
 static int FREAD = SCE_O_RDONLY;
 static int FWRITE = SCE_O_WRONLY;
 static int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
@@ -54,6 +58,41 @@ static SceMsgDialogProgressBarParam barParam;
 static SceMsgDialogUserMessageParam msgParam;
 bool messageStarted = false;
 static char messageText[512];
+
+static Zip* asyncHandle = NULL;
+static char asyncDest[256];
+static char asyncName[256];
+static char asyncPass[64];
+static volatile uint8_t asyncMode = EXTRACT_END;
+volatile int asyncResult = 0;
+static uint8_t async_task_num = 0;
+
+static int zipThread(unsigned int args, void* arg){
+	asyncResult = 0;
+	switch (asyncMode){
+		case FULL_EXTRACT:
+			asyncResult = ZipExtract(asyncHandle, (strlen(asyncPass) > 0) ? asyncPass : NULL, asyncDest);
+			if (asyncResult == 0) asyncResult = -1;
+			ZipClose(asyncHandle);
+			break;
+		case FILE_EXTRACT:
+			ZipFile* file = ZipFileRead(asyncHandle, asyncName, (strlen(asyncPass) > 0) ? asyncPass : NULL);
+			if (file == NULL) asyncResult = -1;
+			else{
+				FILE* f = fopen(asyncDest,"w");
+				fwrite(file->data, 1, file->size, f);
+				fclose(f);
+				ZipFileFree(file);
+				asyncResult = 1;
+			}
+			ZipClose(asyncHandle);
+			break;
+	}
+	asyncMode = EXTRACT_END;
+	async_task_num--;
+	sceKernelExitDeleteThread(0);
+	return 0;
+}
 
 static int lua_dofile(lua_State *L){
 	int argc = lua_gettop(L);
@@ -628,7 +667,7 @@ static int lua_ZipExtract(lua_State *L) {
 	const char* DirTe = luaL_checkstring(L, 2);
 	const char* Password = (argc == 3) ? luaL_checkstring(L, 3) : NULL;
 	sceIoMkdir(DirTe, 0777);
-	Zip *handle = ZipOpen(FileToExtract);
+	Zip* handle = ZipOpen(FileToExtract);
 	#ifndef SKIP_ERROR_HANDLING
 	if (handle == NULL) luaL_error(L, "error opening ZIP file.");
 	#endif
@@ -636,6 +675,30 @@ static int lua_ZipExtract(lua_State *L) {
 	ZipClose(handle);
 	lua_pushinteger(L, result);
 	return 1;
+}
+
+static int lua_ZipExtractAsync(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments.");
+	if (async_task_num == ASYNC_TASKS_MAX) return luaL_error(L, "cannot start more async tasks.");
+	#endif
+	const char* FileToExtract = luaL_checkstring(L, 1);
+	const char* DirTe = luaL_checkstring(L, 2);
+	const char* Password = (argc == 3) ? luaL_checkstring(L, 3) : NULL;
+	sceIoMkdir(DirTe, 0777);
+	asyncHandle = ZipOpen(FileToExtract);
+	#ifndef SKIP_ERROR_HANDLING
+	if (asyncHandle == NULL) luaL_error(L, "error opening ZIP file.");
+	#endif
+	asyncMode = FULL_EXTRACT;
+	sprintf(asyncDest, DirTe);
+	if (Password != NULL) sprintf(asyncPass, Password);
+	else asyncPass[0] = 0;
+	async_task_num++;
+	SceUID thd = sceKernelCreateThread("Zip Extract Thread", &zipThread, 0x10000100, 0x100000, 0, 0, NULL);
+	sceKernelStartThread(thd, 0, NULL);
+	return 0;
 }
 
 static int lua_getfilefromzip(lua_State *L){
@@ -647,7 +710,7 @@ static int lua_getfilefromzip(lua_State *L){
 	const char* FileToExtract2 = luaL_checkstring(L, 2);
 	const char* Dest = luaL_checkstring(L, 3);
 	const char* Password = (argc == 4) ? luaL_checkstring(L, 4) : NULL;
-	Zip *handle = ZipOpen(FileToExtract);
+	Zip* handle = ZipOpen(FileToExtract);
 	#ifndef SKIP_ERROR_HANDLING
 	if (handle == NULL) luaL_error(L, "error opening ZIP file.");
 	#endif
@@ -661,6 +724,40 @@ static int lua_getfilefromzip(lua_State *L){
 		lua_pushboolean(L, true);
 	}
 	ZipClose(handle);
+	return 1;
+}
+
+static int lua_getfilefromzipasync(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if(argc != 3 && argc != 4 ) return luaL_error(L, "wrong number of arguments.");
+	if (async_task_num == ASYNC_TASKS_MAX) return luaL_error(L, "cannot start more async tasks.");
+	#endif
+	const char* FileToExtract = luaL_checkstring(L, 1);
+	const char* FileToExtract2 = luaL_checkstring(L, 2);
+	const char* Dest = luaL_checkstring(L, 3);
+	const char* Password = (argc == 4) ? luaL_checkstring(L, 4) : NULL;
+	asyncHandle = ZipOpen(FileToExtract);
+	#ifndef SKIP_ERROR_HANDLING
+	if (asyncHandle == NULL) luaL_error(L, "error opening ZIP file.");
+	#endif
+	asyncMode = FILE_EXTRACT;
+	sprintf(asyncDest, Dest);
+	sprintf(asyncName, FileToExtract2);
+	if (Password != NULL) sprintf(asyncPass, Password);
+	else asyncPass[0] = 0;
+	async_task_num++;
+	SceUID thd = sceKernelCreateThread("Zip Extract Thread", &zipThread, 0x10000100, 0x100000, 0, 0, NULL);
+	sceKernelStartThread(thd, 0, NULL);
+	return 0;
+}
+
+static int lua_getasyncstate(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if(argc != 0) return luaL_error(L, "wrong number of arguments.");
+	#endif
+	lua_pushinteger(L, asyncResult);
 	return 1;
 }
 
@@ -909,9 +1006,11 @@ static const luaL_Reg System_functions[] = {
   {"getModel",                  lua_model},
   {"getTitle",                  lua_title},
   {"getTitleID",                lua_titleid},
-  {"extractSFO",                lua_extractsfo},
-  {"extractZIP",                lua_ZipExtract},
-  {"extractFromZIP",            lua_getfilefromzip},
+  {"extractSfo",                lua_extractsfo},
+  {"extractZip",                lua_ZipExtract},
+  {"extractZipAsync",           lua_ZipExtractAsync},
+  {"extractFromZip",            lua_getfilefromzip},
+  {"extractFromZipAsync",       lua_getfilefromzipasync},
   {"takeScreenshot",            lua_screenshot},
   {"executeUri",                lua_executeuri},
   {"reboot",                    lua_reboot},  
@@ -921,6 +1020,7 @@ static const luaL_Reg System_functions[] = {
   {"setMessageProgress",        lua_setprogbar},
   {"setMessageProgMsg",         lua_setprogmsg},
   {"closeMessage",              lua_closemsg},
+  {"getAsyncState",             lua_getasyncstate},
   {0, 0}
 };
 

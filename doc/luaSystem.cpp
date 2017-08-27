@@ -649,7 +649,7 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * info = System.extractSFO("app0:/sce_sys/param.sfo")
+		 * info = System.extractSfo("app0:/sce_sys/param.sfo")
 		 * app_version = info.version
 		 * app_title = info.title
 		 * app_category = info.category
@@ -660,34 +660,34 @@ class System{
 		 *
 		 * @return A table with a proper set of info (Look at the sample above).
 		 */
-		table extractSFO(string filename);
+		table extractSfo(string filename);
 		
 		/**
-		 * Extract a ZIP file.
+		 * Extract a ZIP file (synchronous).
 		 * \ingroup System
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.extractZIP("app0:/files.zip", "ux0:/data/app_files")
+		 * System.extractZip("app0:/files.zip", "ux0:/data/app_files")
 		 * @endcode
 		 *
 		 * @param filename - The filename to extract.
 		 * @param dirname - The path where to extract files.
 		 * @param password - The password of the archive <b>(optional)</b>.
 		 *
-		 * @return 0 if extraction completed, <0 otherwise.
+		 * @return 1 if extraction completed successfully, 0 otherwise.
 		 *
 		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
 		 */
-		int extractZIP(string filename, string dirname, string password);
+		int extractZip(string filename, string dirname, string password);
 		
 		/**
-		 * Extract a specific file from a ZIP file.
+		 * Extract a specific file from a ZIP file (synchronous).
 		 * \ingroup System
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.extractFromZIP("app0:/files.zip", "image.jpg" "ux0:/data/app_files")
+		 * System.extractFromZip("app0:/files.zip", "image.jpg" "ux0:/data/app_files")
 		 * @endcode
 		 *
 		 * @param filename - The filename of the ZIP archive.
@@ -699,7 +699,58 @@ class System{
 		 *
 		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
 		 */
-		bool extractFromZIP(string filename, string file, string dirname, string password);
+		bool extractFromZip(string filename, string file, string dirname, string password);
+		
+		/**
+		 * Extract a ZIP file (asynchronous).
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.extractZipAsync("app0:/files.zip", "ux0:/data/app_files")
+		 * @endcode
+		 *
+		 * @param filename - The filename to extract.
+		 * @param dirname - The path where to extract files.
+		 * @param password - The password of the archive <b>(optional)</b>.
+		 *
+		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
+		 */
+		void extractZipAsync(string filename, string dirname, string password);
+		
+		/**
+		 * Extract a specific file from a ZIP file (asynchronous).
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.extractFromZipAsync("app0:/files.zip", "image.jpg" "ux0:/data/app_files")
+		 * @endcode
+		 *
+		 * @param filename - The filename of the ZIP archive.
+		 * @param file - The file to extract.
+		 * @param dirname - The path where to extract file.
+		 * @param password - The password of the archive <b>(optional)</b>.
+		 *
+		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
+		 */
+		void extractFromZipAsync(string filename, string file, string dirname, string password);
+		
+		/**
+		 * Get current state of an asynchronous task.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * while System.getAsyncState() == 0 do
+		 * 	running = true
+		 * end
+		 * running = false
+		 * @endcode
+		 *
+		 * @return 0 if running, 1 if successfully finished, -1 otherwise.
+		 */
+		int getAsyncState(void);
 		
 		/**
 		 * Take a screenshot.

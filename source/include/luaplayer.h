@@ -44,6 +44,8 @@ extern void luaC_collectgarbage (lua_State *L);
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define CLAMP(val, min, max) ((val)>(max)?(max):((val)<(min)?(min):(val)))
 
+#define ASYNC_TASKS_MAX 1
+
 const char *runScript(const char* script, bool isStringBuffer);
 void luaC_collectgarbage (lua_State *L);
 
@@ -77,6 +79,7 @@ extern SceCommonDialogConfigParam cmnDlgCfgParam;
 extern volatile bool termMic;
 extern int micThread(SceSize args, void* argc);
 extern SceUID Mic_Mutex;
+extern volatile int asyncResult;
 
 // Internal structs
 struct lpp_texture{
