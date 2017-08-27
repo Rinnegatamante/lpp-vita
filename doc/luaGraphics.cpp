@@ -101,12 +101,12 @@ class Graphics {
 		 * @endcode
 		 *
 		 * @param x1 - Starting X coordinate of the rectangle in pixels.
-		 * @param y1 - Starting Y coordinate of the rectangle in pixels.
 		 * @param x2 - Ending X coordinate of the rectangle in pixels.
+		 * @param y1 - Starting Y coordinate of the rectangle in pixels.
 		 * @param y2 - Ending Y coordinate of the rectangle in pixels.
 		 * @param color - A valid color (See ::Color).
 		 */
-		void fillRect(number x1, number y1, number x2, number y2, int color);
+		void fillRect(number x1, number x2, number y1, number y2, int color);
 		
 		/**
 		 * Draw an empty rectangle.
@@ -118,12 +118,12 @@ class Graphics {
 		 * @endcode
 		 *
 		 * @param x1 - Starting X coordinate of the rectangle in pixels.
-		 * @param y1 - Starting Y coordinate of the rectangle in pixels.
 		 * @param x2 - Ending X coordinate of the rectangle in pixels.
+		 * @param y1 - Starting Y coordinate of the rectangle in pixels.
 		 * @param y2 - Ending Y coordinate of the rectangle in pixels.
 		 * @param color - A valid color (See ::Color).
 		 */
-		void fillEmptyRect(number x1, number y1, number x2, number y2, int color);
+		void fillEmptyRect(number x1, number x2, number y1, number y2, int color);
 		
 		/**
 		 * Draw a circle.
