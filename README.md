@@ -89,9 +89,8 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Simple Text Editor](http://wololo.net/talk/viewtopic.php?f=116&t=47018)
 * [ePSP Bubble Installer](http://vitadb.rinnegatamante.it/#/info/124)
 * [Vita Object Loader](http://wololo.net/talk/viewtopic.php?f=116&t=47982)
-* [PKGEnabler](http://wololo.net/talk/viewtopic.php?f=116&t=48165)
-* [Firmware Reinstall](https://github.com/SilicaAndPina/Firmware-Reinstall)
-* [CEX2REX](https://github.com/SilicaAndPina/CEX-2-REX)
+* [Voice Recorder Vita](http://wololo.net/talk/viewtopic.php?f=116&t=48444)
+* [Pro Camera Vita](http://wololo.net/talk/viewtopic.php?f=116&t=48379)
 
 ##### Engines & Interpreters
 * [RayCast3D Engine](http://wololo.net/talk/viewtopic.php?f=116&t=46379)
