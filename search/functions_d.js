@@ -28,6 +28,6 @@ var searchData=
   ['setwhitebalance',['setWhiteBalance',['../group___camera.html#gaa917985b04dc71561da6602ddd4c3dd0',1,'Camera']]],
   ['setzoom',['setZoom',['../group___camera.html#ga5d46e2bd4872ba1c7425026be8542f5a',1,'Camera']]],
   ['sizefile',['sizeFile',['../group___system.html#ga906c7557ee9e15ff7ce7cdcafa073e34',1,'System']]],
-  ['start',['start',['../group___keyboard.html#ga37a32961b6c5b4c03c3e450c6751d81e',1,'Keyboard::start()'],['../group___mic.html#ga77e92b061bc5f3226ba25f8dabcd61ad',1,'Mic::start()']]],
+  ['start',['start',['../group___keyboard.html#ga5bf257aac3c6dcfa7836ab7c889d01c4',1,'Keyboard::start()'],['../group___mic.html#ga77e92b061bc5f3226ba25f8dabcd61ad',1,'Mic::start()']]],
   ['stop',['stop',['../group___mic.html#gac31098391103c94dba667cd0a6178ec7',1,'Mic']]]
 ];

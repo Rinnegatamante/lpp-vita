@@ -50,7 +50,7 @@ var searchData=
   ['sizefile',['sizeFile',['../group___system.html#ga906c7557ee9e15ff7ce7cdcafa073e34',1,'System']]],
   ['socket',['Socket',['../class_socket.html',1,'Socket'],['../group___socket.html',1,'(Global Namespace)']]],
   ['sound',['Sound',['../class_sound.html',1,'Sound'],['../group___sound.html',1,'(Global Namespace)']]],
-  ['start',['start',['../group___keyboard.html#ga37a32961b6c5b4c03c3e450c6751d81e',1,'Keyboard::start()'],['../group___mic.html#ga77e92b061bc5f3226ba25f8dabcd61ad',1,'Mic::start()']]],
+  ['start',['start',['../group___keyboard.html#ga5bf257aac3c6dcfa7836ab7c889d01c4',1,'Keyboard::start()'],['../group___mic.html#ga77e92b061bc5f3226ba25f8dabcd61ad',1,'Mic::start()']]],
   ['stop',['stop',['../group___mic.html#gac31098391103c94dba667cd0a6178ec7',1,'Mic']]],
   ['system',['System',['../class_system.html',1,'System'],['../group___system.html',1,'(Global Namespace)']]]
 ];
