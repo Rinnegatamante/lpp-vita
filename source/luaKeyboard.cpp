@@ -49,16 +49,18 @@ bool keyboardStarted = false;
 static int lua_setup(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2 && argc != 3 && argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2 && argc != 3 && argc != 4 && argc != 5 && argc != 6) return luaL_error(L, "wrong number of arguments");
 	#endif
 	char* title_ascii = (char*)luaL_checkstring(L, 1);
 	char* text = (char*)luaL_checkstring(L, 2);
 	SceUInt32 length = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
 	SceUInt32 type = SCE_IME_TYPE_BASIC_LATIN;
 	SceUInt32 mode = SCE_IME_DIALOG_TEXTBOX_MODE_DEFAULT;
+	SceUInt32 option = 0;
 	if (argc >= 3) length = luaL_checkinteger(L, 3);
 	if (argc >= 4) type = luaL_checkinteger(L, 4);
-	if (argc == 5) mode = luaL_checkinteger(L, 5);
+	if (argc >= 5) mode = luaL_checkinteger(L, 5);
+	if (argc == 6) option = luaL_checkinteger(L, 6);
 	#ifndef SKIP_ERROR_HANDLING
 	if (length > SCE_IME_DIALOG_MAX_TEXT_LENGTH) length = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
 	if (type > 3) return luaL_error(L, "invalid keyboard type");
@@ -81,6 +83,7 @@ static int lua_setup(lua_State *L){
 	param.maxTextLength = length;
 	param.initialText = initial_text;
 	param.inputTextBuffer = input_text;
+	if (option > 0) param.option = option;
 	sceImeDialogInit(&param);
 	keyboardStarted = true;
 	
@@ -139,12 +142,15 @@ void luaKeyboard_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Keyboard_functions, 0);
 	lua_setglobal(L, "Keyboard");
-	uint8_t MODE_TEXT = 0;
-	uint8_t MODE_PASSWORD = 1;
-	uint8_t TYPE_DEFAULT = 0;
-	uint8_t TYPE_LATIN = 1;
-	uint8_t TYPE_NUMBER = 2;
-	uint8_t TYPE_EXT_NUMBER = 3;
+	uint8_t MODE_TEXT = SCE_IME_DIALOG_TEXTBOX_MODE_DEFAULT;
+	uint8_t MODE_PASSWORD = SCE_IME_DIALOG_TEXTBOX_MODE_PASSWORD;
+	uint8_t TYPE_DEFAULT = SCE_IME_TYPE_DEFAULT;
+	uint8_t TYPE_LATIN = SCE_IME_TYPE_BASIC_LATIN;
+	uint8_t TYPE_NUMBER = SCE_IME_TYPE_NUMBER;
+	uint8_t TYPE_EXT_NUMBER = SCE_IME_TYPE_EXTENDED_NUMBER;
+	uint8_t OPT_MULTILINE = SCE_IME_OPTION_MULTILINE;
+	uint8_t OPT_NO_AUTOCAP = SCE_IME_OPTION_NO_AUTO_CAPITALIZATION;
+	uint8_t OPT_NO_ASSISTANCE = SCE_IME_OPTION_NO_ASSISTANCE;
 	VariableRegister(L, MODE_TEXT);
 	VariableRegister(L, MODE_PASSWORD);
 	VariableRegister(L, TYPE_DEFAULT);
@@ -154,4 +160,7 @@ void luaKeyboard_init(lua_State *L) {
 	VariableRegister(L, RUNNING);
 	VariableRegister(L, FINISHED);
 	VariableRegister(L, CANCELED);
+	VariableRegister(L, OPT_MULTILINE);
+	VariableRegister(L, OPT_NO_AUTOCAP);
+	VariableRegister(L, OPT_NO_ASSISTANCE);
 }
