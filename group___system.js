@@ -67,6 +67,7 @@ var group___system =
     [ "getUsername", "group___system.html#ga8a345acaf4ae23c2edefde72d75e35f8", null ],
     [ "getLanguage", "group___system.html#gadef4e61c735f79e232a029d25f526dce", null ],
     [ "getModel", "group___system.html#gaec598b30c0d06a9e56d3c1c17ad56f99", null ],
+    [ "getPsId", "group___system.html#gaf59743690feee9c1d8bc4f18d3a0a39d", null ],
     [ "getTitle", "group___system.html#ga26a65a0c12c8e4f98051b62057002742", null ],
     [ "getTitleID", "group___system.html#gadec1b4d88d7cbeeba5b30c6339080744", null ],
     [ "extractSfo", "group___system.html#ga89999b4eb7290597627ffb6bb6089578", null ],

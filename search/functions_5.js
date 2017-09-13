@@ -37,6 +37,7 @@ var searchData=
   ['getnightmode',['getNightmode',['../group___camera.html#ga47869c2cca6424ee0eab75f8f6352c7d',1,'Camera']]],
   ['getoutput',['getOutput',['../group___camera.html#ga28ce6279ac8d05b0cfb732e9b9a9260c',1,'Camera']]],
   ['getpixel',['getPixel',['../group___screen.html#gaa2a50bbe248a91c38271c8a96dde95df',1,'Screen']]],
+  ['getpsid',['getPsId',['../group___system.html#gaf59743690feee9c1d8bc4f18d3a0a39d',1,'System']]],
   ['getr',['getR',['../group___color.html#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8',1,'Color']]],
   ['getreverse',['getReverse',['../group___camera.html#ga32fb9bfb5d8e31455dbce8d7d9bdee40',1,'Camera']]],
   ['getsaturation',['getSaturation',['../group___camera.html#ga9fc7c35000d818fd60f72a5b6e1e73aa',1,'Camera']]],
