@@ -618,6 +618,19 @@ class System{
 		int getModel(void);
 		
 		/**
+		 * Get console unique PsId.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * psid = System.getPsId()
+		 * @endcode
+		 *
+		 * @return The console unique PsId.
+		 */
+		string getPsId(void);
+		
+		/**
 		 * Get running application title.
 		 * \ingroup System
 		 *

@@ -65,7 +65,7 @@ static char asyncName[256];
 static char asyncPass[64];
 static volatile uint8_t asyncMode = EXTRACT_END;
 volatile int asyncResult = 0;
-static uint8_t async_task_num = 0;
+uint8_t async_task_num = 0;
 
 static int zipThread(unsigned int args, void* arg){
 	asyncResult = 0;
@@ -958,6 +958,22 @@ static int lua_closemsg(lua_State *L){
 	return 0;
 }
 
+static int lua_getpsid(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif	
+	SceKernelOpenPsId id;
+	sceKernelGetOpenPsId(&id);
+	char psid[64];
+	sprintf(psid, "%02X", id.id[0]);
+	for (int i = 1; i < 16; i++){
+		sprintf(&psid[2 + ((i-1) * 3)], ":%02X", id.id[i]);
+	}
+	lua_pushstring(L, psid);
+	return 1;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 
@@ -1021,6 +1037,7 @@ static const luaL_Reg System_functions[] = {
   {"setMessageProgMsg",         lua_setprogmsg},
   {"closeMessage",              lua_closemsg},
   {"getAsyncState",             lua_getasyncstate},
+  {"getPsId",                   lua_getpsid},
   {0, 0}
 };
 
