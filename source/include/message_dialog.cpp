@@ -86,6 +86,10 @@ void sceMsgDialogDraw(){
 		float MSGDIALOG_Y = dlg.height / 2;
 		vita2d_draw_rectangle(MSGDIALOG_X + (MSGDIALOG_X - dlg.anim_percent * MSGDIALOG_X), dlg.y + (MSGDIALOG_Y - dlg.anim_percent * MSGDIALOG_Y), (dlg.anim_percent * MSGDIALOG_X) * 2, (dlg.anim_percent * MSGDIALOG_Y) * 2, RGBA8(0x29, 0x26, 0x39, 0xFF));
 		if ((dlg.intstate == SCE_COMMON_DIALOG_STATUS_FINISHED) && (dlg.anim_percent <= 0.0f)) dlg.state = SCE_COMMON_DIALOG_STATUS_FINISHED;
+		if (dlg.state == SCE_COMMON_DIALOG_STATUS_FINISHED){
+			dlg.state = SCE_COMMON_DIALOG_STATUS_NONE;
+			messageStarted = false;
+		}
 	}
 }
 

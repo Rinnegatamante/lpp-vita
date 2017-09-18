@@ -66,6 +66,8 @@ static char asyncPass[64];
 static volatile uint8_t asyncMode = EXTRACT_END;
 volatile int asyncResult = 0;
 uint8_t async_task_num = 0;
+unsigned char* asyncStrRes = NULL;
+uint32_t asyncResSize = 0;
 
 static int zipThread(unsigned int args, void* arg){
 	asyncResult = 0;
@@ -761,6 +763,19 @@ static int lua_getasyncstate(lua_State *L){
 	return 1;
 }
 
+static int lua_getasyncres(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if(argc != 0) return luaL_error(L, "wrong number of arguments.");
+	#endif
+	if (asyncStrRes != NULL){
+		lua_pushlstring(L,(const char*)asyncStrRes,asyncResSize);
+		free(asyncStrRes);
+		asyncStrRes = NULL;
+		return 1;
+	}else return 0;
+}
+
 typedef struct{
 	uint32_t magic;
 	uint32_t version;
@@ -910,10 +925,10 @@ static int lua_setmsg(lua_State *L){
 static int lua_getmsg(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (!messageStarted) return luaL_error(L, "no message instances available.");
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceCommonDialogStatus status = sceMsgDialogGetStatus();
+	if (!messageStarted) status = (SceCommonDialogStatus)2; // CANCELED status, look at luaKeyboard.cpp
 	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
 		SceMsgDialogResult result;
 		memset(&result, 0, sizeof(SceMsgDialogResult));
@@ -1037,6 +1052,7 @@ static const luaL_Reg System_functions[] = {
   {"setMessageProgMsg",         lua_setprogmsg},
   {"closeMessage",              lua_closemsg},
   {"getAsyncState",             lua_getasyncstate},
+  {"getAsyncResult",            lua_getasyncres},
   {"getPsId",                   lua_getpsid},
   {0, 0}
 };
