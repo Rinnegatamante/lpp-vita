@@ -19,5 +19,7 @@ var group___network =
     [ "isWifiEnabled", "group___network.html#ga4b4d96bfb2edee489702990e0fa2dc0b", null ],
     [ "getWifiLevel", "group___network.html#ga6e72caac5bb0ba1249e7c95bfd78281f", null ],
     [ "downloadFile", "group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2", null ],
-    [ "requestString", "group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92", null ]
+    [ "downloadFileAsync", "group___network.html#ga55b1de33a4fd352c3e713c8c8db6d9ce", null ],
+    [ "requestString", "group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92", null ],
+    [ "requestStringAsync", "group___network.html#ga9ce8fa43da8b9cf1b03f496641706178", null ]
 ];

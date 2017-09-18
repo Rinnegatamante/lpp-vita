@@ -2,6 +2,7 @@ var searchData=
 [
   ['geta',['getA',['../group___color.html#ga9a49c9ef24e652b9b0a238aee63c749f',1,'Color']]],
   ['getantiflicker',['getAntiFlicker',['../group___camera.html#ga2e6618443d67715d21a9127dd9853d71',1,'Camera']]],
+  ['getasyncresult',['getAsyncResult',['../group___system.html#gadccaa5cd953c15915d34152f29f73eaa',1,'System']]],
   ['getasyncstate',['getAsyncState',['../group___system.html#ga991074c32b2de96dcdbffd54f838ffc6',1,'System']]],
   ['getb',['getB',['../group___color.html#gab68b2c7bfb7587fe2887e75765141ab8',1,'Color']]],
   ['getbacklight',['getBacklight',['../group___camera.html#ga16e415fed6450a38a9b3cca2be69ccf0',1,'Camera']]],

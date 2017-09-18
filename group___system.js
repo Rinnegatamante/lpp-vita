@@ -76,6 +76,7 @@ var group___system =
     [ "extractZipAsync", "group___system.html#ga878daa018c6b1e982777771cfd41a8b2", null ],
     [ "extractFromZipAsync", "group___system.html#gab485a478d9b4cd6139b835a706a2b53e", null ],
     [ "getAsyncState", "group___system.html#ga991074c32b2de96dcdbffd54f838ffc6", null ],
+    [ "getAsyncResult", "group___system.html#gadccaa5cd953c15915d34152f29f73eaa", null ],
     [ "takeScreenshot", "group___system.html#ga445e5fe0f276edbfe49bd288e5a017fa", null ],
     [ "executeUri", "group___system.html#ga23c5a7cd15e2daa6d608e2fa5678ec50", null ],
     [ "reboot", "group___system.html#ga23984244aa92f7902124fbc78ebfa228", null ],

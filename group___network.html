@@ -150,11 +150,17 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga6e72caac5bb0ba1249e7c95bfd78281f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get WiFi strength level.  <a href="#ga6e72caac5bb0ba1249e7c95bfd78281f">More...</a><br/></td></tr>
 <tr class="separator:ga6e72caac5bb0ba1249e7c95bfd78281f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9a1599563b3b6ea1ff1da269afcdcec2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2">Network.downloadFile</a> (string url, string file, string useragent, <a class="el" href="group___network.html#ga837a089a977b319a11edfb8022d9e47d">HTTPMethod</a> method, string postdata)</td></tr>
-<tr class="memdesc:ga9a1599563b3b6ea1ff1da269afcdcec2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a file via HTTP protocol.  <a href="#ga9a1599563b3b6ea1ff1da269afcdcec2">More...</a><br/></td></tr>
+<tr class="memdesc:ga9a1599563b3b6ea1ff1da269afcdcec2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a file via HTTP protocol (synchronous).  <a href="#ga9a1599563b3b6ea1ff1da269afcdcec2">More...</a><br/></td></tr>
 <tr class="separator:ga9a1599563b3b6ea1ff1da269afcdcec2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga55b1de33a4fd352c3e713c8c8db6d9ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___network.html#ga55b1de33a4fd352c3e713c8c8db6d9ce">Network.downloadFileAsync</a> (string url, string file, string useragent, <a class="el" href="group___network.html#ga837a089a977b319a11edfb8022d9e47d">HTTPMethod</a> method, string postdata)</td></tr>
+<tr class="memdesc:ga55b1de33a4fd352c3e713c8c8db6d9ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a file via HTTP protocol (asynchronous).  <a href="#ga55b1de33a4fd352c3e713c8c8db6d9ce">More...</a><br/></td></tr>
+<tr class="separator:ga55b1de33a4fd352c3e713c8c8db6d9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga26fa4c60f072625e1b8e1e2d15f9aa92"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92">Network.requestString</a> (string url, string useragent, <a class="el" href="group___network.html#ga837a089a977b319a11edfb8022d9e47d">HTTPMethod</a> method, string postdata)</td></tr>
-<tr class="memdesc:ga26fa4c60f072625e1b8e1e2d15f9aa92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an HTTP request result.  <a href="#ga26fa4c60f072625e1b8e1e2d15f9aa92">More...</a><br/></td></tr>
+<tr class="memdesc:ga26fa4c60f072625e1b8e1e2d15f9aa92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an HTTP request result (synchronous).  <a href="#ga26fa4c60f072625e1b8e1e2d15f9aa92">More...</a><br/></td></tr>
 <tr class="separator:ga26fa4c60f072625e1b8e1e2d15f9aa92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9ce8fa43da8b9cf1b03f496641706178"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___network.html#ga9ce8fa43da8b9cf1b03f496641706178">Network.requestStringAsync</a> (string url, string useragent, <a class="el" href="group___network.html#ga837a089a977b319a11edfb8022d9e47d">HTTPMethod</a> method, string postdata)</td></tr>
+<tr class="memdesc:ga9ce8fa43da8b9cf1b03f496641706178"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an HTTP request result (asynchronous).  <a href="#ga9ce8fa43da8b9cf1b03f496641706178">More...</a><br/></td></tr>
+<tr class="separator:ga9ce8fa43da8b9cf1b03f496641706178"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles network and online features. </p>
@@ -408,7 +414,68 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Download a file via HTTP protocol. </p>
+<p>Download a file via HTTP protocol (synchronous). </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_network.html">Network</a>.<a class="code" href="group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2">downloadFile</a>(<span class="stringliteral">&quot;http://www.website.com/file.zip&quot;</span>, <span class="stringliteral">&quot;ux0:/data/file.zip&quot;</span>)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>- The url from where to download the file. </td></tr>
+    <tr><td class="paramname">file</td><td>- Filename where to save the downloaded file. </td></tr>
+    <tr><td class="paramname">useragent</td><td>- Custom useragent to use <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">method</td><td>- Method to use to perform the HTTP request <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">postdata</td><td>- POST data to send with the HTTP request <b>(optional)</b>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd><b>postdata</b> will work only with <b>method</b> set to <a class="el" href="group___network.html#gga837a089a977b319a11edfb8022d9e47da8ae3703be445ab0e9fe9626eb5f92e68">POST_METHOD</a>. </dd>
+<dd>
+If not specified, <a class="el" href="group___network.html#gga837a089a977b319a11edfb8022d9e47da94c1e365674be8a670ea97334c2aad74">GET_METHOD</a> is used as default. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga55b1de33a4fd352c3e713c8c8db6d9ce"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Network.downloadFileAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>useragent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___network.html#ga837a089a977b319a11edfb8022d9e47d">HTTPMethod</a>&#160;</td>
+          <td class="paramname"><em>method</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>postdata</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Download a file via HTTP protocol (asynchronous). </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_network.html">Network</a>.<a class="code" href="group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2">downloadFile</a>(<span class="stringliteral">&quot;http://www.website.com/file.zip&quot;</span>, <span class="stringliteral">&quot;ux0:/data/file.zip&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -463,7 +530,7 @@ If not specified, <a class="el" href="group___network.html#gga837a089a977b319a11
       </table>
 </div><div class="memdoc">
 
-<p>Get an HTTP request result. </p>
+<p>Get an HTTP request result (synchronous). </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">result = <a class="code" href="class_network.html">Network</a>.<a class="code" href="group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92">requestString</a>(<span class="stringliteral">&quot;http://www.website.com/file.txt&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -476,6 +543,60 @@ If not specified, <a class="el" href="group___network.html#gga837a089a977b319a11
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The HTTP request result.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd><b>postdata</b> will work only with <b>method</b> set to <a class="el" href="group___network.html#gga837a089a977b319a11edfb8022d9e47da8ae3703be445ab0e9fe9626eb5f92e68">POST_METHOD</a>. </dd>
+<dd>
+If not specified, <a class="el" href="group___network.html#gga837a089a977b319a11edfb8022d9e47da94c1e365674be8a670ea97334c2aad74">GET_METHOD</a> is used as default. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga9ce8fa43da8b9cf1b03f496641706178"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Network.requestStringAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>useragent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___network.html#ga837a089a977b319a11edfb8022d9e47d">HTTPMethod</a>&#160;</td>
+          <td class="paramname"><em>method</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>postdata</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get an HTTP request result (asynchronous). </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">result = <a class="code" href="class_network.html">Network</a>.<a class="code" href="group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92">requestString</a>(<span class="stringliteral">&quot;http://www.website.com/file.txt&quot;</span>)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>- The url where to send the HTTP request. </td></tr>
+    <tr><td class="paramname">useragent</td><td>- Custom useragent to use <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">method</td><td>- Method to use to perform the HTTP request <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">postdata</td><td>- POST data to send with the HTTP request <b>(optional)</b>.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section note"><dt>Note</dt><dd><b>postdata</b> will work only with <b>method</b> set to <a class="el" href="group___network.html#gga837a089a977b319a11edfb8022d9e47da8ae3703be445ab0e9fe9626eb5f92e68">POST_METHOD</a>. </dd>
 <dd>
 If not specified, <a class="el" href="group___network.html#gga837a089a977b319a11edfb8022d9e47da94c1e365674be8a670ea97334c2aad74">GET_METHOD</a> is used as default. </dd></dl>

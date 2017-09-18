@@ -9,7 +9,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "group___camera.html",
-"group___system.html#ga3773f02e54ebba2486644006c5545450"
+"group___system.html#ga315c5a593dbbd779d315a8c6a59e2520"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

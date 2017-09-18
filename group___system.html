@@ -291,6 +291,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga991074c32b2de96dcdbffd54f838ffc6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga991074c32b2de96dcdbffd54f838ffc6">System.getAsyncState</a> (void)</td></tr>
 <tr class="memdesc:ga991074c32b2de96dcdbffd54f838ffc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current state of an asynchronous task.  <a href="#ga991074c32b2de96dcdbffd54f838ffc6">More...</a><br/></td></tr>
 <tr class="separator:ga991074c32b2de96dcdbffd54f838ffc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadccaa5cd953c15915d34152f29f73eaa"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gadccaa5cd953c15915d34152f29f73eaa">System.getAsyncResult</a> (void)</td></tr>
+<tr class="memdesc:gadccaa5cd953c15915d34152f29f73eaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get result from a finished asynchronous task.  <a href="#gadccaa5cd953c15915d34152f29f73eaa">More...</a><br/></td></tr>
+<tr class="separator:gadccaa5cd953c15915d34152f29f73eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga445e5fe0f276edbfe49bd288e5a017fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga445e5fe0f276edbfe49bd288e5a017fa">System.takeScreenshot</a> (string filename, bool use_jpg, int ratio)</td></tr>
 <tr class="memdesc:ga445e5fe0f276edbfe49bd288e5a017fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take a screenshot.  <a href="#ga445e5fe0f276edbfe49bd288e5a017fa">More...</a><br/></td></tr>
 <tr class="separator:ga445e5fe0f276edbfe49bd288e5a017fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1775,6 +1778,29 @@ Functions</h2></td></tr>
 <div class="line">running = <span class="keyword">false</span></div>
 </div><!-- fragment --></dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if running, 1 if successfully finished, -1 otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gadccaa5cd953c15915d34152f29f73eaa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string System.getAsyncResult </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get result from a finished asynchronous task. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga991074c32b2de96dcdbffd54f838ffc6">getAsyncState</a>() == 1 then</div>
+<div class="line">    res = <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gadccaa5cd953c15915d34152f29f73eaa">getAsyncResult</a>()</div>
+<div class="line">end</div>
+</div><!-- fragment --></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A string with the result for <a class="el" href="group___network.html#ga9ce8fa43da8b9cf1b03f496641706178" title="Get an HTTP request result (asynchronous). ">Network.requestStringAsync()</a> result, nil otherwise. </dd></dl>
 
 </div>
 </div>
