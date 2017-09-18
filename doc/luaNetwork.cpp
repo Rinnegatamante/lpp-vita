@@ -121,7 +121,7 @@ class Network {
 		int getWifiLevel(void);
 		
 		/**
-		 * Download a file via HTTP protocol.
+		 * Download a file via HTTP protocol (synchronous).
 		 * \ingroup Network
 		 *
 		 * @par Usage example:
@@ -141,7 +141,27 @@ class Network {
 		void downloadFile(string url, string file, string useragent, HTTPMethod method, string postdata);
 		
 		/**
-		 * Get an HTTP request result.
+		 * Download a file via HTTP protocol (asynchronous).
+		 * \ingroup Network
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Network.downloadFile("http://www.website.com/file.zip", "ux0:/data/file.zip")
+		 * @endcode
+		 *
+		 * @param url - The url from where to download the file.
+		 * @param file - Filename where to save the downloaded file.
+		 * @param useragent - Custom useragent to use <b>(optional)</b>.
+		 * @param method - Method to use to perform the HTTP request <b>(optional)</b>.
+		 * @param postdata - POST data to send with the HTTP request <b>(optional)</b>.
+		 *
+		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
+		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
+		 */
+		void downloadFileAsync(string url, string file, string useragent, HTTPMethod method, string postdata);
+		
+		/**
+		 * Get an HTTP request result (synchronous).
 		 * \ingroup Network
 		 *
 		 * @par Usage example:
@@ -160,5 +180,24 @@ class Network {
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
 		 */
 		string requestString(string url, string useragent, HTTPMethod method, string postdata);
+		
+		/**
+		 * Get an HTTP request result (asynchronous).
+		 * \ingroup Network
+		 *
+		 * @par Usage example:
+		 * @code
+		 * result = Network.requestString("http://www.website.com/file.txt")
+		 * @endcode
+		 *
+		 * @param url - The url where to send the HTTP request.
+		 * @param useragent - Custom useragent to use <b>(optional)</b>.
+		 * @param method - Method to use to perform the HTTP request <b>(optional)</b>.
+		 * @param postdata - POST data to send with the HTTP request <b>(optional)</b>.
+		 *
+		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
+		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
+		 */
+		void requestStringAsync(string url, string useragent, HTTPMethod method, string postdata);
 
 }

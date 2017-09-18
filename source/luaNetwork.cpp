@@ -30,9 +30,11 @@
 #define NET_INIT_SIZE 1*1024*1024
 #include <vitasdk.h>
 #include "include/luaplayer.h"
+
 extern "C"{
 	#include "include/ftp/ftp.h"
 }
+
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
@@ -86,6 +88,57 @@ static struct hostent *gethostbyname(const char *name)
     ent.h_addr = addrlist[0];
 
     return &ent;
+}
+
+#define FILE_DOWNLOAD   0
+#define STRING_DOWNLOAD 1
+#define DOWNLOAD_END    2
+static volatile uint8_t asyncMode = DOWNLOAD_END;
+static char asyncUrl[512];
+static char asyncDest[256];
+static char asyncUseragent[256];
+static uint8_t asyncMethod;
+static char asyncPostdata[2048];
+static int asyncPostsize;
+
+static int downloadThread(unsigned int args, void* arg){
+	asyncResult = 0;
+	int tpl = sceHttpCreateTemplate(asyncUseragent, 1, 1);	
+	int conn = sceHttpCreateConnectionWithURL(tpl, asyncUrl, 0);
+	int request = sceHttpCreateRequestWithURL(conn, asyncMethod, asyncUrl, 0);
+	int handle = sceHttpSendRequest(request, (strlen(asyncPostdata) > 0) ? asyncPostdata : NULL, asyncPostsize);
+	unsigned char data[16*1024];
+	int read = 0;
+	int fd;
+	switch (asyncMode){
+		case FILE_DOWNLOAD:
+			fd = sceIoOpen(asyncDest, SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
+			while ((read = sceHttpReadData(request, &data, sizeof(data))) > 0){
+				sceIoWrite(fd, data, read);
+			}
+			sceIoClose(fd);
+			break;
+		case STRING_DOWNLOAD:
+			asyncStrRes = (unsigned char*)malloc(0x1000);
+			int i = 0;
+			int len = 0x1000;
+			while ((read = sceHttpReadData(request, &asyncStrRes[i], len-i)) > 0){
+				i += read;
+				if (i >= len){
+					len += 0x1000;
+					asyncStrRes = (unsigned char*)realloc(asyncStrRes, len);
+				}
+			}
+			asyncStrRes = (unsigned char*)realloc(asyncStrRes, i+1);
+			asyncStrRes[i] = 0;
+			asyncResSize = i;
+			break;
+	}
+	asyncMode = DOWNLOAD_END;
+	async_task_num--;
+	asyncResult = 1;
+	sceKernelExitDeleteThread(0);
+	return 0;
 }
 
 static int lua_initFTP(lua_State *L) {
@@ -435,6 +488,30 @@ static int lua_download(lua_State *L){
 	return 0;
 }
 
+static int lua_downloadasync(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc < 2 || argc > 5) return luaL_error(L, "wrong number of arguments");
+	if (async_task_num == ASYNC_TASKS_MAX) return luaL_error(L, "cannot start more async tasks.");
+	#endif
+	const char* url = luaL_checkstring(L,1);
+	const char* file = luaL_checkstring(L,2);
+	const char* useragent = (argc >= 3) ? luaL_checkstring(L,3) : "lpp-vita app";
+	asyncMethod = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
+	const char* postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
+	asyncPostsize = (argc >= 5) ? strlen(postdata) : 0;
+	sprintf(asyncUrl, url);
+	sprintf(asyncDest, file);
+	sprintf(asyncUseragent, useragent);
+	if (postdata != NULL) sprintf(asyncPostdata, postdata);
+	else asyncPostdata[0] = 0;
+	async_task_num++;
+	asyncMode = FILE_DOWNLOAD;
+	SceUID thd = sceKernelCreateThread("Net Downloader Thread", &downloadThread, 0x10000100, 0x100000, 0, 0, NULL);
+	sceKernelStartThread(thd, 0, NULL);
+	return 0;
+}
+
 static int lua_string(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -467,18 +544,42 @@ static int lua_string(lua_State *L){
 	return 0;
 }
 
+static int lua_stringasync(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc < 1 || argc > 4) return luaL_error(L, "wrong number of arguments");
+	if (async_task_num == ASYNC_TASKS_MAX) return luaL_error(L, "cannot start more async tasks.");
+	#endif
+	const char* url = luaL_checkstring(L,1);
+	const char* useragent = (argc >= 2) ? luaL_checkstring(L,2) : "lpp-vita app";
+	asyncMethod = (argc >= 3) ? luaL_checkinteger(L,3) : SCE_HTTP_METHOD_GET;
+	const char* postdata = (argc >= 4) ? luaL_checkstring(L,4) : NULL;
+	asyncPostsize = (argc >= 4) ? strlen(postdata) : 0;
+	sprintf(asyncUrl, url);
+	sprintf(asyncUseragent, useragent);
+	if (postdata != NULL) sprintf(asyncPostdata, postdata);
+	else asyncPostdata[0] = 0;
+	async_task_num++;
+	asyncMode = STRING_DOWNLOAD;
+	SceUID thd = sceKernelCreateThread("Net Downloader Thread", &downloadThread, 0x10000100, 0x100000, 0, 0, NULL);
+	sceKernelStartThread(thd, 0, NULL);
+	return 0;
+}
+
 //Register our Network Functions
 static const luaL_Reg Network_functions[] = {
-  {"init",           lua_init},
-  {"term",           lua_term},
-  {"initFTP",        lua_initFTP},
-  {"termFTP",        lua_termFTP},
-  {"getIPAddress",   lua_getip},
-  {"getMacAddress",  lua_getmac},
-  {"isWifiEnabled",  lua_wifi},
-  {"getWifiLevel",   lua_wifilv},
-  {"downloadFile",   lua_download},
-  {"requestString",  lua_string},
+  {"init",                lua_init},
+  {"term",                lua_term},
+  {"initFTP",             lua_initFTP},
+  {"termFTP",             lua_termFTP},
+  {"getIPAddress",        lua_getip},
+  {"getMacAddress",       lua_getmac},
+  {"isWifiEnabled",       lua_wifi},
+  {"getWifiLevel",        lua_wifilv},
+  {"downloadFile",        lua_download},
+  {"downloadFileAsync",   lua_downloadasync},
+  {"requestString",       lua_string},
+  {"requestStringAsync",  lua_stringasync},
   {0, 0}
 };
 

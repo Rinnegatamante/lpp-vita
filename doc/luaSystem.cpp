@@ -766,6 +766,21 @@ class System{
 		int getAsyncState(void);
 		
 		/**
+		 * Get result from a finished asynchronous task.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * if System.getAsyncState() == 1 then
+		 * 	res = System.getAsyncResult()
+		 * end
+		 * @endcode
+		 *
+		 * @return A string with the result for Network.requestStringAsync() result, nil otherwise.
+		 */
+		string getAsyncResult(void);
+		
+		/**
 		 * Take a screenshot.
 		 * \ingroup System
 		 *

@@ -80,6 +80,9 @@ extern volatile bool termMic;
 extern int micThread(SceSize args, void* argc);
 extern SceUID Mic_Mutex;
 extern volatile int asyncResult;
+extern uint8_t async_task_num;
+extern unsigned char* asyncStrRes;
+extern uint32_t asyncResSize;
 
 // Internal structs
 struct lpp_texture{
