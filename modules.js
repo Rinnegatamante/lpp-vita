@@ -13,5 +13,6 @@ var modules =
     [ "Socket", "group___socket.html", "group___socket" ],
     [ "Sound", "group___sound.html", "group___sound" ],
     [ "System", "group___system.html", "group___system" ],
-    [ "Timer", "group___timer.html", "group___timer" ]
+    [ "Timer", "group___timer.html", "group___timer" ],
+    [ "Video", "group___video.html", "group___video" ]
 ];

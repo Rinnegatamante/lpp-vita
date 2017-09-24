@@ -37,7 +37,7 @@ var searchData=
   ['getmessagestate',['getMessageState',['../group___system.html#ga53054964e2b08b230c2a256fdb4e28ac',1,'System']]],
   ['getmodel',['getModel',['../group___system.html#gaec598b30c0d06a9e56d3c1c17ad56f99',1,'System']]],
   ['getnightmode',['getNightmode',['../group___camera.html#ga47869c2cca6424ee0eab75f8f6352c7d',1,'Camera']]],
-  ['getoutput',['getOutput',['../group___camera.html#ga28ce6279ac8d05b0cfb732e9b9a9260c',1,'Camera']]],
+  ['getoutput',['getOutput',['../group___camera.html#ga28ce6279ac8d05b0cfb732e9b9a9260c',1,'Camera::getOutput()'],['../group___video.html#gab826ee8185b8c82f9a77e7d36b655aac',1,'Timer::getOutput()']]],
   ['getpixel',['getPixel',['../group___screen.html#gaa2a50bbe248a91c38271c8a96dde95df',1,'Screen']]],
   ['getpsid',['getPsId',['../group___system.html#gaf59743690feee9c1d8bc4f18d3a0a39d',1,'System']]],
   ['getr',['getR',['../group___color.html#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8',1,'Color']]],
