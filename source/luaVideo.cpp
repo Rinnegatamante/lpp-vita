@@ -3,17 +3,17 @@
 #------  This File is Part Of : ----------------------------------------------------------------------------------------#
 #------- _  -------------------  ______   _   --------------------------------------------------------------------------#
 #------ | | ------------------- (_____ \ | |  --------------------------------------------------------------------------#
-#------ | | ---  _   _   ____	_____) )| |  ____  _   _   ____   ____   ----------------------------------------------#
+#------ | | ---  _   _   ____    _____) )| |  ____  _   _   ____   ____   ----------------------------------------------#
 #------ | | --- | | | | / _  |  |  ____/ | | / _  || | | | / _  ) / ___)  ----------------------------------------------#
-#------ | |_____| |_| |( ( | |  | |	  | |( ( | || |_| |( (/ / | |  --------------------------------------------------#
-#------ |_______)\____| \_||_|  |_|	  |_| \_||_| \__  | \____)|_|  --------------------------------------------------#
+#------ | |_____| |_| |( ( | |  | |      | |( ( | || |_| |( (/ / | |  --------------------------------------------------#
+#------ |_______)\____| \_||_|  |_|      |_| \_||_| \__  | \____)|_|  --------------------------------------------------#
 #------------------------------------------------- (____/  -------------------------------------------------------------#
 #------------------------   ______   _   -------------------------------------------------------------------------------#
 #------------------------  (_____ \ | |  -------------------------------------------------------------------------------#
 #------------------------   _____) )| | _   _   ___   ------------------------------------------------------------------#
 #------------------------  |  ____/ | || | | | /___)  ------------------------------------------------------------------#
-#------------------------  | |	  | || |_| ||___ |  ------------------------------------------------------------------#
-#------------------------  |_|	  |_| \____|(___/   ------------------------------------------------------------------#
+#------------------------  | |      | || |_| ||___ |  ------------------------------------------------------------------#
+#------------------------  |_|      |_| \____|(___/   ------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
 #- Licensed under the GPL License --------------------------------------------------------------------------------------#
@@ -21,13 +21,7 @@
 #- Copyright (c) Nanni <lpp.nanni@gmail.com> ---------------------------------------------------------------------------#
 #- Copyright (c) Rinnegatamante <rinnegatamante@gmail.com> -------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------------#
-#- Credits : -----------------------------------------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------------#
-#- All the devs involved in Rejuvenate and vita-toolchain --------------------------------------------------------------#
-#- xerpi for drawing libs and for FTP server code ----------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------------*/
-
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
@@ -66,6 +60,7 @@ texture out_text[VIDEO_BUFFERING];
 texture* cur_text = NULL;
 
 static int decoderThreadFunc(unsigned int args, void* arg){
+	
 	int ret = 0;
 	uint32_t size;
 	uint8_t* dst;
@@ -76,10 +71,13 @@ static int decoderThreadFunc(unsigned int args, void* arg){
 	picture.size = sizeof(SceAvcdecPicture);
 	decoderRunning = true;
 	
+	// Decoder main loop
 	while (decoderRunning){
 		
+		// Check if we have free buffers to decode a new frame
 		if (busy_buffers > (VIDEO_BUFFERING - 2)) continue;
 		
+		// Read next Access Unit from file
 		ret = ctrlReadFrame(&videoDecoder, auBuf, &size);
 		if (ret > 0){
 			
@@ -99,6 +97,7 @@ static int decoderThreadFunc(unsigned int args, void* arg){
 			array_picture.numOfElm = 1;
 			array_picture.pPicture = &pictures;
 			
+			// Decoding current Access Unit
 			sceKernelWaitSema(Buffers_Mutex, 1, NULL);
 			sceAvcdecDecode(&decoder, &au, &array_picture);
 			
@@ -107,25 +106,33 @@ static int decoderThreadFunc(unsigned int args, void* arg){
 				videobuf_idx = (videobuf_idx + 1) % VIDEO_BUFFERING;
 			}
 			sceKernelSignalSema(Buffers_Mutex, 1);
-			
+		
+		// File reached EOF, closing decoder or restarting the playback
 		}else{
 			if (looping) ctrlRewind(&videoDecoder);
 			else decoderRunning = false;
 		}
 
+		// Invoking scheduler
 		sceKernelDelayThread(100);
+		
 	}
 
 	return sceKernelExitDeleteThread(0);
 
 }
 
-static int frameDeployer(unsigned int args, void* arg){	
+static int frameDeployer(unsigned int args, void* arg){
+	
 	float tick = 0.0f;
 	float cur_tick = 0.0f;
 	float pause_delta_tick = 0.0f;
 	bool _isPlaying = true;
+	
+	// Frame deployer main loop
 	while (isPlayerReady){
+		
+		// Handling player status changes
 		if (!isPlaying){
 			if (_isPlaying){
 				_isPlaying = false;
@@ -139,8 +146,10 @@ static int frameDeployer(unsigned int args, void* arg){
 			}
 		}
 		
+		// Getting current tick
 		cur_tick = sceKernelGetProcessTimeWide() / 1000000.0f;
 		
+		// Updating current frame if required
 		sceKernelWaitSema(Buffers_Mutex, 1, NULL);
 		if ((cur_tick - tick > deltaTick) && (busy_buffers > 0)){
 			cur_text = &out_text[cur_videobuf_idx];
@@ -150,8 +159,11 @@ static int frameDeployer(unsigned int args, void* arg){
 		}
 		sceKernelSignalSema(Buffers_Mutex, 1);
 		
+		// Invoking scheduler
 		sceKernelDelayThread(100);
+		
 	}
+	
 	return sceKernelExitDeleteThread(0);
 }
 
@@ -162,13 +174,14 @@ static int lua_init(lua_State *L){
 	if (isPlayerReady) return 0;
 	#endif
 	
+	// Allocating Access Unit buffer for the decoder
 	auBuf = (uint8_t*)memalign(0x100, DECODER_BUFSIZE);
 	
 	SceVideodecQueryInitInfoHwAvcdec init = {0};
 	init.size = sizeof(init);
 	init.horizontal = 960;
 	init.vertical = 544;
-	init.numOfRefFrames = 3;
+	init.numOfRefFrames = 5;
 	init.numOfStreams = 1;
 	
 	SceAvcdecQueryDecoderInfo	decoder_info = {0};
@@ -178,15 +191,18 @@ static int lua_init(lua_State *L){
 	
 	SceAvcdecDecoderInfo decoder_info_out = {0};
 	
+	// Initializing sceVideodec
 	sceVideodecInitLibrary(SCE_VIDEODEC_TYPE_HW_AVCDEC, &init);
 	sceAvcdecQueryDecoderMemSize(SCE_VIDEODEC_TYPE_HW_AVCDEC, &decoder_info, &decoder_info_out);
 	
+	// Creating a sceAvcdec decoder
 	size_t sz = (decoder_info_out.frameMemSize + 0xFFFFF) & ~0xFFFFF;
 	decoder.frameBuf.size = sz;
 	decoderBlock = sceKernelAllocMemBlock("decoder", SCE_KERNEL_MEMBLOCK_TYPE_USER_MAIN_PHYCONT_NC_RW, sz, NULL);
 	sceKernelGetMemBlockBase(decoderBlock, &decoder.frameBuf.pBuf);
 	sceAvcdecCreateDecoder(SCE_VIDEODEC_TYPE_HW_AVCDEC, &decoder, &decoder_info);
 	
+	// Allocating enough textures to handle our video playback
 	SceKernelMemBlockType orig = vita2d_texture_get_alloc_memblock_type();
 	vita2d_texture_set_alloc_memblock_type(SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW);
 	for (int i=0; i < VIDEO_BUFFERING; i++){
@@ -216,6 +232,7 @@ static int lua_openavc(lua_State *L){
 	deltaTick = 1.0f / fps;
 	isPlaying = true;
 	
+	// Creating a mutex to avoid race conditions between decoder and frame deployer threads
 	Buffers_Mutex = sceKernelCreateSema("Buffers Mutex", 0, 1, 1, NULL);
 	
 	// Starting decoder and frames deployer thread
@@ -277,9 +294,10 @@ static int lua_term(lua_State *L){
 	#endif
 	decoderRunning = false;
 	sceKernelWaitThreadEnd(decoderThread, NULL, NULL);
+	isPlayerReady = false;
+	sceKernelWaitThreadEnd(deployerThread, NULL, NULL);
 	sceAvcdecDeleteDecoder(&decoder);
 	sceVideodecTermLibrary(SCE_VIDEODEC_TYPE_HW_AVCDEC);
-	isPlayerReady = false;
 	for (int i=0; i < VIDEO_BUFFERING; i++){
 		vita2d_free_texture(out_text[i].text);
 	}
