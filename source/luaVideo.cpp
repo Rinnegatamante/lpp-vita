@@ -44,7 +44,7 @@ extern "C"{
 #define FRAMEBUFFER_ALIGNMENT  0x40000
 #define VIDEO_BUFFERING        5
 
-SceUID decoderThread, decoderBlock;
+SceUID decoderThread, decoderBlock, deployerThread, Buffers_Mutex;
 SceAvcdecCtrl decoder = {0};
 static uint8_t* auBuf;
 static bool isPlayerReady = false;
@@ -54,7 +54,7 @@ controller videoDecoder;
 void* videobuf[VIDEO_BUFFERING];
 uint8_t videobuf_idx = 0;
 float deltaTick = 0.0f;
-uint8_t busy_buffers = 0;
+volatile uint8_t busy_buffers = 0;
 uint8_t cur_videobuf_idx = 0;
 bool isPlaying = false;
 
@@ -75,13 +75,57 @@ static int decoderThreadFunc(unsigned int args, void* arg){
 	SceAvcdecAu au = {0};
 	picture.size = sizeof(SceAvcdecPicture);
 	decoderRunning = true;
+	
+	while (decoderRunning){
+		
+		if (busy_buffers > (VIDEO_BUFFERING - 2)) continue;
+		
+		ret = ctrlReadFrame(&videoDecoder, auBuf, &size);
+		if (ret > 0){
+			
+			picture.frame.pixelType = 0;
+			picture.frame.framePitch = 960;
+			picture.frame.frameWidth = 960;
+			picture.frame.frameHeight = 544;
+			picture.frame.pPicture[0] = videobuf[videobuf_idx];
+			
+			au.es.pBuf = auBuf;
+			au.es.size = size;
+			au.dts.lower = 0;
+			au.dts.upper = 0;
+			au.pts.lower = 0;
+			au.pts.upper = 0;
+			
+			array_picture.numOfElm = 1;
+			array_picture.pPicture = &pictures;
+			
+			sceKernelWaitSema(Buffers_Mutex, 1, NULL);
+			sceAvcdecDecode(&decoder, &au, &array_picture);
+			
+			if (array_picture.numOfOutput == 1){
+				busy_buffers++;
+				videobuf_idx = (videobuf_idx + 1) % VIDEO_BUFFERING;
+			}
+			sceKernelSignalSema(Buffers_Mutex, 1);
+			
+		}else{
+			if (looping) ctrlRewind(&videoDecoder);
+			else decoderRunning = false;
+		}
+
+		sceKernelDelayThread(100);
+	}
+
+	return sceKernelExitDeleteThread(0);
+
+}
+
+static int frameDeployer(unsigned int args, void* arg){	
 	float tick = 0.0f;
 	float cur_tick = 0.0f;
 	float pause_delta_tick = 0.0f;
 	bool _isPlaying = true;
-	
-	while (decoderRunning){
-		
+	while (isPlayerReady){
 		if (!isPlaying){
 			if (_isPlaying){
 				_isPlaying = false;
@@ -95,54 +139,20 @@ static int decoderThreadFunc(unsigned int args, void* arg){
 			}
 		}
 		
-		if ((busy_buffers > (VIDEO_BUFFERING - 1)) && (((sceKernelGetProcessTimeWide() / 1000000.0f) - tick) < (deltaTick / 2))) continue;
+		cur_tick = sceKernelGetProcessTimeWide() / 1000000.0f;
 		
-		ret = ctrlReadFrame(&videoDecoder, auBuf, &size);
-		if (ret > 0){
-			
-			picture.frame.pixelType = 0;
-			picture.frame.framePitch = 960;
-			picture.frame.frameWidth = 960;
-			picture.frame.frameHeight = 544;
-			picture.frame.pPicture[0] = videobuf[videobuf_idx];
-			
-			au.es.pBuf = auBuf;
-			au.es.size = size;
-			au.dts.lower = 0xFFFFFFFF;
-			au.dts.upper = 0xFFFFFFFF;
-			au.pts.lower = 0xFFFFFFFF;
-			au.pts.upper = 0xFFFFFFFF;
-			
-			array_picture.numOfElm = 1;
-			array_picture.pPicture = &pictures;
-			
-			sceAvcdecDecode(&decoder, &au, &array_picture);
-			
-			if (array_picture.numOfOutput == 1){
-				
-				busy_buffers++;
-				videobuf_idx = (videobuf_idx + 1) % VIDEO_BUFFERING;
-				cur_tick = sceKernelGetProcessTimeWide() / 1000000.0f;
-				
-				if (cur_tick - tick > deltaTick){
-					cur_text = &out_text[cur_videobuf_idx];
-					cur_videobuf_idx = videobuf_idx;
-					busy_buffers--;
-					tick = cur_tick;
-				}
-				
-			}
-			
-		}else{
-			if (looping) ctrlRewind(&videoDecoder);
-			else decoderRunning = false;
+		sceKernelWaitSema(Buffers_Mutex, 1, NULL);
+		if ((cur_tick - tick > deltaTick) && (busy_buffers > 0)){
+			cur_text = &out_text[cur_videobuf_idx];
+			cur_videobuf_idx = (cur_videobuf_idx + 1) % VIDEO_BUFFERING;			
+			busy_buffers--;
+			tick = cur_tick;
 		}
-
+		sceKernelSignalSema(Buffers_Mutex, 1);
+		
 		sceKernelDelayThread(100);
 	}
-
 	return sceKernelExitDeleteThread(0);
-
 }
 
 static int lua_init(lua_State *L){
@@ -206,9 +216,13 @@ static int lua_openavc(lua_State *L){
 	deltaTick = 1.0f / fps;
 	isPlaying = true;
 	
-	// Starting decoder thread
+	Buffers_Mutex = sceKernelCreateSema("Buffers Mutex", 0, 1, 1, NULL);
+	
+	// Starting decoder and frames deployer thread
 	decoderThread = sceKernelCreateThread("Videodec Thread", &decoderThreadFunc, 0x10000100, 0x10000, 0, 0, NULL);
-	int res = sceKernelStartThread(decoderThread, 0, NULL);
+	sceKernelStartThread(decoderThread, 0, NULL);
+	deployerThread = sceKernelCreateThread("Frames Thread", &frameDeployer, 0x10000100, 0x10000, 0, 0, NULL);
+	sceKernelStartThread(deployerThread, 0, NULL);
 	
 	return 0;
 }
@@ -219,7 +233,9 @@ static int lua_output(lua_State *L){
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
 	#endif	
+	sceKernelWaitSema(Buffers_Mutex, 1, NULL);
 	lua_pushinteger(L, (uint32_t)cur_text);
+	sceKernelSignalSema(Buffers_Mutex, 1);
 	return 1;
 }
 
@@ -249,7 +265,7 @@ static int lua_playing(lua_State *L){
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
 	#endif	
-	lua_pushboolean(L, isPlaying);
+	lua_pushinteger(L, isPlaying);
 	return 1;
 }
 
