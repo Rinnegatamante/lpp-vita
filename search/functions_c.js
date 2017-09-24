@@ -14,6 +14,6 @@ var searchData=
   ['requeststring',['requestString',['../group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92',1,'Network']]],
   ['requeststringasync',['requestStringAsync',['../group___network.html#ga9ce8fa43da8b9cf1b03f496641706178',1,'Network']]],
   ['reset',['reset',['../group___timer.html#gac66190516c06b8584cc2df50f7318c90',1,'Timer']]],
-  ['resume',['resume',['../group___mic.html#ga993631703e28871f640ee49eb6b21130',1,'Mic::resume()'],['../group___sound.html#ga24d98abea091a3336840a21b72bfc285',1,'Sound::resume()'],['../group___timer.html#gaaea65117b7ec76a443e3388e2680c71c',1,'Timer::resume(int timer)'],['../group___video.html#ga6b03a02d379b5f4424bdd0aeaa7898b0',1,'Timer::resume(void)']]],
+  ['resume',['resume',['../group___mic.html#ga993631703e28871f640ee49eb6b21130',1,'Mic::resume()'],['../group___sound.html#ga24d98abea091a3336840a21b72bfc285',1,'Sound::resume()'],['../group___timer.html#gaaea65117b7ec76a443e3388e2680c71c',1,'Timer::resume()'],['../group___video.html#gaf13c933cf7cd12507799d57d2cfa9241',1,'Video::resume()']]],
   ['rumble',['rumble',['../group___controls.html#gaeb2a0d781e4ac121094056ebd64ba3a5',1,'Controls']]]
 ];

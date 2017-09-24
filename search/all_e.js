@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['pause',['pause',['../group___mic.html#gaec7c0fc03bdbb00c18f11fe538073ec8',1,'Mic::pause()'],['../group___sound.html#gae53297614ed59df9acbf7482ef17d70d',1,'Sound::pause()'],['../group___timer.html#ga7b93dcd1e46c16f2fe70933a3142fc36',1,'Timer::pause(int timer)'],['../group___video.html#gaf758ef9cd4d3e5c0208e7450aefe64d7',1,'Timer::pause(void)']]],
+  ['pause',['pause',['../group___mic.html#gaec7c0fc03bdbb00c18f11fe538073ec8',1,'Mic::pause()'],['../group___sound.html#gae53297614ed59df9acbf7482ef17d70d',1,'Sound::pause()'],['../group___timer.html#ga7b93dcd1e46c16f2fe70933a3142fc36',1,'Timer::pause()'],['../group___video.html#ga83b4d74d47635f008d95137ca8a3f077',1,'Video::pause()']]],
   ['play',['play',['../group___sound.html#gac9ce236baeb10747defc8470609ec71b',1,'Sound']]],
   ['post_5fmethod',['POST_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da8ae3703be445ab0e9fe9626eb5f92e68',1,'luaNetwork.cpp']]],
   ['powertimer',['PowerTimer',['../group___system.html#gaa87f56921e4e4587ca7c9503e017feb5',1,'luaSystem.cpp']]],
