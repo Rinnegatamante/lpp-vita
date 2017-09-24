@@ -3,7 +3,7 @@
  * Module that handles video files playback.
  */
  
-class Timer {
+class Video {
 	
 	public:
 		

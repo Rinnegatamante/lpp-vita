@@ -26,8 +26,8 @@ int main()
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, SCE_TOUCH_SAMPLING_STATE_START);
 	
 	// Starting secondary modules and mounting secondary filesystems
-	sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
-	sceSysmoduleLoadModule(SCE_SYSMODULE_HTTP);
+	if (!sceSysmoduleIsLoaded(SCE_SYSMODULE_NET)) sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
+	if (!sceSysmoduleIsLoaded(SCE_SYSMODULE_HTTP)) sceSysmoduleLoadModule(SCE_SYSMODULE_HTTP);
 	SceAppUtilInitParam appUtilParam;
 	SceAppUtilBootParam appUtilBootParam;
 	memset(&appUtilParam, 0, sizeof(SceAppUtilInitParam));
@@ -37,8 +37,6 @@ int main()
 	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, (int *)&cmnDlgCfgParam.language);
 	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_ENTER_BUTTON, (int *)&cmnDlgCfgParam.enterButtonAssign);
 	sceCommonDialogSetConfigParam(&cmnDlgCfgParam);
-	sceAppUtilMusicMount();
-	sceAppUtilPhotoMount();
 	sceShellUtilInitEvents(0);
 	
 	// Check what mode lpp-vita is currently running on
@@ -123,12 +121,10 @@ int main()
 		}
 	}
 	
-	sceAppUtilPhotoUmount();
-	sceAppUtilMusicUmount();
 	sceAppUtilShutdown();
 	vita2d_fini();
-	sceSysmoduleUnloadModule(SCE_SYSMODULE_NET);
-	sceSysmoduleUnloadModule(SCE_SYSMODULE_HTTP);
+	if (sceSysmoduleIsLoaded(SCE_SYSMODULE_NET)) sceSysmoduleUnloadModule(SCE_SYSMODULE_NET);
+	if (sceSysmoduleIsLoaded(SCE_SYSMODULE_HTTP)) sceSysmoduleUnloadModule(SCE_SYSMODULE_HTTP);
 	sceKernelExitProcess(0);
 	return 0;
 }

@@ -47,7 +47,7 @@ struct texture{
 
 SceCameraInfo cam_info;
 SceCameraRead cam_info_read;
-texture* cam_buf; // Since vita2d uses triple buffering
+texture* cam_buf;
 uint8_t cam_type = 0;
 uint8_t cur_buf = 0;
 bool isCamOn = false;

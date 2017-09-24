@@ -928,7 +928,7 @@ static int lua_getmsg(lua_State *L){
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceCommonDialogStatus status = sceMsgDialogGetStatus();
-	if (!messageStarted) status = (SceCommonDialogStatus)2; // CANCELED status, look at luaKeyboard.cpp
+	if (!messageStarted) status = (SceCommonDialogStatus)2; // FINISHED status, look at luaKeyboard.cpp
 	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
 		SceMsgDialogResult result;
 		memset(&result, 0, sizeof(SceMsgDialogResult));
