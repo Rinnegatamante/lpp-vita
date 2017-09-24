@@ -41,8 +41,6 @@ class Video {
 		 * @param filename - Filepath of the file to reproduce.
 		 * @param framerate - Framerate to use for the playback.
 		 * @param loop - Looping mode for the playback.
-		 *
-		 * @return The time of the given timer in milliseconds.
 		 */
 		void openAvc(string filename, number framerate, bool loop);
 		
@@ -97,7 +95,7 @@ class Video {
 		 * end
 		 * @endcode
 		 *
-		 * @return - true if playing, false otherwise.
+		 * @return true if playing, false otherwise.
 		 */
 		bool isPlaying(void);
 		
