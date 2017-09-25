@@ -84,11 +84,28 @@ extern volatile int asyncResult;
 extern uint8_t async_task_num;
 extern unsigned char* asyncStrRes;
 extern uint32_t asyncResSize;
+extern float video_audio_tick;
 
 // Internal structs
 struct lpp_texture{
 	uint32_t magic;
 	vita2d_texture* text;
+};
+
+struct DecodedMusic{
+	uint8_t* audiobuf;
+	uint8_t* audiobuf2;
+	uint8_t* cur_audiobuf;
+	FILE* handle;
+	volatile bool isPlaying;
+	bool loop;
+	volatile bool pauseTrigger;
+	volatile bool closeTrigger;
+	volatile uint8_t audioThread;
+	volatile int volume;
+	char filepath[256];
+	bool tempBlock;
+	bool isVideoTrack;
 };
 
 #endif

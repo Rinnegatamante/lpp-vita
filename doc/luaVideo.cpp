@@ -30,19 +30,18 @@ class Video {
 		void term(void);
 		
 		/**
-		 * Open an H.264 elementary stream file (.h264).
+		 * Open a PSHV video file.
 		 * \ingroup Video
 		 *
 		 * @par Usage example:
 		 * @code
-		 * Video.openAvc("app0:/video.h264", 29.970, false)
+		 * Video.open("app0:/video.pshv", false)
 		 * @endcode
 		 *
 		 * @param filename - Filepath of the file to reproduce.
-		 * @param framerate - Framerate to use for the playback.
 		 * @param loop - Looping mode for the playback.
 		 */
-		void openAvc(string filename, number framerate, bool loop);
+		void open(string filename, bool loop);
 		
 		/**
 		 * Get the current video frame as image.

@@ -53,6 +53,7 @@ class Sound {
 		 * @return A valid sound ID.
 		 *
 		 * @note Supported audio formats: .wav, .aif, .aiff, .opus, .ogg, .mid, .midi, .mp3.
+		 * @note This function can be used to reproduce audio track from a .pshv video file too.
 		 */
 		int open(string filename);
 		

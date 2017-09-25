@@ -42,26 +42,10 @@
 #define NSAMPLES       2048 // Number of samples for output
 #define AUDIO_CHANNELS 8    // PSVITA has 8 available audio channels
 
-// Music block struct
-struct DecodedMusic{
-	uint8_t* audiobuf;
-	uint8_t* audiobuf2;
-	uint8_t* cur_audiobuf;
-	FILE* handle;
-	volatile bool isPlaying;
-	bool loop;
-	volatile bool pauseTrigger;
-	volatile bool closeTrigger;
-	volatile uint8_t audioThread;
-	volatile int volume;
-	char filepath[256];
-	bool tempBlock;
-};
-
-static SceUID AudioThreads[AUDIO_CHANNELS], MicThread, Audio_Mutex, NewTrack_Mutex;
-static DecodedMusic* new_track = NULL;
+SceUID AudioThreads[AUDIO_CHANNELS], MicThread, Audio_Mutex, NewTrack_Mutex;
+DecodedMusic* new_track = NULL;
 static bool initialized = false;
-static bool availThreads[AUDIO_CHANNELS];
+bool availThreads[AUDIO_CHANNELS];
 std::unique_ptr<AudioDecoder> audio_decoder[AUDIO_CHANNELS];
 static volatile bool mustExit = false;
 static uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDIO_CHANNELS macro
@@ -203,8 +187,9 @@ static int audioThread(unsigned int args, void* arg){
 				// Update audio output
 				if (mus->cur_audiobuf == mus->audiobuf) mus->cur_audiobuf = mus->audiobuf2;
 				else mus->cur_audiobuf = mus->audiobuf;
-				audio_decoder[id]->Decode(mus->cur_audiobuf, (chns > 1) ? BUFSIZE : BUFSIZE_MONO);	
+				audio_decoder[id]->Decode(mus->cur_audiobuf, (chns > 1) ? BUFSIZE : BUFSIZE_MONO);
 				sceAudioOutOutput(ch, mus->cur_audiobuf);
+				if ((mus->isVideoTrack) && (video_audio_tick == 0.0f)) video_audio_tick = sceKernelGetProcessTimeWide() / 1000000.0f;
 				
 			}else{
 				
@@ -373,7 +358,7 @@ static int lua_opensound(lua_State *L){
 	if (f == NULL) return luaL_error(L, "file doesn't exist.");
 	uint32_t magic;
 	fread(&magic,1,4,f);	
-	if (magic != 0x03334449 /* MP3 */ && magic != 0x6468544d /* MIDI */ && magic != 0x5367674f /* OGG */ && magic != 0x46464952 /* WAV */ && magic != 0x4D524F46 /* AIF */){
+	if (magic != 0x03334449 /* MP3 */ && magic != 0x6468544d /* MIDI */ && magic != 0x5367674f /* OGG */ && magic != 0x46464952 /* WAV */ && magic != 0x4D524F46 /* AIF */ && magic != 0x56485350 /* PSHV */){
 		fclose(f);
 		return luaL_error(L, "unknown audio file format.");
 	}

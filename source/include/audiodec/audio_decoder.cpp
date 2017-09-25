@@ -24,6 +24,7 @@
 #include "decoder_fmmidi.h"
 #include "decoder_mpg123.h"
 #include "decoder_oggvorbis.h"
+#include "decoder_oggvorbis_pshv.h"
 #include "decoder_oggopus.h"
 #include "decoder_libsndfile.h"
 #include "decoder_wav.h"
@@ -164,7 +165,19 @@ std::unique_ptr<AudioDecoder> AudioDecoder::Create(FILE* file, const std::string
 		// No MIDI decoder available
 		return nullptr;
 	}
-
+	
+	// Try to use OGG decoder for PSHV video files
+	if (!strncmp(magic, "PSHV", 4)) { // PSHV
+		fseek(file, 0, SEEK_SET);
+#if defined(HAVE_TREMOR) || defined(HAVE_OGGVORBIS)
+#  ifdef USE_AUDIO_RESAMPLER
+		return std::unique_ptr<AudioDecoder>(new AudioResampler(new OggVorbisForPSHVDecoder()));
+#  else
+		return std::unique_ptr<AudioDecoder>(new OggVorbisForPSHVDecoder());
+#  endif
+#endif
+	}
+	
 	// Try to use internal OGG decoder
 	if (!strncmp(magic, "OggS", 4)) { // OGG
 		fseek(file, 29, SEEK_SET);

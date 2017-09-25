@@ -61,23 +61,28 @@ int ctrlRewind(controller* cd){
 	cd->readSize = 0;
 	cd->bufOffs = 0;
 	cd->bufIdx = 0;
-	return sceIoLseek(cd->fd, 0, SEEK_SET);
+	return sceIoLseek(cd->fd, cd->videoOffs, SEEK_SET);
 }
 
-static int ctrlOpen(controller* cd, const char* filename){
+static int ctrlOpen(controller* cd, const char* filename, float* framerate){
 	cd->fd = sceIoOpen(filename, SCE_O_RDONLY, 0777);
-	cd->fileSize = sceIoLseek(cd->fd, 0, SEEK_END);
+	sceIoLseek(cd->fd, 4, SEEK_SET);
+	sceIoRead(cd->fd, framerate, 4);
+	uint32_t audio_size = 0;
+	sceIoRead(cd->fd, &audio_size, 4);
+	cd->videoOffs = 0x0C + audio_size;
+	cd->fileSize = sceIoLseek(cd->fd, 0, SEEK_END) - cd->videoOffs;
 	cd->readSize = 0;
-	return sceIoLseek(cd->fd, 0, SEEK_SET);
+	return sceIoLseek(cd->fd, cd->videoOffs, SEEK_SET);
 }
 
-int ctrlInit(controller* cd, const char* filename, uint32_t bufSize){
+int ctrlInit(controller* cd, const char* filename, uint32_t bufSize, float* framerate){
 	memset(cd, 0, sizeof(controller));
 	cd->bufSize = bufSize;
 	cd->tempBuf[0] = (uint8_t*)malloc(cd->bufSize);
 	cd->tempBuf[1] = (uint8_t*)malloc(cd->bufSize);
 	cd->status = true;
-	return ctrlOpen(cd, filename);
+	return ctrlOpen(cd, filename, framerate);
 }
 
 int ctrlTerm(controller* cd){

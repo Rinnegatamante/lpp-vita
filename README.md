@@ -19,11 +19,11 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 * Advanced 2D Graphics Rendering (GPU).
 * Basic 3D Graphics Rendering (GPU).
 * Native support to 0BJ models.
-* Native support to TTF/PGF/PVF fonts.
+* Native support to TTF/PGF/PVF/OTF fonts.
 * Native support to BMP/PNG/JPG images.
 * Built-in rescaler to perform portings from [lpp-3ds](https://github.com/Rinnegatamante/lpp-3ds) easily.
 
-##### Sounds
+##### Multimedia
 
 * Complete sound system with support for:
 	* WAVEform audio files (**.wav**) with PCM8/PCM16/ADPCM codecs.
@@ -31,7 +31,8 @@ Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
 	* Moving Picture Expert Group-1/2 Audio Layer 3 audio files (**.mp3**) with MPEG-1 Audio Layer III/MPEG-2 Audio Layer III codecs.
 	* Musical Instrument Digital Interface audio files (**.midi**).
 	* Ogg Media audio files (**.ogg/.opus**) with Vorbis/Opus codecs.
-
+* Native support to PSHV video files.
+	
 ##### Controls
 
 * Controls system with full console support.

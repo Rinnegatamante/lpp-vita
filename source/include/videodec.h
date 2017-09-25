@@ -9,9 +9,10 @@ typedef struct controller{
 	uint32_t bufOffs;
 	uint8_t  bufIdx;
 	uint32_t bufSize;
+	uint32_t videoOffs;
 } controller;
 
-int ctrlInit(controller* cd, const char* filename, uint32_t bufSize);
+int ctrlInit(controller* cd, const char* filename, uint32_t bufSize, float* framerate);
 int ctrlTerm(controller* cd);
 int ctrlReadFrame(controller* cd, uint8_t* buf, uint32_t* bufSize);
 int ctrlRewind(controller* cd);
