@@ -137,25 +137,34 @@ static int frameDeployer(unsigned int args, void* arg){
 	// Frame deployer main loop
 	while (isPlayerReady){
 		
+		sceKernelWaitSema(Buffers_Mutex, 1, NULL);
+		
 		// Handling player status changes
 		if (!isPlaying){
 			if (_isPlaying){
 				_isPlaying = false;
 				pause_delta_tick = (sceKernelGetProcessTimeWide() / 1000000.0f);
 			}
+			sceKernelSignalSema(Buffers_Mutex, 1);
 			continue;
 		}else{
 			if (!_isPlaying){
 				_isPlaying = true;
-				tick += ((sceKernelGetProcessTimeWide() / 1000000.0f) - pause_delta_tick);
+				while ((video_audio_tick == 0.0f) || (!audio_track->isPlaying)){
+					sceKernelSignalSema(Buffers_Mutex, 1);
+					sceKernelDelayThread(100);
+					sceKernelWaitSema(Buffers_Mutex, 1, NULL);
+				}
+				tick += (video_audio_tick - pause_delta_tick);
 			}
 		}
 		
-		// Updating current frame if required
-		sceKernelWaitSema(Buffers_Mutex, 1, NULL);
+		// Calculating current tick
 		if (cur_tick == 0.0f){
 			cur_tick = tick = video_audio_tick;
 		}else cur_tick = (sceKernelGetProcessTimeWide() / 1000000.0f);
+		
+		// Updating current frame if required
 		if ((cur_tick - tick > deltaTick) && (busy_buffers > 0)){
 			cur_text = &out_text[cur_videobuf_idx];
 			cur_videobuf_idx = (cur_videobuf_idx + 1) % VIDEO_BUFFERING;			
@@ -314,9 +323,6 @@ static int lua_output(lua_State *L){
 	return 1;
 }
 
-/*
-	FIXME: Resume/pause may actually desync video/audio, especially if spammed.
-*/
 static int lua_pause(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING

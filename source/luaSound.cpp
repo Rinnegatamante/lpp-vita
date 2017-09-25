@@ -168,8 +168,10 @@ static int audioThread(unsigned int args, void* arg){
 					
 				}
 			
+				if ((!mus->isPlaying) && mus->isVideoTrack) video_audio_tick = 0.0f;
 				mus->isPlaying = !mus->isPlaying;
 				mus->pauseTrigger = false;
+				
 			}
 			
 			// Check if a volume change request arrived
@@ -210,7 +212,7 @@ static int audioThread(unsigned int args, void* arg){
 					availThreads[id] = true;
 					break;
 					
-				}else sceKernelDelayThread(1000); // Tricky way to call a re-scheduling
+				}else sceKernelDelayThread(100); // Tricky way to call a re-scheduling
 				
 			}
 			
@@ -371,6 +373,7 @@ static int lua_opensound(lua_State *L){
 	memblock->isPlaying = false;
 	memblock->audioThread = 0xFF;
 	memblock->tempBlock = false;
+	memblock->isVideoTrack = false;
 	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;
