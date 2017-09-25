@@ -48,7 +48,7 @@ var searchData=
   ['gettitle',['getTitle',['../group___system.html#ga26a65a0c12c8e4f98051b62057002742',1,'System']]],
   ['gettitleid',['getTitleID',['../group___system.html#gadec1b4d88d7cbeeba5b30c6339080744',1,'System']]],
   ['getusername',['getUsername',['../group___system.html#ga8a345acaf4ae23c2edefde72d75e35f8',1,'System']]],
-  ['getvolume',['getVolume',['../group___sound.html#ga9dad30e04bc5e17acf7be8715841af34',1,'Sound']]],
+  ['getvolume',['getVolume',['../group___sound.html#ga9dad30e04bc5e17acf7be8715841af34',1,'Sound::getVolume()'],['../group___video.html#ga60e0fdee3e9badfed7f1be08d6051087',1,'Video::getVolume()']]],
   ['getwhitebalance',['getWhiteBalance',['../group___camera.html#gabce49a805a664b20d748cb3812eb515e',1,'Camera']]],
   ['getwifilevel',['getWifiLevel',['../group___network.html#ga6e72caac5bb0ba1249e7c95bfd78281f',1,'Network']]],
   ['getzoom',['getZoom',['../group___camera.html#ga310bac1a1ad81c3245036b3498f7524e',1,'Camera']]]
