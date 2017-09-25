@@ -374,11 +374,33 @@ static int lua_term(lua_State *L){
 	return 0;
 }
 
+static int lua_setvol(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	int vol = luaL_checkinteger(L, 1);
+	vol = (vol < 0) ? 0 : ((vol > 32767) ? 32767 : vol);
+	audio_track->volume = vol;
+	return 0;
+}
+
+static int lua_getvol(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	lua_pushinteger(L, audio_track->volume);
+	return 1;
+}
+
 //Register our Video Functions
 static const luaL_Reg Video_functions[] = {
   {"init",        lua_init},
   {"term",        lua_term},
   {"open",        lua_openpshv},
+  {"setVolume",   lua_setvol},
+  {"getVolume",   lua_getvol},
   {"getOutput",   lua_output},
   {"pause",       lua_pause},
   {"resume",      lua_resume},

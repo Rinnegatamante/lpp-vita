@@ -98,4 +98,32 @@ class Video {
 		 */
 		bool isPlaying(void);
 		
+		/**
+		 * Set internal volume for current video playback.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Video.setVolume(100)
+		 * @endcode
+		 *
+		 * @param volume - Volume value to set.
+		 *
+		 * @note <b>volume</b> must be in a range of 0 and 32767.
+		 */
+		void setVolume(int volume);
+		
+		/**
+		 * Get internal volume for current video playback.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * vol = Volume.getVolume()
+		 * @endcode
+		 *
+		 * @return Volume value of the current video playback.
+		 */
+		int getVolume(void);
+		
 }
