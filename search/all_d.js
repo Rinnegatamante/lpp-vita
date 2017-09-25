@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['open',['open',['../group___sound.html#gac28c118a905b1c66fed1d505f142b070',1,'Sound']]],
-  ['openavc',['openAvc',['../group___video.html#gaca20d27da65184de6c6c4830d3fe0598',1,'Video']]],
+  ['open',['open',['../group___sound.html#gac28c118a905b1c66fed1d505f142b070',1,'Sound::open()'],['../group___video.html#ga1e4e8f340217df9dc3ca32969a12befc',1,'Video::open()']]],
   ['openfile',['openFile',['../group___system.html#gaeb68f965b68ee9997c595c2a4328547e',1,'System']]],
   ['opt_5fmultiline',['OPT_MULTILINE',['../group___keyboard.html#ggaa194434e41fd88b1fc032fa421ca1105ad17d8df29685b105e1372206463220a1',1,'luaKeyboard.cpp']]],
   ['opt_5fno_5fassistance',['OPT_NO_ASSISTANCE',['../group___keyboard.html#ggaa194434e41fd88b1fc032fa421ca1105a27784998bf16940a8ff7e3c8563b26fd',1,'luaKeyboard.cpp']]],
