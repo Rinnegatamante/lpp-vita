@@ -44,6 +44,17 @@ class Video {
 		void open(string filename, bool loop);
 		
 		/**
+		 * Close the current video playback.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Video.close()
+		 * @endcode
+		 */
+		void close(void);
+		
+		/**
 		 * Get the current video frame as image.
 		 * \ingroup Video
 		 *

@@ -40,14 +40,9 @@
 
 #define FRAMERATES_NUM 9 // Number of available framerates
 
-struct texture{
-	uint32_t magic;
-	vita2d_texture* text;
-};
-
 SceCameraInfo cam_info;
 SceCameraRead cam_info_read;
-texture* cam_buf;
+lpp_texture* cam_buf;
 uint8_t cam_type = 0;
 uint8_t cur_buf = 0;
 bool isCamOn = false;
@@ -97,7 +92,7 @@ void initCam(uint8_t type, uint8_t res, uint8_t fps){
 	// Initializing camera buffers
 	SceKernelMemBlockType orig = vita2d_texture_get_alloc_memblock_type();
 	vita2d_texture_set_alloc_memblock_type(SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW);
-	cam_buf = (texture*)malloc(sizeof(texture));
+	cam_buf = (lpp_texture*)malloc(sizeof(lpp_texture));
 	cam_buf->text = vita2d_create_empty_texture(width, height);
 	cam_buf->magic = 0xABADBEEF;
 	vita2d_texture_set_alloc_memblock_type(orig);

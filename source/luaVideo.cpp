@@ -39,11 +39,12 @@ extern "C"{
 #define VIDEO_BUFFERING        5
 #define AUDIO_CHANNELS         8    // PSVITA has 8 available audio channels
 
-SceUID decoderThread, decoderBlock, deployerThread, Buffers_Mutex;
+SceUID decoderThread, deployerThread, Buffers_Mutex;
 SceAvcdecCtrl decoder = {0};
 static uint8_t* auBuf;
 static bool isPlayerReady = false;
 static bool decoderRunning = false;
+static bool deployerRunning = false;
 static bool looping = false;
 controller videoDecoder;
 void* videobuf[VIDEO_BUFFERING];
@@ -53,7 +54,7 @@ volatile uint8_t busy_buffers = 0;
 uint8_t cur_videobuf_idx = 0;
 bool isPlaying = false;
 float video_audio_tick = 0.0f;
-DecodedMusic* audio_track;
+DecodedMusic* audio_track = NULL;
 
 extern bool availThreads[];
 extern DecodedMusic* new_track;
@@ -79,7 +80,10 @@ static int decoderThreadFunc(unsigned int args, void* arg){
 	while (decoderRunning){
 		
 		// Check if we have free buffers to decode a new frame
-		if (busy_buffers > (VIDEO_BUFFERING - 2)) continue;
+		if (busy_buffers > (VIDEO_BUFFERING - 2)){
+			sceKernelDelayThread(100);
+			continue;
+		}
 		
 		// Read next Access Unit from file
 		ret = ctrlReadFrame(&videoDecoder, auBuf, &size);
@@ -123,6 +127,7 @@ static int decoderThreadFunc(unsigned int args, void* arg){
 		
 	}
 	
+	ctrlTerm(&videoDecoder);
 	return sceKernelExitDeleteThread(0);
 
 }
@@ -133,9 +138,10 @@ static int frameDeployer(unsigned int args, void* arg){
 	float cur_tick = 0.0f;
 	float pause_delta_tick = 0.0f;
 	bool _isPlaying = true;
+	deployerRunning = true;
 	
 	// Frame deployer main loop
-	while (isPlayerReady){
+	while (deployerRunning){
 		
 		sceKernelWaitSema(Buffers_Mutex, 1, NULL);
 		
@@ -259,10 +265,16 @@ static int lua_openpshv(lua_State *L){
 	sprintf(memblock->filepath, "%s", file);
 	
 	// Opening given file for video decoding
+	memset(&videoDecoder, 0, sizeof(controller));
 	float fps;
 	ctrlInit(&videoDecoder, file, DECODER_BUFSIZE, &fps);
 	deltaTick = 1.0f / fps;
 	isPlaying = true;
+	
+	// Setting default decoder values
+	busy_buffers = 0;
+	videobuf_idx = 0;
+	video_audio_tick = 0.0f;
 	
 	// Creating a mutex to avoid race conditions between decoder and frame deployer threads
 	Buffers_Mutex = sceKernelCreateSema("Buffers Mutex", 0, 1, 1, NULL);
@@ -351,8 +363,26 @@ static int lua_playing(lua_State *L){
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
 	#endif	
-	lua_pushinteger(L, isPlaying);
+	lua_pushboolean(L, audio_track->isPlaying);
 	return 1;
+}
+
+static int lua_closepshv(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
+	if (audio_track == NULL) return luaL_error(L, "no video playback currently running.");
+	#endif	
+	audio_track->closeTrigger = true;
+	audio_track->pauseTrigger = true;
+	audio_track = NULL;
+	decoderRunning = false;
+	sceKernelWaitThreadEnd(decoderThread, NULL, NULL);
+	deployerRunning = false;
+	sceKernelWaitThreadEnd(deployerThread, NULL, NULL);
+	sceKernelDeleteSema(Buffers_Mutex);
+	return 0;
 }
 
 static int lua_term(lua_State *L){
@@ -360,17 +390,14 @@ static int lua_term(lua_State *L){
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
+	if (audio_track != NULL) return luaL_error(L, "you must close the video playback first.");
 	#endif
-	decoderRunning = false;
-	sceKernelWaitThreadEnd(decoderThread, NULL, NULL);
 	isPlayerReady = false;
-	sceKernelWaitThreadEnd(deployerThread, NULL, NULL);
 	sceAvcdecDeleteDecoder(&decoder);
 	sceVideodecTermLibrary(SCE_VIDEODEC_TYPE_HW_AVCDEC);
 	for (int i=0; i < VIDEO_BUFFERING; i++){
 		vita2d_free_texture(out_text[i].text);
 	}
-	sceKernelFreeMemBlock(decoderBlock);
 	return 0;
 }
 
@@ -399,6 +426,7 @@ static const luaL_Reg Video_functions[] = {
   {"init",        lua_init},
   {"term",        lua_term},
   {"open",        lua_openpshv},
+  {"close",       lua_closepshv},
   {"setVolume",   lua_setvol},
   {"getVolume",   lua_getvol},
   {"getOutput",   lua_output},
