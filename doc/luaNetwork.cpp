@@ -146,7 +146,7 @@ class Network {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * Network.downloadFile("http://www.website.com/file.zip", "ux0:/data/file.zip")
+		 * Network.downloadFileAsync("http://www.website.com/file.zip", "ux0:/data/file.zip")
 		 * @endcode
 		 *
 		 * @param url - The url from where to download the file.
@@ -187,7 +187,7 @@ class Network {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * result = Network.requestString("http://www.website.com/file.txt")
+		 * Network.requestStringAsync("http://www.website.com/file.txt")
 		 * @endcode
 		 *
 		 * @param url - The url where to send the HTTP request.

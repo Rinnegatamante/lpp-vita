@@ -73,8 +73,6 @@ static int audioThread(unsigned int args, void* arg){
 		
 		// Fetching track
 		mus = new_track;
-		mus->audioThread = id;
-		sceKernelSignalSema(NewTrack_Mutex, 1);
 		
 		// Checking if a new track is available
 		if (mus == NULL){
@@ -83,10 +81,13 @@ static int audioThread(unsigned int args, void* arg){
 			if (mustExit){
 				sceKernelSignalSema(Audio_Mutex, 1);
 				sceAudioOutReleasePort(ch);
-				sceKernelExitDeleteThread(0);
+				return sceKernelExitDeleteThread(0);
 			}
 		
 		}
+		
+		mus->audioThread = id;
+		sceKernelSignalSema(NewTrack_Mutex, 1);
 		
 		// Setting audio channel volume
 		int vol_stereo[] = {32767, 32767};
@@ -143,9 +144,9 @@ static int audioThread(unsigned int args, void* arg){
 			
 				// Check if the music must be closed
 				if (mus->closeTrigger){
+					audio_decoder[id].reset();
 					free(mus->audiobuf);
 					free(mus->audiobuf2);
-					audio_decoder[id].reset();
 					free(mus);
 					mus = NULL;
 					availThreads[id] = true;
@@ -164,7 +165,7 @@ static int audioThread(unsigned int args, void* arg){
 					// Recursively closing all the threads
 					sceKernelSignalSema(Audio_Mutex, 1);
 					sceAudioOutReleasePort(ch);
-					sceKernelExitDeleteThread(0);
+					return sceKernelExitDeleteThread(0);
 					
 				}
 			
@@ -272,10 +273,12 @@ static int lua_term(lua_State *L){
 		termMic = true;
 		sceKernelSignalSema(Mic_Mutex, 1);
 		sceKernelWaitThreadEnd(MicThread, NULL, NULL);
+		termMic = false;
 		
 		// Deleting audio mutexes
 		sceKernelDeleteSema(Audio_Mutex);
 		sceKernelDeleteSema(Mic_Mutex);
+		sceKernelDeleteSema(NewTrack_Mutex);
 		
 		initialized = false;
 	}

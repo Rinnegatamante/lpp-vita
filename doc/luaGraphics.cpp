@@ -328,7 +328,7 @@ class Graphics {
 		 * @param color - Image tint color (See ::Color) <b>(optional)</b>.
 		 *
 		 */
-		void drawPartialImage(number x, number y, int img, int x_start, int y_start, number width, number height, number rad, number x_scale, number y_scale, int color);
+		void drawImageExtended(number x, number y, int img, int x_start, int y_start, number width, number height, number rad, number x_scale, number y_scale, int color);
 		
 		/**
 		 * Initialize a rescaler.
