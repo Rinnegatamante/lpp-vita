@@ -24,7 +24,7 @@ var group___graphics =
     [ "drawRotateImage", "group___graphics.html#gae8fd9802a332e387f881482358eb788b", null ],
     [ "drawScaleImage", "group___graphics.html#ga0ff72ce6bc799c2cd1f0107ec043448f", null ],
     [ "drawPartialImage", "group___graphics.html#gaaf5232232023a3c0f29932a54a442e74", null ],
-    [ "drawPartialImage", "group___graphics.html#ga455b2e8ac0b15743ff793605a080ae57", null ],
+    [ "drawImageExtended", "group___graphics.html#ga395109883f4d6fbbeee9477ab664e8b0", null ],
     [ "initRescaler", "group___graphics.html#ga2c9e9874a1837a0be648aef5a49b83f4", null ],
     [ "termRescaler", "group___graphics.html#ga534a498f913a40152abee3f5bf419f02", null ]
 ];
