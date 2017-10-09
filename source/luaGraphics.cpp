@@ -467,17 +467,22 @@ static int lua_loadFont(lua_State *L) {
 	#endif
 	char* text = (char*)(luaL_checkstring(L, 1));
 	ttf* result = (ttf*)malloc(sizeof(ttf));
+	memset(result, 0, sizeof(ttf));
 	result->size = 16;
 	result->scale = 0.919f;
 	result->f = vita2d_load_font_file(text); // TTF font
-	if (result->f == NULL) result->f2 = vita2d_load_custom_pgf(text);
-	if (result->f2 == NULL) result->f3 = vita2d_load_custom_pvf(text);
-	#ifndef SKIP_ERROR_HANDLING
-	if (result->f3 == NULL){
-		free(result);
-		return luaL_error(L, "cannot load font file");
+	if (result->f == NULL){ 
+		result->f2 = vita2d_load_custom_pgf(text);
+		if (result->f2 == NULL){ 
+			result->f3 = vita2d_load_custom_pvf(text);
+			#ifndef SKIP_ERROR_HANDLING
+			if (result->f3 == NULL){
+				free(result);
+				return luaL_error(L, "cannot load font file");
+			}
+			#endif
+		}
 	}
-	#endif
 	result->magic = 0x4C464E54;
 	lua_pushinteger(L,(uint32_t)result);
 	return 1;
