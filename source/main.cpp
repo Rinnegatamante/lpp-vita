@@ -26,8 +26,8 @@ int main()
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, SCE_TOUCH_SAMPLING_STATE_START);
 	
 	// Starting secondary modules and mounting secondary filesystems
-	if (!sceSysmoduleIsLoaded(SCE_SYSMODULE_NET)) sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
-	if (!sceSysmoduleIsLoaded(SCE_SYSMODULE_HTTP)) sceSysmoduleLoadModule(SCE_SYSMODULE_HTTP);
+	sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
+	sceSysmoduleLoadModule(SCE_SYSMODULE_HTTP);
 	SceAppUtilInitParam appUtilParam;
 	SceAppUtilBootParam appUtilBootParam;
 	memset(&appUtilParam, 0, sizeof(SceAppUtilInitParam));
@@ -123,8 +123,8 @@ int main()
 	
 	sceAppUtilShutdown();
 	vita2d_fini();
-	if (sceSysmoduleIsLoaded(SCE_SYSMODULE_NET)) sceSysmoduleUnloadModule(SCE_SYSMODULE_NET);
-	if (sceSysmoduleIsLoaded(SCE_SYSMODULE_HTTP)) sceSysmoduleUnloadModule(SCE_SYSMODULE_HTTP);
+	sceSysmoduleUnloadModule(SCE_SYSMODULE_NET);
+	sceSysmoduleUnloadModule(SCE_SYSMODULE_HTTP);
 	sceKernelExitProcess(0);
 	return 0;
 }
