@@ -244,6 +244,21 @@ static int lua_checkexist(lua_State *L){
 	return 1;
 }
 
+static int lua_checkexist2(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char *dir = luaL_checkstring(L, 1);
+	SceUID fd = sceIoDopen(dir);
+	if (fd < 0) lua_pushboolean(L, false);
+	else{
+		sceIoDclose(fd);
+		lua_pushboolean(L,true);
+	}
+	return 1;
+}
+
 static int lua_rename(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -1002,6 +1017,7 @@ static const luaL_Reg System_functions[] = {
   {"seekFile",                  lua_seekfile},  
   {"sizeFile",                  lua_sizefile},  
   {"doesFileExist",             lua_checkexist},
+  {"doesDirExist",              lua_checkexist2},
   {"exit",                      lua_exit},
   {"rename",                    lua_rename},
   {"deleteFile",                lua_removef},

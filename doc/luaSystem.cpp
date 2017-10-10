@@ -168,6 +168,23 @@ class System{
 		bool doesFileExist(string filename);
 		
 		/**
+		 * Check if a folder exists.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * if System.doesDirExist("ux0:/data") then
+		 * 		list = System.listDirectory("ux0:/data")
+		 * end
+		 * @endcode
+		 *
+		 * @param dirname - Folder name to be checked.
+		 *
+		 * @return true if exists, false otherwise.
+		 */
+		bool doesDirExist(string dirname);
+		
+		/**
 		 * Rename or move a file.
 		 * \ingroup System
 		 *
