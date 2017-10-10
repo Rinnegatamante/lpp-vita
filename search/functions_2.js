@@ -8,6 +8,7 @@ var searchData=
   ['disableaccel',['disableAccel',['../group___controls.html#ga36bd996e96e2c8bf5679f9e947367dfc',1,'Controls']]],
   ['disablegyro',['disableGyro',['../group___controls.html#gab80038e57f38499a766da8a5b9b13346',1,'Controls']]],
   ['disabletimer',['disableTimer',['../group___system.html#ga6a67e3f1875df888ad107c94b69d1ebb',1,'System']]],
+  ['doesdirexist',['doesDirExist',['../group___system.html#ga5fe6f08540ac4ddb53613c51dc6d8ea2',1,'System']]],
   ['doesfileexist',['doesFileExist',['../group___system.html#gabd81dfb67363e668ccb7d4f014cb09c2',1,'System']]],
   ['downloadfile',['downloadFile',['../group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2',1,'Network']]],
   ['downloadfileasync',['downloadFileAsync',['../group___network.html#ga55b1de33a4fd352c3e713c8c8db6d9ce',1,'Network']]],

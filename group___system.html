@@ -168,6 +168,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gabd81dfb67363e668ccb7d4f014cb09c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gabd81dfb67363e668ccb7d4f014cb09c2">System.doesFileExist</a> (string filename)</td></tr>
 <tr class="memdesc:gabd81dfb67363e668ccb7d4f014cb09c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a file exists.  <a href="#gabd81dfb67363e668ccb7d4f014cb09c2">More...</a><br/></td></tr>
 <tr class="separator:gabd81dfb67363e668ccb7d4f014cb09c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5fe6f08540ac4ddb53613c51dc6d8ea2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga5fe6f08540ac4ddb53613c51dc6d8ea2">System.doesDirExist</a> (string dirname)</td></tr>
+<tr class="memdesc:ga5fe6f08540ac4ddb53613c51dc6d8ea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a folder exists.  <a href="#ga5fe6f08540ac4ddb53613c51dc6d8ea2">More...</a><br/></td></tr>
+<tr class="separator:ga5fe6f08540ac4ddb53613c51dc6d8ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga87f67f8eef2972cfe2c7ef14248d6231"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga87f67f8eef2972cfe2c7ef14248d6231">System.rename</a> (string filename, string filename2)</td></tr>
 <tr class="memdesc:ga87f67f8eef2972cfe2c7ef14248d6231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rename or move a file.  <a href="#ga87f67f8eef2972cfe2c7ef14248d6231">More...</a><br/></td></tr>
 <tr class="separator:ga87f67f8eef2972cfe2c7ef14248d6231"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -699,6 +702,35 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>- Filename to be checked.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if exists, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga5fe6f08540ac4ddb53613c51dc6d8ea2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool System.doesDirExist </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>dirname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a folder exists. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga5fe6f08540ac4ddb53613c51dc6d8ea2">doesDirExist</a>(<span class="stringliteral">&quot;ux0:/data&quot;</span>) then</div>
+<div class="line">        list = <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga7eb5b2580f8b32500ea5aa2f2cce637e">listDirectory</a>(<span class="stringliteral">&quot;ux0:/data&quot;</span>)</div>
+<div class="line">end</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dirname</td><td>- Folder name to be checked.</td></tr>
   </table>
   </dd>
 </dl>
