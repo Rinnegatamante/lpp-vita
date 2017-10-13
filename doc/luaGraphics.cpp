@@ -84,12 +84,12 @@ class Graphics {
 		 * @endcode
 		 *
 		 * @param x1 - Starting X coordinate of the line in pixels.
-		 * @param y1 - Starting Y coordinate of the line in pixels.
 		 * @param x2 - Ending X coordinate of the line in pixels.
+		 * @param y1 - Starting Y coordinate of the line in pixels.
 		 * @param y2 - Ending Y coordinate of the line in pixels.
 		 * @param color - A valid color (See ::Color).
 		 */
-		void drawLine(number x1, number y1, number x2, number y2, int color);
+		void drawLine(number x1, number x2, number y1, number y2, int color);
 		
 		/**
 		 * Draw a rectangle.
