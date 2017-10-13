@@ -156,10 +156,10 @@ static int lua_emptyrect(lua_State *L){
 		y2 = y1;
 		y1 = tmp;
 	}
-	vita2d_draw_line(x1, y1, x2-x1, y1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
-	vita2d_draw_line(x1, y2, x2-x1, y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
-	vita2d_draw_line(x1, y1, x1, y2-y1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
-	vita2d_draw_line(x2, y1, x2, y2-y1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_line(x1, y1, x2, y1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_line(x1, y2, x2, y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_line(x1, y1, x1, y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	vita2d_draw_line(x2, y1, x2, y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
 }
 
