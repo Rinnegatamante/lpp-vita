@@ -82,6 +82,8 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Starfield Vita](http://vitadb.rinnegatamante.it/#/info/128)
 * [EUCLIOD](http://vitadb.rinnegatamante.it/#/info/263)
 * [Crazy Traffic Jam 3D](http://wololo.net/talk/viewtopic.php?f=116&t=48358)
+* [Zombiebound](http://wololo.net/talk/viewtopic.php?f=116&t=48583)
+* [vita-tetromino](https://github.com/svennd/vita-tetromino)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
@@ -92,6 +94,11 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Vita Object Loader](http://wololo.net/talk/viewtopic.php?f=116&t=47982)
 * [Voice Recorder Vita](http://wololo.net/talk/viewtopic.php?f=116&t=48444)
 * [Pro Camera Vita](http://wololo.net/talk/viewtopic.php?f=116&t=48379)
+* [Notepad Vita](http://wololo.net/talk/viewtopic.php?f=116&t=48500)
+* [Video Bubbles Creator](http://wololo.net/talk/viewtopic.php?f=116&t=48581)
+
+##### Emulators
+* [MicroCHIP](http://wololo.net/talk/viewtopic.php?f=116&t=48620)
 
 ##### Engines & Interpreters
 * [RayCast3D Engine](http://wololo.net/talk/viewtopic.php?f=116&t=46379)
