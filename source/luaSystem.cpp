@@ -174,7 +174,7 @@ static int lua_readfile(lua_State *L){
 	#endif
 	SceUID file = luaL_checkinteger(L, 1);
 	uint32_t size = luaL_checkinteger(L, 2);
-	uint8_t* buffer = (uint8_t*)malloc(size);
+	uint8_t* buffer = (uint8_t*)malloc(size + 1);
 	int len = sceIoRead(file,buffer, size);
 	buffer[len] = 0;
 	lua_pushlstring(L,(const char*)buffer,len);
