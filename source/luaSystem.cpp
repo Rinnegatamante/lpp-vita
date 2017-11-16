@@ -96,30 +96,6 @@ static int zipThread(unsigned int args, void* arg){
 	return 0;
 }
 
-static int lua_dofile(lua_State *L){
-	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments.");
-	#endif
-	char* file = (char*)luaL_checkstring(L,1);
-	unsigned char* buffer;
-	SceUID script = sceIoOpen(file, SCE_O_RDONLY, 0777);
-	if (script < 0) return luaL_error(L, "error opening file.");
-	else{
-		SceOff size = sceIoLseek(script, 0, SEEK_END);
-		sceIoLseek(script, 0, SEEK_SET);
-		buffer = (unsigned char*)malloc(size + 1);
-		sceIoRead(script, buffer, size);
-		buffer[size] = 0;
-		sceIoClose(script);
-	}
-	lua_settop(L, 1);
-	if (luaL_loadbuffer(L, (const char*)buffer, strlen((const char*)buffer), NULL) != LUA_OK)	return lua_error(L);
-	lua_CFunction dofilecont = (lua_CFunction)(lua_gettop(L) - 1);
-	lua_callk(L, 0, LUA_MULTRET, 0, dofilecont);
-	return (int)dofilecont;
-}
-
 static int lua_launch(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -1006,10 +982,6 @@ static int lua_getpsid(lua_State *L){
 
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
-
-  // Dofile patched function
-  {"doNotUse",                  lua_dofile},
-  
   {"openFile",                  lua_openfile},
   {"readFile",                  lua_readfile},
   {"writeFile",                 lua_writefile},
