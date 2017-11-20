@@ -518,7 +518,7 @@ static int lua_delVertex(lua_State *L){
 static int lua_drawmodel(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 7) return luaL_error(L, "wrong number of arguments");
+	if (argc != 7 && argc != 8) return luaL_error(L, "wrong number of arguments");
 	#endif
 	model* mdl = (model*)luaL_checkinteger(L, 1);
 	#ifndef SKIP_ERROR_HANDLING
@@ -530,7 +530,8 @@ static int lua_drawmodel(lua_State *L){
 	float angleX = luaL_checknumber(L, 5);
 	float angleY = luaL_checknumber(L, 6);
 	float angleZ = luaL_checknumber(L, 7);
-
+	bool skip_camera = (argc == 8) ? lua_toboolean(L, 8) : false;
+	
 	matrix4x4 model_matrix;
 	matrix4x4 modelview_matrix;
 	matrix4x4 mvp_matrix;
@@ -545,8 +546,11 @@ static int lua_drawmodel(lua_State *L){
 	matrix4x4_rotate_x(model_matrix,DEG_TO_RAD(angleX));
 	matrix4x4_rotate_y(model_matrix,DEG_TO_RAD(angleY));
 	matrix4x4_rotate_z(model_matrix,DEG_TO_RAD(angleZ));
-	matrix4x4_multiply(modelview_matrix, cam.matrix, model_matrix);
-	matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, modelview_matrix);
+	if (skip_camera) matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, model_matrix);
+	else{
+		matrix4x4_multiply(modelview_matrix, cam.matrix, model_matrix);
+		matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, modelview_matrix);
+	}
 	matrix4x4_transpose(final_mvp_matrix,mvp_matrix);
 
 	void* vertex_wvp_buffer;

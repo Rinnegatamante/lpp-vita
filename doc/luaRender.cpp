@@ -107,8 +107,11 @@ class Render {
 		 * @param angleX - X rotation value of the model.
 		 * @param angleY - Y rotation value of the model.
 		 * @param angleZ - Z rotation value of the model.
+		 * @param unbind - Draw the model unbinded from camera instance <b>(optional)</b>.
+		 *
+		 * @note If not specified, <b>unbind</b> param will be set as <b>false</b>.
 		 */
-		void drawModel(int model, number x, number y, number z, number angleX, number angleY, number angleZ);
+		void drawModel(int model, number x, number y, number z, number angleX, number angleY, number angleZ, bool unbind);
 		
 		/**
 		 * Set a given texture for a model.
