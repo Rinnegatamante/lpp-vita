@@ -175,16 +175,6 @@ static int lua_line(lua_State *L){
 	float x2 = luaL_checknumber(L, 2);
 	float y1 = luaL_checknumber(L, 3);
 	float y2 = luaL_checknumber(L, 4);
-	if (x2 < x1){
-		int tmp = x2;
-		x2 = x1;
-		x1 = tmp;
-	}
-	if (y2 < y1){
-		int tmp = y2;
-		y2 = y1;
-		y1 = tmp;
-	}
 	int color = luaL_checkinteger(L,5);
 	vita2d_draw_line(x1, y1, x2, y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
