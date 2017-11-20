@@ -18,7 +18,7 @@ var searchData=
   ['drawimage',['drawImage',['../group___graphics.html#ga68ce7a33944635202efaf0b806b2f757',1,'Graphics']]],
   ['drawimageextended',['drawImageExtended',['../group___graphics.html#ga395109883f4d6fbbeee9477ab664e8b0',1,'Graphics']]],
   ['drawline',['drawLine',['../group___graphics.html#ga4eef9dc05929c765f5174b53f524f095',1,'Graphics']]],
-  ['drawmodel',['drawModel',['../group___render.html#gac96d15946ab37ea669f65e1afa0e7082',1,'Render']]],
+  ['drawmodel',['drawModel',['../group___render.html#ga8ae27488525bed0488bc88efeb9070c3',1,'Render']]],
   ['drawpartialimage',['drawPartialImage',['../group___graphics.html#gaaf5232232023a3c0f29932a54a442e74',1,'Graphics']]],
   ['drawpixel',['drawPixel',['../group___graphics.html#gaba382443d1ef19990967a9491f7b1a84',1,'Graphics']]],
   ['drawrotateimage',['drawRotateImage',['../group___graphics.html#gae8fd9802a332e387f881482358eb788b',1,'Graphics']]],
