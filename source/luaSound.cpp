@@ -36,6 +36,7 @@
 #include "include/audiodec/audio_decoder.h"
 #define stringify(str) #str
 #define BooleanRegister(lua, value) do { lua_pushboolean(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
+#define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
 #define BUFSIZE        8192 // Max dimension of audio buffer size
 #define BUFSIZE_MONO   4096 // Dimension of audio buffer files for mono tracks
@@ -248,6 +249,9 @@ static int lua_init(lua_State *L){
 		MicThread = sceKernelCreateThread("Mic Thread", &micThread, 0x10000100, 0x10000, 0, 0, NULL);
 		int res = sceKernelStartThread(MicThread, 0, NULL);
 		
+		// Loading shutter sound module
+		sceSysmoduleLoadModule(SCE_SYSMODULE_SHUTTER_SOUND);
+		
 		initialized = true;
 	}
 	return 0;
@@ -279,6 +283,9 @@ static int lua_term(lua_State *L){
 		sceKernelDeleteSema(Audio_Mutex);
 		sceKernelDeleteSema(Mic_Mutex);
 		sceKernelDeleteSema(NewTrack_Mutex);
+		
+		// Unloading shutter sound module
+		sceSysmoduleUnloadModule(SCE_SYSMODULE_SHUTTER_SOUND);
 		
 		initialized = false;
 	}
@@ -427,12 +434,26 @@ static int lua_play(lua_State *L){
 	return 0;
 }
 
+static int lua_playshutter(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	uint32_t type = (uint32_t)luaL_checkinteger(L, 1);
+	#ifndef SKIP_ERROR_HANDLING
+	if ((type > 2) || (type < 0)) return luaL_error(L, "invalid shutter sound id.");
+	#endif
+	sceShutterSoundPlay(type);
+	return 0;
+}
+
 //Register our Sound Functions
 static const luaL_Reg Sound_functions[] = {
 	{"init",         lua_init},
 	{"term",         lua_term},
 	{"open",         lua_opensound},
 	{"play",         lua_play},
+	{"playShutter",  lua_playshutter},
 	{"setVolume",    lua_setvol},
 	{"getVolume",    lua_getvol},
 	{"pause",        lua_pause},
@@ -443,6 +464,9 @@ static const luaL_Reg Sound_functions[] = {
 };
 
 void luaSound_init(lua_State *L) {
+	uint8_t IMAGE_CAPTURE = (uint8_t)SCE_SHUTTER_SOUND_TYPE_SAVE_IMAGE;
+	uint8_t VIDEO_CAPTURE_START = (uint8_t)SCE_SHUTTER_SOUND_TYPE_SAVE_VIDEO_START;
+	uint8_t VIDEO_CAPTURE_END = (uint8_t)SCE_SHUTTER_SOUND_TYPE_SAVE_VIDEO_END;
 	lua_newtable(L);
 	luaL_setfuncs(L, Sound_functions, 0);
 	lua_setglobal(L, "Sound");
@@ -450,4 +474,7 @@ void luaSound_init(lua_State *L) {
 	bool NO_LOOP = false;
 	BooleanRegister(L, NO_LOOP);
 	BooleanRegister(L, LOOP);
+	VariableRegister(L, IMAGE_CAPTURE);
+	VariableRegister(L, VIDEO_CAPTURE_START);
+	VariableRegister(L, VIDEO_CAPTURE_END);
 }

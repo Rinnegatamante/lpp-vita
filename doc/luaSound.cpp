@@ -11,6 +11,16 @@ enum LoopMode{
 	NO_LOOP,     //!< Non-loop mode
 	LOOP         //!< Loop mode
 };
+
+/**
+ * Shutter sound IDs for Sound.playShutter.
+ * \ingroup Sound
+ */
+enum ShutterId{
+	IMAGE_CAPTURE,       //!< Image capture shutter sound
+	VIDEO_CAPTURE_START, //!< Video record start shutter sound
+	VIDEO_CAPTURE_END    //!< Video record end shutter sound
+};
  
 class Sound {
 	
@@ -157,5 +167,18 @@ class Sound {
 		 * @return Volume value of the given sound.
 		 */
 		int getVolume(int music);
+		
+		/**
+		 * Play a shutter sound.
+		 * \ingroup Sound
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Sound.playShutter(IMAGE_CAPTURE)
+		 * @endcode
+		 *
+		 * @param id - A valid shutter sound ID.
+		 */
+		void playShutter(ShutterId id);
 
 }
