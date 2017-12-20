@@ -47,6 +47,7 @@ var searchData=
   ['setvolume',['setVolume',['../group___sound.html#ga418f6ad1f90227404d890e28188a2044',1,'Sound::setVolume()'],['../group___video.html#gab5dac0b682edf0838179dabe61cd4195',1,'Video::setVolume()']]],
   ['setwhitebalance',['setWhiteBalance',['../group___camera.html#gaa917985b04dc71561da6602ddd4c3dd0',1,'Camera']]],
   ['setzoom',['setZoom',['../group___camera.html#ga5d46e2bd4872ba1c7425026be8542f5a',1,'Camera']]],
+  ['shutterid',['ShutterId',['../group___sound.html#gaea98fc35b503a688d834a422d904c293',1,'luaSound.cpp']]],
   ['sizefile',['sizeFile',['../group___system.html#ga906c7557ee9e15ff7ce7cdcafa073e34',1,'System']]],
   ['socket',['Socket',['../class_socket.html',1,'Socket'],['../group___socket.html',1,'(Global Namespace)']]],
   ['sound',['Sound',['../class_sound.html',1,'Sound'],['../group___sound.html',1,'(Global Namespace)']]],

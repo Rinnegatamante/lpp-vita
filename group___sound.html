@@ -113,6 +113,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ga709fa80256a74e684b52b7190b5087a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loop mode for <a class="el" href="group___sound.html#gac9ce236baeb10747defc8470609ec71b" title="Plays a sound. ">Sound.play</a>.  <a href="group___sound.html#ga709fa80256a74e684b52b7190b5087a3">More...</a><br/></td></tr>
 <tr class="separator:ga709fa80256a74e684b52b7190b5087a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea98fc35b503a688d834a422d904c293"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#gaea98fc35b503a688d834a422d904c293">ShutterId</a> { <a class="el" href="group___sound.html#ggaea98fc35b503a688d834a422d904c293a6b9eb7fe11842fefb5b3516235304b13">IMAGE_CAPTURE</a>, 
+<a class="el" href="group___sound.html#ggaea98fc35b503a688d834a422d904c293aff0038e86a2f9c83f76d77a51b33c356">VIDEO_CAPTURE_START</a>, 
+<a class="el" href="group___sound.html#ggaea98fc35b503a688d834a422d904c293a94df8e039ffdba1a4230ccddad1d61ca">VIDEO_CAPTURE_END</a>
+ }</td></tr>
+<tr class="memdesc:gaea98fc35b503a688d834a422d904c293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shutter sound IDs for <a class="el" href="group___sound.html#ga60db45eaec8921e062ecea0a0f43f235" title="Play a shutter sound. ">Sound.playShutter</a>.  <a href="group___sound.html#gaea98fc35b503a688d834a422d904c293">More...</a><br/></td></tr>
+<tr class="separator:gaea98fc35b503a688d834a422d904c293"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -146,6 +152,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9dad30e04bc5e17acf7be8715841af34"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#ga9dad30e04bc5e17acf7be8715841af34">Sound.getVolume</a> (int music)</td></tr>
 <tr class="memdesc:ga9dad30e04bc5e17acf7be8715841af34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get internal volume for a given sound.  <a href="#ga9dad30e04bc5e17acf7be8715841af34">More...</a><br/></td></tr>
 <tr class="separator:ga9dad30e04bc5e17acf7be8715841af34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga60db45eaec8921e062ecea0a0f43f235"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#ga60db45eaec8921e062ecea0a0f43f235">Sound.playShutter</a> (<a class="el" href="group___sound.html#gaea98fc35b503a688d834a422d904c293">ShutterId</a> id)</td></tr>
+<tr class="memdesc:ga60db45eaec8921e062ecea0a0f43f235"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play a shutter sound.  <a href="#ga60db45eaec8921e062ecea0a0f43f235">More...</a><br/></td></tr>
+<tr class="separator:ga60db45eaec8921e062ecea0a0f43f235"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles audio features. </p>
@@ -167,6 +176,31 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="gga709fa80256a74e684b52b7190b5087a3a61f7f1587bd5fe978d9ff3ece8d0624c"></a>LOOP</em>&#160;</td><td class="fielddoc">
 <p>Loop mode. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="gaea98fc35b503a688d834a422d904c293"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group___sound.html#gaea98fc35b503a688d834a422d904c293">ShutterId</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shutter sound IDs for <a class="el" href="group___sound.html#ga60db45eaec8921e062ecea0a0f43f235" title="Play a shutter sound. ">Sound.playShutter</a>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="ggaea98fc35b503a688d834a422d904c293a6b9eb7fe11842fefb5b3516235304b13"></a>IMAGE_CAPTURE</em>&#160;</td><td class="fielddoc">
+<p>Image capture shutter sound. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ggaea98fc35b503a688d834a422d904c293aff0038e86a2f9c83f76d77a51b33c356"></a>VIDEO_CAPTURE_START</em>&#160;</td><td class="fielddoc">
+<p><a class="el" href="class_video.html">Video</a> record start shutter sound. </p>
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ggaea98fc35b503a688d834a422d904c293a94df8e039ffdba1a4230ccddad1d61ca"></a>VIDEO_CAPTURE_END</em>&#160;</td><td class="fielddoc">
+<p><a class="el" href="class_video.html">Video</a> record end shutter sound. </p>
 </td></tr>
 </table>
 
@@ -449,6 +483,32 @@ This function can be used to reproduce audio track from a .pshv video file too. 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Volume value of the given sound. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga60db45eaec8921e062ecea0a0f43f235"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Sound.playShutter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___sound.html#gaea98fc35b503a688d834a422d904c293">ShutterId</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Play a shutter sound. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_sound.html">Sound</a>.<a class="code" href="group___sound.html#ga60db45eaec8921e062ecea0a0f43f235">playShutter</a>(<a class="code" href="group___sound.html#ggaea98fc35b503a688d834a422d904c293a6b9eb7fe11842fefb5b3516235304b13">IMAGE_CAPTURE</a>)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>- A valid shutter sound ID. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
