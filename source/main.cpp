@@ -21,7 +21,7 @@ int main()
 {
 
 	// Initializing touch screens and analogs
-	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG);
+	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, SCE_TOUCH_SAMPLING_STATE_START);
 	
