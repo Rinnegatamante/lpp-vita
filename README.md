@@ -9,8 +9,7 @@
 The interpreter currently runs under LuaJIT 2.0.5 with slight additions from Lua 5.2.4 (for example the bit32 lib for bitwise operations). 
 It has also a debug FTP server to correct your errors in runtime.
 
-Official documentation: http://rinnegatamante.github.io/lpp-vita/<br>
-Official support board: http://rinnegatamante.it/board/forumdisplay.php?fid=12
+Official documentation: http://rinnegatamante.github.io/lpp-vita/
 
 # Features
 
