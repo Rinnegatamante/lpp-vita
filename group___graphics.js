@@ -2,9 +2,7 @@ var group___graphics =
 [
     [ "ImageFilter", "group___graphics.html#ga70dac8233f8b9cc5e86d15a2c1f2f790", [
       [ "FILTER_POINT", "group___graphics.html#gga70dac8233f8b9cc5e86d15a2c1f2f790a8928ed98915affb5c7514632a038daa6", null ],
-      [ "FILTER_LINEAR", "group___graphics.html#gga70dac8233f8b9cc5e86d15a2c1f2f790ad8e5de74ec16a7e07145b7c18c885094", null ],
-      [ "FILTER_ANISO_POINT", "group___graphics.html#gga70dac8233f8b9cc5e86d15a2c1f2f790a4d6d4b805fd6def83c7641314220e871", null ],
-      [ "FILTER_ANISO_LINEAR", "group___graphics.html#gga70dac8233f8b9cc5e86d15a2c1f2f790a572a2f2c9a22c3302e4bccf093bd6d49", null ]
+      [ "FILTER_LINEAR", "group___graphics.html#gga70dac8233f8b9cc5e86d15a2c1f2f790ad8e5de74ec16a7e07145b7c18c885094", null ]
     ] ],
     [ "initBlend", "group___graphics.html#ga112ceb496da0600c3a10e0134f5229d9", null ],
     [ "termBlend", "group___graphics.html#gaf6c0bffb836a492cfa7d92db3d012da9", null ],
