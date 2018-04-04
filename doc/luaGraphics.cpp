@@ -9,9 +9,7 @@
  */
 enum ImageFilter{
 	FILTER_POINT,       //!< Point filter
-	FILTER_LINEAR,      //!< Linear filter
-	FILTER_ANISO_POINT, //!< Anisotropic point filter
-	FILTER_ANISO_LINEAR //!< Anisotropic linear filter
+	FILTER_LINEAR       //!< Linear filter
 };
  
 class Graphics {

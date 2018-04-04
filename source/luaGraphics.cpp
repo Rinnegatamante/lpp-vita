@@ -599,12 +599,8 @@ static const luaL_Reg Font_functions[] = {
 void luaGraphics_init(lua_State *L) {
 	uint32_t FILTER_POINT = (uint32_t)SCE_GXM_TEXTURE_FILTER_POINT;
 	uint32_t FILTER_LINEAR = (uint32_t)SCE_GXM_TEXTURE_FILTER_LINEAR;
-	uint32_t FILTER_ANISO_POINT = (uint32_t)SCE_GXM_TEXTURE_FILTER_ANISO_LINEAR;
-	uint32_t FILTER_ANISO_LINEAR = (uint32_t)SCE_GXM_TEXTURE_FILTER_ANISO_POINT;
 	VariableRegister(L,FILTER_POINT);
 	VariableRegister(L,FILTER_LINEAR);
-	VariableRegister(L,FILTER_ANISO_POINT);
-	VariableRegister(L,FILTER_ANISO_LINEAR);
 	lua_newtable(L);
 	luaL_setfuncs(L, Graphics_functions, 0);
 	lua_setglobal(L, "Graphics");
