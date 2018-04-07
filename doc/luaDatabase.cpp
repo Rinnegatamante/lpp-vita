@@ -40,12 +40,12 @@ class Database {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * results = Database.execQuery(db, "SELECT columnName FROM tableName)
+		 * results = Database.execQuery(db, "SELECT columnName FROM tableName")
 		 * Graphics.debugPrint(0, 0, results[0].columnName, Color.new(255, 255, 255))
 		 * @endcode
 		 *
 		 * @param db - A valid database handle.
-		 * @param string - An SQL query to execute.
+		 * @param query - An SQL query to execute.
 		 *
 		 * @return A table with the results of the executed query.
 		 */
