@@ -9,7 +9,7 @@ class Database {
 	public:
 	
 		/**
-		 * Open an existing database.
+		 * Open/Create an SQLite database.
 		 * \ingroup Database
 		 *
 		 * @par Usage example:
@@ -33,8 +33,10 @@ class Database {
 		 * @code
 		 * Database.close(db)
 		 * @endcode
+		 *
+		 * @param db - A valid database handle.
 		 */
-		int close(void);
+		void close(int db);
 		
 		/**
 		 * Execute a query.
@@ -43,7 +45,7 @@ class Database {
 		 * @par Usage example:
 		 * @code
 		 * results = Database.execQuery(db, "SELECT columnName FROM tableName")
-		 * Graphics.debugPrint(0, 0, results[0].columnName, Color.new(255, 255, 255))
+		 * Graphics.debugPrint(0, 0, results[1].columnName, Color.new(255, 255, 255))
 		 * @endcode
 		 *
 		 * @param db - A valid database handle.
