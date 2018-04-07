@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['database',['Database',['../class_database.html',1,'Database'],['../group___database.html',1,'(Global Namespace)']]],
   ['debugprint',['debugPrint',['../group___graphics.html#ga96fcdf38360384abbdc6b9def54f2119',1,'Graphics']]],
   ['delete_5fmethod',['DELETE_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da9aefb87828e288051243ce5fadbbf747',1,'luaNetwork.cpp']]],
   ['deletedirectory',['deleteDirectory',['../group___system.html#gabe363c50fc353f1b0122f7f04313adcb',1,'System']]],

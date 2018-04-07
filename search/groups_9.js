@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['video',['Video',['../group___video.html',1,'']]]
+  ['timer',['Timer',['../group___timer.html',1,'']]]
 ];

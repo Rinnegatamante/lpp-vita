@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keyboard',['Keyboard',['../group___keyboard.html',1,'']]]
+  ['graphics',['Graphics',['../group___graphics.html',1,'']]]
 ];

@@ -3,6 +3,7 @@ var modules =
     [ "Camera", "group___camera.html", "group___camera" ],
     [ "Color", "group___color.html", "group___color" ],
     [ "Controls", "group___controls.html", "group___controls" ],
+    [ "Database", "group___database.html", "group___database" ],
     [ "Font", "group___font.html", "group___font" ],
     [ "Graphics", "group___graphics.html", "group___graphics" ],
     [ "Keyboard", "group___keyboard.html", "group___keyboard" ],
