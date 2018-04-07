@@ -108,11 +108,11 @@ $(document).ready(function(){initNavTree('group___database.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga8836b015b8af93acd4e12339b8d2029b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___database.html#ga8836b015b8af93acd4e12339b8d2029b">Database.open</a> (string filename)</td></tr>
-<tr class="memdesc:ga8836b015b8af93acd4e12339b8d2029b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open an existing database.  <a href="#ga8836b015b8af93acd4e12339b8d2029b">More...</a><br/></td></tr>
+<tr class="memdesc:ga8836b015b8af93acd4e12339b8d2029b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open/Create an SQLite database.  <a href="#ga8836b015b8af93acd4e12339b8d2029b">More...</a><br/></td></tr>
 <tr class="separator:ga8836b015b8af93acd4e12339b8d2029b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4f2fe78e329661c44e3ac311d320f392"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___database.html#ga4f2fe78e329661c44e3ac311d320f392">Database.close</a> (void)</td></tr>
-<tr class="memdesc:ga4f2fe78e329661c44e3ac311d320f392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close an opened database.  <a href="#ga4f2fe78e329661c44e3ac311d320f392">More...</a><br/></td></tr>
-<tr class="separator:ga4f2fe78e329661c44e3ac311d320f392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga841073c023a1979ed22920dd58466366"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___database.html#ga841073c023a1979ed22920dd58466366">Database.close</a> (int db)</td></tr>
+<tr class="memdesc:ga841073c023a1979ed22920dd58466366"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close an opened database.  <a href="#ga841073c023a1979ed22920dd58466366">More...</a><br/></td></tr>
+<tr class="separator:ga841073c023a1979ed22920dd58466366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga03500348fbd83b6c6d071be295e57328"><td class="memItemLeft" align="right" valign="top">table&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___database.html#ga03500348fbd83b6c6d071be295e57328">Database.execQuery</a> (int db, string query)</td></tr>
 <tr class="memdesc:ga03500348fbd83b6c6d071be295e57328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a query.  <a href="#ga03500348fbd83b6c6d071be295e57328">More...</a><br/></td></tr>
 <tr class="separator:ga03500348fbd83b6c6d071be295e57328"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,7 +134,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Open an existing database. </p>
+<p>Open/Create an SQLite database. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">db = <a class="code" href="class_database.html">Database</a>.<a class="code" href="group___database.html#ga8836b015b8af93acd4e12339b8d2029b">open</a>(<span class="stringliteral">&quot;ur0:shell/db/app.db&quot;</span>)</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -148,23 +148,29 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga4f2fe78e329661c44e3ac311d320f392"></a>
+<a class="anchor" id="ga841073c023a1979ed22920dd58466366"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int Database.close </td>
+          <td class="memname">void Database.close </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>db</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Close an opened database. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_database.html">Database</a>.<a class="code" href="group___database.html#ga4f2fe78e329661c44e3ac311d320f392">close</a>(db)</div>
-</div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_database.html">Database</a>.<a class="code" href="group___database.html#ga841073c023a1979ed22920dd58466366">close</a>(db)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">db</td><td>- A valid database handle. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -194,7 +200,7 @@ Functions</h2></td></tr>
 
 <p>Execute a query. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">results = <a class="code" href="class_database.html">Database</a>.<a class="code" href="group___database.html#ga03500348fbd83b6c6d071be295e57328">execQuery</a>(db, <span class="stringliteral">&quot;SELECT columnName FROM tableName&quot;</span>)</div>
-<div class="line"><a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#ga96fcdf38360384abbdc6b9def54f2119">debugPrint</a>(0, 0, results[0].columnName, <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(255, 255, 255))</div>
+<div class="line"><a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#ga96fcdf38360384abbdc6b9def54f2119">debugPrint</a>(0, 0, results[1].columnName, <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(255, 255, 255))</div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
