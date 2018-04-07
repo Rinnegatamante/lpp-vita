@@ -61,6 +61,7 @@ void luaKeyboard_init(lua_State *L);
 void luaRender_init(lua_State *L);
 void luaMic_init(lua_State *L);
 void luaVideo_init(lua_State *L);
+void luaDatabase_init(lua_State *L);
 void bitlib_init(lua_State *L);
 
 // lua-compat
