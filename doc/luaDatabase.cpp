@@ -20,6 +20,8 @@ class Database {
 		 * @param filename - Filename of the database to open.
 		 *
 		 * @return A valid database handle.
+		 *
+		 * @note If the database doesn't exist, it's created using this function.
 		 */
 		int open(string filename);
 		

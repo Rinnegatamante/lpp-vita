@@ -53,6 +53,7 @@ Official documentation: http://rinnegatamante.github.io/lpp-vita/
 * I/O access for any filesystem.
 * Native support to ZIP archives.
 * Native support to SFO file descriptors.
+* Native support to SQLite databases.
 
 ##### Utilities
 
@@ -83,6 +84,12 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Crazy Traffic Jam 3D](http://wololo.net/talk/viewtopic.php?f=116&t=48358)
 * [Zombiebound](http://wololo.net/talk/viewtopic.php?f=116&t=48583)
 * [vita-tetromino](https://github.com/svennd/vita-tetromino)
+* [VitaHangman](https://vitadb.rinnegatamante.it/#/info/306)
+* [Tetromino: Touhou Edition](https://vitadb.rinnegatamante.it/#/info/376)
+* [Vita Hangman: Touhou Edition](https://vitadb.rinnegatamante.it/#/info/379)
+* [Cookie Clicker](https://vitadb.rinnegatamante.it/#/info/351)
+* [Vitamon GO](https://vitadb.rinnegatamante.it/#/info/353)
+* [vita-chain](https://vitadb.rinnegatamante.it/#/info/339)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
@@ -95,6 +102,8 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Pro Camera Vita](http://wololo.net/talk/viewtopic.php?f=116&t=48379)
 * [Notepad Vita](http://wololo.net/talk/viewtopic.php?f=116&t=48500)
 * [Video Bubbles Creator](http://wololo.net/talk/viewtopic.php?f=116&t=48581)
+* [VitaGraphs](https://vitadb.rinnegatamante.it/#/info/363)
+* [SwitchView UI](https://vitadb.rinnegatamante.it/#/info/338)
 
 ##### Emulators
 * [MicroCHIP](http://wololo.net/talk/viewtopic.php?f=116&t=48620)
