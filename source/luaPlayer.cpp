@@ -81,6 +81,8 @@ const char *runScript(const char* script, bool isStringBuffer)
 	int s = 0;
 	const char *errMsg = NULL;
 	
+	luaL_dostring(L, "package.path = 'app0:/?.lua'");
+	
 	if(!isStringBuffer) 
 		s = luaL_loadfile(L, script);
 	else 
