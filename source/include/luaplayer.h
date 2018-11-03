@@ -105,6 +105,8 @@ struct DecodedMusic{
 	volatile uint8_t audioThread;
 	volatile int volume;
 	char filepath[256];
+	char title[256];
+	char author[256];
 	bool tempBlock;
 	bool isVideoTrack;
 };

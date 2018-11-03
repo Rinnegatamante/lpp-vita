@@ -364,21 +364,104 @@ static int lua_opensound(lua_State *L){
 	#endif
 	const char* path = luaL_checkstring(L, 1);
 	
+	// Allocating music block
+	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
+	
 	// Opening file and checking for magic
 	FILE* f = fopen(path, "rb");
 	#ifndef SKIP_ERROR_HANDLING
 	if (f == NULL) return luaL_error(L, "file doesn't exist.");
 	uint32_t magic;
-	fread(&magic,1,4,f);	
-	if (magic != 0x03334449 /* MP3 */ && magic != 0x6468544d /* MIDI */ && magic != 0x5367674f /* OGG */ && magic != 0x46464952 /* WAV */ && magic != 0x4D524F46 /* AIF */ && magic != 0x56485350 /* PSHV */){
+	fread(&magic, 1, 4, f);	
+	if (magic != 0x03334449 /* MP3 */ && magic != 0x6468544D /* MIDI */ && magic != 0x5367674F /* OGG */ && magic != 0x46464952 /* WAV */ && magic != 0x4D524F46 /* AIF */ && magic != 0x56485350 /* PSHV */){
 		fclose(f);
+		free(memblock);
 		return luaL_error(L, "unknown audio file format.");
 	}
 	fseek(f, 0, SEEK_SET);
 	#endif
 	
-	// Allocating and pushing music block
-	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
+	// Metadata extraction
+	uint32_t half_magic = 0xDEADBEEF, info_size = 0xDEADBEEF, offset;
+	uint32_t jump, chunk = 0, pos = 16;
+	uint8_t header[256];
+	char info_type[7];
+	int i = 0;
+	strcpy(memblock->author, "");
+	strcpy(memblock->title, "");
+	switch(magic){
+	case 0x5367674F: // OGG
+		fseek(f, 0x60, SEEK_SET);
+		while (half_magic != 0x726F7603){
+			i++;
+			fread(&half_magic, 4, 1, f);
+			fseek(f, 0x60+i, SEEK_SET);
+		}
+		fseek(f, 0x06, SEEK_CUR);
+		fread(&info_size, 4, 1, f);
+		fseek(f, info_size + 4, SEEK_CUR);
+		fread(&info_size, 4, 1, f);
+		while (info_size != 0x6F760501){
+			offset = ftell(f);
+			if (offset > 0x200) break; // Temporary patch for files without COMMENT section
+			fread(&info_type, 6, 1, f);
+			if (strcasecmp((const char*)&info_type, "ARTIST") == 0){
+				fseek(f, 0x01, SEEK_CUR);
+				fread(memblock->author, info_size - 7, 1, f);
+				memblock->author[info_size - 7] = 0;
+			}else if (strcasecmp((const char*)&info_type,"TITLE=") == 0){
+				fread(memblock->title, info_size - 6, 1, f);
+				memblock->title[info_size - 6] = 0;
+			}
+			fseek(f, offset + info_size, SEEK_SET);
+			fread(&info_size, 4, 1, f);
+		}
+		fseek(f, 0, SEEK_SET);
+		break;
+	case 0x46464952: // WAV
+		fread(header, 1, 256, f);
+		while (chunk != 0x61746164){
+			memcpy(&jump, &header[pos], 4);
+			pos=pos+4+jump;
+			memcpy(&chunk, &header[pos], 4);
+			pos=pos+4;
+			
+			//Chunk LIST detection
+			if (chunk == 0x5453494C){
+				uint32_t chunk_size;
+				uint32_t subchunk;
+				uint32_t subchunk_size;
+				uint32_t sub_pos = pos+4;
+				memcpy(&subchunk, &header[sub_pos], 4);
+				if (subchunk == 0x4F464E49){
+					sub_pos = sub_pos+4;
+					memcpy(&chunk_size, &header[pos], 4);
+					while (sub_pos < (chunk_size + pos + 4)){
+						memcpy(&subchunk, &header[sub_pos], 4);
+						memcpy(&subchunk_size, &header[sub_pos + 4], 4);
+						if (subchunk == 0x54524149){
+							strncpy(memblock->author, (char*)&header[sub_pos + 8], subchunk_size);
+							memblock->author[subchunk_size] = 0;
+						}else if (subchunk == 0x4D414E49){
+							strncpy(memblock->title, (char*)&header[sub_pos + 8], subchunk_size);
+							memblock->title[subchunk_size] = 0;
+						}
+						sub_pos = sub_pos + 8 + subchunk_size;
+						uint8_t checksum;
+						memcpy(&checksum, &header[sub_pos], 1);
+						if (checksum == 0) sub_pos++;
+					}
+				}
+			}
+			
+		}
+		fseek(f, 0, SEEK_SET);
+		break;
+	default:
+		break;
+	}
+	
+	// Pushing music block
 	memblock->handle = f;
 	memblock->isPlaying = false;
 	memblock->audioThread = 0xFF;
@@ -447,6 +530,26 @@ static int lua_playshutter(lua_State *L){
 	return 0;
 }
 
+static int lua_getTitle(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+	lua_pushstring(L, mus->title);
+	return 1;
+}
+
+static int lua_getAuthor(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+	lua_pushstring(L, mus->author);
+	return 1;
+}
+
 //Register our Sound Functions
 static const luaL_Reg Sound_functions[] = {
 	{"init",         lua_init},
@@ -456,6 +559,8 @@ static const luaL_Reg Sound_functions[] = {
 	{"playShutter",  lua_playshutter},
 	{"setVolume",    lua_setvol},
 	{"getVolume",    lua_getvol},
+	{"getTitle",     lua_getTitle},
+	{"getAuthor",    lua_getAuthor},
 	{"pause",        lua_pause},
 	{"resume",       lua_resume},
 	{"isPlaying",    lua_isplaying},

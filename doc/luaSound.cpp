@@ -169,6 +169,40 @@ class Sound {
 		int getVolume(int music);
 		
 		/**
+		 * Get song title of a given sound.
+		 * \ingroup Sound
+		 *
+		 * @par Usage example:
+		 * @code
+		 * title = Sound.getTitle(snd)
+		 * @endcode
+		 *
+		 * @param music - A valid sound ID.
+		 *
+		 * @return Song title of the given sound.
+		 *
+		 * @note This function works only with OGG and WAV audio files.
+		 */
+		string getTitle(int music);
+		
+		/**
+		 * Get song author of a given sound.
+		 * \ingroup Sound
+		 *
+		 * @par Usage example:
+		 * @code
+		 * title = Sound.getAuthor(snd)
+		 * @endcode
+		 *
+		 * @param music - A valid sound ID.
+		 *
+		 * @return Song author of the given sound.
+		 *
+		 * @note This function works only with OGG and WAV audio files.
+		 */
+		string getAuthor(int music);
+		
+		/**
 		 * Play a shutter sound.
 		 * \ingroup Sound
 		 *
