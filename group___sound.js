@@ -19,5 +19,7 @@ var group___sound =
     [ "isPlaying", "group___sound.html#gad2f796b8d5e39e760fae2c4964368727", null ],
     [ "setVolume", "group___sound.html#ga418f6ad1f90227404d890e28188a2044", null ],
     [ "getVolume", "group___sound.html#ga9dad30e04bc5e17acf7be8715841af34", null ],
+    [ "getTitle", "group___sound.html#ga1f19e3668f09f7cb538e3a931260ec06", null ],
+    [ "getAuthor", "group___sound.html#gab5bec6c889ed39970cac0fc2b07ded5b", null ],
     [ "playShutter", "group___sound.html#ga60db45eaec8921e062ecea0a0f43f235", null ]
 ];

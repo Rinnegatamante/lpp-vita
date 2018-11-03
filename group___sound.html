@@ -152,6 +152,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9dad30e04bc5e17acf7be8715841af34"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#ga9dad30e04bc5e17acf7be8715841af34">Sound.getVolume</a> (int music)</td></tr>
 <tr class="memdesc:ga9dad30e04bc5e17acf7be8715841af34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get internal volume for a given sound.  <a href="#ga9dad30e04bc5e17acf7be8715841af34">More...</a><br/></td></tr>
 <tr class="separator:ga9dad30e04bc5e17acf7be8715841af34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1f19e3668f09f7cb538e3a931260ec06"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#ga1f19e3668f09f7cb538e3a931260ec06">Sound.getTitle</a> (int music)</td></tr>
+<tr class="memdesc:ga1f19e3668f09f7cb538e3a931260ec06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get song title of a given sound.  <a href="#ga1f19e3668f09f7cb538e3a931260ec06">More...</a><br/></td></tr>
+<tr class="separator:ga1f19e3668f09f7cb538e3a931260ec06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab5bec6c889ed39970cac0fc2b07ded5b"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#gab5bec6c889ed39970cac0fc2b07ded5b">Sound.getAuthor</a> (int music)</td></tr>
+<tr class="memdesc:gab5bec6c889ed39970cac0fc2b07ded5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get song author of a given sound.  <a href="#gab5bec6c889ed39970cac0fc2b07ded5b">More...</a><br/></td></tr>
+<tr class="separator:gab5bec6c889ed39970cac0fc2b07ded5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga60db45eaec8921e062ecea0a0f43f235"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#ga60db45eaec8921e062ecea0a0f43f235">Sound.playShutter</a> (<a class="el" href="group___sound.html#gaea98fc35b503a688d834a422d904c293">ShutterId</a> id)</td></tr>
 <tr class="memdesc:ga60db45eaec8921e062ecea0a0f43f235"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play a shutter sound.  <a href="#ga60db45eaec8921e062ecea0a0f43f235">More...</a><br/></td></tr>
 <tr class="separator:ga60db45eaec8921e062ecea0a0f43f235"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -483,6 +489,62 @@ This function can be used to reproduce audio track from a .pshv video file too. 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Volume value of the given sound. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga1f19e3668f09f7cb538e3a931260ec06"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Sound.getTitle </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>music</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get song title of a given sound. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">title = <a class="code" href="class_sound.html">Sound</a>.<a class="code" href="group___sound.html#ga1f19e3668f09f7cb538e3a931260ec06">getTitle</a>(snd)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">music</td><td>- A valid sound ID.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Song title of the given sound.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function works only with OGG and WAV audio files. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gab5bec6c889ed39970cac0fc2b07ded5b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Sound.getAuthor </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>music</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get song author of a given sound. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">title = <a class="code" href="class_sound.html">Sound</a>.<a class="code" href="group___sound.html#gab5bec6c889ed39970cac0fc2b07ded5b">getAuthor</a>(snd)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">music</td><td>- A valid sound ID.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Song author of the given sound.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function works only with OGG and WAV audio files. </dd></dl>
 
 </div>
 </div>
