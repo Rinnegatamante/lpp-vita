@@ -191,14 +191,14 @@ class Sound {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * title = Sound.getAuthor(snd)
+		 * author = Sound.getAuthor(snd)
 		 * @endcode
 		 *
 		 * @param music - A valid sound ID.
 		 *
 		 * @return Song author of the given sound.
 		 *
-		 * @note This function works only with OGG and WAV audio files.
+		 * @note This function works only with OGG, MP3 and WAV audio files.
 		 */
 		string getAuthor(int music);
 		

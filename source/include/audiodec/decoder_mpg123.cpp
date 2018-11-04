@@ -21,7 +21,7 @@
 #include <cassert>
 #include "decoder_mpg123.h"
 
-static bool init = false;
+static bool init = true;
 static void Mpg123Decoder_deinit(void) {
 	mpg123_exit();
 }
@@ -40,6 +40,10 @@ static off_t custom_seek(void* io, off_t offset, int seek_type) {
 static void custom_close(void* io) {
 	FILE* f = reinterpret_cast<FILE*>(io);
 	fclose(f);
+}
+
+void replace_header_handle(mpg123_handle *handle){
+	mpg123_replace_reader_handle(handle, custom_read, custom_seek, custom_close);
 }
 
 static void noop_close(void*) {}
@@ -61,7 +65,7 @@ Mpg123Decoder::Mpg123Decoder() :
 	}
 
 	handle.reset(mpg123_new(nullptr, &err));
-	mpg123_replace_reader_handle(handle.get(), custom_read, custom_seek, custom_close);
+	replace_header_handle(handle.get());
 
 	if (!handle) {
 		error_message = "mpg123: " + std::string(mpg123_plain_strerror(err));

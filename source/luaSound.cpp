@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <mpg123.h>
 #include "include/luaplayer.h"
 #include "include/audiodec/audio_decoder.h"
 #define stringify(str) #str
@@ -46,10 +47,13 @@
 SceUID AudioThreads[AUDIO_CHANNELS], MicThread, Audio_Mutex, NewTrack_Mutex;
 DecodedMusic* new_track = NULL;
 static bool initialized = false;
+static bool mpg123_inited = false;
 bool availThreads[AUDIO_CHANNELS];
 std::unique_ptr<AudioDecoder> audio_decoder[AUDIO_CHANNELS];
 static volatile bool mustExit = false;
 static uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDIO_CHANNELS macro
+
+extern void replace_header_handle(mpg123_handle *handle);
 
 // Audio thread code
 static int audioThread(unsigned int args, void* arg){
@@ -384,12 +388,42 @@ static int lua_opensound(lua_State *L){
 	// Metadata extraction
 	uint32_t half_magic = 0xDEADBEEF, info_size = 0xDEADBEEF, offset;
 	uint32_t jump, chunk = 0, pos = 16;
+	mpg123_handle *handle;
+	mpg123_id3v1 *v1;
+	mpg123_id3v2 *v2;
 	uint8_t header[256];
 	char info_type[7];
 	int i = 0;
 	strcpy(memblock->author, "");
 	strcpy(memblock->title, "");
 	switch(magic){
+	case 0x03334449: // MP3
+		if (!mpg123_inited){
+			mpg123_init();
+			mpg123_inited = true;
+		}
+		handle = mpg123_new(nullptr, nullptr);
+		replace_header_handle(handle);
+		if ((mpg123_open_handle(handle, f)) != MPG123_OK){
+			fclose(f);
+			free(memblock);
+			return luaL_error(L, mpg123_strerror(handle));
+		}
+		mpg123_scan(handle);
+		i = mpg123_meta_check(handle);
+		if (i & MPG123_ID3 && mpg123_id3(handle, &v1, &v2) == MPG123_OK){
+			if (v2 == nullptr){
+				strcpy(memblock->author, v1->artist);
+				strcpy(memblock->title, v1->title);
+			}else{
+				strcpy(memblock->author, v2->artist->p);
+				strcpy(memblock->title, v2->title->p);
+			}
+		}
+		mpg123_close(handle);
+		mpg123_delete(handle);
+		f = fopen(path, "rb");
+		break;
 	case 0x5367674F: // OGG
 		fseek(f, 0x60, SEEK_SET);
 		while (half_magic != 0x726F7603){
@@ -533,7 +567,7 @@ static int lua_playshutter(lua_State *L){
 static int lua_getTitle(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	lua_pushstring(L, mus->title);
@@ -543,7 +577,7 @@ static int lua_getTitle(lua_State *L){
 static int lua_getAuthor(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-    if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
 	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	lua_pushstring(L, mus->author);
