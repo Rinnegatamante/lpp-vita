@@ -4,7 +4,7 @@ local white = Color.new(255,255,255)
 Sound.init()
 
 -- Loading and starting our audio file
-local snd = Sound.openOgg("ux0:/data/lpp-vita/samples/Sound/sample.ogg")
+local snd = Sound.open("ux0:/data/lpp-vita/samples/Sound/sample.ogg")
 Sound.play(snd, LOOP)
 
 -- Main loop

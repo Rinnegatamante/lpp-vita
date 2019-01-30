@@ -80,7 +80,7 @@ while true do
 			if not mic_is_recording and not paused then -- We ended our recording
 				recorded = true
 				Mic.stop("ux0:/data/lpp-vita/samples/Microphone/sample.wav")
-				snd = Sound.openWav("ux0:/data/lpp-vita/samples/Microphone/sample.wav")
+				snd = Sound.open("ux0:/data/lpp-vita/samples/Microphone/sample.wav")
 				Sound.play(snd, LOOP)
 			end
 		end	
