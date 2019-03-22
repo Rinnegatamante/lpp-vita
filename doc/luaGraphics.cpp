@@ -220,7 +220,7 @@ class Graphics {
 		 *
 		 * @par Usage example:
 		 * @code
-		 * height = Graphics.getImageWidth(img)
+		 * height = Graphics.getImageHeight(img)
 		 * @endcode
 		 *
 		 * @param img - A valid image id.
