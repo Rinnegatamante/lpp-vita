@@ -46,6 +46,7 @@ Official documentation: http://rinnegatamante.github.io/lpp-vita/
 * Built-in debug FTP server.
 * Complete sockets system support.
 * Native support to HTTP requests.
+* Support to SSL (HTTPS) for file downloading.
 
 ##### System
 
@@ -90,6 +91,7 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Cookie Clicker](https://vitadb.rinnegatamante.it/#/info/351)
 * [Vitamon GO](https://vitadb.rinnegatamante.it/#/info/353)
 * [vita-chain](https://vitadb.rinnegatamante.it/#/info/339)
+* [ViTanks](https://vitadb.rinnegatamante.it/#/info/472)
 
 ##### Utilities
 * [Moon Whitelister](https://github.com/gnmmarechal/moon-whitelister)
@@ -104,6 +106,7 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Video Bubbles Creator](http://wololo.net/talk/viewtopic.php?f=116&t=48581)
 * [VitaGraphs](https://vitadb.rinnegatamante.it/#/info/363)
 * [SwitchView UI](https://vitadb.rinnegatamante.it/#/info/338)
+* [RandomHentai](https://vitadb.rinnegatamante.it/#/info/432)
 
 ##### Emulators
 * [MicroCHIP](http://wololo.net/talk/viewtopic.php?f=116&t=48620)
