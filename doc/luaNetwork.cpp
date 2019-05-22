@@ -157,6 +157,7 @@ class Network {
 		 *
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
+		 * @note This function does not support SSL (HTTPS).
 		 */
 		void downloadFileAsync(string url, string file, string useragent, HTTPMethod method, string postdata);
 		
@@ -178,6 +179,7 @@ class Network {
 		 *
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
+		 * @note This function does not support SSL (HTTPS).
 		 */
 		string requestString(string url, string useragent, HTTPMethod method, string postdata);
 		
@@ -197,6 +199,7 @@ class Network {
 		 *
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
+		 * @note This function does not support SSL (HTTPS).
 		 */
 		void requestStringAsync(string url, string useragent, HTTPMethod method, string postdata);
 

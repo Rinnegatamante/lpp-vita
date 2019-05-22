@@ -29,6 +29,7 @@
 #-----------------------------------------------------------------------------------------------------------------------*/
 #define NET_INIT_SIZE 1*1024*1024
 #include <vitasdk.h>
+#include <curl/curl.h>
 #include "include/luaplayer.h"
 
 extern "C"{
@@ -41,6 +42,7 @@ extern "C"{
 static void* net_memory = NULL;
 static char vita_ip[16];
 static bool isNet = false;
+static CURL *curl_handle = NULL;
 
 typedef struct
 {
@@ -62,32 +64,32 @@ struct hostent{
 // Copy-pasted from xyz code
 static struct hostent *gethostbyname(const char *name)
 {
-    static hostent ent;
-    static char sname[MAX_NAME] = "";
-    static SceNetInAddr saddr = { 0 };
-    static char *addrlist[2] = { (char *) &saddr, NULL };
+	static hostent ent;
+	static char sname[MAX_NAME] = "";
+	static SceNetInAddr saddr = { 0 };
+	static char *addrlist[2] = { (char *) &saddr, NULL };
 
-    int rid;
-    int err;
-    rid = sceNetResolverCreate("resolver", NULL, 0);
-    if(rid < 0) {
-        return NULL;
-    }
+	int rid = sceNetResolverCreate("resolver", NULL, 0);
+	if(rid < 0) return NULL;
 
-    err = sceNetResolverStartNtoa(rid, name, &saddr, 0, 0, 0);
-    sceNetResolverDestroy(rid);
-    if(err < 0) {
-        return NULL;
-    }
+	int err = sceNetResolverStartNtoa(rid, name, &saddr, 0, 0, 0);
+	sceNetResolverDestroy(rid);
+	if(err < 0) return NULL;
 
-    ent.h_name = sname;
-    ent.h_aliases = 0;
-    ent.h_addrtype = SCE_NET_AF_INET;
-    ent.h_length = sizeof(struct SceNetInAddr);
-    ent.h_addr_list = addrlist;
-    ent.h_addr = addrlist[0];
+	ent.h_name = sname;
+	ent.h_aliases = 0;
+	ent.h_addrtype = SCE_NET_AF_INET;
+	ent.h_length = sizeof(struct SceNetInAddr);
+	ent.h_addr_list = addrlist;
+	ent.h_addr = addrlist[0];
 
-    return &ent;
+	return &ent;
+}
+
+static size_t write_cb(void *ptr, size_t size, size_t nmemb, void *stream)
+{
+	SceUID *fd = (SceUID*)stream;
+	return sceIoWrite(*fd , ptr , size * nmemb);
 }
 
 #define FILE_DOWNLOAD   0
@@ -215,6 +217,7 @@ static int lua_init(lua_State *L) {
 	}
 	sceNetCtlInit();
 	sceHttpInit(1*1024*1024);
+	curl_handle = curl_easy_init();
 	isNet = 1;
 	return 0;
 }
@@ -250,6 +253,7 @@ static int lua_term(lua_State *L) {
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
+	curl_easy_cleanup(curl_handle);
 	sceHttpTerm();
 	sceNetCtlTerm();
 	sceNetTerm();
@@ -470,20 +474,46 @@ static int lua_download(lua_State *L){
 	#endif
 	const char* url = luaL_checkstring(L,1);
 	const char* file = luaL_checkstring(L,2);
-	const char* useragent = (argc >= 3) ? luaL_checkstring(L,3) : "lpp-vita app";
+	const char* useragent = (argc >= 3) ? luaL_checkstring(L,3) : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
 	uint8_t method = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
 	const char* postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
 	int postsize = (argc >= 5) ? strlen(postdata) : 0;
-	int tpl = sceHttpCreateTemplate(useragent, 1, 1);	
-	int conn = sceHttpCreateConnectionWithURL(tpl, url, 0);
-	int request = sceHttpCreateRequestWithURL(conn, method, url, 0);
-	int handle = sceHttpSendRequest(request, postdata, postsize);
-	int fh = sceIoOpen(file, SCE_O_WRONLY | SCE_O_CREAT, 0777);
-	unsigned char data[16*1024];
-	int read = 0;
-	while ((read = sceHttpReadData(request, &data, sizeof(data))) > 0){
-		int write = sceIoWrite(fh, data, read);
+	curl_easy_reset(curl_handle);
+	curl_easy_setopt(curl_handle, CURLOPT_URL, url);
+	switch (method){
+	case SCE_HTTP_METHOD_GET:
+		curl_easy_setopt(curl_handle, CURLOPT_HTTPGET, 1L);
+		break;
+	case SCE_HTTP_METHOD_POST:
+		curl_easy_setopt(curl_handle, CURLOPT_POST, 1L);
+		if (postdata != NULL){
+			curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDS, postdata);
+			curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDSIZE, postsize * 1L);
+		}
+		break;
+	case SCE_HTTP_METHOD_HEAD:
+		curl_easy_setopt(curl_handle, CURLOPT_NOBODY, 1L);
+		break;
+	default:
+		break;
 	}
+	curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, useragent);
+	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
+	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curl_handle, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+	curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, 10L);
+	curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1L);
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_cb);	
+	SceUID fh = sceIoOpen(file, SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &fh);
+	struct curl_slist *headerchunk = NULL;
+	headerchunk = curl_slist_append(headerchunk, "Accept: */*");
+	headerchunk = curl_slist_append(headerchunk, "Content-Type: application/json");
+	headerchunk = curl_slist_append(headerchunk, "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+	headerchunk = curl_slist_append(headerchunk, "Content-Length: 0");
+	curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headerchunk);
+	curl_easy_perform(curl_handle);
 	sceIoClose(fh);
 	return 0;
 }
