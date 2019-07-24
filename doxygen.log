@@ -1,20 +1,5 @@
-Warning: ignoring unsupported tag `ALLOW_UNICODE_NAMES    =' at line 79, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `TOC_INCLUDE_HEADINGS   =' at line 313, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `GROUP_NESTED_COMPOUNDS =' at line 370, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `HIDE_COMPOUND_REFERENCE=' at line 541, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `WARN_AS_ERROR          =' at line 765, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: Tag `CLANG_ASSISTED_PARSING' at line 1082 of file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile belongs to an option that was not enabled at compile time.
-To avoid this warning please remove this line from your configuration file, upgrade it using "doxygen -u", or recompile doxygen with this feature enabled.
-Warning: Tag `CLANG_OPTIONS' at line 1090 of file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile belongs to an option that was not enabled at compile time.
-To avoid this warning please remove this line from your configuration file, upgrade it using "doxygen -u", or recompile doxygen with this feature enabled.
-Warning: ignoring unsupported tag `LATEX_EXTRA_STYLESHEET =' at line 1762, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `LATEX_TIMESTAMP        =' at line 1829, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `RTF_SOURCE_CODE        =' at line 1895, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `MAN_SUBDIR             =' at line 1930, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `DOCBOOK_PROGRAMLISTING =' at line 1993, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `PLANTUML_JAR_PATH      =' at line 2422, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `PLANTUML_CFG_FILE      =' at line 2427, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
-Warning: ignoring unsupported tag `PLANTUML_INCLUDE_PATH  =' at line 2432, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
+warning: ignoring unsupported tag `TOC_INCLUDE_HEADINGS   =' at line 313, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
+warning: ignoring unsupported tag `PLANTUML_CFG_FILE      =' at line 2427, file /home/travis/build/Rinnegatamante/lpp-vita/doc/Doxyfile
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaCamera.cpp:2: warning: missing title after \defgroup Camera
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaColor.cpp:2: warning: missing title after \defgroup Color
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaControls.cpp:2: warning: missing title after \defgroup Controls
@@ -39,7 +24,7 @@ Searching for dot files...
 Searching for msc files...
 Searching for dia files...
 Searching for files to exclude
-Searching for files to process...
+Searching INPUT for files to process...
 Searching for files in directory /home/travis/build/Rinnegatamante/lpp-vita/doc
 Reading and parsing tag files
 Parsing files
@@ -107,16 +92,16 @@ Computing page relations...
 Determining the scope of groups...
 Sorting lists...
 Freeing entry tree
-Determining which enums are documented
-/home/travis/build/Rinnegatamante/lpp-vita/doc/luaCamera.cpp:481: warning: argument 'mode' of command @param is not found in the argument list of Camera::setNightmode(CameraNightmode value)
-/home/travis/build/Rinnegatamante/lpp-vita/doc/luaCamera.cpp:481: warning: The following parameters of Camera::setNightmode(CameraNightmode value) are not documented:
+Determining which enums are docum/home/travis/build/Rinnegatamante/lpp-vita/doc/luaCamera.cpp:481: warning: argument 'mode' of command @param is not found in the argument list of Camera::setNightmode(CameraNightmode value)
+/home/travis/build/Rinnegatamante/lpp-vita/doc/luaCamera.cpp:489: warning: The following parameters of Camera::setNightmode(CameraNightmode value) are not documented:
   parameter 'value'
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:60: warning: argument 'image' of command @param is not found in the argument list of Graphics::drawPixel(number x, number y, int color)
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:129: warning: argument 'x' of command @param is not found in the argument list of Graphics::fillCircle(number x1, number y1, number rad, int color)
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:129: warning: argument 'y' of command @param is not found in the argument list of Graphics::fillCircle(number x1, number y1, number rad, int color)
-/home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:129: warning: The following parameters of Graphics::fillCircle(number x1, number y1, number rad, int color) are not documented:
+/home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:140: warning: The following parameters of Graphics::fillCircle(number x1, number y1, number rad, int color) are not documented:
   parameter 'x1'
   parameter 'y1'
+ented
 Computing member relations...
 Building full member lists recursively...
 Adding members to member groups.
@@ -173,5 +158,6 @@ Generating member index...
 Generating file member index...
 Generating example index...
 finalizing index lists...
+writing tag file...
 lookup cache used 308/65536 hits=882 misses=308
 finished...
