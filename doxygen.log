@@ -95,7 +95,6 @@ Freeing entry tree
 Determining which enums are docum/home/travis/build/Rinnegatamante/lpp-vita/doc/luaCamera.cpp:481: warning: argument 'mode' of command @param is not found in the argument list of Camera::setNightmode(CameraNightmode value)
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaCamera.cpp:489: warning: The following parameters of Camera::setNightmode(CameraNightmode value) are not documented:
   parameter 'value'
-/home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:60: warning: argument 'image' of command @param is not found in the argument list of Graphics::drawPixel(number x, number y, int color)
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:129: warning: argument 'x' of command @param is not found in the argument list of Graphics::fillCircle(number x1, number y1, number rad, int color)
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:129: warning: argument 'y' of command @param is not found in the argument list of Graphics::fillCircle(number x1, number y1, number rad, int color)
 /home/travis/build/Rinnegatamante/lpp-vita/doc/luaGraphics.cpp:140: warning: The following parameters of Graphics::fillCircle(number x1, number y1, number rad, int color) are not documented:

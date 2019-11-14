@@ -127,9 +127,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga96fcdf38360384abbdc6b9def54f2119"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga96fcdf38360384abbdc6b9def54f2119">Graphics.debugPrint</a> (number x, number y, string text, int color)</td></tr>
 <tr class="memdesc:ga96fcdf38360384abbdc6b9def54f2119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a text on screen using system font.  <a href="#ga96fcdf38360384abbdc6b9def54f2119">More...</a><br /></td></tr>
 <tr class="separator:ga96fcdf38360384abbdc6b9def54f2119"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaba382443d1ef19990967a9491f7b1a84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gaba382443d1ef19990967a9491f7b1a84">Graphics.drawPixel</a> (number x, number y, int color)</td></tr>
-<tr class="memdesc:gaba382443d1ef19990967a9491f7b1a84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a pixel.  <a href="#gaba382443d1ef19990967a9491f7b1a84">More...</a><br /></td></tr>
-<tr class="separator:gaba382443d1ef19990967a9491f7b1a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabecdffbce52072e37af5ba29aba10722"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gabecdffbce52072e37af5ba29aba10722">Graphics.drawPixel</a> (number x, number y, int color, int image)</td></tr>
+<tr class="memdesc:gabecdffbce52072e37af5ba29aba10722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a pixel.  <a href="#gabecdffbce52072e37af5ba29aba10722">More...</a><br /></td></tr>
+<tr class="separator:gabecdffbce52072e37af5ba29aba10722"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4eef9dc05929c765f5174b53f524f095"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga4eef9dc05929c765f5174b53f524f095">Graphics.drawLine</a> (number x1, number x2, number y1, number y2, int color)</td></tr>
 <tr class="memdesc:ga4eef9dc05929c765f5174b53f524f095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a line.  <a href="#ga4eef9dc05929c765f5174b53f524f095">More...</a><br /></td></tr>
 <tr class="separator:ga4eef9dc05929c765f5174b53f524f095"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -296,7 +296,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaba382443d1ef19990967a9491f7b1a84"></a>
+<a class="anchor" id="gabecdffbce52072e37af5ba29aba10722"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -316,7 +316,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>color</em>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>image</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -327,7 +333,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Draw a pixel. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gaba382443d1ef19990967a9491f7b1a84">drawPixel</a>(5, 5, <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(15, 255, 200))</div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gabecdffbce52072e37af5ba29aba10722">drawPixel</a>(5, 5, <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(15, 255, 200))</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>- X coordinate of the pixel position in pixels. </td></tr>
