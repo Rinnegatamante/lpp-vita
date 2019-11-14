@@ -46,6 +46,20 @@ static CURL *curl_handle = NULL;
 
 typedef struct
 {
+	unsigned char *ptr = (unsigned char*)malloc(1);
+	size_t length = 1;
+	void NetString() { ptr[0] = 0; }
+	void concat(void* data, size_t size)
+	{
+		ptr = (unsigned char*)realloc(ptr, length + size);
+		memcpy(ptr + length - 1, data, size);
+		length += size;
+		ptr[length - 1] = 0;
+	};
+} NetString;
+
+typedef struct
+{
 	uint32_t magic;
 	int sock;
 	bool serverSocket;
@@ -92,6 +106,13 @@ static size_t write_cb(void *ptr, size_t size, size_t nmemb, void *stream)
 	return sceIoWrite(*fd , ptr , size * nmemb);
 }
 
+static size_t write_str(void *ptr, size_t size, size_t nmemb, NetString *str)
+{
+	size_t dadd = size * nmemb;
+	str->concat(ptr, dadd);
+    return dadd;
+}
+
 #define FILE_DOWNLOAD   0
 #define STRING_DOWNLOAD 1
 #define DOWNLOAD_END    2
@@ -103,38 +124,73 @@ static uint8_t asyncMethod;
 static char asyncPostdata[2048];
 static int asyncPostsize;
 
-static int downloadThread(unsigned int args, void* arg){
-	asyncResult = 0;
-	int tpl = sceHttpCreateTemplate(asyncUseragent, 1, 1);	
-	int conn = sceHttpCreateConnectionWithURL(tpl, asyncUrl, 0);
-	int request = sceHttpCreateRequestWithURL(conn, asyncMethod, asyncUrl, 0);
-	int handle = sceHttpSendRequest(request, (strlen(asyncPostdata) > 0) ? asyncPostdata : NULL, asyncPostsize);
-	unsigned char data[16*1024];
-	int read = 0;
-	int fd;
-	switch (asyncMode){
+static int downloadThread(unsigned int args, void* arg)
+{
+	int file = 0;
+	curl_easy_reset(curl_handle);
+	curl_easy_setopt(curl_handle, CURLOPT_URL, asyncUrl);
+	switch (asyncMethod)
+	{
+	case SCE_HTTP_METHOD_GET:
+		curl_easy_setopt(curl_handle, CURLOPT_HTTPGET, 1L);
+		break;
+	case SCE_HTTP_METHOD_POST:
+		curl_easy_setopt(curl_handle, CURLOPT_POST, 1L);
+		if (asyncPostdata != NULL){
+			curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDS, asyncPostdata);
+			curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDSIZE, asyncPostsize * 1L);
+		}
+		break;
+	case SCE_HTTP_METHOD_HEAD:
+		curl_easy_setopt(curl_handle, CURLOPT_NOBODY, 1L);
+		break;
+	default:
+		break;
+	}
+	curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, asyncUseragent);
+	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
+	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curl_handle, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+	curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, 10L);
+	curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1L);
+	NetString *buffer;
+	switch (asyncMode)
+	{
 		case FILE_DOWNLOAD:
-			fd = sceIoOpen(asyncDest, SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
-			while ((read = sceHttpReadData(request, &data, sizeof(data))) > 0){
-				sceIoWrite(fd, data, read);
+			file = sceIoOpen(asyncDest, SCE_O_WRONLY | SCE_O_CREAT, 0777);
+			if (!file)
+			{
+				asyncMode = DOWNLOAD_END;
+				async_task_num--;
+				asyncResult = 1;
+				sceKernelExitDeleteThread(0);
+				return 0;
 			}
-			sceIoClose(fd);
+			curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_cb);
+			curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &file);
 			break;
 		case STRING_DOWNLOAD:
-			asyncStrRes = (unsigned char*)malloc(0x1000);
-			int i = 0;
-			int len = 0x1000;
-			while ((read = sceHttpReadData(request, &asyncStrRes[i], len-i)) > 0){
-				i += read;
-				if (i >= len){
-					len += 0x1000;
-					asyncStrRes = (unsigned char*)realloc(asyncStrRes, len);
-				}
-			}
-			asyncStrRes = (unsigned char*)realloc(asyncStrRes, i+1);
-			asyncStrRes[i] = 0;
-			asyncResSize = i;
+			buffer = new NetString();
+			curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_str);
+			curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, buffer);
 			break;
+	}
+	struct curl_slist *headerchunk = NULL;
+	headerchunk = curl_slist_append(headerchunk, "Accept: */*");
+	headerchunk = curl_slist_append(headerchunk, "Content-Type: application/json");
+	headerchunk = curl_slist_append(headerchunk, "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+	headerchunk = curl_slist_append(headerchunk, "Content-Length: 0");
+	curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headerchunk);
+	curl_easy_perform(curl_handle);
+	curl_slist_free_all(headerchunk);
+	if (file > 0)
+		sceIoClose(file);
+	if (asyncMode == STRING_DOWNLOAD)
+	{
+		asyncStrRes = buffer->ptr;
+		asyncResSize = buffer->length;
+		delete buffer;
 	}
 	asyncMode = DOWNLOAD_END;
 	async_task_num--;
@@ -471,6 +527,8 @@ static int lua_download(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc < 2 || argc > 5) return luaL_error(L, "wrong number of arguments");
+	if (asyncMode != DOWNLOAD_END) return luaL_error(L, "cannot download file when async download is active");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	const char* url = luaL_checkstring(L,1);
 	const char* file = luaL_checkstring(L,2);
@@ -514,6 +572,7 @@ static int lua_download(lua_State *L){
 	headerchunk = curl_slist_append(headerchunk, "Content-Length: 0");
 	curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headerchunk);
 	curl_easy_perform(curl_handle);
+	curl_slist_free_all(headerchunk);
 	sceIoClose(fh);
 	return 0;
 }
@@ -523,10 +582,11 @@ static int lua_downloadasync(lua_State *L){
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc < 2 || argc > 5) return luaL_error(L, "wrong number of arguments");
 	if (async_task_num == ASYNC_TASKS_MAX) return luaL_error(L, "cannot start more async tasks.");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	const char* url = luaL_checkstring(L,1);
 	const char* file = luaL_checkstring(L,2);
-	const char* useragent = (argc >= 3) ? luaL_checkstring(L,3) : "lpp-vita app";
+	const char* useragent = (argc >= 3) ? luaL_checkstring(L,3) : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
 	asyncMethod = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
 	const char* postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
 	asyncPostsize = (argc >= 5) ? strlen(postdata) : 0;
@@ -538,6 +598,12 @@ static int lua_downloadasync(lua_State *L){
 	async_task_num++;
 	asyncMode = FILE_DOWNLOAD;
 	SceUID thd = sceKernelCreateThread("Net Downloader Thread", &downloadThread, 0x10000100, 0x100000, 0, 0, NULL);
+	if (thd < 0)
+	{
+		asyncResult = -1;
+		return 0;
+	}
+	asyncResult = 0;
 	sceKernelStartThread(thd, 0, NULL);
 	return 0;
 }
@@ -546,32 +612,56 @@ static int lua_string(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc < 1 || argc > 4) return luaL_error(L, "wrong number of arguments");
+	if (asyncMode != DOWNLOAD_END) return luaL_error(L, "cannot download file when async download is active");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	const char* url = luaL_checkstring(L,1);
-	const char* useragent = (argc >= 2) ? luaL_checkstring(L,2) : "lpp-vita app";
+	const char* useragent = (argc >= 2) ? luaL_checkstring(L,2) : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
 	uint8_t method = (argc >= 3) ? luaL_checkinteger(L,3) : SCE_HTTP_METHOD_GET;
 	const char* postdata = (argc >= 4) ? luaL_checkstring(L,4) : NULL;
 	int postsize = (argc >= 4) ? strlen(postdata) : 0;
-	int tpl = sceHttpCreateTemplate(useragent, 1, 1);	
-	int conn = sceHttpCreateConnectionWithURL(tpl, url, 0);
-	int request = sceHttpCreateRequestWithURL(conn, method, url, 0);
-	int handle = sceHttpSendRequest(request, postdata, postsize);
-	unsigned char *buffer = (unsigned char*)malloc(0x1000);
-	int read = 0;
-	int i = 0;
-	int len = 0x1000;
-	while ((read = sceHttpReadData(request, &buffer[i], len-i)) > 0){
-		i += read;
-		if (i >= len){
-			len += 0x1000;
-			buffer = (unsigned char*)realloc(buffer, len);
+	curl_easy_reset(curl_handle);
+	curl_easy_setopt(curl_handle, CURLOPT_URL, url);
+	switch (method)
+	{
+	case SCE_HTTP_METHOD_GET:
+		curl_easy_setopt(curl_handle, CURLOPT_HTTPGET, 1L);
+		break;
+	case SCE_HTTP_METHOD_POST:
+		curl_easy_setopt(curl_handle, CURLOPT_POST, 1L);
+		if (postdata != NULL){
+			curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDS, postdata);
+			curl_easy_setopt(curl_handle, CURLOPT_POSTFIELDSIZE, postsize * 1L);
 		}
+		break;
+	case SCE_HTTP_METHOD_HEAD:
+		curl_easy_setopt(curl_handle, CURLOPT_NOBODY, 1L);
+		break;
+	default:
+		break;
 	}
-	buffer = (unsigned char*)realloc(buffer, i+1);
-	buffer[i] = 0;
-	lua_pushlstring(L,(const char*)buffer,i);
-	free(buffer);
-	return 0;
+	curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, useragent);
+	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
+	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curl_handle, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+	curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, 10L);
+	curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1L);
+	NetString *buffer = new NetString();
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_str);
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, buffer);
+	struct curl_slist *headerchunk = NULL;
+	headerchunk = curl_slist_append(headerchunk, "Accept: */*");
+	headerchunk = curl_slist_append(headerchunk, "Content-Type: application/json");
+	headerchunk = curl_slist_append(headerchunk, "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+	headerchunk = curl_slist_append(headerchunk, "Content-Length: 0");
+	curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headerchunk);
+	curl_easy_perform(curl_handle);
+	curl_slist_free_all(headerchunk);
+	lua_pushstring(L,(const char*)buffer->ptr);
+	free(buffer->ptr);
+	delete buffer;
+	return 1;
 }
 
 static int lua_stringasync(lua_State *L){
@@ -579,6 +669,7 @@ static int lua_stringasync(lua_State *L){
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc < 1 || argc > 4) return luaL_error(L, "wrong number of arguments");
 	if (async_task_num == ASYNC_TASKS_MAX) return luaL_error(L, "cannot start more async tasks.");
+	if (!isNet) return luaL_error(L, "Network is not inited");
 	#endif
 	const char* url = luaL_checkstring(L,1);
 	const char* useragent = (argc >= 2) ? luaL_checkstring(L,2) : "lpp-vita app";
@@ -592,6 +683,12 @@ static int lua_stringasync(lua_State *L){
 	async_task_num++;
 	asyncMode = STRING_DOWNLOAD;
 	SceUID thd = sceKernelCreateThread("Net Downloader Thread", &downloadThread, 0x10000100, 0x100000, 0, 0, NULL);
+	if (thd < 0)
+	{
+		asyncResult = -1;
+		return 0;
+	}
+	asyncResult = 0;
 	sceKernelStartThread(thd, 0, NULL);
 	return 0;
 }
