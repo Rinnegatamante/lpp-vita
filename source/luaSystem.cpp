@@ -64,13 +64,12 @@ static char asyncDest[256];
 static char asyncName[256];
 static char asyncPass[64];
 static volatile uint8_t asyncMode = EXTRACT_END;
-volatile int asyncResult = 0;
+volatile int asyncResult = 1;
 uint8_t async_task_num = 0;
 unsigned char* asyncStrRes = NULL;
 uint32_t asyncResSize = 0;
 
 static int zipThread(unsigned int args, void* arg){
-	asyncResult = 0;
 	switch (asyncMode){
 		case FULL_EXTRACT:
 			asyncResult = ZipExtract(asyncHandle, (strlen(asyncPass) > 0) ? asyncPass : NULL, asyncDest);
@@ -690,6 +689,12 @@ static int lua_ZipExtractAsync(lua_State *L) {
 	else asyncPass[0] = 0;
 	async_task_num++;
 	SceUID thd = sceKernelCreateThread("Zip Extract Thread", &zipThread, 0x10000100, 0x100000, 0, 0, NULL);
+	if (thd < 0)
+	{
+		asyncResult = -1;
+		return 0;
+	}
+	asyncResult = 0;
 	sceKernelStartThread(thd, 0, NULL);
 	return 0;
 }
@@ -741,6 +746,12 @@ static int lua_getfilefromzipasync(lua_State *L){
 	else asyncPass[0] = 0;
 	async_task_num++;
 	SceUID thd = sceKernelCreateThread("Zip Extract Thread", &zipThread, 0x10000100, 0x100000, 0, 0, NULL);
+	if (thd < 0)
+	{
+		asyncResult = -1;
+		return 0;
+	}
+	asyncResult = 0;
 	sceKernelStartThread(thd, 0, NULL);
 	return 0;
 }

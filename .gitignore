@@ -4,6 +4,7 @@ ehthumbs.db
 
 # Vita related files
 build/
+.vscode/
 *.suprx
 *.skprx
 *.vpk
