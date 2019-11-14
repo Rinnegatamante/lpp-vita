@@ -70,7 +70,7 @@ class Graphics {
 		 *
 		 * @note If <b>image</b> is not provided, pixel will be drawn on screen.
 		 */
-		void drawPixel(number x, number y, int color);
+		void drawPixel(number x, number y, int color, int image);
 		
 		/**
 		 * Draw a line.
