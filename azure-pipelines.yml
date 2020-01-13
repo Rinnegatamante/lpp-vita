@@ -1,0 +1,64 @@
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+container: gnuton/vitasdk-docker:latest
+
+steps:
+- script: sudo apt-get install -qq -y pkg-config
+  displayName: 'Install extra dependencies'
+
+- script: sudo apt-get install -qq -y libc6-dev-i386
+  displayName: 'Install 32 bit libraries'
+
+- script: |
+    git clone https://github.com/hyln9/vita-libdl
+    cd vita-libdl
+    make
+    sudo -E make install
+  displayName: 'Build vita-libdl'
+
+- script: |
+    git clone https://github.com/hyln9/vita-luajit
+    cd vita-luajit/src
+    make HOST_CC="gcc -m32" CROSS=arm-vita-eabi- TARGET_SYS=PSP2 TARGET_FLAGS="-marm -fno-optimize-sibling-calls" PREFIX="ux0:/data/luajit"hi
+    sudo -E cp libluajit.a $VITASDK/arm-vita-eabi/lib/libluajit.a
+    sudo -E cp lua.h $VITASDK/arm-vita-eabi/include/lua.h
+    sudo -E cp lualib.h $VITASDK/arm-vita-eabi/include/lualib.h
+    sudo -E cp lauxlib.h $VITASDK/arm-vita-eabi/include/lauxlib.h
+    sudo -E cp luaconf.h $VITASDK/arm-vita-eabi/include/luaconf.h
+    sudo -E cp lua.hpp $VITASDK/arm-vita-eabi/include/lua.hpp
+    sudo -E cp luajit.h $VITASDK/arm-vita-eabi/include/luajit.h
+  displayName: 'Build LuaJIT'
+
+- script: |
+    git clone https://github.com/xerpi/libvita2d
+    sudo -E cp libvita2d/libvita2d/include/utils.h $VITASDK/arm-vita-eabi/include/utils.h
+  displayName: 'Get vita2d extra headers'
+
+- script: |
+    wget https://rinnegatamante.it/opusfile.zip
+    sudo apt-get install -qq -y unzip
+    sudo unzip opusfile.zip -d $VITASDK/arm-vita-eabi
+  displayName: 'Get opusfile'
+
+- script: |
+    make clean
+    make -j$(nproc)
+  displayName: 'Build (Standard)'
+
+- task: GitHubRelease@0
+  inputs:
+    gitHubConnection: release
+    repositoryName: Rinnegatamante/lpp-vita
+    tagSource: manual
+    tag: Nightly
+    action: edit
+    assets: |
+      eboot_safe.bin
+      eboot_unsafe.bin
+  displayName: 'Deploy artifacts'

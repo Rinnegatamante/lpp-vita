@@ -2,6 +2,8 @@
 	<img src="https://github.com/gnmmarechal/lpp-vita/raw/master/banner.png?raw=true"/>
 </p>
 
+[![Documentation](https://travis-ci.org/Rinnegatamante/lpp-vita.png?branch=master)](https://travis-ci.org/Rinnegatamante/lpp-vita) [![Build Status](https://dev.azure.com/rinnegatamante/lpp-vita/_apis/build/status/Rinnegatamante.lpp-vita?branchName=master)](https://dev.azure.com/rinnegatamante/lpp-vita/_build/latest?definitionId=1&branchName=master)
+
 # Description
 
 **Lua Player Plus Vita** is the first lua interpreter made for the Sony PlayStation Vita.
@@ -106,7 +108,7 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Video Bubbles Creator](http://wololo.net/talk/viewtopic.php?f=116&t=48581)
 * [VitaGraphs](https://vitadb.rinnegatamante.it/#/info/363)
 * [SwitchView UI](https://vitadb.rinnegatamante.it/#/info/338)
-* [RandomHentai](https://vitadb.rinnegatamante.it/#/info/432)
+* [RandomHentai](https://vitadb.rinnegatamante.it/#/info/526)
 
 ##### Emulators
 * [MicroCHIP](http://wololo.net/talk/viewtopic.php?f=116&t=48620)
