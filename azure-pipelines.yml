@@ -53,7 +53,7 @@ steps:
 
 - task: GitHubRelease@0
   inputs:
-    gitHubConnection: Rinnegatamante
+    gitHubConnection: lpp-vita
     repositoryName: Rinnegatamante/lpp-vita
     tagSource: manual
     tag: Nightly
