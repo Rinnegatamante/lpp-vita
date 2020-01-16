@@ -8,6 +8,7 @@ var group___graphics =
     [ "termBlend", "group___graphics.html#gaf6c0bffb836a492cfa7d92db3d012da9", null ],
     [ "debugPrint", "group___graphics.html#ga96fcdf38360384abbdc6b9def54f2119", null ],
     [ "drawPixel", "group___graphics.html#gabecdffbce52072e37af5ba29aba10722", null ],
+    [ "getPixel", "group___graphics.html#gab2580e138b3f2c491b6964554449d572", null ],
     [ "drawLine", "group___graphics.html#ga4eef9dc05929c765f5174b53f524f095", null ],
     [ "fillRect", "group___graphics.html#ga87f7ac1907b558897936740fd3d09851", null ],
     [ "fillEmptyRect", "group___graphics.html#gaf252f2867a352b99d5322536fd86a932", null ],

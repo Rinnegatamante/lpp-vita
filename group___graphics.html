@@ -130,6 +130,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gabecdffbce52072e37af5ba29aba10722"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gabecdffbce52072e37af5ba29aba10722">Graphics.drawPixel</a> (number x, number y, int color, int image)</td></tr>
 <tr class="memdesc:gabecdffbce52072e37af5ba29aba10722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a pixel.  <a href="#gabecdffbce52072e37af5ba29aba10722">More...</a><br /></td></tr>
 <tr class="separator:gabecdffbce52072e37af5ba29aba10722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab2580e138b3f2c491b6964554449d572"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gab2580e138b3f2c491b6964554449d572">Graphics.getPixel</a> (int x, int y, int img)</td></tr>
+<tr class="memdesc:gab2580e138b3f2c491b6964554449d572"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pixel color from a loaded image.  <a href="#gab2580e138b3f2c491b6964554449d572">More...</a><br /></td></tr>
+<tr class="separator:gab2580e138b3f2c491b6964554449d572"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4eef9dc05929c765f5174b53f524f095"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga4eef9dc05929c765f5174b53f524f095">Graphics.drawLine</a> (number x1, number x2, number y1, number y2, int color)</td></tr>
 <tr class="memdesc:ga4eef9dc05929c765f5174b53f524f095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a line.  <a href="#ga4eef9dc05929c765f5174b53f524f095">More...</a><br /></td></tr>
 <tr class="separator:ga4eef9dc05929c765f5174b53f524f095"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -344,6 +347,50 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>If <b>image</b> is not provided, pixel will be drawn on screen. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gab2580e138b3f2c491b6964554449d572"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Graphics.getPixel </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>img</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a pixel color from a loaded image. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">pixel_color = <a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gab2580e138b3f2c491b6964554449d572">getPixel</a>(5, 25, img)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>- X coordinate of the pixel. </td></tr>
+    <tr><td class="paramname">y</td><td>- Y coordinate of the pixel. </td></tr>
+    <tr><td class="paramname">img</td><td>- A valid image id.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The pixel color value (See <a class="el" href="class_color.html">Color</a>). </dd></dl>
 
 </div>
 </div>
