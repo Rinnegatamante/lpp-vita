@@ -51,12 +51,13 @@ steps:
     make
   displayName: 'Build (Standard)'
 
-- task: PublishPipelineArtifact@1
+- task: GitHubRelease@0
   inputs:
-    path: eboot_safe.bin
-    artifact: 'eboot.bin (Safe)'
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    path: eboot_unsafe.bin
-    artifact: 'eboot.bin (Unsafe)'
+    gitHubConnection: Rinnegatamante
+    repositoryName: Rinnegatamante/lpp-vita
+    tagSource: manual
+    tag: Nightly
+    assets: |
+      eboot_safe.bin
+      eboot_unsafe.bin
+  displayName: 'Deploy artifacts'
