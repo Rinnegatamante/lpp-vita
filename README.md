@@ -65,7 +65,7 @@ Official documentation: http://rinnegatamante.github.io/lpp-vita/
 
 # Nightly Builds
 
-We offer an automated builder service for our nightly builds. Nightly builds are automatically updated every 4 hours by a server we own. To take advantage of this service, you should visit [this page](http://rinnegatamante.it/lpp-nightly.php).
+We offer an automated builder service for our nightly builds powered by Azure Pipelines CI. Nightly builds are automatically updated at each new commit. To take advantage of this service, you can find a proper release here on GitHub with the Nightly tag.
 
 # Showcase
 
