@@ -31,6 +31,7 @@
 #include <string.h>
 #include <vitasdk.h>
 #include <vita2d.h>
+#include <utils.h>
 #include "include/luaplayer.h"
 #include "include/message_dialog.h"
 
@@ -561,12 +562,29 @@ static int lua_rescaleroff(lua_State *L) {
 	return 0;
 }
 
+static int lua_gpixel(lua_State *L) {
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	#endif
+	int x = luaL_checkinteger(L, 1);
+	int y = luaL_checkinteger(L, 2);
+	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 3));
+	#ifndef SKIP_ERROR_HANDLING
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	#endif
+	uint32_t *buff = (uint32_t*)vita2d_texture_get_datap(text->text);
+	lua_pushinteger(L, buff[ALIGN(vita2d_texture_get_width(text->text), 8) * y + x]);
+	return 1;
+}
+
 //Register our Graphics Functions
 static const luaL_Reg Graphics_functions[] = {
   {"initBlend",           lua_init},
   {"termBlend",           lua_term},
   {"debugPrint",          lua_print},
   {"drawPixel",           lua_pixel},
+  {"getPixel",            lua_gpixel},
   {"drawLine",            lua_line},
   {"fillRect",            lua_rect},
   {"fillEmptyRect",       lua_emptyrect},

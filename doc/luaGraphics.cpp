@@ -73,6 +73,23 @@ class Graphics {
 		void drawPixel(number x, number y, int color, int image);
 		
 		/**
+		 * Get a pixel color from a loaded image.
+		 * \ingroup Graphics
+		 *
+		 * @par Usage example:
+		 * @code
+		 * pixel_color = Graphics.getPixel(5, 25, img)
+		 * @endcode
+		 *
+		 * @param x - X coordinate of the pixel.
+		 * @param y - Y coordinate of the pixel.
+		 * @param img - A valid image id.
+		 *
+		 * @return The pixel color value (See ::Color).
+		 */
+		int getPixel(int x, int y, int img);
+		
+		/**
 		 * Draw a line.
 		 * \ingroup Graphics
 		 *
