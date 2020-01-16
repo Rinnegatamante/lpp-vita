@@ -565,6 +565,32 @@ class System{
 		void launchApp(string titleid);
 		
 		/**
+		 * Get free space for a given device.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Graphics.debugPrint(5, 5, System.getFreeSpace("ux0:") .. "/" .. System.getTotalSpace("ux0:"), Color.new(255, 255, 255))
+		 * @endcode
+		 *
+		 * @param dev - The device name.
+		 */
+		void getFreeSpace(string dev);
+		
+		/**
+		 * Get total space for a given device.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Graphics.debugPrint(5, 5, System.getFreeSpace("ux0:") .. "/" .. System.getTotalSpace("ux0:"), Color.new(255, 255, 255))
+		 * @endcode
+		 *
+		 * @param dev - The device name.
+		 */
+		void getTotalSpace(string dev);
+		
+		/**
 		 * Get console time.
 		 * \ingroup System
 		 *

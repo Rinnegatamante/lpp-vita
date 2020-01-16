@@ -100,8 +100,8 @@ static int lua_launch(lua_State *L){
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments.");
 	#endif
-	char* file = (char*)luaL_checkstring(L,1);
-	unsigned char* buffer;
+	char *file = (char*)luaL_checkstring(L,1);
+	unsigned char *buffer;
 	SceUID bin = sceIoOpen(file, SCE_O_RDONLY, 0777);
 	#ifndef SKIP_ERROR_HANDLING
 	if (bin < 0) return luaL_error(L, "error opening file.");
@@ -116,7 +116,7 @@ static int lua_launch2(lua_State *L){
 	#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments.");
 	#endif
-	char* titleid = (char*)luaL_checkstring(L,1);
+	char *titleid = (char*)luaL_checkstring(L,1);
 	char uri[32];
 	sprintf(uri, "psgm:play?titleid=%s", titleid);
 	int i;
@@ -149,7 +149,7 @@ static int lua_readfile(lua_State *L){
 	#endif
 	SceUID file = luaL_checkinteger(L, 1);
 	uint32_t size = luaL_checkinteger(L, 2);
-	uint8_t* buffer = (uint8_t*)malloc(size + 1);
+	uint8_t *buffer = (uint8_t*)malloc(size + 1);
 	int len = sceIoRead(file,buffer, size);
 	buffer[len] = 0;
 	lua_pushlstring(L,(const char*)buffer,len);
@@ -326,7 +326,7 @@ static int lua_screenshot(lua_State *L){
 		for (y = 0; y<param.height; y++){
 			for (x = 0; x<param.pitch; x++){
 				buffer[x+y*param.pitch+0x36] = framebuf[x+(param.height-y)*param.pitch];
-				uint8_t* clr = (uint8_t*)&buffer[x+y*param.pitch+0x36];
+				uint8_t *clr = (uint8_t*)&buffer[x+y*param.pitch+0x36];
 				uint8_t r = clr[1];
 				clr[1] = clr[3];
 				clr[3] = r;
@@ -339,7 +339,7 @@ static int lua_screenshot(lua_State *L){
 		uint32_t out_size = ALIGN(param.width * param.height, 256);
 		uint32_t buf_size = ALIGN(in_size + out_size, 0x40000);
 		SceUID memblock = sceKernelAllocMemBlock("encoderBuffer", SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW, buf_size, NULL);
-		void* buf_addr = NULL;
+		void *buf_addr = NULL;
 		sceKernelGetMemBlockBase(memblock, &buf_addr);
 		SceJpegEncoderContext context = malloc(sceJpegEncoderGetContextSize());
 		sceJpegEncoderInit(context, param.width, param.height, (SceJpegEncoderPixelFormat)(SCE_JPEGENC_PIXELFORMAT_YCBCR420 | SCE_JPEGENC_PIXELFORMAT_CSC_ARGB_YCBCR), (void*)((uint32_t)buf_addr + in_size), out_size);
@@ -991,6 +991,40 @@ static int lua_getpsid(lua_State *L){
 	return 1;
 }
 
+static int lua_freespace(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	uint64_t free_storage = 0;
+	uint64_t dummy;
+	char *dev_name = luaL_checkstring(L, 1);
+	SceIoDevInfo info;
+	memset(&info, 0, sizeof(SceIoDevInfo));
+	int res = sceIoDevctl(dev_name, 0x3001, NULL, 0, &info, sizeof(SceIoDevInfo));
+	if (res >= 0) free_storage = info.free_size;
+	else sceAppMgrGetDevInfo(dev_name, &dummy, &free_storage);
+	lua_pushnumber(L, free_storage);
+	return 1;
+}
+
+static int lua_totalspace(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	uint64_t total_storage = 0;
+	uint64_t dummy;
+	char *dev_name = luaL_checkstring(L, 1);
+	SceIoDevInfo info;
+	memset(&info, 0, sizeof(SceIoDevInfo));
+	int res = sceIoDevctl(dev_name, 0x3001, NULL, 0, &info, sizeof(SceIoDevInfo));
+	if (res >= 0) total_storage = info.max_size;
+	else sceAppMgrGetDevInfo(dev_name, &total_storage, &dummy);
+	lua_pushnumber(L, total_storage);
+	return 1;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
   {"openFile",                  lua_openfile},
@@ -1053,6 +1087,8 @@ static const luaL_Reg System_functions[] = {
   {"getAsyncState",             lua_getasyncstate},
   {"getAsyncResult",            lua_getasyncres},
   {"getPsId",                   lua_getpsid},
+  {"getFreeSpace",              lua_freespace},
+  {"getTotalSpace",             lua_totalspace},
   {0, 0}
 };
 
