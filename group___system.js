@@ -63,6 +63,8 @@ var group___system =
     [ "getGpuXbarSpeed", "group___system.html#ga0dfeddb6754b9bdf9e5db8c568b1d127", null ],
     [ "launchEboot", "group___system.html#ga16c5dce8370cb070061c7de841cca3e0", null ],
     [ "launchApp", "group___system.html#ga9dd512f7710091cfcbe28b26de6badaf", null ],
+    [ "getFreeSpace", "group___system.html#ga7c72c31fe8b4a7ad0921d339ca91b0f1", null ],
+    [ "getTotalSpace", "group___system.html#ga0b38c460ab50c37c547f18b71e7cda75", null ],
     [ "getTime", "group___system.html#ga6c22ea39ba26fd9d843c34e1df9602d6", null ],
     [ "getDate", "group___system.html#gacb3dd094cd82df88c5d8475a466173da", null ],
     [ "getUsername", "group___system.html#ga8a345acaf4ae23c2edefde72d75e35f8", null ],
