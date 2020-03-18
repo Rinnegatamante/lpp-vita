@@ -815,7 +815,6 @@ static int lua_extractsfo(lua_State *L) {
 		uint8_t* key_table = (uint8_t*)malloc(hdr.dataTableOffset - hdr.keyTableOffset);
 		fread(key_table, hdr.dataTableOffset - hdr.keyTableOffset, 1, f);
 		lua_newtable(L);
-		lua_newtable(L);
 		uint8_t return_indexes = 0;
 		for (int i=0; i < hdr.indexTableEntries; i++){
 			char param_name[256];
@@ -830,10 +829,10 @@ static int lua_extractsfo(lua_State *L) {
 				lua_pushstring(L, ver);
 				lua_settable(L, -3);
 				return_indexes++;
-			}else if (strcmp(param_name, "TITLE") == 0){ // Application Title
+			}else if (strcmp(param_name, "STITLE") == 0){ // Application Title
 				lua_pushstring(L, "title");
 				char title[0x80];
-				fread(title, entry_table[i].paramLen, 1, f);
+				fread(title, entry_table[i].paramLen > 1 ? entry_table[i].paramLen : (entry_table[i+1].dataOffset - entry_table[i].dataOffset), 1, f);
 				lua_pushstring(L, title);
 				lua_settable(L, -3);
 				return_indexes++;
