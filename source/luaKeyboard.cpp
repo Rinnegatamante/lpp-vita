@@ -131,7 +131,7 @@ static int lua_clear(lua_State *L){
 
 //Register our Keyboard Functions
 static const luaL_Reg Keyboard_functions[] = {
-	{"show",      lua_setup},
+	{"start",     lua_setup},
 	{"getState",  lua_state},
 	{"getInput",  lua_input},
 	{"clear",     lua_clear},
