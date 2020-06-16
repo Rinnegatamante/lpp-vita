@@ -138,6 +138,46 @@ class System{
 		int sizeFile(int handle);
 		
 		/**
+		 * Extract info of a file/directory.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * info = System.statFile("ux0:/data/file.txt")
+		 * creation_year = info.creation_time.year
+		 * last_access_year = info.access_time.year
+		 * last_modification_year = info.mod_time.year
+		 * is_directory = info.directory
+		 * filesize = info.size
+		 * @endcode
+		 *
+		 * @param filename - Filename to be checked.
+		 *
+		 * @return A table with a proper set of info (Look at the sample above).
+		 */
+		table statFile(string filename);
+		
+		/**
+		 * Extract info of an opened file.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * info = System.statOpenedFile(handle)
+		 * creation_year = info.creation_time.year
+		 * last_access_year = info.access_time.year
+		 * last_modification_year = info.mod_time.year
+		 * is_directory = info.directory
+		 * filesize = info.size
+		 * @endcode
+		 *
+		 * @param handle - A file handle opened with ::System.openFile.
+		 *
+		 * @return A table with a proper set of info (Look at the sample above).
+		 */
+		table statOpenedFile(int handle);
+		
+		/**
 		 * Close an opened file.
 		 * \ingroup System
 		 *

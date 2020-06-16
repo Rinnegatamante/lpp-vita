@@ -95,6 +95,51 @@ static int zipThread(unsigned int args, void* arg){
 	return 0;
 }
 
+static void pushDateToTable(lua_State *L, SceDateTime date) {
+	lua_pushstring(L, "year");
+	lua_pushinteger(L, date.year);
+	lua_settable(L, -3);
+	lua_pushstring(L, "month");
+	lua_pushinteger(L, date.month);
+	lua_settable(L, -3);
+	lua_pushstring(L, "day");
+	lua_pushinteger(L, date.day);
+	lua_settable(L, -3);
+	lua_pushstring(L, "hour");
+	lua_pushinteger(L, date.hour);
+	lua_settable(L, -3);
+	lua_pushstring(L, "minute");
+	lua_pushinteger(L, date.minute);
+	lua_settable(L, -3);
+	lua_pushstring(L, "second");
+	lua_pushinteger(L, date.second);
+	lua_settable(L, -3);
+}
+
+static void pushStatToTable(lua_State *L, SceIoStat stat) {
+	lua_newtable(L);
+	lua_pushstring(L, "access_time");
+	lua_newtable(L);
+	pushDateToTable(L, stat.st_atime);
+	lua_settable(L, -3);
+	lua_pushstring(L, "creation_time");
+	lua_newtable(L);
+	pushDateToTable(L, stat.st_ctime);
+	lua_settable(L, -3);
+	lua_pushstring(L, "mod_time");
+	lua_newtable(L);
+	pushDateToTable(L, stat.st_mtime);
+	lua_settable(L, -3);
+	lua_pushstring(L, "size");
+	lua_pushnumber(L, stat.st_size);
+	lua_settable(L, -3);
+	lua_pushstring(L, "directory");
+	lua_pushboolean(L, SCE_S_ISDIR(stat.st_mode));
+	lua_settable(L, -3);
+}
+
+
+
 static int lua_launch(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -139,6 +184,36 @@ static int lua_openfile(lua_State *L){
 	if (fileHandle < 0) return luaL_error(L, "cannot open requested file.");
 	#endif
 	lua_pushinteger(L,fileHandle);
+	return 1;
+}
+
+static int lua_statfile(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	const char *file = luaL_checkstring(L, 1);
+	SceIoStat stat;
+	if (sceIoGetstat(file, &stat) < 0) {
+		lua_pushnil(L);  /* return nil */
+		return 1;
+	}
+	pushStatToTable(L, stat);
+	return 1;
+}
+
+static int lua_statfilehandle(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	SceUID file = luaL_checkinteger(L, 1);
+	SceIoStat stat;
+	if (sceIoGetstatByFd(file, &stat) < 0) {
+		lua_pushnil(L);  /* return nil */
+		return 1;
+	}
+	pushStatToTable(L, stat);
 	return 1;
 }
 
@@ -1031,7 +1106,9 @@ static const luaL_Reg System_functions[] = {
   {"writeFile",                 lua_writefile},
   {"closeFile",                 lua_closefile},  
   {"seekFile",                  lua_seekfile},  
-  {"sizeFile",                  lua_sizefile},  
+  {"sizeFile",                  lua_sizefile},
+  {"statFile",                  lua_statfile},
+  {"statOpenedFile",            lua_statfilehandle},
   {"doesFileExist",             lua_checkexist},
   {"doesDirExist",              lua_checkexist2},
   {"exit",                      lua_exit},
