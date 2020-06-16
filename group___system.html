@@ -164,6 +164,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga906c7557ee9e15ff7ce7cdcafa073e34"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga906c7557ee9e15ff7ce7cdcafa073e34">System.sizeFile</a> (int handle)</td></tr>
 <tr class="memdesc:ga906c7557ee9e15ff7ce7cdcafa073e34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate size of an opened file in bytes.  <a href="#ga906c7557ee9e15ff7ce7cdcafa073e34">More...</a><br /></td></tr>
 <tr class="separator:ga906c7557ee9e15ff7ce7cdcafa073e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaabaa1ebb499178975a316d47af495159"><td class="memItemLeft" align="right" valign="top">table&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaabaa1ebb499178975a316d47af495159">System.statFile</a> (string filename)</td></tr>
+<tr class="memdesc:gaabaa1ebb499178975a316d47af495159"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract info of a file/directory.  <a href="#gaabaa1ebb499178975a316d47af495159">More...</a><br /></td></tr>
+<tr class="separator:gaabaa1ebb499178975a316d47af495159"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6acacbf98cc94abb858cad7bc7dfad94"><td class="memItemLeft" align="right" valign="top">table&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga6acacbf98cc94abb858cad7bc7dfad94">System.statOpenedFile</a> (int handle)</td></tr>
+<tr class="memdesc:ga6acacbf98cc94abb858cad7bc7dfad94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract info of an opened file.  <a href="#ga6acacbf98cc94abb858cad7bc7dfad94">More...</a><br /></td></tr>
+<tr class="separator:ga6acacbf98cc94abb858cad7bc7dfad94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa4722dc3682b22ef4414370fa908d6de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaa4722dc3682b22ef4414370fa908d6de">System.closeFile</a> (int handle)</td></tr>
 <tr class="memdesc:gaa4722dc3682b22ef4414370fa908d6de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close an opened file.  <a href="#gaa4722dc3682b22ef4414370fa908d6de">More...</a><br /></td></tr>
 <tr class="separator:gaa4722dc3682b22ef4414370fa908d6de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -654,6 +660,58 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Filesize in bytes. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaabaa1ebb499178975a316d47af495159"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">table System.statFile </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Extract info of a file/directory. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">info = <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaabaa1ebb499178975a316d47af495159">statFile</a>(<span class="stringliteral">&quot;ux0:/data/file.txt&quot;</span>)</div><div class="line">creation_year = info.creation_time.year</div><div class="line">last_access_year = info.access_time.year</div><div class="line">last_modification_year = info.mod_time.year</div><div class="line">is_directory = info.directory</div><div class="line">filesize = info.size</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>- Filename to be checked.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A table with a proper set of info (Look at the sample above). </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga6acacbf98cc94abb858cad7bc7dfad94"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">table System.statOpenedFile </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Extract info of an opened file. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">info = <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga6acacbf98cc94abb858cad7bc7dfad94">statOpenedFile</a>(handle)</div><div class="line">creation_year = info.creation_time.year</div><div class="line">last_access_year = info.access_time.year</div><div class="line">last_modification_year = info.mod_time.year</div><div class="line">is_directory = info.directory</div><div class="line">filesize = info.size</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>- A file handle opened with <a class="el" href="group___system.html#gaeb68f965b68ee9997c595c2a4328547e" title="Open a file. ">System.openFile</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A table with a proper set of info (Look at the sample above). </dd></dl>
 
 </div>
 </div>

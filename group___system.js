@@ -33,6 +33,8 @@ var group___system =
     [ "readFile", "group___system.html#ga624dd7473ef91ca83ba568bdb367e263", null ],
     [ "seekFile", "group___system.html#gac21197b30eb72e68796372bb539f1f00", null ],
     [ "sizeFile", "group___system.html#ga906c7557ee9e15ff7ce7cdcafa073e34", null ],
+    [ "statFile", "group___system.html#gaabaa1ebb499178975a316d47af495159", null ],
+    [ "statOpenedFile", "group___system.html#ga6acacbf98cc94abb858cad7bc7dfad94", null ],
     [ "closeFile", "group___system.html#gaa4722dc3682b22ef4414370fa908d6de", null ],
     [ "doesFileExist", "group___system.html#gabd81dfb67363e668ccb7d4f014cb09c2", null ],
     [ "doesDirExist", "group___system.html#ga5fe6f08540ac4ddb53613c51dc6d8ea2", null ],
