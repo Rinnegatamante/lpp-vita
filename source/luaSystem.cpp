@@ -1122,7 +1122,7 @@ static int lua_totalspace(lua_State *L){
 static int lua_firmware(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
 	#endif
 	char fw_str[8];
@@ -1137,7 +1137,7 @@ static int lua_firmware(lua_State *L){
 static int lua_firmware2(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	char fw_str[8];
 	SceKernelFwInfo info;
@@ -1151,7 +1151,7 @@ static int lua_firmware2(lua_State *L){
 static int lua_firmware3(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
 	#endif
 	char fw_str[8];
