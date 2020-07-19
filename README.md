@@ -108,7 +108,6 @@ Here are some PSVITA homebrews made using Lua Player Plus Vita:
 * [Video Bubbles Creator](http://wololo.net/talk/viewtopic.php?f=116&t=48581)
 * [VitaGraphs](https://vitadb.rinnegatamante.it/#/info/363)
 * [SwitchView UI](https://vitadb.rinnegatamante.it/#/info/338)
-* [RandomHentai](https://vitadb.rinnegatamante.it/#/info/526)
 
 ##### Emulators
 * [MicroCHIP](http://wololo.net/talk/viewtopic.php?f=116&t=48620)

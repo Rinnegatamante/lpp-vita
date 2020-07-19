@@ -95,6 +95,26 @@ static int zipThread(unsigned int args, void* arg){
 	return 0;
 }
 
+// Taken from modoru, thanks to TheFloW
+void firmware_string(char string[8], unsigned int version) {
+	char a = (version >> 24) & 0xf;
+	char b = (version >> 20) & 0xf;
+	char c = (version >> 16) & 0xf;
+	char d = (version >> 12) & 0xf;
+
+	memset(string, 0, 8);
+	string[0] = '0' + a;
+	string[1] = '.';
+	string[2] = '0' + b;
+	string[3] = '0' + c;
+	string[4] = '\0';
+
+	if (d) {
+		string[4] = '0' + d;
+		string[5] = '\0';
+	}
+}
+
 static void pushDateToTable(lua_State *L, SceDateTime date) {
 	lua_pushstring(L, "year");
 	lua_pushinteger(L, date.year);
@@ -1099,6 +1119,49 @@ static int lua_totalspace(lua_State *L){
 	return 1;
 }
 
+static int lua_firmware(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	#endif
+	char fw_str[8];
+	SceKernelFwInfo info;
+	info.size = sizeof(SceKernelFwInfo);
+	_vshSblGetSystemSwVersion(&info);
+	firmware_string(fw_str, info.version);
+	lua_pushstring(L, fw_str);
+	return 1;
+}
+
+static int lua_firmware2(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	#endif
+	char fw_str[8];
+	SceKernelFwInfo info;
+	info.size = sizeof(SceKernelFwInfo);
+	sceKernelGetSystemSwVersion(&info);
+	firmware_string(fw_str, info.version);
+	lua_pushstring(L, fw_str);
+	return 1;
+}
+
+static int lua_firmware3(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	#endif
+	char fw_str[8];
+	int ver;
+	_vshSblAimgrGetSMI(&ver);
+	firmware_string(fw_str, ver);
+	lua_pushstring(L, fw_str);
+	return 1;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
   {"openFile",                  lua_openfile},
@@ -1165,6 +1228,9 @@ static const luaL_Reg System_functions[] = {
   {"getPsId",                   lua_getpsid},
   {"getFreeSpace",              lua_freespace},
   {"getTotalSpace",             lua_totalspace},
+  {"getFirmware",               lua_firmware},
+  {"getSpoofedFirmware",        lua_firmware2},
+  {"getFactoryFirmware",        lua_firmware3},
   {0, 0}
 };
 

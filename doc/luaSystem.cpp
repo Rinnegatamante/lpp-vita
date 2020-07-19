@@ -307,6 +307,49 @@ class System{
 		void exit(void);
 		
 		/**
+		 * Get unspoofed system firmware version.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * fw = System.getFirmware()
+		 * @endcode
+		 *
+		 * @return The unspoofed system firmware version.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		string getFirmware(void);
+		
+		/**
+		 * Get spoofed system firmware version.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * fw = System.getSpoofedFirmware()
+		 * @endcode
+		 *
+		 * @return The spoofed system firmware version.
+		 */
+		string getSpoofedFirmware(void);
+		
+		/**
+		 * Get factory system firmware version.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * fw = System.getFactoryFirmware()
+		 * @endcode
+		 *
+		 * @return The factory system firmware version.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		string getFactoryFirmware(void);
+		
+		/**
 		 * Sleep the application for a certain time.
 		 * \ingroup System
 		 *
