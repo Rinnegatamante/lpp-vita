@@ -197,6 +197,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga989b0ccdc7a0c779bfb1864411a16689"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga989b0ccdc7a0c779bfb1864411a16689">System.exit</a> (void)</td></tr>
 <tr class="memdesc:ga989b0ccdc7a0c779bfb1864411a16689"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the interpreter.  <a href="#ga989b0ccdc7a0c779bfb1864411a16689">More...</a><br /></td></tr>
 <tr class="separator:ga989b0ccdc7a0c779bfb1864411a16689"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaf90f1aa59711bae80a5759acca3cadb"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaaf90f1aa59711bae80a5759acca3cadb">System.getFirmware</a> (void)</td></tr>
+<tr class="memdesc:gaaf90f1aa59711bae80a5759acca3cadb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get unspoofed system firmware version.  <a href="#gaaf90f1aa59711bae80a5759acca3cadb">More...</a><br /></td></tr>
+<tr class="separator:gaaf90f1aa59711bae80a5759acca3cadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4bafaea1a39bdd86df7ee6ef78be46f4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga4bafaea1a39bdd86df7ee6ef78be46f4">System.getSpoofedFirmware</a> (void)</td></tr>
+<tr class="memdesc:ga4bafaea1a39bdd86df7ee6ef78be46f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get spoofed system firmware version.  <a href="#ga4bafaea1a39bdd86df7ee6ef78be46f4">More...</a><br /></td></tr>
+<tr class="separator:ga4bafaea1a39bdd86df7ee6ef78be46f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74e13ca8c9546d6689d13c1d8b5519ba"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga74e13ca8c9546d6689d13c1d8b5519ba">System.getFactoryFirmware</a> (void)</td></tr>
+<tr class="memdesc:ga74e13ca8c9546d6689d13c1d8b5519ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get factory system firmware version.  <a href="#ga74e13ca8c9546d6689d13c1d8b5519ba">More...</a><br /></td></tr>
+<tr class="separator:ga74e13ca8c9546d6689d13c1d8b5519ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga638446f490b45bebb84257ee06a50c7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga638446f490b45bebb84257ee06a50c7c">System.wait</a> (int msecs)</td></tr>
 <tr class="memdesc:ga638446f490b45bebb84257ee06a50c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleep the application for a certain time.  <a href="#ga638446f490b45bebb84257ee06a50c7c">More...</a><br /></td></tr>
 <tr class="separator:ga638446f490b45bebb84257ee06a50c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -945,6 +954,68 @@ Functions</h2></td></tr>
 
 <p>Close the interpreter. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga989b0ccdc7a0c779bfb1864411a16689">exit</a>()</div></div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaaf90f1aa59711bae80a5759acca3cadb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string System.getFirmware </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get unspoofed system firmware version. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">fw = <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaaf90f1aa59711bae80a5759acca3cadb">getFirmware</a>()</div></div><!-- fragment --></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The unspoofed system firmware version.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is available only in unsafe mode. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga4bafaea1a39bdd86df7ee6ef78be46f4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string System.getSpoofedFirmware </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get spoofed system firmware version. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">fw = <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga4bafaea1a39bdd86df7ee6ef78be46f4">getSpoofedFirmware</a>()</div></div><!-- fragment --></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The spoofed system firmware version. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga74e13ca8c9546d6689d13c1d8b5519ba"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string System.getFactoryFirmware </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get factory system firmware version. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">fw = <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga74e13ca8c9546d6689d13c1d8b5519ba">getFactoryFirmware</a>()</div></div><!-- fragment --></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The factory system firmware version.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is available only in unsafe mode. </dd></dl>
 
 </div>
 </div>
