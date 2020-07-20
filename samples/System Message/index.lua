@@ -23,7 +23,7 @@ while true do
 					System.closeMessage()
 				else
 					System.setMessageProgress(progress)
-					System.setMessageProgMsg(progress .. "%%")
+					System.setMessageProgMsg(progress .. "%")
 					progress = progress + 10
 				end
 				Timer.reset(prog_timer)
@@ -49,7 +49,7 @@ while true do
 					
 					-- Starting progressbar message
 					System.setMessage("Progressbar sample in progress.\nPlease wait...", true)
-					System.setMessageProgMsg("0%%")
+					System.setMessageProgMsg("0%")
 					prog_timer = Timer.new()
 					
 				end
@@ -70,5 +70,6 @@ while true do
 	end
 	Graphics.termBlend()
 	Screen.flip()
+	Screen.waitVblankStart()
 	
 end

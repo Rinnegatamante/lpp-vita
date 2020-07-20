@@ -33,7 +33,6 @@
 #include <vita2d.h>
 #include <utils.h>
 #include "include/luaplayer.h"
-#include "include/message_dialog.h"
 
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
@@ -222,15 +221,13 @@ static int lua_term(lua_State *L) {
 	if (!draw_state) return luaL_error(L, "termBlend can't be called outside a blending phase.");
 	else draw_state = false;
 	#endif
-	if (messageStarted && !isRescaling) sceMsgDialogDraw();
 	vita2d_end_drawing();
 	if (isRescaling){
 		vita2d_start_drawing_advanced(NULL, SCE_GXM_SCENE_VERTEX_WAIT_FOR_DEPENDENCY);
 		vita2d_draw_texture_scale(scaler.fbo,scaler.x,scaler.y,scaler.x_scale,scaler.y_scale);
-		if (messageStarted) sceMsgDialogDraw();
 		vita2d_end_drawing();
 	}
-	if (keyboardStarted) vita2d_common_dialog_update();
+	if (keyboardStarted || messageStarted) vita2d_common_dialog_update();
 	vita2d_wait_rendering_done();
 	return 0;
 }

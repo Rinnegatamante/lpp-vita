@@ -41,8 +41,8 @@
 static uint16_t title[SCE_IME_DIALOG_MAX_TITLE_LENGTH];
 static uint16_t initial_text[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
 static uint16_t input_text[SCE_IME_DIALOG_MAX_TEXT_LENGTH + 1];
-static uint8_t FINISHED = 2;
-static uint8_t RUNNING = 1;
+static uint8_t FINISHED = SCE_COMMON_DIALOG_STATUS_FINISHED;
+static uint8_t RUNNING = SCE_COMMON_DIALOG_STATUS_RUNNING;
 static uint8_t CANCELED = 3;
 bool keyboardStarted = false;
 
@@ -96,7 +96,7 @@ static int lua_state(lua_State *L){
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceCommonDialogStatus status = sceImeDialogGetStatus();
-	if (status == FINISHED){
+	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED){
 		SceImeDialogResult result;
 		memset(&result, 0, sizeof(SceImeDialogResult));
 		sceImeDialogGetResult(&result);

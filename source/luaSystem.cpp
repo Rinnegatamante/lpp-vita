@@ -1024,7 +1024,7 @@ static int lua_getmsg(lua_State *L){
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceCommonDialogStatus status = sceMsgDialogGetStatus();
-	if (!messageStarted) status = (SceCommonDialogStatus)2; // FINISHED status, look at luaKeyboard.cpp
+	if (!messageStarted) status = SCE_COMMON_DIALOG_STATUS_FINISHED; // FINISHED status, look at luaKeyboard.cpp
 	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
 		SceMsgDialogResult result;
 		memset(&result, 0, sizeof(SceMsgDialogResult));
@@ -1032,7 +1032,7 @@ static int lua_getmsg(lua_State *L){
 		if (result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) status = (SceCommonDialogStatus)3; // CANCELED status, look at luaKeyboard.cpp
 		sceMsgDialogTerm();
 		messageStarted = false;
-	}else status = (SceCommonDialogStatus)1; // RUNNING status, look at luaKeyboard.cpp
+	}else status = SCE_COMMON_DIALOG_STATUS_RUNNING;
 	lua_pushinteger(L, (uint32_t)status);
 	return 1;
 }
