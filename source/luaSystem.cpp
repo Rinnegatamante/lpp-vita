@@ -1169,8 +1169,8 @@ static int lua_unmount(lua_State *L){
 	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
 	#endif
 	int idx = luaL_checkinteger(L, 1);
-	vshIoUmount(idx * 0x100, 0, 0, 0);
-	vshIoUmount(idx * 0x100, 1, 0, 0);
+	vshIoUmount(idx, 0, 0, 0);
+	vshIoUmount(idx, 1, 0, 0);
 	return 0;
 }
 
@@ -1183,7 +1183,7 @@ static int lua_mount(lua_State *L){
 	int idx = luaL_checkinteger(L, 1);
 	int perm = luaL_checkinteger(L, 2);
 	void *buf = malloc(0x100);
-	_vshIoMount(idx * 0x100, 0, perm, buf);
+	_vshIoMount(idx, 0, perm, buf);
 	free(buf);
 	return 0;
 }

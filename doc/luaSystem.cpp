@@ -1049,10 +1049,13 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.unmountPartition(3)
+		 * System.unmountPartition(0x300)
 		 * @endcode
 		 *
 		 * @param idx - The index number of the partition.
+		 *
+		 * @note For the index value, look at VSH Mount ID <a href="https://wiki.henkaku.xyz/vita/SceIofilemgr#Mount_Points">here</a>.
+		 * @note This function is available only in unsafe mode.
 		 */
 		void unmountPartition(int idx);
 		
@@ -1062,11 +1065,14 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.mountPartition(3, READ_WRITE)
+		 * System.mountPartition(0x300, READ_WRITE)
 		 * @endcode
 		 *
 		 * @param idx - The index number of the partition.
 		 * @param perms - Permissions to set for the mounted partition.
+		 *
+		 * @note For the index value, look at VSH Mount ID <a href="https://wiki.henkaku.xyz/vita/SceIofilemgr#Mount_Points">here</a>.
+		 * @note This function is available only in unsafe mode.
 		 */
 		void mountPartition(int idx, MntPerm perms);
 
