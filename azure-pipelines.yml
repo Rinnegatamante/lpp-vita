@@ -44,6 +44,11 @@ steps:
     make clean
     make -j$(nproc)
   displayName: 'Build (Standard)'
+  
+- script: |
+    make clean
+    make SYS_APP_MODE=1 -j$(nproc)
+  displayName: 'Build (Sys App)'
 
 - task: GitHubRelease@0
   inputs:
@@ -55,4 +60,5 @@ steps:
     assets: |
       eboot_safe.bin
       eboot_unsafe.bin
+      eboot_unsafe_sys.bin
   displayName: 'Deploy artifacts'

@@ -91,7 +91,9 @@ void initCam(uint8_t type, uint8_t res, uint8_t fps){
 	
 	// Initializing camera buffers
 	SceKernelMemBlockType orig = vita2d_texture_get_alloc_memblock_type();
+#ifndef SYS_APP_MODE
 	vita2d_texture_set_alloc_memblock_type(SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW);
+#endif
 	cam_buf = (lpp_texture*)malloc(sizeof(lpp_texture));
 	cam_buf->text = vita2d_create_empty_texture(width, height);
 	cam_buf->magic = 0xABADBEEF;

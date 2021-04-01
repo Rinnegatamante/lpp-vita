@@ -9,7 +9,9 @@ extern "C"{
 	#include "include/ftp/ftp.h"
 }
 
+#ifndef SYS_APP_MODE
 int _newlib_heap_size_user = 192 * 1024 * 1024;
+#endif
 
 static const char* errMsg;
 static unsigned char* script;

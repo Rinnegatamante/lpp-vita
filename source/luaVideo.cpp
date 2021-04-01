@@ -223,7 +223,9 @@ static int lua_init(lua_State *L){
 	
 	// Allocating enough textures to handle our video playback
 	SceKernelMemBlockType orig = vita2d_texture_get_alloc_memblock_type();
+#ifndef SYS_APP_MODE
 	vita2d_texture_set_alloc_memblock_type(SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW);
+#endif
 	for (int i=0; i < VIDEO_BUFFERING; i++){
 		out_text[i].magic = 0xABADBEEF;
 		out_text[i].text = vita2d_create_empty_texture(960, 544);

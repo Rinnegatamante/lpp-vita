@@ -25,10 +25,24 @@ CFLAGS  = -fno-lto -g -Wl,-q -O3 -DWANT_FASTWAV -DHAVE_LIBSPEEXDSP \
 		-DSQLITE_OS_OTHER=1 -DSQLITE_TEMP_STORE=3 -DSQLITE_THREADSAFE=0 \
 		-I$(VITASDK)/$(PREFIX)/include/opus
 
+ifeq ($(SYS_APP_MODE),1)
+CFLAGS += -DSYS_APP_MODE
+endif
+
 CXXFLAGS  = $(CFLAGS) -fno-exceptions -std=gnu++11 -fpermissive
 ASFLAGS = $(CFLAGS)
 
+ifeq ($(SYS_APP_MODE),1)
+all: $(TARGET).sysvelf
+else
 all: $(TARGET).velf
+endif
+
+%.sysvelf: %.elf
+	cp $< $<.unstripped_sys.elf
+	$(PREFIX)-strip -g $<
+	vita-elf-create $< $@
+	vita-make-fself -at 0x0E -m 0x10000 -a 0x2800000000000001 $@ eboot_unsafe_sys.bin
 
 %.velf: %.elf
 	cp $< $<.unstripped.elf
@@ -41,4 +55,4 @@ $(TARGET).elf: $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@
 
 clean:
-	@rm -rf $(TARGET).velf $(TARGET).elf $(OBJS)
+	@rm -rf $(TARGET).velf $(TARGET).elf $(TARGET).sysvelf $(TARGET).syself $(OBJS)
