@@ -92,6 +92,8 @@ var group___system =
     [ "takeScreenshot", "group___system.html#ga445e5fe0f276edbfe49bd288e5a017fa", null ],
     [ "executeUri", "group___system.html#ga23c5a7cd15e2daa6d608e2fa5678ec50", null ],
     [ "reboot", "group___system.html#ga23984244aa92f7902124fbc78ebfa228", null ],
+    [ "shutdown", "group___system.html#ga2cf598fa7b2f79eaced6e09500af0fbe", null ],
+    [ "standby", "group___system.html#ga7e82c3dd28d895a403b159ae3e3f9cde", null ],
     [ "isSafeMode", "group___system.html#ga22861e479c0145b88088da09ce0d6b48", null ],
     [ "setMessage", "group___system.html#ga94fe31178878a48390b9c81fb94b1baa", null ],
     [ "getMessageState", "group___system.html#ga53054964e2b08b230c2a256fdb4e28ac", null ],
