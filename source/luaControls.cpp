@@ -42,15 +42,15 @@ static bool sensors_enabled = false;
 
 static int lua_readC(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	int port = 0;
 	if (argc == 1){
 		port = luaL_checkinteger(L, 1);
-		#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 		if (port > 5) return luaL_error(L, "wrong port number.");
-		#endif
+#endif
 	}
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
@@ -60,15 +60,15 @@ static int lua_readC(lua_State *L){
 
 static int lua_readleft(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	int port = 0;
 	if (argc == 1){
 		port = luaL_checkinteger(L, 1);
-		#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 		if (port > 5) return luaL_error(L, "wrong port number.");
-		#endif
+#endif
 	}
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
@@ -79,15 +79,15 @@ static int lua_readleft(lua_State *L){
 
 static int lua_readright(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0 && argc != 1) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	int port = 0;
 	if (argc == 1){
 		port = luaL_checkinteger(L, 1);
-		#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 		if (port > 5) return luaL_error(L, "wrong port number.");
-		#endif
+#endif
 	}
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(port, &pad, 1);
@@ -98,9 +98,9 @@ static int lua_readright(lua_State *L){
 
 static int lua_check(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 2) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	int pad = luaL_checkinteger(L, 1);
 	int button = luaL_checkinteger(L, 2);
 	lua_pushboolean(L, (pad & button));
@@ -121,13 +121,13 @@ static int lua_touchpad(lua_State *L){
 
 static int lua_rumble(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 3) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	int port = luaL_checkinteger(L, 1);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (port > 5) return luaL_error(L, "wrong port number.");
-	#endif
+#endif
 	if (port == 0) port = 1;
 	uint8_t int_small = luaL_checkinteger(L, 2);
 	uint8_t int_large = luaL_checkinteger(L, 3);
@@ -139,13 +139,13 @@ static int lua_rumble(lua_State *L){
 
 static int lua_lightbar(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 2) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	int port = luaL_checkinteger(L, 1);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (port > 5) return luaL_error(L, "wrong port number.");
-	#endif
+#endif
 	if (port == 0) port = 1;
 	uint32_t color = luaL_checkinteger(L, 2);
 	sceCtrlSetLightBar(port, color & 0xFF, (color>>8) & 0xFF, (color>>16) & 0xFF);
@@ -154,9 +154,9 @@ static int lua_lightbar(lua_State *L){
 
 static int lua_touchpad2(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	SceTouchData touch;
 	sceTouchPeek(SCE_TOUCH_PORT_BACK, &touch, 1);
 	for (SceUInt32 i=0;i<touch.reportNum;i++){
@@ -168,27 +168,27 @@ static int lua_touchpad2(lua_State *L){
 
 static int lua_lock(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	sceShellUtilLock((SceShellUtilLockType)(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN | SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU));
 	return 0;
 }
 
 static int lua_unlock(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
-	#endif
+#endif
 	sceShellUtilUnlock((SceShellUtilLockType)(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN | SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU));
 	return 0;
 }
 
 static int lua_gettype(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
+#endif
 	SceCtrlPortInfo pinfo;
 	sceCtrlGetControllerPortInfo(&pinfo);
 	lua_newtable(L);
@@ -207,10 +207,10 @@ static int lua_gettype(lua_State *L) {
 
 static int lua_headset(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
-	#endif
+#endif
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(0, &pad, 1);
 	lua_pushboolean(L, (pad.buttons & SCE_CTRL_HEADPHONE));
@@ -219,10 +219,10 @@ static int lua_headset(lua_State *L) {
 
 static int lua_accel(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	if (!sensors_enabled) return luaL_error(L, "you must enable sensors reading to use this function.");
-	#endif
+#endif
 	SceMotionSensorState sensor;
 	sceMotionGetSensorState(&sensor, 1);
 	lua_pushnumber(L, sensor.accelerometer.x);
@@ -233,10 +233,10 @@ static int lua_accel(lua_State *L) {
 
 static int lua_gyro(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	if (!sensors_enabled) return luaL_error(L, "you must enable sensors reading to use this function.");
-	#endif
+#endif
 	SceMotionSensorState sensor;
 	sceMotionGetSensorState(&sensor, 1);
 	lua_pushnumber(L, sensor.gyro.x);
@@ -247,9 +247,9 @@ static int lua_gyro(lua_State *L) {
 
 static int lua_enablesensors(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
+#endif
 	if (!sensors_enabled){
 		sceMotionStartSampling();
 		sceMotionMagnetometerOn();
@@ -260,9 +260,9 @@ static int lua_enablesensors(lua_State *L) {
 
 static int lua_disablesensors(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
+#endif
 	if (sensors_enabled){
 		sceMotionMagnetometerOff();
 		sceMotionStopSampling();
@@ -273,9 +273,9 @@ static int lua_disablesensors(lua_State *L) {
 
 static int lua_getenter(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
+#endif
 	int val;
 	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_ENTER_BUTTON, &val);
 	if (val == 0) lua_pushinteger(L, SCE_CTRL_CIRCLE);

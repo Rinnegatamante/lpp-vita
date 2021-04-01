@@ -53,9 +53,11 @@ class Controls {
 		 * pad = Controls.read()
 		 * @endcode
 		 *
+		 * @param port - Device port to use <b>(optional)</b>.
+		 *
 		 * @return Bitmask of the pressed buttons.
 		 */
-		int read(void);
+		int read(int port);
 		
 		/**
 		 * Read left analog state.
@@ -66,9 +68,11 @@ class Controls {
 		 * x, y = Controls.readLeftAnalog()
 		 * @endcode
 		 *
+		 * @param port - Device port to use <b>(optional)</b>.
+		 *
 		 * @return X and Y values of left analog.
 		 */
-		int[] readLeftAnalog(void);
+		int[] readLeftAnalog(int port);
 		
 		/**
 		 * Read right analog state.
@@ -79,9 +83,11 @@ class Controls {
 		 * x, y = Controls.readRightAnalog()
 		 * @endcode
 		 *
+		 * @param port - Device port to use <b>(optional)</b>.
+		 *
 		 * @return X and Y values of right analog.
 		 */
-		int[] readRightAnalog(void);
+		int[] readRightAnalog(int port);
 		
 		/**
 		 * Read touchscreen state.
