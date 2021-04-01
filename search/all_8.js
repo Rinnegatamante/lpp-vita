@@ -7,6 +7,7 @@ var searchData=
   ['initftp',['initFTP',['../group___network.html#ga036eb0959e183f8257762dc077509f81',1,'Network']]],
   ['initrescaler',['initRescaler',['../group___graphics.html#ga2c9e9874a1837a0be648aef5a49b83f4',1,'Graphics']]],
   ['inner_5fcam',['INNER_CAM',['../group___camera.html#ggaf7eb92b45c5f7f64f02821f87c385ebba7418c4028f5ea3c169bf0ece96e0f8d5',1,'luaCamera.cpp']]],
+  ['installapp',['installApp',['../group___system.html#gaf731f171a7dab479d82acd3d7921cc8b',1,'System']]],
   ['ioflags',['IOFlags',['../group___system.html#ga315c5a593dbbd779d315a8c6a59e2520',1,'luaSystem.cpp']]],
   ['ioseek',['IOSeek',['../group___system.html#ga5483daccb9b3446fc823c35c753e93ad',1,'luaSystem.cpp']]],
   ['isbatterycharging',['isBatteryCharging',['../group___system.html#gaadaec1f4a71acbab64f62975c231327d',1,'System']]],

@@ -101,5 +101,6 @@ var group___system =
     [ "setMessageProgMsg", "group___system.html#gac9bcb46f5f17e209b2aad57edf6b6160", null ],
     [ "closeMessage", "group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716", null ],
     [ "unmountPartition", "group___system.html#gaf0eac5050dc874353fe4e06f4834e5d3", null ],
-    [ "mountPartition", "group___system.html#gab1f3cee12392b06ba2141ac06706f403", null ]
+    [ "mountPartition", "group___system.html#gab1f3cee12392b06ba2141ac06706f403", null ],
+    [ "installApp", "group___system.html#gaf731f171a7dab479d82acd3d7921cc8b", null ]
 ];
