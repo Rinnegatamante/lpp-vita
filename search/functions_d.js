@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['read',['read',['../group___controls.html#ga51b8cb55395145c8029df38d9adb1910',1,'Controls']]],
+  ['read',['read',['../group___controls.html#ga5bf9800236adfbe1ad75648e34740149',1,'Controls']]],
   ['readaccel',['readAccel',['../group___controls.html#ga6594a4313cc39ecfff663c847d7ea0f8',1,'Controls']]],
   ['readfile',['readFile',['../group___system.html#ga624dd7473ef91ca83ba568bdb367e263',1,'System']]],
   ['readgyro',['readGyro',['../group___controls.html#gaaedc2596a87e61ebe465923fffa8b944',1,'Controls']]],
-  ['readleftanalog',['readLeftAnalog',['../group___controls.html#ga2ad697b385cdd13b62477d4334e19ffa',1,'Controls']]],
+  ['readleftanalog',['readLeftAnalog',['../group___controls.html#ga7a314ceaf3a819577ccd282b16dc9ea1',1,'Controls']]],
   ['readretrotouch',['readRetroTouch',['../group___controls.html#gaccd5874290bcbc849809cba4647b00c1',1,'Controls']]],
-  ['readrightanalog',['readRightAnalog',['../group___controls.html#gaac2bfdbcec6f2c7f0c16d71c707f71f8',1,'Controls']]],
+  ['readrightanalog',['readRightAnalog',['../group___controls.html#ga71a0f6ff9050b758be325ad9e5d3c0a9',1,'Controls']]],
   ['readtouch',['readTouch',['../group___controls.html#gafd32d04a50d40b6fc80e9e6acf8fc990',1,'Controls']]],
   ['reboot',['reboot',['../group___system.html#ga23984244aa92f7902124fbc78ebfa228',1,'System']]],
   ['receive',['receive',['../group___socket.html#ga55312ad5557bdeecd6ac5d3b71389c89',1,'Socket']]],

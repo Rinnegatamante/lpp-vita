@@ -25,9 +25,9 @@ var group___controls =
       [ "SCE_CTRL_VOLDOWN", "group___controls.html#gga8c72c82f024ad6af2e49918de816504faeab7d0c864db59474af654aad4427963", null ],
       [ "SCE_CTRL_PSBUTTON", "group___controls.html#gga8c72c82f024ad6af2e49918de816504fa28afba04a95f4d7738b22e7af3fb6814", null ]
     ] ],
-    [ "read", "group___controls.html#ga51b8cb55395145c8029df38d9adb1910", null ],
-    [ "readLeftAnalog", "group___controls.html#ga2ad697b385cdd13b62477d4334e19ffa", null ],
-    [ "readRightAnalog", "group___controls.html#gaac2bfdbcec6f2c7f0c16d71c707f71f8", null ],
+    [ "read", "group___controls.html#ga5bf9800236adfbe1ad75648e34740149", null ],
+    [ "readLeftAnalog", "group___controls.html#ga7a314ceaf3a819577ccd282b16dc9ea1", null ],
+    [ "readRightAnalog", "group___controls.html#ga71a0f6ff9050b758be325ad9e5d3c0a9", null ],
     [ "readTouch", "group___controls.html#gafd32d04a50d40b6fc80e9e6acf8fc990", null ],
     [ "readRetroTouch", "group___controls.html#gaccd5874290bcbc849809cba4647b00c1", null ],
     [ "check", "group___controls.html#ga0ca70a439cf484c538fb698da764bf1d", null ],
