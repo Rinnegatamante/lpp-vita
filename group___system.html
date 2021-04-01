@@ -2245,13 +2245,16 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Unmount an already mounted partition. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaf0eac5050dc874353fe4e06f4834e5d3">unmountPartition</a>(3)</div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaf0eac5050dc874353fe4e06f4834e5d3">unmountPartition</a>(0x300)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">idx</td><td>- The index number of the partition. </td></tr>
+    <tr><td class="paramname">idx</td><td>- The index number of the partition.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>For the index value, look at VSH Mount ID <a href="https://wiki.henkaku.xyz/vita/SceIofilemgr#Mount_Points">here</a>. </dd>
+<dd>
+This function is available only in unsafe mode. </dd></dl>
 
 </div>
 </div>
@@ -2280,14 +2283,17 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Mount an unmounted partition. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gab1f3cee12392b06ba2141ac06706f403">mountPartition</a>(3, <a class="code" href="group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4a81b90046215626cc01b00e58e4365886">READ_WRITE</a>)</div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gab1f3cee12392b06ba2141ac06706f403">mountPartition</a>(0x300, <a class="code" href="group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4a81b90046215626cc01b00e58e4365886">READ_WRITE</a>)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">idx</td><td>- The index number of the partition. </td></tr>
-    <tr><td class="paramname">perms</td><td>- Permissions to set for the mounted partition. </td></tr>
+    <tr><td class="paramname">perms</td><td>- Permissions to set for the mounted partition.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>For the index value, look at VSH Mount ID <a href="https://wiki.henkaku.xyz/vita/SceIofilemgr#Mount_Points">here</a>. </dd>
+<dd>
+This function is available only in unsafe mode. </dd></dl>
 
 </div>
 </div>
