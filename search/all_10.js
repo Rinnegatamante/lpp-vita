@@ -1,6 +1,8 @@
 var searchData=
 [
   ['read',['read',['../group___controls.html#ga51b8cb55395145c8029df38d9adb1910',1,'Controls']]],
+  ['read_5fonly',['READ_ONLY',['../group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4aec889f8b3140e20b857e18ccd267e049',1,'luaSystem.cpp']]],
+  ['read_5fwrite',['READ_WRITE',['../group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4a81b90046215626cc01b00e58e4365886',1,'luaSystem.cpp']]],
   ['readaccel',['readAccel',['../group___controls.html#ga6594a4313cc39ecfff663c847d7ea0f8',1,'Controls']]],
   ['readfile',['readFile',['../group___system.html#ga624dd7473ef91ca83ba568bdb367e263',1,'System']]],
   ['readgyro',['readGyro',['../group___controls.html#gaaedc2596a87e61ebe465923fffa8b944',1,'Controls']]],

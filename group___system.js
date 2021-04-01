@@ -28,6 +28,10 @@ var group___system =
       [ "FINISHED", "group___system.html#gga43732228a5490969d94095326d6bc623adbd1812bee789fbf3548cf79d3f2b400", null ],
       [ "CANCELED", "group___system.html#gga43732228a5490969d94095326d6bc623acf7f43e67077d0d24cf2ca297960e719", null ]
     ] ],
+    [ "MntPerm", "group___system.html#ga753b4ab0ec8c4529a10aba8e06ec88d4", [
+      [ "READ_ONLY", "group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4aec889f8b3140e20b857e18ccd267e049", null ],
+      [ "READ_WRITE", "group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4a81b90046215626cc01b00e58e4365886", null ]
+    ] ],
     [ "openFile", "group___system.html#gaeb68f965b68ee9997c595c2a4328547e", null ],
     [ "writeFile", "group___system.html#ga37be909679c7fbe5909323536816d81b", null ],
     [ "readFile", "group___system.html#ga624dd7473ef91ca83ba568bdb367e263", null ],
@@ -93,5 +97,7 @@ var group___system =
     [ "getMessageState", "group___system.html#ga53054964e2b08b230c2a256fdb4e28ac", null ],
     [ "setMessageProgress", "group___system.html#ga936ce3e71d984a64358e16a00d3991ff", null ],
     [ "setMessageProgMsg", "group___system.html#gac9bcb46f5f17e209b2aad57edf6b6160", null ],
-    [ "closeMessage", "group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716", null ]
+    [ "closeMessage", "group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716", null ],
+    [ "unmountPartition", "group___system.html#gaf0eac5050dc874353fe4e06f4834e5d3", null ],
+    [ "mountPartition", "group___system.html#gab1f3cee12392b06ba2141ac06706f403", null ]
 ];

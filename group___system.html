@@ -146,6 +146,11 @@ Enumerations</h2></td></tr>
  }<tr class="memdesc:ga43732228a5490969d94095326d6bc623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dialog states for system messages and system keyboard.  <a href="group___system.html#ga43732228a5490969d94095326d6bc623">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ga43732228a5490969d94095326d6bc623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga753b4ab0ec8c4529a10aba8e06ec88d4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga753b4ab0ec8c4529a10aba8e06ec88d4">MntPerm</a> { <a class="el" href="group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4aec889f8b3140e20b857e18ccd267e049">READ_ONLY</a>, 
+<a class="el" href="group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4a81b90046215626cc01b00e58e4365886">READ_WRITE</a>
+ }<tr class="memdesc:ga753b4ab0ec8c4529a10aba8e06ec88d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mount permissions for partition mounting.  <a href="group___system.html#ga753b4ab0ec8c4529a10aba8e06ec88d4">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:ga753b4ab0ec8c4529a10aba8e06ec88d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -347,6 +352,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa7fd59e4af5d8708f1da8f85c0027716"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716">System.closeMessage</a> (void)</td></tr>
 <tr class="memdesc:gaa7fd59e4af5d8708f1da8f85c0027716"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the current system message instance.  <a href="#gaa7fd59e4af5d8708f1da8f85c0027716">More...</a><br /></td></tr>
 <tr class="separator:gaa7fd59e4af5d8708f1da8f85c0027716"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf0eac5050dc874353fe4e06f4834e5d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaf0eac5050dc874353fe4e06f4834e5d3">System.unmountPartition</a> (int idx)</td></tr>
+<tr class="memdesc:gaf0eac5050dc874353fe4e06f4834e5d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unmount an already mounted partition.  <a href="#gaf0eac5050dc874353fe4e06f4834e5d3">More...</a><br /></td></tr>
+<tr class="separator:gaf0eac5050dc874353fe4e06f4834e5d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab1f3cee12392b06ba2141ac06706f403"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gab1f3cee12392b06ba2141ac06706f403">System.mountPartition</a> (int idx, <a class="el" href="group___system.html#ga753b4ab0ec8c4529a10aba8e06ec88d4">MntPerm</a> perms)</td></tr>
+<tr class="memdesc:gab1f3cee12392b06ba2141ac06706f403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mount an unmounted partition.  <a href="#gab1f3cee12392b06ba2141ac06706f403">More...</a><br /></td></tr>
+<tr class="separator:gab1f3cee12392b06ba2141ac06706f403"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles system related utilities. </p>
@@ -480,6 +491,28 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="gga43732228a5490969d94095326d6bc623acf7f43e67077d0d24cf2ca297960e719"></a>CANCELED&#160;</td><td class="fielddoc">
 <p>Dialog canceled by user. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="ga753b4ab0ec8c4529a10aba8e06ec88d4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group___system.html#ga753b4ab0ec8c4529a10aba8e06ec88d4">MntPerm</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mount permissions for partition mounting. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="gga753b4ab0ec8c4529a10aba8e06ec88d4aec889f8b3140e20b857e18ccd267e049"></a>READ_ONLY&#160;</td><td class="fielddoc">
+<p>Read only permissions. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="gga753b4ab0ec8c4529a10aba8e06ec88d4a81b90046215626cc01b00e58e4365886"></a>READ_WRITE&#160;</td><td class="fielddoc">
+<p>Read/Write permissions. </p>
 </td></tr>
 </table>
 
@@ -2194,6 +2227,67 @@ Functions</h2></td></tr>
 
 <p>Close the current system message instance. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716">closeMessage</a>()</div></div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaf0eac5050dc874353fe4e06f4834e5d3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void System.unmountPartition </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unmount an already mounted partition. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaf0eac5050dc874353fe4e06f4834e5d3">unmountPartition</a>(3)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>- The index number of the partition. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="gab1f3cee12392b06ba2141ac06706f403"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void System.mountPartition </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___system.html#ga753b4ab0ec8c4529a10aba8e06ec88d4">MntPerm</a>&#160;</td>
+          <td class="paramname"><em>perms</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mount an unmounted partition. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gab1f3cee12392b06ba2141ac06706f403">mountPartition</a>(3, <a class="code" href="group___system.html#gga753b4ab0ec8c4529a10aba8e06ec88d4a81b90046215626cc01b00e58e4365886">READ_WRITE</a>)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>- The index number of the partition. </td></tr>
+    <tr><td class="paramname">perms</td><td>- Permissions to set for the mounted partition. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

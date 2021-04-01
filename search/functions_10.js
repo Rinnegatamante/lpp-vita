@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['wait',['wait',['../group___system.html#ga638446f490b45bebb84257ee06a50c7c',1,'System']]],
-  ['waitvblankstart',['waitVblankStart',['../group___screen.html#ga8df06068cc65a739505c487f0527ead6',1,'Screen']]],
-  ['writefile',['writeFile',['../group___system.html#ga37be909679c7fbe5909323536816d81b',1,'System']]]
+  ['unload',['unload',['../group___font.html#ga9637af19c709a15226c472c1a8257e0f',1,'Font']]],
+  ['unloadmodel',['unloadModel',['../group___render.html#ga8e217951fc915be273a4f898d2247138',1,'Render']]],
+  ['unlockhomebutton',['unlockHomeButton',['../group___controls.html#gacec557849101bb976fbc2ce145cf0ab4',1,'Controls']]],
+  ['unmountpartition',['unmountPartition',['../group___system.html#gaf0eac5050dc874353fe4e06f4834e5d3',1,'System']]],
+  ['usetexture',['useTexture',['../group___render.html#ga1f5538469280f46cfc62abb9390ce5b0',1,'Render']]]
 ];
