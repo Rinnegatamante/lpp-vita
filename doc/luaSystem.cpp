@@ -56,6 +56,15 @@ enum DlgState{
 	CANCELED   //!< Dialog canceled by user.
 };
 
+/**
+ * Mount permissions for partition mounting.
+ * \ingroup System
+ */
+enum MntPerm{
+	READ_ONLY,  //!< Read only permissions.
+	READ_WRITE  //!< Read/Write permissions.
+};
+
 class System{
 	
 	public:
@@ -1033,5 +1042,32 @@ class System{
 		 * @endcode
 		 */
 		void closeMessage(void);
+		
+		/**
+		 * Unmount an already mounted partition.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.unmountPartition(3)
+		 * @endcode
+		 *
+		 * @param idx - The index number of the partition.
+		 */
+		void unmountPartition(int idx);
+		
+		/**
+		 * Mount an unmounted partition.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.mountPartition(3, READ_WRITE)
+		 * @endcode
+		 *
+		 * @param idx - The index number of the partition.
+		 * @param perms - Permissions to set for the mounted partition.
+		 */
+		void mountPartition(int idx, MntPerm perms);
 
 }

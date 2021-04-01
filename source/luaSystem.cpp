@@ -1024,7 +1024,7 @@ static int lua_getmsg(lua_State *L){
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 	#endif
 	SceCommonDialogStatus status = sceMsgDialogGetStatus();
-	if (!messageStarted) status = SCE_COMMON_DIALOG_STATUS_FINISHED; // FINISHED status, look at luaKeyboard.cpp
+	if (!messageStarted) status = SCE_COMMON_DIALOG_STATUS_FINISHED;
 	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
 		SceMsgDialogResult result;
 		memset(&result, 0, sizeof(SceMsgDialogResult));
@@ -1162,6 +1162,32 @@ static int lua_firmware3(lua_State *L){
 	return 1;
 }
 
+static int lua_unmount(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	#endif
+	int idx = luaL_checkinteger(L, 1);
+	vshIoUmount(idx * 0x100, 0, 0, 0);
+	vshIoUmount(idx * 0x100, 1, 0, 0);
+	return 0;
+}
+
+static int lua_mount(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	#endif
+	int idx = luaL_checkinteger(L, 1);
+	int perm = luaL_checkinteger(L, 2);
+	void *buf = malloc(0x100);
+	_vshIoMount(idx * 0x100, 0, perm, buf);
+	free(buf);
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
   {"openFile",                  lua_openfile},
@@ -1231,6 +1257,8 @@ static const luaL_Reg System_functions[] = {
   {"getFirmware",               lua_firmware},
   {"getSpoofedFirmware",        lua_firmware2},
   {"getFactoryFirmware",        lua_firmware3},
+  {"unmountPartition",          lua_unmount},
+  {"mountPartition",            lua_mount},
   {0, 0}
 };
 
@@ -1243,6 +1271,8 @@ void luaSystem_init(lua_State *L) {
 	int BUTTON_NONE = 2;
 	int BUTTON_OK_CANCEL = 3;
 	int BUTTON_CANCEL = 4;
+	int READ_ONLY = 1;
+	int READ_WRITE = 2;
 	VariableRegister(L,BUTTON_OK);
 	VariableRegister(L,BUTTON_YES_NO);
 	VariableRegister(L,BUTTON_NONE);
@@ -1258,4 +1288,6 @@ void luaSystem_init(lua_State *L) {
 	VariableRegister(L,SET);
 	VariableRegister(L,END);
 	VariableRegister(L,CUR);
+	VariableRegister(L,READ_ONLY);
+	VariableRegister(L,READ_WRITE);
 }
