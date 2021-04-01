@@ -41,12 +41,6 @@ steps:
   displayName: 'Get vita2d extra headers'
 
 - script: |
-    wget https://rinnegatamante.it/opusfile.zip
-    sudo apt-get install -qq -y unzip
-    sudo unzip opusfile.zip -d $VITASDK/arm-vita-eabi
-  displayName: 'Get opusfile'
-
-- script: |
     make clean
     make -j$(nproc)
   displayName: 'Build (Standard)'
