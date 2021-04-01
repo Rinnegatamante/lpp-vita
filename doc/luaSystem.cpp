@@ -821,13 +821,10 @@ class System{
 		 *
 		 * @param filename - The filename to extract.
 		 * @param dirname - The path where to extract files.
-		 * @param password - The password of the archive <b>(optional)</b>.
-		 *
-		 * @return 1 if extraction completed successfully, 0 otherwise.
 		 *
 		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
 		 */
-		int extractZip(string filename, string dirname, string password);
+		void extractZip(string filename, string dirname);
 		
 		/**
 		 * Extract a specific file from a ZIP file (synchronous).
@@ -835,19 +832,14 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.extractFromZip("app0:/files.zip", "image.jpg" "ux0:/data/app_files")
+		 * System.extractFromZip("app0:/files.zip", "image.jpg" "ux0:/data/app_files/my_image.jpg")
 		 * @endcode
 		 *
 		 * @param filename - The filename of the ZIP archive.
 		 * @param file - The file to extract.
-		 * @param dirname - The path where to extract file.
-		 * @param password - The password of the archive <b>(optional)</b>.
-		 *
-		 * @return true if file extraced, false otherwise.
-		 *
-		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
+		 * @param destname - The filename where to extract file.
 		 */
-		bool extractFromZip(string filename, string file, string dirname, string password);
+		void extractFromZip(string filename, string file, string destname);
 		
 		/**
 		 * Extract a ZIP file (asynchronous).
@@ -860,11 +852,10 @@ class System{
 		 *
 		 * @param filename - The filename to extract.
 		 * @param dirname - The path where to extract files.
-		 * @param password - The password of the archive <b>(optional)</b>.
 		 *
 		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
 		 */
-		void extractZipAsync(string filename, string dirname, string password);
+		void extractZipAsync(string filename, string dirname);
 		
 		/**
 		 * Extract a specific file from a ZIP file (asynchronous).
@@ -872,17 +863,14 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.extractFromZipAsync("app0:/files.zip", "image.jpg" "ux0:/data/app_files")
+		 * System.extractFromZipAsync("app0:/files.zip", "image.jpg" "ux0:/data/app_files/my_image.jpg")
 		 * @endcode
 		 *
 		 * @param filename - The filename of the ZIP archive.
 		 * @param file - The file to extract.
-		 * @param dirname - The path where to extract file.
-		 * @param password - The password of the archive <b>(optional)</b>.
-		 *
-		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
+		 * @param destname - The filename where to extract file.
 		 */
-		void extractFromZipAsync(string filename, string file, string dirname, string password);
+		void extractFromZipAsync(string filename, string file, string destname);
 		
 		/**
 		 * Get current state of an asynchronous task.
