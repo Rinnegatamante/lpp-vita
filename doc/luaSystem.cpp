@@ -957,6 +957,28 @@ class System{
 		int reboot(void);
 		
 		/**
+		 * Shutdown the console.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.shutdown()
+		 * @endcode
+		 */
+		int shutdown(void);
+		
+		/**
+		 * Put the console in standby.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.standby()
+		 * @endcode
+		 */
+		int standby(void);
+		
+		/**
 		 * Get if application is running in safe mode.
 		 * \ingroup System
 		 *

@@ -975,6 +975,24 @@ static int lua_reboot(lua_State *L){
 	return 0;
 }
 
+static int lua_shutdown(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	scePowerRequestStandby();
+	return 0;
+}
+
+static int lua_standby(lua_State *L){
+	int argc = lua_gettop(L);
+	#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	#endif
+	scePowerRequestSuspend();
+	return 0;
+}
+
 static int lua_issafe(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
@@ -1242,7 +1260,9 @@ static const luaL_Reg System_functions[] = {
   {"extractFromZipAsync",       lua_getfilefromzipasync},
   {"takeScreenshot",            lua_screenshot},
   {"executeUri",                lua_executeuri},
-  {"reboot",                    lua_reboot},  
+  {"reboot",                    lua_reboot},
+  {"shutdown",                  lua_shutdown},
+  {"standby",                   lua_standby},
   {"isSafeMode",                lua_issafe},
   {"setMessage",                lua_setmsg},
   {"getMessageState",           lua_getmsg},
