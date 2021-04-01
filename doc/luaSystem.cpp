@@ -1085,5 +1085,20 @@ class System{
 		 * @note This function is available only in unsafe mode.
 		 */
 		void mountPartition(int idx, MntPerm perms);
+		
+		/**
+		 * Install an extracted app.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.installApp("ux0:/vitaQuake")
+		 * @endcode
+		 *
+		 * @param dir - The path to the extracted app.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		void installApp(string dir);
 
 }
