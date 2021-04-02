@@ -5,7 +5,7 @@
 
 /**
  * Themes constants to use with ::Gui.setTheme.
- * \ingroup System
+ * \ingroup Gui
  */
 enum GuiTheme{
 	DARK_THEME,     //!< Dark Theme.
@@ -15,7 +15,7 @@ enum GuiTheme{
 
 /**
  * Window flags to use with ::Gui.initWindow.
- * \ingroup System
+ * \ingroup Gui
  */
 enum WinFlags{
 	FLAG_NONE,                 //!< No flags.
@@ -29,7 +29,7 @@ enum WinFlags{
 
 /**
  * Function mode to alter frequency of execution.
- * \ingroup System
+ * \ingroup Gui
  */
 enum ConfigMode{
 	SET_ONCE,   //!< The function is executed only once.
@@ -91,7 +91,6 @@ class Gui {
 		 * @par Usage example:
 		 * @code
 		 * Gui.setTheme(DARK_THEME)
-		 * end
 		 * @endcode
 		 *
 		 * @param theme - The theme to set.
@@ -105,7 +104,6 @@ class Gui {
 		 * @par Usage example:
 		 * @code
 		 * Gui.setInputMode(true, false, true, true)
-		 * end
 		 * @endcode
 		 *
 		 * @param use_touch - Enable front touch usage for cursor movement.
