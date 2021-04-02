@@ -6,6 +6,7 @@ var modules =
     [ "Database", "group___database.html", "group___database" ],
     [ "Font", "group___font.html", "group___font" ],
     [ "Graphics", "group___graphics.html", "group___graphics" ],
+    [ "Gui", "group___gui.html", "group___gui" ],
     [ "Keyboard", "group___keyboard.html", "group___keyboard" ],
     [ "Mic", "group___mic.html", "group___mic" ],
     [ "Network", "group___network.html", "group___network" ],

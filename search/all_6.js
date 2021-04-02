@@ -59,5 +59,7 @@ var searchData=
   ['getwhitebalance',['getWhiteBalance',['../group___camera.html#gabce49a805a664b20d748cb3812eb515e',1,'Camera']]],
   ['getwifilevel',['getWifiLevel',['../group___network.html#ga6e72caac5bb0ba1249e7c95bfd78281f',1,'Network']]],
   ['getzoom',['getZoom',['../group___camera.html#ga310bac1a1ad81c3245036b3498f7524e',1,'Camera']]],
-  ['graphics',['Graphics',['../class_graphics.html',1,'Graphics'],['../group___graphics.html',1,'(Global Namespace)']]]
+  ['graphics',['Graphics',['../class_graphics.html',1,'Graphics'],['../group___graphics.html',1,'(Global Namespace)']]],
+  ['gui',['Gui',['../class_gui.html',1,'Gui'],['../group___gui.html',1,'(Global Namespace)']]],
+  ['guitheme',['GuiTheme',['../group___system.html#ga6e80df1fb4461f16051c2f972fe4a3f3',1,'luaGui.cpp']]]
 ];

@@ -1,5 +1,23 @@
 var group___system =
 [
+    [ "GuiTheme", "group___system.html#ga6e80df1fb4461f16051c2f972fe4a3f3", [
+      [ "DARK_THEME", "group___system.html#gga6e80df1fb4461f16051c2f972fe4a3f3a244f23fc5caaef47853335820a2fefbe", null ],
+      [ "LIGHT_THEME", "group___system.html#gga6e80df1fb4461f16051c2f972fe4a3f3ae7d04e5e64002bab7c109504a885ad69", null ],
+      [ "CLASSIC_THEME", "group___system.html#gga6e80df1fb4461f16051c2f972fe4a3f3a53142decca2043863d45aeadba0a6cc8", null ]
+    ] ],
+    [ "WinFlags", "group___system.html#gafe7a7d96eca7491cbe147f2b391a97b7", [
+      [ "FLAG_NONE", "group___system.html#ggafe7a7d96eca7491cbe147f2b391a97b7a5928d275e9e42840d63ed0f5cf5c1e9b", null ],
+      [ "FLAG_NO_COLLAPSE", "group___system.html#ggafe7a7d96eca7491cbe147f2b391a97b7af30da966714a4ab642e8b0982e765cb1", null ],
+      [ "FLAG_NO_MOVE", "group___system.html#ggafe7a7d96eca7491cbe147f2b391a97b7a5c2163d08dc8ea18cd12ec172fb85a3b", null ],
+      [ "FLAG_NO_RESIZE", "group___system.html#ggafe7a7d96eca7491cbe147f2b391a97b7a635ba8ec551aa0e2c4d25b9635b115b7", null ],
+      [ "FLAG_NO_SCROLLBAR", "group___system.html#ggafe7a7d96eca7491cbe147f2b391a97b7a4f504af058a217a1679a953e22c1dc38", null ],
+      [ "FLAG_NO_TITLEBAR", "group___system.html#ggafe7a7d96eca7491cbe147f2b391a97b7ab7982b3c4633e859145c3dab2b46d014", null ],
+      [ "FLAG_HORIZONTAL_SCROLLBAR", "group___system.html#ggafe7a7d96eca7491cbe147f2b391a97b7a73b7cdad457f410b18d334707533de95", null ]
+    ] ],
+    [ "ConfigMode", "group___system.html#ga7c8454d3a20c749577d8630c4964d330", [
+      [ "SET_ONCE", "group___system.html#gga7c8454d3a20c749577d8630c4964d330a94f33dcb05c394ba6adebe6396104da1", null ],
+      [ "SET_ALWAYS", "group___system.html#gga7c8454d3a20c749577d8630c4964d330a119ea1d9912bda35553f9e630b5c8155", null ]
+    ] ],
     [ "IOFlags", "group___system.html#ga315c5a593dbbd779d315a8c6a59e2520", [
       [ "FREAD", "group___system.html#gga315c5a593dbbd779d315a8c6a59e2520a5011b5822a8725c03505f3893ae19f84", null ],
       [ "FWRITE", "group___system.html#gga315c5a593dbbd779d315a8c6a59e2520ae3a886b3f93f4b533f0c252b3db5b4c1", null ],

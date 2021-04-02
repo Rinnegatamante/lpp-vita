@@ -18,5 +18,7 @@ var searchData=
   ['sce_5fctrl_5fvolup',['SCE_CTRL_VOLUP',['../group___controls.html#gga8c72c82f024ad6af2e49918de816504fa436d88aeb4ce14521088bd556eb863cc',1,'luaControls.cpp']]],
   ['screen_5fdimming_5ftimer',['SCREEN_DIMMING_TIMER',['../group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5ae9095b853f96804f440ff1b799bc1330',1,'luaSystem.cpp']]],
   ['screen_5foff_5ftimer',['SCREEN_OFF_TIMER',['../group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5a83898f603e5210a00b6f66199ebb7eec',1,'luaSystem.cpp']]],
-  ['set',['SET',['../group___system.html#gga5483daccb9b3446fc823c35c753e93adab44c8101cc294c074709ec1b14211792',1,'luaSystem.cpp']]]
+  ['set',['SET',['../group___system.html#gga5483daccb9b3446fc823c35c753e93adab44c8101cc294c074709ec1b14211792',1,'luaSystem.cpp']]],
+  ['set_5falways',['SET_ALWAYS',['../group___system.html#gga7c8454d3a20c749577d8630c4964d330a119ea1d9912bda35553f9e630b5c8155',1,'luaGui.cpp']]],
+  ['set_5fonce',['SET_ONCE',['../group___system.html#gga7c8454d3a20c749577d8630c4964d330a94f33dcb05c394ba6adebe6396104da1',1,'luaGui.cpp']]]
 ];
