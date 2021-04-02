@@ -9,6 +9,6 @@ var searchData=
   ['camerareverse',['CameraReverse',['../group___camera.html#ga2410fb8d14f90c23eb6e01d14d50ecd7',1,'luaCamera.cpp']]],
   ['cameratype',['CameraType',['../group___camera.html#gaf7eb92b45c5f7f64f02821f87c385ebb',1,'luaCamera.cpp']]],
   ['camerawb',['CameraWB',['../group___camera.html#ga4658f74e4b6130c135cbfe64ec4dc7b3',1,'luaCamera.cpp']]],
-  ['configmode',['ConfigMode',['../group___system.html#ga7c8454d3a20c749577d8630c4964d330',1,'luaGui.cpp']]],
+  ['configmode',['ConfigMode',['../group___gui.html#ga7c8454d3a20c749577d8630c4964d330',1,'luaGui.cpp']]],
   ['ctrl',['Ctrl',['../group___controls.html#ga8c72c82f024ad6af2e49918de816504f',1,'luaControls.cpp']]]
 ];

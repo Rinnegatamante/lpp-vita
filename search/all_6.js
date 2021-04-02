@@ -61,5 +61,5 @@ var searchData=
   ['getzoom',['getZoom',['../group___camera.html#ga310bac1a1ad81c3245036b3498f7524e',1,'Camera']]],
   ['graphics',['Graphics',['../class_graphics.html',1,'Graphics'],['../group___graphics.html',1,'(Global Namespace)']]],
   ['gui',['Gui',['../class_gui.html',1,'Gui'],['../group___gui.html',1,'(Global Namespace)']]],
-  ['guitheme',['GuiTheme',['../group___system.html#ga6e80df1fb4461f16051c2f972fe4a3f3',1,'luaGui.cpp']]]
+  ['guitheme',['GuiTheme',['../group___gui.html#ga6e80df1fb4461f16051c2f972fe4a3f3',1,'luaGui.cpp']]]
 ];
