@@ -449,4 +449,52 @@ class Gui {
 		 * @return The updated selected element.
 		 */
 		int drawComboBox(string label, int index, table elements);
+		
+		/**
+		 * Draw a progressbar.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Gui.drawProgressbar(0.25, 200, 0)
+		 * end
+		 * @endcode
+		 *
+		 * @param fraction - Progress value to show in 0.0 - 1.0 range.
+		 * @param w - Width of the element in pixels.
+		 * @param h - Height of the element in pixels.
+		 */
+		void drawProgressbar(number fraction, number w, number h);
+		
+		/**
+		 * Draw a progressbar.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * w, h = Gui.getTextSize("Hello World")
+		 * end
+		 * @endcode
+		 *
+		 * @param text - The text to calculate the size about.
+		 *
+		 * @return The size of the text in pixels.
+		 */
+		number[] getTextSize(string text);
+		
+		/**
+		 * Set next widget position.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Gui.setWidgetPos(300, 200)
+		 * Gui.drawText("Hello World")
+		 * end
+		 * @endcode
+		 *
+		 * @param x - X coordinate in pixels.
+		 * @param y - Y coordinate in pixels.
+		 */
+		void setWidgetPos(number x, number y);
 }

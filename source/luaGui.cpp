@@ -525,6 +525,47 @@ static int lua_combobox(lua_State *L) {
 	return 1;
 }
 
+static int lua_cursorpos(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+#endif
+	float x = luaL_checknumber(L, 1);
+	float y = luaL_checknumber(L, 2);
+	ImGui::SetCursorPos(ImVec2(x, y));
+	return 0;
+}
+
+static int lua_textsize(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+#endif
+	char *label = luaL_checkstring(L, 1);
+	ImVec2 size = ImGui::CalcTextSize(label);
+	lua_pushnumber(L, size.x);
+	lua_pushnumber(L, size.y);
+	return 2;
+}
+
+static int lua_progressbar(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1 && argc != 3) return luaL_error(L, "wrong number of arguments");
+#endif
+	float status = luaL_checknumber(L, 1);
+	ImVec2 size;
+	if (argc == 1) {
+		size = ImVec2(-1, 0);
+	} else {
+		float w = luaL_checknumber(L, 2);
+		float h = luaL_checknumber(L, 3);
+		size = ImVec2(w, h);
+	}
+	ImGui::ProgressBar(status, size);
+	return 0;
+}
+
 //Register our Gui Functions
 static const luaL_Reg Gui_functions[] = {
   {"init",                lua_init},
@@ -554,6 +595,9 @@ static const luaL_Reg Gui_functions[] = {
   {"drawTooltip",         lua_tooltip},
   {"setInputMode",        lua_config},
   {"drawComboBox",        lua_combobox},
+  {"setWidgetPos",        lua_cursorpos},
+  {"getTextSize",         lua_textsize},
+  {"drawProgressbar",     lua_progressbar},
   {0, 0}
 };
 
