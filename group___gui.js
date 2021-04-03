@@ -45,5 +45,8 @@ var group___gui =
     [ "drawTooltip", "group___gui.html#gac04052595fe9fa92fa477f9dc7183eeb", null ],
     [ "drawSlider", "group___gui.html#ga50db6d82e89231e352ddb46ed722ce91", null ],
     [ "drawIntSlider", "group___gui.html#gae67a5a6f71b563533b786feb34c5d151", null ],
-    [ "drawComboBox", "group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41", null ]
+    [ "drawComboBox", "group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41", null ],
+    [ "drawProgressbar", "group___gui.html#gac364768279d640a27d7fbbd4e75dded1", null ],
+    [ "getTextSize", "group___gui.html#gab0354030f0ffc9b2bd0b8783c66782e9", null ],
+    [ "setWidgetPos", "group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d", null ]
 ];

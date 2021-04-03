@@ -49,6 +49,7 @@ var searchData=
   ['getsharpness',['getSharpness',['../group___camera.html#gac49c635abdf3eaf6c3c8624f4dcff4c2',1,'Camera']]],
   ['getspoofedfirmware',['getSpoofedFirmware',['../group___system.html#ga4bafaea1a39bdd86df7ee6ef78be46f4',1,'System']]],
   ['getstate',['getState',['../group___keyboard.html#ga0496cf4908c6c82661ffb27cea5d838c',1,'Keyboard']]],
+  ['gettextsize',['getTextSize',['../group___gui.html#gab0354030f0ffc9b2bd0b8783c66782e9',1,'Gui']]],
   ['gettime',['getTime',['../group___system.html#ga6c22ea39ba26fd9d843c34e1df9602d6',1,'System::getTime()'],['../group___timer.html#ga32099cb6bc702a69522fae58767376b8',1,'Timer::getTime()']]],
   ['gettitle',['getTitle',['../group___sound.html#ga1f19e3668f09f7cb538e3a931260ec06',1,'Sound::getTitle()'],['../group___system.html#ga26a65a0c12c8e4f98051b62057002742',1,'System::getTitle()']]],
   ['gettitleid',['getTitleID',['../group___system.html#gadec1b4d88d7cbeeba5b30c6339080744',1,'System']]],
