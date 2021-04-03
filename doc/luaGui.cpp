@@ -205,6 +205,22 @@ class Gui {
 		void drawText(string label, int color);
 		
 		/**
+		 * Calculate a text size.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * w, h = Gui.getTextSize("Hello World")
+		 * end
+		 * @endcode
+		 *
+		 * @param text - The text to calculate the size about.
+		 *
+		 * @return The size of the text in pixels.
+		 */
+		number[] getTextSize(string text);
+		
+		/**
 		 * Draw a greyed out text.
 		 * \ingroup Gui
 		 *
@@ -461,26 +477,10 @@ class Gui {
 		 * @endcode
 		 *
 		 * @param fraction - Progress value to show in 0.0 - 1.0 range.
-		 * @param w - Width of the element in pixels.
-		 * @param h - Height of the element in pixels.
+		 * @param w - Width of the element in pixels <b>(optional)</b>.
+		 * @param h - Height of the element in pixels <b>(optional)</b>.
 		 */
 		void drawProgressbar(number fraction, number w, number h);
-		
-		/**
-		 * Draw a progressbar.
-		 * \ingroup Gui
-		 *
-		 * @par Usage example:
-		 * @code
-		 * w, h = Gui.getTextSize("Hello World")
-		 * end
-		 * @endcode
-		 *
-		 * @param text - The text to calculate the size about.
-		 *
-		 * @return The size of the text in pixels.
-		 */
-		number[] getTextSize(string text);
 		
 		/**
 		 * Set next widget position.
