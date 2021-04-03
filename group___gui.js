@@ -30,6 +30,7 @@ var group___gui =
     [ "termMenu", "group___gui.html#ga87afb5a3d5b1f02f85a22740fb046907", null ],
     [ "drawMenuItem", "group___gui.html#ga566d9ecdc5ef81dfa44b7c5fdef44705", null ],
     [ "drawText", "group___gui.html#gaf3c94adf1a77fe92d2fab86b2ecc5749", null ],
+    [ "getTextSize", "group___gui.html#gab0354030f0ffc9b2bd0b8783c66782e9", null ],
     [ "drawDisabledText", "group___gui.html#gad0d5c1eb6529b196145efea74bd1ce37", null ],
     [ "drawWrappedText", "group___gui.html#gade5cfa37893d3071d89f901600e8aa8a", null ],
     [ "drawButton", "group___gui.html#gaa475366ce18c74c9a65941e7a29873f0", null ],
@@ -47,6 +48,5 @@ var group___gui =
     [ "drawIntSlider", "group___gui.html#gae67a5a6f71b563533b786feb34c5d151", null ],
     [ "drawComboBox", "group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41", null ],
     [ "drawProgressbar", "group___gui.html#gac364768279d640a27d7fbbd4e75dded1", null ],
-    [ "getTextSize", "group___gui.html#gab0354030f0ffc9b2bd0b8783c66782e9", null ],
     [ "setWidgetPos", "group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d", null ]
 ];
