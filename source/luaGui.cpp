@@ -501,6 +501,30 @@ static int lua_tooltip(lua_State *L) {
 	return 0;
 }
 
+static int lua_combobox(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 3) return luaL_error(L, "wrong number of arguments");
+#endif
+	char *label = luaL_checkstring(L, 1);
+	int idx = luaL_checkinteger(L, 2);
+	lua_rawgeti(L, 3, idx);
+	if (ImGui::BeginCombo(label, lua_tostring(L, -1))) {
+		uint32_t len = lua_objlen(L, 3);
+		for (int i = 1; i <= len; i++) {
+			bool is_selected = i == idx;
+			lua_rawgeti(L, 3, i);
+			if (ImGui::Selectable(lua_tostring(L, -1), is_selected))
+				idx = i;
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+	lua_pushinteger(L, idx);
+	return 1;
+}
+
 //Register our Gui Functions
 static const luaL_Reg Gui_functions[] = {
   {"init",                lua_init},
@@ -529,6 +553,7 @@ static const luaL_Reg Gui_functions[] = {
   {"drawMenuItem",        lua_mitem},
   {"drawTooltip",         lua_tooltip},
   {"setInputMode",        lua_config},
+  {"drawComboBox",        lua_combobox},
   {0, 0}
 };
 

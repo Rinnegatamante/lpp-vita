@@ -431,4 +431,22 @@ class Gui {
 		 */
 		int[] drawIntSlider(string label, int val_min, int val_max, int val1,int val2, int val3, int val4);
 		
+		/**
+		 * Draw a combobox.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * elems = {"Element 1", "Element 2", "Element 3", "Element 4"}
+		 * combo_idx = Gui.drawComboBox("##combo", combo_idx, elems)
+		 * end
+		 * @endcode
+		 *
+		 * @param label - The label to show.
+		 * @param index - The currently selected element.
+		 * @param elements - The elements to use for the combobox.
+		 *
+		 * @return The updated selected element.
+		 */
+		int drawComboBox(string label, int index, table elements);
 }
