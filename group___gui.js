@@ -44,5 +44,6 @@ var group___gui =
     [ "drawSeparator", "group___gui.html#gad4f25d8455b5cd5f1fb747c6f3687526", null ],
     [ "drawTooltip", "group___gui.html#gac04052595fe9fa92fa477f9dc7183eeb", null ],
     [ "drawSlider", "group___gui.html#ga50db6d82e89231e352ddb46ed722ce91", null ],
-    [ "drawIntSlider", "group___gui.html#gae67a5a6f71b563533b786feb34c5d151", null ]
+    [ "drawIntSlider", "group___gui.html#gae67a5a6f71b563533b786feb34c5d151", null ],
+    [ "drawComboBox", "group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41", null ]
 ];

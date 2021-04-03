@@ -218,6 +218,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gae67a5a6f71b563533b786feb34c5d151"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#gae67a5a6f71b563533b786feb34c5d151">Gui.drawIntSlider</a> (string label, int val_min, int val_max, int val1, int val2, int val3, int val4)</td></tr>
 <tr class="memdesc:gae67a5a6f71b563533b786feb34c5d151"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a slider with variable amount of integer values.  <a href="#gae67a5a6f71b563533b786feb34c5d151">More...</a><br /></td></tr>
 <tr class="separator:gae67a5a6f71b563533b786feb34c5d151"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf4e91dce0bae322d9de1043be81d5c41"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41">Gui.drawComboBox</a> (string label, int index, table elements)</td></tr>
+<tr class="memdesc:gaf4e91dce0bae322d9de1043be81d5c41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a combobox.  <a href="#gaf4e91dce0bae322d9de1043be81d5c41">More...</a><br /></td></tr>
+<tr class="separator:gaf4e91dce0bae322d9de1043be81d5c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles 2D GUI development through dear ImGui wrapper. </p>
@@ -1172,6 +1175,50 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The updated values after the frame execution. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaf4e91dce0bae322d9de1043be81d5c41"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Gui.drawComboBox </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">table&#160;</td>
+          <td class="paramname"><em>elements</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Draw a combobox. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">elems = {<span class="stringliteral">&quot;Element 1&quot;</span>, <span class="stringliteral">&quot;Element 2&quot;</span>, <span class="stringliteral">&quot;Element 3&quot;</span>, <span class="stringliteral">&quot;Element 4&quot;</span>}</div><div class="line">combo_idx = <a class="code" href="class_gui.html">Gui</a>.<a class="code" href="group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41">drawComboBox</a>(<span class="stringliteral">&quot;##combo&quot;</span>, combo_idx, elems)</div><div class="line">end</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">label</td><td>- The label to show. </td></tr>
+    <tr><td class="paramname">index</td><td>- The currently selected element. </td></tr>
+    <tr><td class="paramname">elements</td><td>- The elements to use for the combobox.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The updated selected element. </dd></dl>
 
 </div>
 </div>
