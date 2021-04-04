@@ -110,11 +110,6 @@ $(document).ready(function(){initNavTree('group___sound.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ga709fa80256a74e684b52b7190b5087a3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#ga709fa80256a74e684b52b7190b5087a3">LoopMode</a> { <a class="el" href="group___sound.html#gga709fa80256a74e684b52b7190b5087a3ab422a9348e16fd48f4744dee08e879bd">NO_LOOP</a>, 
-<a class="el" href="group___sound.html#gga709fa80256a74e684b52b7190b5087a3a61f7f1587bd5fe978d9ff3ece8d0624c">LOOP</a>
- }<tr class="memdesc:ga709fa80256a74e684b52b7190b5087a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loop mode for <a class="el" href="group___sound.html#gac9ce236baeb10747defc8470609ec71b" title="Plays a sound. ">Sound.play</a>.  <a href="group___sound.html#ga709fa80256a74e684b52b7190b5087a3">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:ga709fa80256a74e684b52b7190b5087a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaea98fc35b503a688d834a422d904c293"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#gaea98fc35b503a688d834a422d904c293">ShutterId</a> { <a class="el" href="group___sound.html#ggaea98fc35b503a688d834a422d904c293a6b9eb7fe11842fefb5b3516235304b13">IMAGE_CAPTURE</a>, 
 <a class="el" href="group___sound.html#ggaea98fc35b503a688d834a422d904c293aff0038e86a2f9c83f76d77a51b33c356">VIDEO_CAPTURE_START</a>, 
 <a class="el" href="group___sound.html#ggaea98fc35b503a688d834a422d904c293a94df8e039ffdba1a4230ccddad1d61ca">VIDEO_CAPTURE_END</a>
@@ -133,9 +128,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gac28c118a905b1c66fed1d505f142b070"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#gac28c118a905b1c66fed1d505f142b070">Sound.open</a> (string filename)</td></tr>
 <tr class="memdesc:gac28c118a905b1c66fed1d505f142b070"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open an audio file.  <a href="#gac28c118a905b1c66fed1d505f142b070">More...</a><br /></td></tr>
 <tr class="separator:gac28c118a905b1c66fed1d505f142b070"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac9ce236baeb10747defc8470609ec71b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#gac9ce236baeb10747defc8470609ec71b">Sound.play</a> (int music, <a class="el" href="group___sound.html#ga709fa80256a74e684b52b7190b5087a3">LoopMode</a> loop)</td></tr>
-<tr class="memdesc:gac9ce236baeb10747defc8470609ec71b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plays a sound.  <a href="#gac9ce236baeb10747defc8470609ec71b">More...</a><br /></td></tr>
-<tr class="separator:gac9ce236baeb10747defc8470609ec71b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga181a11ecba113c191e79b5f77ef90431"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#ga181a11ecba113c191e79b5f77ef90431">Sound.play</a> (int music, bool loop)</td></tr>
+<tr class="memdesc:ga181a11ecba113c191e79b5f77ef90431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plays a sound.  <a href="#ga181a11ecba113c191e79b5f77ef90431">More...</a><br /></td></tr>
+<tr class="separator:ga181a11ecba113c191e79b5f77ef90431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae53297614ed59df9acbf7482ef17d70d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sound.html#gae53297614ed59df9acbf7482ef17d70d">Sound.pause</a> (int music)</td></tr>
 <tr class="memdesc:gae53297614ed59df9acbf7482ef17d70d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pause a sound.  <a href="#gae53297614ed59df9acbf7482ef17d70d">More...</a><br /></td></tr>
 <tr class="separator:gae53297614ed59df9acbf7482ef17d70d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,28 +162,6 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles audio features. </p>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a class="anchor" id="ga709fa80256a74e684b52b7190b5087a3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="group___sound.html#ga709fa80256a74e684b52b7190b5087a3">LoopMode</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Loop mode for <a class="el" href="group___sound.html#gac9ce236baeb10747defc8470609ec71b" title="Plays a sound. ">Sound.play</a>. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="gga709fa80256a74e684b52b7190b5087a3ab422a9348e16fd48f4744dee08e879bd"></a>NO_LOOP&#160;</td><td class="fielddoc">
-<p>Non-loop mode. </p>
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="gga709fa80256a74e684b52b7190b5087a3a61f7f1587bd5fe978d9ff3ece8d0624c"></a>LOOP&#160;</td><td class="fielddoc">
-<p>Loop mode. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
 <a class="anchor" id="gaea98fc35b503a688d834a422d904c293"></a>
 <div class="memitem">
 <div class="memproto">
@@ -282,7 +255,7 @@ This function can be used to reproduce audio track from a .pshv video file too. 
 
 </div>
 </div>
-<a class="anchor" id="gac9ce236baeb10747defc8470609ec71b"></a>
+<a class="anchor" id="ga181a11ecba113c191e79b5f77ef90431"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -295,7 +268,7 @@ This function can be used to reproduce audio track from a .pshv video file too. 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group___sound.html#ga709fa80256a74e684b52b7190b5087a3">LoopMode</a>&#160;</td>
+          <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>loop</em>&#160;</td>
         </tr>
         <tr>
@@ -307,11 +280,11 @@ This function can be used to reproduce audio track from a .pshv video file too. 
 </div><div class="memdoc">
 
 <p>Plays a sound. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_sound.html">Sound</a>.<a class="code" href="group___sound.html#gac9ce236baeb10747defc8470609ec71b">play</a>(snd, <a class="code" href="group___sound.html#gga709fa80256a74e684b52b7190b5087a3ab422a9348e16fd48f4744dee08e879bd">NO_LOOP</a>)</div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_sound.html">Sound</a>.<a class="code" href="group___sound.html#ga181a11ecba113c191e79b5f77ef90431">play</a>(snd, NO_LOOP)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">music</td><td>- A valid sound ID. </td></tr>
-    <tr><td class="paramname">loop</td><td>- Loop mode. </td></tr>
+    <tr><td class="paramname">loop</td><td>- If true, playback will loop <b>(optional)</b>. </td></tr>
   </table>
   </dd>
 </dl>
