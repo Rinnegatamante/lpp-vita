@@ -224,12 +224,24 @@ Functions</h2></td></tr>
 <tr class="memitem:gaf4e91dce0bae322d9de1043be81d5c41"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41">Gui.drawComboBox</a> (string label, int index, table elements)</td></tr>
 <tr class="memdesc:gaf4e91dce0bae322d9de1043be81d5c41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a combobox.  <a href="#gaf4e91dce0bae322d9de1043be81d5c41">More...</a><br /></td></tr>
 <tr class="separator:gaf4e91dce0bae322d9de1043be81d5c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga844150a68617fd5913b5a096d7df0a5c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#ga844150a68617fd5913b5a096d7df0a5c">Gui.drawListBox</a> (string label, int index, table elements)</td></tr>
+<tr class="memdesc:ga844150a68617fd5913b5a096d7df0a5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a listbox.  <a href="#ga844150a68617fd5913b5a096d7df0a5c">More...</a><br /></td></tr>
+<tr class="separator:ga844150a68617fd5913b5a096d7df0a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac251abfdb1a9fcd4e64b71bb328d3636"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#gac251abfdb1a9fcd4e64b71bb328d3636">Gui.drawColorPicker</a> (string label, int color, bool alpha)</td></tr>
+<tr class="memdesc:gac251abfdb1a9fcd4e64b71bb328d3636"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a color picker.  <a href="#gac251abfdb1a9fcd4e64b71bb328d3636">More...</a><br /></td></tr>
+<tr class="separator:gac251abfdb1a9fcd4e64b71bb328d3636"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac364768279d640a27d7fbbd4e75dded1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#gac364768279d640a27d7fbbd4e75dded1">Gui.drawProgressbar</a> (number fraction, number w, number h)</td></tr>
 <tr class="memdesc:gac364768279d640a27d7fbbd4e75dded1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a progressbar.  <a href="#gac364768279d640a27d7fbbd4e75dded1">More...</a><br /></td></tr>
 <tr class="separator:gac364768279d640a27d7fbbd4e75dded1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga55d8ae56b3d6dc53f8821717bb15524d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d">Gui.setWidgetPos</a> (number x, number y)</td></tr>
 <tr class="memdesc:ga55d8ae56b3d6dc53f8821717bb15524d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set next widget position.  <a href="#ga55d8ae56b3d6dc53f8821717bb15524d">More...</a><br /></td></tr>
 <tr class="separator:ga55d8ae56b3d6dc53f8821717bb15524d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga207194003ed5aa866cdc5ba7e24dade5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#ga207194003ed5aa866cdc5ba7e24dade5">Gui.setWidgetWidth</a> (number w)</td></tr>
+<tr class="memdesc:ga207194003ed5aa866cdc5ba7e24dade5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set next widgets width.  <a href="#ga207194003ed5aa866cdc5ba7e24dade5">More...</a><br /></td></tr>
+<tr class="separator:ga207194003ed5aa866cdc5ba7e24dade5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ac27e6670503b8bbe39e192c4daf924"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#ga1ac27e6670503b8bbe39e192c4daf924">Gui.resetWidgetWidth</a> ()</td></tr>
+<tr class="memdesc:ga1ac27e6670503b8bbe39e192c4daf924"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset next widgets width to original values.  <a href="#ga1ac27e6670503b8bbe39e192c4daf924">More...</a><br /></td></tr>
+<tr class="separator:ga1ac27e6670503b8bbe39e192c4daf924"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Module that handles 2D GUI development through dear ImGui wrapper. </p>
@@ -1257,6 +1269,94 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga844150a68617fd5913b5a096d7df0a5c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Gui.drawListBox </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">table&#160;</td>
+          <td class="paramname"><em>elements</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Draw a listbox. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">elems = {<span class="stringliteral">&quot;Element 1&quot;</span>, <span class="stringliteral">&quot;Element 2&quot;</span>, <span class="stringliteral">&quot;Element 3&quot;</span>, <span class="stringliteral">&quot;Element 4&quot;</span>}</div><div class="line">list_idx = <a class="code" href="class_gui.html">Gui</a>.<a class="code" href="group___gui.html#ga844150a68617fd5913b5a096d7df0a5c">drawListBox</a>(<span class="stringliteral">&quot;##list&quot;</span>, list_idx, elems)</div><div class="line">end</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">label</td><td>- The label to show. </td></tr>
+    <tr><td class="paramname">index</td><td>- The currently selected element. </td></tr>
+    <tr><td class="paramname">elements</td><td>- The elements to use for the combobox.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The updated selected element. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gac251abfdb1a9fcd4e64b71bb328d3636"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Gui.drawColorPicker </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>alpha</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Draw a color picker. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">color = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(255, 127, 65)</div><div class="line">color = <a class="code" href="class_gui.html">Gui</a>.<a class="code" href="group___gui.html#gac251abfdb1a9fcd4e64b71bb328d3636">drawColorPicker</a>(<span class="stringliteral">&quot;##color_picker&quot;</span>, color)</div><div class="line">end</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">label</td><td>- The label to show. </td></tr>
+    <tr><td class="paramname">color</td><td>- The currently picked color (See <a class="el" href="class_color.html">Color</a>) </td></tr>
+    <tr><td class="paramname">alpha</td><td>- If true, alpha value will be pickable, not otherwise. <b>(optional)</b>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The updated picked color. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gac364768279d640a27d7fbbd4e75dded1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1333,6 +1433,49 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="ga207194003ed5aa866cdc5ba7e24dade5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Gui.setWidgetWidth </td>
+          <td>(</td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>w</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set next widgets width. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_gui.html">Gui</a>.<a class="code" href="group___gui.html#ga207194003ed5aa866cdc5ba7e24dade5">setWidgetWidth</a>(400)</div><div class="line">color = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(255, 255, 255)</div><div class="line">color = <a class="code" href="class_gui.html">Gui</a>.<a class="code" href="group___gui.html#gac251abfdb1a9fcd4e64b71bb328d3636">drawColorPicker</a>(<span class="stringliteral">&quot;##color_picker&quot;</span>, color)</div><div class="line">end</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">w</td><td>- Width of the element in pixels. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ga1ac27e6670503b8bbe39e192c4daf924"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Gui.resetWidgetWidth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset next widgets width to original values. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_gui.html">Gui</a>.<a class="code" href="group___gui.html#ga1ac27e6670503b8bbe39e192c4daf924">resetWidgetWidth</a>()</div><div class="line">color = <a class="code" href="class_color.html">Color</a>.<a class="code" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(255, 255, 255)</div><div class="line">color = <a class="code" href="class_gui.html">Gui</a>.<a class="code" href="group___gui.html#gac251abfdb1a9fcd4e64b71bb328d3636">drawColorPicker</a>(<span class="stringliteral">&quot;##color_picker&quot;</span>, color)</div><div class="line">end</div></div><!-- fragment --> </dd></dl>
 
 </div>
 </div>

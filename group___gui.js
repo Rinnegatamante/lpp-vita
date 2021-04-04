@@ -47,6 +47,10 @@ var group___gui =
     [ "drawSlider", "group___gui.html#ga50db6d82e89231e352ddb46ed722ce91", null ],
     [ "drawIntSlider", "group___gui.html#gae67a5a6f71b563533b786feb34c5d151", null ],
     [ "drawComboBox", "group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41", null ],
+    [ "drawListBox", "group___gui.html#ga844150a68617fd5913b5a096d7df0a5c", null ],
+    [ "drawColorPicker", "group___gui.html#gac251abfdb1a9fcd4e64b71bb328d3636", null ],
     [ "drawProgressbar", "group___gui.html#gac364768279d640a27d7fbbd4e75dded1", null ],
-    [ "setWidgetPos", "group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d", null ]
+    [ "setWidgetPos", "group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d", null ],
+    [ "setWidgetWidth", "group___gui.html#ga207194003ed5aa866cdc5ba7e24dade5", null ],
+    [ "resetWidgetWidth", "group___gui.html#ga1ac27e6670503b8bbe39e192c4daf924", null ]
 ];

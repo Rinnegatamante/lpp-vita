@@ -29,6 +29,7 @@ var searchData=
   ['setvolume',['setVolume',['../group___sound.html#ga418f6ad1f90227404d890e28188a2044',1,'Sound::setVolume()'],['../group___video.html#gab5dac0b682edf0838179dabe61cd4195',1,'Video::setVolume()']]],
   ['setwhitebalance',['setWhiteBalance',['../group___camera.html#gaa917985b04dc71561da6602ddd4c3dd0',1,'Camera']]],
   ['setwidgetpos',['setWidgetPos',['../group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d',1,'Gui']]],
+  ['setwidgetwidth',['setWidgetWidth',['../group___gui.html#ga207194003ed5aa866cdc5ba7e24dade5',1,'Gui']]],
   ['setwindowpos',['setWindowPos',['../group___gui.html#gacd5c206162d7edd0011cdc741f76ff14',1,'Gui']]],
   ['setwindowsize',['setWindowSize',['../group___gui.html#gacac66cfed7469dcdb6c36181a3d2a269',1,'Gui']]],
   ['setzoom',['setZoom',['../group___camera.html#ga5d46e2bd4872ba1c7425026be8542f5a',1,'Camera']]],
