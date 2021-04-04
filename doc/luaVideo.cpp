@@ -39,7 +39,7 @@ class Video {
 		 * @endcode
 		 *
 		 * @param filename - Filepath of the file to reproduce.
-		 * @param loop - Looping mode for the playback.
+		 * @param loop - If true, playback will loop <b>(optional)</b>.
 		 */
 		void open(string filename, bool loop);
 		

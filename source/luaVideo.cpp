@@ -240,12 +240,15 @@ static int lua_init(lua_State *L){
 static int lua_openpshv(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 1 && argc != 2) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
 	#endif
 	
 	char* file = (char*)luaL_checkstring(L, 1);
-	bool looping = lua_toboolean(L, 2);
+	bool looping = false;
+	if (argc == 2) {
+		looping = lua_toboolean(L, 2);
+	}
 	
 	// Opening given file for audio decoding
 	FILE* f = fopen(file, "rb");

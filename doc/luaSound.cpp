@@ -4,15 +4,6 @@
  */ 
 
 /**
- * Loop mode for Sound.play.
- * \ingroup Sound
- */
-enum LoopMode{
-	NO_LOOP,     //!< Non-loop mode
-	LOOP         //!< Loop mode
-};
-
-/**
  * Shutter sound IDs for Sound.playShutter.
  * \ingroup Sound
  */
@@ -77,9 +68,9 @@ class Sound {
 		 * @endcode
 		 *
 		 * @param music - A valid sound ID.
-		 * @param loop - Loop mode.
+		 * @param loop - If true, playback will loop <b>(optional)</b>.
 		 */
-		void play(int music, LoopMode loop);
+		void play(int music, bool loop);
 		
 		/**
 		 * Pause a sound.

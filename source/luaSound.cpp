@@ -509,10 +509,13 @@ static int lua_opensound(lua_State *L){
 static int lua_play(lua_State *L){
 	int argc = lua_gettop(L);
 	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1 && argc != 2) return luaL_error(L, "wrong number of arguments");
 	#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
-	bool loop = lua_toboolean(L, 2);
+	bool loop = false;
+	if (argc == 2) {
+		loop = lua_toboolean(L, 2);
+	}
 	
 	// Wait till a thread is available
 	bool found = false;
@@ -609,10 +612,6 @@ void luaSound_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Sound_functions, 0);
 	lua_setglobal(L, "Sound");
-	bool LOOP = true;
-	bool NO_LOOP = false;
-	BooleanRegister(L, NO_LOOP);
-	BooleanRegister(L, LOOP);
 	VariableRegister(L, IMAGE_CAPTURE);
 	VariableRegister(L, VIDEO_CAPTURE_START);
 	VariableRegister(L, VIDEO_CAPTURE_END);
