@@ -566,6 +566,75 @@ static int lua_progressbar(lua_State *L) {
 	return 0;
 }
 
+static int lua_colorpicker(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
+#endif
+	char *label = luaL_checkstring(L, 1);
+	int color = luaL_checkinteger(L, 2);
+	bool alpha = false;
+	
+	float clr[4];
+	clr[0] = (float)(color & 0xFF) / 255.0f;
+	clr[1] = (float)((color >> 8) & 0xFF) / 255.0f;
+	clr[2] = (float)((color >> 16) & 0xFF) / 255.0f;
+	if (argc == 2) {
+		alpha = lua_toboolean(L, 3);
+	}
+	
+	if (alpha) {
+		clr[3] = (float)((color >> 24) & 0xFF) / 255.0f;
+		ImGui::ColorPicker4(label, clr);
+	} else {
+		ImGui::ColorPicker3(label, clr);
+	}
+	
+	lua_pushinteger(L, (int)(clr[0] * 255.0f) | ((int)(clr[1] * 255.0f) << 8) | ((int)(clr[2] * 255.0f) << 16) | ((int)(clr[3] * 255.0f) << 24));
+	return 1;
+}
+
+static int lua_widgetwidth(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+#endif
+	float w = luaL_checknumber(L, 1);
+	ImGui::PushItemWidth(w);
+	return 0;
+}
+
+static int lua_widgetwidthr(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+#endif
+	ImGui::PopItemWidth();
+	return 0;
+}
+
+static int lua_listbox(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 3) return luaL_error(L, "wrong number of arguments");
+#endif
+	char *label = luaL_checkstring(L, 1);
+	int idx = luaL_checkinteger(L, 2);
+	uint32_t len = lua_objlen(L, 3);
+	ImGui::ListBoxHeader(label, len);
+	for (int i = 1; i <= len; i++) {
+		bool is_selected = i == idx;
+		lua_rawgeti(L, 3, i);
+		if (ImGui::Selectable(lua_tostring(L, -1), is_selected))
+			idx = i;
+		if (is_selected)
+			ImGui::SetItemDefaultFocus();
+	}
+	ImGui::ListBoxFooter();
+	lua_pushinteger(L, idx);
+	return 1;
+}
+
 //Register our Gui Functions
 static const luaL_Reg Gui_functions[] = {
   {"init",                lua_init},
@@ -598,6 +667,10 @@ static const luaL_Reg Gui_functions[] = {
   {"setWidgetPos",        lua_cursorpos},
   {"getTextSize",         lua_textsize},
   {"drawProgressbar",     lua_progressbar},
+  {"drawColorPicker",     lua_colorpicker},
+  {"setWidgetWidth",      lua_widgetwidth},
+  {"resetWidgetWidth",    lua_widgetwidthr},
+  {"drawListBox",         lua_listbox},
   {0, 0}
 };
 

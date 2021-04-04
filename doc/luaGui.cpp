@@ -467,6 +467,44 @@ class Gui {
 		int drawComboBox(string label, int index, table elements);
 		
 		/**
+		 * Draw a listbox.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * elems = {"Element 1", "Element 2", "Element 3", "Element 4"}
+		 * list_idx = Gui.drawListBox("##list", list_idx, elems)
+		 * end
+		 * @endcode
+		 *
+		 * @param label - The label to show.
+		 * @param index - The currently selected element.
+		 * @param elements - The elements to use for the combobox.
+		 *
+		 * @return The updated selected element.
+		 */
+		int drawListBox(string label, int index, table elements);
+		
+		/**
+		 * Draw a color picker.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * color = Color.new(255, 127, 65)
+		 * color = Gui.drawColorPicker("##color_picker", color)
+		 * end
+		 * @endcode
+		 *
+		 * @param label - The label to show.
+		 * @param color - The currently picked color (See ::Color)
+		 * @param alpha - If true, alpha value will be pickable, not otherwise. <b>(optional)</b>.
+		 *
+		 * @return The updated picked color.
+		 */
+		int drawColorPicker(string label, int color, bool alpha);
+		
+		/**
 		 * Draw a progressbar.
 		 * \ingroup Gui
 		 *
@@ -497,4 +535,34 @@ class Gui {
 		 * @param y - Y coordinate in pixels.
 		 */
 		void setWidgetPos(number x, number y);
+		
+		/**
+		 * Set next widgets width.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Gui.setWidgetWidth(400)
+		 * color = Color.new(255, 255, 255)
+		 * color = Gui.drawColorPicker("##color_picker", color)
+		 * end
+		 * @endcode
+		 *
+		 * @param w - Width of the element in pixels.
+		 */
+		void setWidgetWidth(number w);
+		
+		/**
+		 * Reset next widgets width to original values.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Gui.resetWidgetWidth()
+		 * color = Color.new(255, 255, 255)
+		 * color = Gui.drawColorPicker("##color_picker", color)
+		 * end
+		 * @endcode
+		 */
+		void resetWidgetWidth();
 }
