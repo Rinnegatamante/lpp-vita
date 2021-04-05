@@ -1100,5 +1100,18 @@ class System{
 		 * @note This function is available only in unsafe mode.
 		 */
 		void installApp(string dir);
+		
+		/**
+		 * Retrieve params used at app boot.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * args = System.getBootParams()
+		 * @endcode
+		 *
+		 * @return The params passed to the app when it got launched.
+		 */
+		string getBootParams(void);
 
 }

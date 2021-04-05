@@ -1455,6 +1455,19 @@ static int lua_promote(lua_State *L){
 	return 0;
 }
 
+static int lua_bootparams(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+#endif
+	char bootparams[1024];
+	bootparams[0] = 0;
+	sceAppMgrGetAppParam(bootparams);
+	lua_pushstring(L, bootparams);
+	return 1;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
   {"openFile",                  lua_openfile},
@@ -1529,6 +1542,7 @@ static const luaL_Reg System_functions[] = {
   {"unmountPartition",          lua_unmount},
   {"mountPartition",            lua_mount},
   {"installApp",                lua_promote},
+  {"getBootParams",             lua_bootparams},
   {0, 0}
 };
 
