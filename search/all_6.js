@@ -16,6 +16,7 @@ var searchData=
   ['getbatterypercentage',['getBatteryPercentage',['../group___system.html#gacd5145b005fac3c9acbfdbf9a031cc74',1,'System']]],
   ['getbatterytemp',['getBatteryTemp',['../group___system.html#ga9aeabbd7f6f5e4f2bd6dcbfbbc66fd7b',1,'System']]],
   ['getbatteryvolt',['getBatteryVolt',['../group___system.html#ga6fc00bf99a7f08cdbb48bb34a5bdbef8',1,'System']]],
+  ['getbootparams',['getBootParams',['../group___system.html#ga31cc4c4e7e27722f1acd690c41d34898',1,'System']]],
   ['getbrightness',['getBrightness',['../group___camera.html#ga613fad93751e31b7beecdf75a61d35bc',1,'Camera']]],
   ['getbusspeed',['getBusSpeed',['../group___system.html#ga3773f02e54ebba2486644006c5545450',1,'System']]],
   ['getcontrast',['getContrast',['../group___camera.html#ga5eb76fcf940fc05f737888d64db7c841',1,'Camera']]],
