@@ -73,6 +73,8 @@ uint8_t async_task_num = 0;
 unsigned char* asyncStrRes = NULL;
 uint32_t asyncResSize = 0;
 
+void *work_buf = nullptr;
+
 typedef struct{
 	uint32_t magic;
 	uint32_t version;
@@ -1415,9 +1417,8 @@ static int lua_mount(lua_State *L){
 #endif
 	int idx = luaL_checkinteger(L, 1);
 	int perm = luaL_checkinteger(L, 2);
-	void *buf = malloc(0x100);
-	_vshIoMount(idx, 0, perm, buf);
-	free(buf);
+	if (!work_buf) work_buf = malloc(0x100);
+	_vshIoMount(idx, 0, perm, work_buf);
 	return 0;
 }
 
@@ -1453,6 +1454,65 @@ static int lua_promote(lua_State *L){
 	} while (state);
 	
 	return 0;
+}
+
+static int lua_demote(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+#endif
+	char *titleid = luaL_checkstring(L, 1);
+	if (!is_promoter_loaded) {
+		uint32_t ptr[0x100] = { 0 };
+		ptr[0] = 0;
+		ptr[1] = (uint32_t)&ptr[0];
+		uint32_t scepaf_argp[] = { 0x400000, 0xEA60, 0x40000, 0, 0 };
+		sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(scepaf_argp), scepaf_argp, ptr);
+
+		sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
+		scePromoterUtilityInit();
+		
+		is_promoter_loaded = true;
+	}
+	
+	scePromoterUtilityDeletePkg(titleid);
+	
+	int state = 0;
+	do {
+		int ret = scePromoterUtilityGetState(&state);
+		if (ret < 0)
+			break;
+		sceKernelDelayThread(150 * 1000);
+	} while (state);
+	
+	return 0;
+}
+
+static int lua_isappin(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+#endif
+	char *titleid = luaL_checkstring(L, 1);
+	if (!is_promoter_loaded) {
+		uint32_t ptr[0x100] = { 0 };
+		ptr[0] = 0;
+		ptr[1] = (uint32_t)&ptr[0];
+		uint32_t scepaf_argp[] = { 0x400000, 0xEA60, 0x40000, 0, 0 };
+		sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(scepaf_argp), scepaf_argp, ptr);
+
+		sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
+		scePromoterUtilityInit();
+		
+		is_promoter_loaded = true;
+	}
+	
+	int res;
+	lua_pushboolean(L, !scePromoterUtilityCheckExist(titleid, &res));
+	
+	return 1;
 }
 
 static int lua_bootparams(lua_State *L){
@@ -1542,6 +1602,8 @@ static const luaL_Reg System_functions[] = {
   {"unmountPartition",          lua_unmount},
   {"mountPartition",            lua_mount},
   {"installApp",                lua_promote},
+  {"uninstallApp",              lua_demote},
+  {"doesAppExist",              lua_isappin},
   {"getBootParams",             lua_bootparams},
   {0, 0}
 };

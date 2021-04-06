@@ -1102,6 +1102,40 @@ class System{
 		void installApp(string dir);
 		
 		/**
+		 * Uninstall an installed app.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.uninstallApp("GTAVCECTY")
+		 * @endcode
+		 *
+		 * @param titleid - The titleid of the app to uninstall.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		void uninstallApp(string titleid);
+		
+		/**
+		 * Check if an app is installed.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * if System.doesAppExist("GTAVCECTY") then
+		 *  System.uninstallApp("GTAVCECTY")
+		 * end
+		 * @endcode
+		 *
+		 * @param titleid - The titleid of the app to check.
+		 *
+		 * @return true if installed, false otherwise.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		bool doesAppExist(string titleid);
+		
+		/**
 		 * Retrieve params used at app boot.
 		 * \ingroup System
 		 *
