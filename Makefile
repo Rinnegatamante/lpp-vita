@@ -42,14 +42,14 @@ endif
 	cp $< $<.unstripped_sys.elf
 	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
-	vita-make-fself -at 0x0E -m 0x10000 -a 0x2800000000000001 $@ eboot_unsafe_sys.bin
+	vita-make-fself -c -at 0x0E -m 0x10000 -a 0x2800000000000001 $@ eboot_unsafe_sys.bin
 
 %.velf: %.elf
 	cp $< $<.unstripped.elf
 	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
-	vita-make-fself -a 0x2800000000000001 $@ eboot_unsafe.bin
-	vita-make-fself -s $@ eboot_safe.bin
+	vita-make-fself -c -a 0x2800000000000001 $@ eboot_unsafe.bin
+	vita-make-fself -c -s $@ eboot_safe.bin
 
 $(TARGET).elf: $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@
