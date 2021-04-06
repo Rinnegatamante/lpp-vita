@@ -1,21 +1,7 @@
 var searchData=
 [
-  ['read',['read',['../group___controls.html#ga5bf9800236adfbe1ad75648e34740149',1,'Controls']]],
-  ['readaccel',['readAccel',['../group___controls.html#ga6594a4313cc39ecfff663c847d7ea0f8',1,'Controls']]],
-  ['readfile',['readFile',['../group___system.html#ga624dd7473ef91ca83ba568bdb367e263',1,'System']]],
-  ['readgyro',['readGyro',['../group___controls.html#gaaedc2596a87e61ebe465923fffa8b944',1,'Controls']]],
-  ['readleftanalog',['readLeftAnalog',['../group___controls.html#ga7a314ceaf3a819577ccd282b16dc9ea1',1,'Controls']]],
-  ['readretrotouch',['readRetroTouch',['../group___controls.html#gaccd5874290bcbc849809cba4647b00c1',1,'Controls']]],
-  ['readrightanalog',['readRightAnalog',['../group___controls.html#ga71a0f6ff9050b758be325ad9e5d3c0a9',1,'Controls']]],
-  ['readtouch',['readTouch',['../group___controls.html#gafd32d04a50d40b6fc80e9e6acf8fc990',1,'Controls']]],
-  ['reboot',['reboot',['../group___system.html#ga23984244aa92f7902124fbc78ebfa228',1,'System']]],
-  ['receive',['receive',['../group___socket.html#ga55312ad5557bdeecd6ac5d3b71389c89',1,'Socket']]],
-  ['rename',['rename',['../group___system.html#ga87f67f8eef2972cfe2c7ef14248d6231',1,'System']]],
-  ['requeststring',['requestString',['../group___network.html#ga26fa4c60f072625e1b8e1e2d15f9aa92',1,'Network']]],
-  ['requeststringasync',['requestStringAsync',['../group___network.html#ga9ce8fa43da8b9cf1b03f496641706178',1,'Network']]],
-  ['reset',['reset',['../group___timer.html#gac66190516c06b8584cc2df50f7318c90',1,'Timer']]],
-  ['resetline',['resetLine',['../group___gui.html#ga9431a6fa7852c7524804e8d23f9e567d',1,'Gui']]],
-  ['resetwidgetwidth',['resetWidgetWidth',['../group___gui.html#ga1ac27e6670503b8bbe39e192c4daf924',1,'Gui']]],
-  ['resume',['resume',['../group___mic.html#ga993631703e28871f640ee49eb6b21130',1,'Mic::resume()'],['../group___sound.html#ga24d98abea091a3336840a21b72bfc285',1,'Sound::resume()'],['../group___timer.html#gaaea65117b7ec76a443e3388e2680c71c',1,'Timer::resume()'],['../group___video.html#gaf13c933cf7cd12507799d57d2cfa9241',1,'Video::resume()']]],
-  ['rumble',['rumble',['../group___controls.html#gaeb2a0d781e4ac121094056ebd64ba3a5',1,'Controls']]]
+  ['pause',['pause',['../group___mic.html#gaec7c0fc03bdbb00c18f11fe538073ec8',1,'Mic::pause()'],['../group___sound.html#gae53297614ed59df9acbf7482ef17d70d',1,'Sound::pause()'],['../group___timer.html#ga7b93dcd1e46c16f2fe70933a3142fc36',1,'Timer::pause()'],['../group___video.html#ga83b4d74d47635f008d95137ca8a3f077',1,'Video::pause()']]],
+  ['play',['play',['../group___sound.html#ga181a11ecba113c191e79b5f77ef90431',1,'Sound']]],
+  ['playshutter',['playShutter',['../group___sound.html#ga60db45eaec8921e062ecea0a0f43f235',1,'Sound']]],
+  ['print',['print',['../group___font.html#ga5903c80a0c23d1e4c3b1da7c98730658',1,'Font']]]
 ];

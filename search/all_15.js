@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['wait',['wait',['../group___system.html#ga638446f490b45bebb84257ee06a50c7c',1,'System']]],
-  ['waitvblankstart',['waitVblankStart',['../group___screen.html#ga8df06068cc65a739505c487f0527ead6',1,'Screen']]],
-  ['wb_5fauto',['WB_AUTO',['../group___camera.html#gga4658f74e4b6130c135cbfe64ec4dc7b3a65251718f9d0a8bf292bccad09516a09',1,'luaCamera.cpp']]],
-  ['wb_5fcwf',['WB_CWF',['../group___camera.html#gga4658f74e4b6130c135cbfe64ec4dc7b3ada338503191d552328388f2d4239475a',1,'luaCamera.cpp']]],
-  ['wb_5fdaylight',['WB_DAYLIGHT',['../group___camera.html#gga4658f74e4b6130c135cbfe64ec4dc7b3aa9f63cf27d83289012f3b028ab096631',1,'luaCamera.cpp']]],
-  ['wb_5fslsa',['WB_SLSA',['../group___camera.html#gga4658f74e4b6130c135cbfe64ec4dc7b3aba5d4b8a6229ed4f754b247c14e05b7e',1,'luaCamera.cpp']]],
-  ['winflags',['WinFlags',['../group___gui.html#gafe7a7d96eca7491cbe147f2b391a97b7',1,'luaGui.cpp']]],
-  ['writefile',['writeFile',['../group___system.html#ga37be909679c7fbe5909323536816d81b',1,'System']]]
+  ['vga_5fres',['VGA_RES',['../group___camera.html#ggac8e2fbf347a18a75234f66af7cf73cd0ac1992b65396a88e7b41abfa65ca276d4',1,'luaCamera.cpp']]],
+  ['video',['Video',['../class_video.html',1,'Video'],['../group___video.html',1,'(Global Namespace)']]],
+  ['video_5fcapture_5fend',['VIDEO_CAPTURE_END',['../group___sound.html#ggaea98fc35b503a688d834a422d904c293a94df8e039ffdba1a4230ccddad1d61ca',1,'luaSound.cpp']]],
+  ['video_5fcapture_5fstart',['VIDEO_CAPTURE_START',['../group___sound.html#ggaea98fc35b503a688d834a422d904c293aff0038e86a2f9c83f76d77a51b33c356',1,'luaSound.cpp']]],
+  ['virtual_5fdev',['VIRTUAL_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46ba8048cf00f938e464094da84075350aa5',1,'luaControls.cpp']]],
+  ['vita_5fdev',['VITA_DEV',['../group___controls.html#ggacc6818b8521baa7c7802b20cd44ff46ba6477f4c0e91af3f27997917915aa4527',1,'luaControls.cpp']]]
 ];

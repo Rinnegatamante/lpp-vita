@@ -18,6 +18,7 @@ var searchData=
   ['close',['close',['../group___database.html#ga841073c023a1979ed22920dd58466366',1,'Database::close()'],['../group___socket.html#gae7df27b95fbc77d1478290a18e90585b',1,'Socket::close()'],['../group___sound.html#gab08f85079b0da2b3e4d6e0aee153255d',1,'Sound::close()'],['../group___video.html#gafa6a2646049cfdd140bd932137847751',1,'Video::close()']]],
   ['closefile',['closeFile',['../group___system.html#gaa4722dc3682b22ef4414370fa908d6de',1,'System']]],
   ['closemessage',['closeMessage',['../group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716',1,'System']]],
+  ['closesubs',['closeSubs',['../group___video.html#gad0f841b7bf46dce197ac1b4aa740316b',1,'Video']]],
   ['color',['Color',['../class_color.html',1,'Color'],['../group___color.html',1,'(Global Namespace)']]],
   ['configmode',['ConfigMode',['../group___gui.html#ga7c8454d3a20c749577d8630c4964d330',1,'luaGui.cpp']]],
   ['connect',['connect',['../group___socket.html#gaea7d2157c3b3c4ab9581abe32cdb31c4',1,'Socket']]],

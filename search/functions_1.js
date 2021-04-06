@@ -5,6 +5,7 @@ var searchData=
   ['close',['close',['../group___database.html#ga841073c023a1979ed22920dd58466366',1,'Database::close()'],['../group___socket.html#gae7df27b95fbc77d1478290a18e90585b',1,'Socket::close()'],['../group___sound.html#gab08f85079b0da2b3e4d6e0aee153255d',1,'Sound::close()'],['../group___video.html#gafa6a2646049cfdd140bd932137847751',1,'Video::close()']]],
   ['closefile',['closeFile',['../group___system.html#gaa4722dc3682b22ef4414370fa908d6de',1,'System']]],
   ['closemessage',['closeMessage',['../group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716',1,'System']]],
+  ['closesubs',['closeSubs',['../group___video.html#gad0f841b7bf46dce197ac1b4aa740316b',1,'Video']]],
   ['connect',['connect',['../group___socket.html#gaea7d2157c3b3c4ab9581abe32cdb31c4',1,'Socket']]],
   ['copyfile',['copyFile',['../group___system.html#ga9386f6ff43bac3027b58ebc1355bfaf5',1,'System']]],
   ['createdirectory',['createDirectory',['../group___system.html#gae9720fe43ebbf9ab4626012354cf7145',1,'System']]],
