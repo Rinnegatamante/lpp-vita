@@ -46,6 +46,8 @@ extern "C"{
 #define FILE_EXTRACT 1
 #define EXTRACT_END  2
 
+#define COPY_BUFFER_SIZE 1024 * 1024
+
 static int FREAD = SCE_O_RDONLY;
 static int FWRITE = SCE_O_WRONLY;
 static int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
@@ -90,6 +92,21 @@ typedef struct{
 	uint32_t paramMaxLen;
 	uint32_t dataOffset;
 } sfo_entry_t;
+
+void loadPromoter() {
+	if (!is_promoter_loaded) {
+		uint32_t ptr[0x100] = { 0 };
+		ptr[0] = 0;
+		ptr[1] = (uint32_t)&ptr[0];
+		uint32_t scepaf_argp[] = { 0x400000, 0xEA60, 0x40000, 0, 0 };
+		sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(scepaf_argp), scepaf_argp, ptr);
+
+		sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
+		scePromoterUtilityInit();
+		
+		is_promoter_loaded = true;
+	}
+}
 
 void recursive_mkdir(char *dir) {
 	char *p = dir;
@@ -178,7 +195,7 @@ void firmware_string(char string[8], unsigned int version) {
 	char c = (version >> 16) & 0xf;
 	char d = (version >> 12) & 0xf;
 
-	memset(string, 0, 8);
+	sceClibMemset(string, 0, 8);
 	string[0] = '0' + a;
 	string[1] = '.';
 	string[2] = '0' + b;
@@ -202,20 +219,20 @@ static void fpkg_hmac(const uint8_t* data, unsigned int len, uint8_t hmac[16]) {
 	sha1_update(&ctx, (BYTE*)data, len);
 	sha1_final(&ctx, (BYTE*)sha1);
 
-	memset(buf, 0, 64);
-	memcpy(&buf[0], &sha1[4], 8);
-	memcpy(&buf[8], &sha1[4], 8);
-	memcpy(&buf[16], &sha1[12], 4);
+	sceClibMemset(buf, 0, 64);
+	sceClibMemcpy(&buf[0], &sha1[4], 8);
+	sceClibMemcpy(&buf[8], &sha1[4], 8);
+	sceClibMemcpy(&buf[16], &sha1[12], 4);
 	buf[20] = sha1[16];
 	buf[21] = sha1[1];
 	buf[22] = sha1[2];
 	buf[23] = sha1[3];
-	memcpy(&buf[24], &buf[16], 8);
+	sceClibMemcpy(&buf[24], &buf[16], 8);
 
 	sha1_init(&ctx);
 	sha1_update(&ctx, (BYTE*)buf, 64);
 	sha1_final(&ctx, (BYTE*)sha1);
-	memcpy(hmac, sha1, 16);
+	sceClibMemcpy(hmac, sha1, 16);
 }
 
 void makeHeadBin(const char *dir) {
@@ -277,7 +294,7 @@ void makeHeadBin(const char *dir) {
 
 	// Allocate head.bin buffer
 	uint8_t* head_bin = (uint8_t*)malloc(size_head);
-	memcpy(head_bin, head, size_head);
+	sceClibMemcpy(head_bin, head, size_head);
 
 	// Write full title id
 	char full_title_id[48];
@@ -287,19 +304,19 @@ void makeHeadBin(const char *dir) {
 	// hmac of pkg header
 	len = __builtin_bswap32(*(uint32_t*)&head_bin[0xD0]);
 	fpkg_hmac(&head_bin[0], len, hmac);
-	memcpy(&head_bin[len], hmac, 16);
+	sceClibMemcpy(&head_bin[len], hmac, 16);
 
 	// hmac of pkg info
 	off = __builtin_bswap32(*(uint32_t*)&head_bin[0x8]);
 	len = __builtin_bswap32(*(uint32_t*)&head_bin[0x10]);
 	out = __builtin_bswap32(*(uint32_t*)&head_bin[0xD4]);
 	fpkg_hmac(&head_bin[off], len - 64, hmac);
-	memcpy(&head_bin[out], hmac, 16);
+	sceClibMemcpy(&head_bin[out], hmac, 16);
 
 	// hmac of everything
 	len = __builtin_bswap32(*(uint32_t*)&head_bin[0xE8]);
 	fpkg_hmac(&head_bin[0], len, hmac);
-	memcpy(&head_bin[len], hmac, 16);
+	sceClibMemcpy(&head_bin[len], hmac, 16);
 
 	// Make dir
 	char pkg_dir[256];
@@ -540,6 +557,33 @@ static int lua_rename(lua_State *L){
 	return 0;
 }
 
+static int lua_copy(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+#endif
+	const char *old_file = luaL_checkstring(L, 1);
+	const char *new_file = luaL_checkstring(L, 2);
+	FILE *f = fopen(old_file, "rb");
+#ifndef SKIP_ERROR_HANDLING
+	if (!f) return luaL_error(L, "the file doesn't exist");
+#endif
+	FILE *f2 = fopen(new_file, "wb");
+	uint8_t *data = (uint8_t*)malloc(COPY_BUFFER_SIZE);
+	for (;;) {
+		uint32_t size = fread(data, 1, COPY_BUFFER_SIZE, f);
+		if (size) {
+			fwrite(data, 1, size, f2);
+		} else {
+			break;
+		}
+	}
+	fclose(f);
+	fclose(f2);
+	free(data);
+	return 0;
+}
+
 static int lua_removef(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
@@ -606,7 +650,7 @@ static int lua_screenshot(lua_State *L){
 	int fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
 	if (!isJPG){
 		uint8_t* bmp_content = (uint8_t*)malloc(((param.pitch*param.height)<<2)+0x36);
-		memset(bmp_content, 0, 0x36);
+		sceClibMemset(bmp_content, 0, 0x36);
 		*(uint16_t*)&bmp_content[0x0] = 0x4D42;
 		*(uint32_t*)&bmp_content[0x2] = ((param.pitch*param.height)<<2)+0x36;
 		*(uint32_t*)&bmp_content[0xA] = 0x36;
@@ -1237,13 +1281,13 @@ static int lua_setmsg(lua_State *L){
 	sceMsgDialogParamInit(&param);
 	if (progressbar){
 		param.mode = SCE_MSG_DIALOG_MODE_PROGRESS_BAR;
-		memset(&barParam, 0, sizeof(SceMsgDialogProgressBarParam));
+		sceClibMemset(&barParam, 0, sizeof(SceMsgDialogProgressBarParam));
 		barParam.msg = (const SceChar8*)messageText;
 		barParam.barType = SCE_MSG_DIALOG_PROGRESSBAR_TYPE_PERCENTAGE;
 		param.progBarParam = &barParam;
 	}else{
 		param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
-		memset(&msgParam, 0, sizeof(SceMsgDialogUserMessageParam));
+		sceClibMemset(&msgParam, 0, sizeof(SceMsgDialogUserMessageParam));
 		msgParam.msg = (const SceChar8*)messageText;
 		msgParam.buttonType = buttons;
 		param.userMsgParam = &msgParam;
@@ -1262,7 +1306,7 @@ static int lua_getmsg(lua_State *L){
 	if (!messageStarted) status = SCE_COMMON_DIALOG_STATUS_FINISHED;
 	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
 		SceMsgDialogResult result;
-		memset(&result, 0, sizeof(SceMsgDialogResult));
+		sceClibMemset(&result, 0, sizeof(SceMsgDialogResult));
 		sceMsgDialogGetResult(&result);
 		if (result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) status = (SceCommonDialogStatus)3; // CANCELED status, look at luaKeyboard.cpp
 		sceMsgDialogTerm();
@@ -1329,7 +1373,7 @@ static int lua_freespace(lua_State *L){
 	uint64_t dummy;
 	char *dev_name = luaL_checkstring(L, 1);
 	SceIoDevInfo info;
-	memset(&info, 0, sizeof(SceIoDevInfo));
+	sceClibMemset(&info, 0, sizeof(SceIoDevInfo));
 	int res = sceIoDevctl(dev_name, 0x3001, NULL, 0, &info, sizeof(SceIoDevInfo));
 	if (res >= 0) free_storage = info.free_size;
 	else sceAppMgrGetDevInfo(dev_name, &dummy, &free_storage);
@@ -1346,7 +1390,7 @@ static int lua_totalspace(lua_State *L){
 	uint64_t dummy;
 	char *dev_name = luaL_checkstring(L, 1);
 	SceIoDevInfo info;
-	memset(&info, 0, sizeof(SceIoDevInfo));
+	sceClibMemset(&info, 0, sizeof(SceIoDevInfo));
 	int res = sceIoDevctl(dev_name, 0x3001, NULL, 0, &info, sizeof(SceIoDevInfo));
 	if (res >= 0) total_storage = info.max_size;
 	else sceAppMgrGetDevInfo(dev_name, &total_storage, &dummy);
@@ -1404,7 +1448,6 @@ static int lua_unmount(lua_State *L){
 	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
 #endif
 	int idx = luaL_checkinteger(L, 1);
-	vshIoUmount(idx, 0, 0, 0);
 	vshIoUmount(idx, 1, 0, 0);
 	return 0;
 }
@@ -1417,7 +1460,10 @@ static int lua_mount(lua_State *L){
 #endif
 	int idx = luaL_checkinteger(L, 1);
 	int perm = luaL_checkinteger(L, 2);
-	if (!work_buf) work_buf = malloc(0x100);
+	if (!work_buf) {
+		work_buf = malloc(0x100);
+		sceClibMemset(work_buf, 0, 0x100);
+	}
 	_vshIoMount(idx, 0, perm, work_buf);
 	return 0;
 }
@@ -1429,19 +1475,8 @@ static int lua_promote(lua_State *L){
 	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *dir = luaL_checkstring(L, 1);
-	if (!is_promoter_loaded) {
-		uint32_t ptr[0x100] = { 0 };
-		ptr[0] = 0;
-		ptr[1] = (uint32_t)&ptr[0];
-		uint32_t scepaf_argp[] = { 0x400000, 0xEA60, 0x40000, 0, 0 };
-		sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(scepaf_argp), scepaf_argp, ptr);
-
-		sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
-		scePromoterUtilityInit();
-		
-		is_promoter_loaded = true;
-	}
 	
+	loadPromoter();
 	makeHeadBin(dir);
 	scePromoterUtilityPromotePkg(dir, 0);
 	
@@ -1463,19 +1498,8 @@ static int lua_demote(lua_State *L){
 	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *titleid = luaL_checkstring(L, 1);
-	if (!is_promoter_loaded) {
-		uint32_t ptr[0x100] = { 0 };
-		ptr[0] = 0;
-		ptr[1] = (uint32_t)&ptr[0];
-		uint32_t scepaf_argp[] = { 0x400000, 0xEA60, 0x40000, 0, 0 };
-		sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(scepaf_argp), scepaf_argp, ptr);
-
-		sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
-		scePromoterUtilityInit();
-		
-		is_promoter_loaded = true;
-	}
 	
+	loadPromoter();
 	scePromoterUtilityDeletePkg(titleid);
 	
 	int state = 0;
@@ -1496,19 +1520,8 @@ static int lua_isappin(lua_State *L){
 	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *titleid = luaL_checkstring(L, 1);
-	if (!is_promoter_loaded) {
-		uint32_t ptr[0x100] = { 0 };
-		ptr[0] = 0;
-		ptr[1] = (uint32_t)&ptr[0];
-		uint32_t scepaf_argp[] = { 0x400000, 0xEA60, 0x40000, 0, 0 };
-		sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(scepaf_argp), scepaf_argp, ptr);
-
-		sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
-		scePromoterUtilityInit();
-		
-		is_promoter_loaded = true;
-	}
 	
+	loadPromoter();
 	int res;
 	lua_pushboolean(L, !scePromoterUtilityCheckExist(titleid, &res));
 	
@@ -1542,6 +1555,7 @@ static const luaL_Reg System_functions[] = {
   {"doesDirExist",              lua_checkexist2},
   {"exit",                      lua_exit},
   {"rename",                    lua_rename},
+  {"copyFile",                  lua_copy},
   {"deleteFile",                lua_removef},
   {"deleteDirectory",           lua_removef2},
   {"createDirectory",           lua_newdir},

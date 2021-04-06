@@ -248,6 +248,20 @@ class System{
 		void rename(string filename, string filename2);
 		
 		/**
+		 * Copy a file.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.copyFile("ux0:/data/old.txt", "ux0:/data/new.txt")
+		 * @endcode
+		 *
+		 * @param filename - Filename to be copied.
+		 * @param filename2 - New filename.
+		 */
+		void copyFile(string filename, string filename2);
+		
+		/**
 		 * Delete a file.
 		 * \ingroup System
 		 *
