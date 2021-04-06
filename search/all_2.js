@@ -23,6 +23,7 @@ var searchData=
   ['connect',['connect',['../group___socket.html#gaea7d2157c3b3c4ab9581abe32cdb31c4',1,'Socket']]],
   ['connect_5fmethod',['CONNECT_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47daad0be3c122ee38ecc15631cd4411a4a1',1,'luaNetwork.cpp']]],
   ['controls',['Controls',['../class_controls.html',1,'Controls'],['../group___controls.html',1,'(Global Namespace)']]],
+  ['copyfile',['copyFile',['../group___system.html#ga9386f6ff43bac3027b58ebc1355bfaf5',1,'System']]],
   ['createdirectory',['createDirectory',['../group___system.html#gae9720fe43ebbf9ab4626012354cf7145',1,'System']]],
   ['createimage',['createImage',['../group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6',1,'Graphics']]],
   ['createserversocket',['createServerSocket',['../group___socket.html#gae251109f4ab78181e97f8d32030d66bf',1,'Socket']]],

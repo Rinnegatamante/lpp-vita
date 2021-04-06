@@ -43,6 +43,7 @@ var group___system =
     [ "doesFileExist", "group___system.html#gabd81dfb67363e668ccb7d4f014cb09c2", null ],
     [ "doesDirExist", "group___system.html#ga5fe6f08540ac4ddb53613c51dc6d8ea2", null ],
     [ "rename", "group___system.html#ga87f67f8eef2972cfe2c7ef14248d6231", null ],
+    [ "copyFile", "group___system.html#ga9386f6ff43bac3027b58ebc1355bfaf5", null ],
     [ "deleteFile", "group___system.html#gaf1c8b8dc7297554c259ee8eb80a39926", null ],
     [ "deleteDirectory", "group___system.html#gabe363c50fc353f1b0122f7f04313adcb", null ],
     [ "createDirectory", "group___system.html#gae9720fe43ebbf9ab4626012354cf7145", null ],
