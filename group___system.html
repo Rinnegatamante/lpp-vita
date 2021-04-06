@@ -367,6 +367,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gaf731f171a7dab479d82acd3d7921cc8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaf731f171a7dab479d82acd3d7921cc8b">System.installApp</a> (string dir)</td></tr>
 <tr class="memdesc:gaf731f171a7dab479d82acd3d7921cc8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Install an extracted app.  <a href="#gaf731f171a7dab479d82acd3d7921cc8b">More...</a><br /></td></tr>
 <tr class="separator:gaf731f171a7dab479d82acd3d7921cc8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac13ec04c493cc8c3866f1ff28f93b9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaac13ec04c493cc8c3866f1ff28f93b9d">System.uninstallApp</a> (string titleid)</td></tr>
+<tr class="memdesc:gaac13ec04c493cc8c3866f1ff28f93b9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uninstall an installed app.  <a href="#gaac13ec04c493cc8c3866f1ff28f93b9d">More...</a><br /></td></tr>
+<tr class="separator:gaac13ec04c493cc8c3866f1ff28f93b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaab021ebf110e72c97769dc55953ba89a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaab021ebf110e72c97769dc55953ba89a">System.doesAppExist</a> (string titleid)</td></tr>
+<tr class="memdesc:gaab021ebf110e72c97769dc55953ba89a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if an app is installed.  <a href="#gaab021ebf110e72c97769dc55953ba89a">More...</a><br /></td></tr>
+<tr class="separator:gaab021ebf110e72c97769dc55953ba89a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga31cc4c4e7e27722f1acd690c41d34898"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga31cc4c4e7e27722f1acd690c41d34898">System.getBootParams</a> (void)</td></tr>
 <tr class="memdesc:ga31cc4c4e7e27722f1acd690c41d34898"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve params used at app boot.  <a href="#ga31cc4c4e7e27722f1acd690c41d34898">More...</a><br /></td></tr>
 <tr class="separator:ga31cc4c4e7e27722f1acd690c41d34898"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2337,6 +2343,59 @@ This function is available only in unsafe mode. </dd></dl>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>This function is available only in unsafe mode. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaac13ec04c493cc8c3866f1ff28f93b9d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void System.uninstallApp </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>titleid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Uninstall an installed app. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaac13ec04c493cc8c3866f1ff28f93b9d">uninstallApp</a>(<span class="stringliteral">&quot;GTAVCECTY&quot;</span>)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">titleid</td><td>- The titleid of the app to uninstall.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function is available only in unsafe mode. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaab021ebf110e72c97769dc55953ba89a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool System.doesAppExist </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>titleid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if an app is installed. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaab021ebf110e72c97769dc55953ba89a">doesAppExist</a>(<span class="stringliteral">&quot;GTAVCECTY&quot;</span>) then</div><div class="line"> <a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gaac13ec04c493cc8c3866f1ff28f93b9d">uninstallApp</a>(<span class="stringliteral">&quot;GTAVCECTY&quot;</span>)</div><div class="line">end</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">titleid</td><td>- The titleid of the app to check.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if installed, false otherwise.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This function is available only in unsafe mode. </dd></dl>
 
 </div>

@@ -103,5 +103,7 @@ var group___system =
     [ "unmountPartition", "group___system.html#gaf0eac5050dc874353fe4e06f4834e5d3", null ],
     [ "mountPartition", "group___system.html#gab1f3cee12392b06ba2141ac06706f403", null ],
     [ "installApp", "group___system.html#gaf731f171a7dab479d82acd3d7921cc8b", null ],
+    [ "uninstallApp", "group___system.html#gaac13ec04c493cc8c3866f1ff28f93b9d", null ],
+    [ "doesAppExist", "group___system.html#gaab021ebf110e72c97769dc55953ba89a", null ],
     [ "getBootParams", "group___system.html#ga31cc4c4e7e27722f1acd690c41d34898", null ]
 ];
