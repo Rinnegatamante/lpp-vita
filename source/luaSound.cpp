@@ -36,13 +36,12 @@
 #include "include/luaplayer.h"
 #include "include/audiodec/audio_decoder.h"
 #define stringify(str) #str
-#define BooleanRegister(lua, value) do { lua_pushboolean(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
 #define BUFSIZE        8192 // Max dimension of audio buffer size
 #define BUFSIZE_MONO   4096 // Dimension of audio buffer files for mono tracks
 #define NSAMPLES       2048 // Number of samples for output
-#define AUDIO_CHANNELS 8    // PSVITA has 8 available audio channels
+#define AUDIO_CHANNELS 8    // PSVITA has 8 available MAIN audio channels
 
 SceUID AudioThreads[AUDIO_CHANNELS], MicThread, Audio_Mutex, NewTrack_Mutex;
 DecodedMusic* new_track = NULL;
@@ -174,7 +173,6 @@ static int audioThread(unsigned int args, void* arg){
 					
 				}
 			
-				if ((!mus->isPlaying) && mus->isVideoTrack) video_audio_tick = 0.0f;
 				mus->isPlaying = !mus->isPlaying;
 				mus->pauseTrigger = false;
 				
@@ -197,7 +195,6 @@ static int audioThread(unsigned int args, void* arg){
 				else mus->cur_audiobuf = mus->audiobuf;
 				audio_decoder[id]->Decode(mus->cur_audiobuf, (chns > 1) ? BUFSIZE : BUFSIZE_MONO);
 				sceAudioOutOutput(ch, mus->cur_audiobuf);
-				if ((mus->isVideoTrack) && (video_audio_tick == 0.0f)) video_audio_tick = sceKernelGetProcessTimeWide() / 1000000.0f;
 				
 			}else{
 				
@@ -500,7 +497,6 @@ static int lua_opensound(lua_State *L){
 	memblock->isPlaying = false;
 	memblock->audioThread = 0xFF;
 	memblock->tempBlock = false;
-	memblock->isVideoTrack = false;
 	sprintf(memblock->filepath, "%s", path);
 	lua_pushinteger(L,(uint32_t)memblock);
 	return 1;

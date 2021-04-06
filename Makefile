@@ -9,7 +9,7 @@ LIBS = -lcurl -lssl -lcrypto -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lSc
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz -lSceCamera_stub \
 	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub -lSceShellSvc_stub \
 	-lopusfile -lopus -lSceHttp_stub -lSceAudioIn_stub -lluajit -ldl -ltaihen_stub  -lSceSysmodule_stub \
-	-lSceVideodec_stub -lSceShutterSound_stub -lSceSsl_stub -lSceVshBridge_stub
+	-lSceShutterSound_stub -lSceSsl_stub -lSceVshBridge_stub -lSceAvPlayer_stub
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
@@ -42,7 +42,7 @@ endif
 	cp $< $<.unstripped_sys.elf
 	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
-	vita-make-fself -c -at 0x0E -m 0x10000 -a 0x2800000000000001 $@ eboot_unsafe_sys.bin
+	vita-make-fself -c -at 0x0E -m 0x12800 -pm 0x8000 -a 0x2800000000000001 $@ eboot_unsafe_sys.bin
 
 %.velf: %.elf
 	cp $< $<.unstripped.elf

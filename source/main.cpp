@@ -10,7 +10,9 @@ extern "C"{
 }
 
 #ifndef SYS_APP_MODE
-int _newlib_heap_size_user = 192 * 1024 * 1024;
+unsigned int _newlib_heap_size_user = 192 * 1024 * 1024;
+#else
+unsigned int _newlib_heap_size_user = 16 * 1024 * 1024;
 #endif
 
 static const char* errMsg;

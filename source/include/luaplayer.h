@@ -109,7 +109,6 @@ struct DecodedMusic{
 	char title[256];
 	char author[256];
 	bool tempBlock;
-	bool isVideoTrack;
 };
 
 #endif

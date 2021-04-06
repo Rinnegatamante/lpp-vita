@@ -3,6 +3,19 @@
  * Module that handles video files playback.
  */
  
+/**
+ * Play modes for video playback.
+ * \ingroup Video
+ */
+enum PlayMode{
+	NORMAL_MODE,           //!< Normal speed with audio
+	FAST_FORWARD_2X_MODE,  //!< Fast Forward at 2x speed without audio
+	FAST_FORWARD_4X_MODE,  //!< Fast Forward at 4x speed without audio
+	FAST_FORWARD_8X_MODE,  //!< Fast Forward at 8x speed without audio
+	FAST_FORWARD_16X_MODE, //!< Fast Forward at 16x speed without audio
+	FAST_FORWARD_32X_MODE, //!< Fast Forward at 32x speed without audio
+};
+ 
 class Video {
 	
 	public:
@@ -30,12 +43,12 @@ class Video {
 		void term(void);
 		
 		/**
-		 * Open a PSHV video file.
+		 * Open an MP4 video file.
 		 * \ingroup Video
 		 *
 		 * @par Usage example:
 		 * @code
-		 * Video.open("app0:/video.pshv", false)
+		 * Video.open("app0:/video.mp4", false)
 		 * @endcode
 		 *
 		 * @param filename - Filepath of the file to reproduce.
@@ -137,4 +150,81 @@ class Video {
 		 */
 		int getVolume(void);
 		
+		/**
+		 * Get current time for current video playback.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * t = Volume.getTime()
+		 * @endcode
+		 *
+		 * @return Current time position in the video playback in milliseconds.
+		 */
+		number getTime(void);
+		
+		/**
+		 * Jump to a specific position for current video playback.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Video.jumpToTime(Video.getTime() + 5000)
+		 * @endcode
+		 *
+		 * @param time - The position in milliseconds where to jump in the video playback.
+		 */
+		void jumpToTime(number time);
+		
+		/**
+		 * Set play mode for current video playback.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Video.setPlayMode(FAST_FORWARD_16X_MODE)
+		 * @endcode
+		 *
+		 * @param mode - The mode to set.
+		 */
+		void setPlayMode(PlayMode mode);
+		
+		/**
+		 * Open a subtitles file for current video playback.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Video.openSubs("ux0:data/subtitles.vtt")
+		 * @endcode
+		 *
+		 * @param fname - The file to use as subtitles source.
+		 *
+		 * @note Supported subtitles formats: .srt, .vtt.
+		 */
+		void openSubs(string fname);
+		
+		/**
+		 * Close currently opened subtitles file.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Video.closeSubs()
+		 * @endcode
+		 */
+		void closeSubs();
+		
+		/**
+		 * Get current available subtitles for the video playback.
+		 * \ingroup Video
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Graphics.debugPrint(20, 20, Video.getSubs(), Color.new(255, 255, 255))
+		 * @endcode
+		 *
+		 * @return Subtitles matching current video playtime from the opened subtitles file.
+		 */
+		string getSubs(void);
 }

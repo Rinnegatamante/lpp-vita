@@ -59,7 +59,7 @@ class Sound {
 		int open(string filename);
 		
 		/**
-		 * Plays a sound.
+		 * Play a sound.
 		 * \ingroup Sound
 		 *
 		 * @par Usage example:

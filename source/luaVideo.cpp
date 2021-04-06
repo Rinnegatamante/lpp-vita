@@ -28,416 +28,393 @@
 #include <unistd.h>
 #include <vitasdk.h>
 extern "C"{
-	#include <utils.h> // utils.h file from vita2d
+#include <utils.h> // utils.h file from vita2d
 }
 #include "include/luaplayer.h"
-#include "include/videodec.h"
 
-#define DECODER_BUFSIZE        0x5FA00
-#define FRAMEBUFFER_SIZE       0x200000
 #define FRAMEBUFFER_ALIGNMENT  0x40000
-#define VIDEO_BUFFERING        5
-#define AUDIO_CHANNELS         8    // PSVITA has 8 available audio channels
+#define VIDEO_BUFFERING        2
+#define ALIGN(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
+#define stringify(str) #str
+#define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
-SceUID decoderThread, deployerThread, Buffers_Mutex;
-SceAvcdecCtrl decoder = {0};
-static uint8_t* auBuf;
-static bool isPlayerReady = false;
-static bool decoderRunning = false;
-static bool deployerRunning = false;
-static bool looping = false;
-controller videoDecoder;
-void* videobuf[VIDEO_BUFFERING];
+vita2d_texture *videobuf[VIDEO_BUFFERING];
+SceAvPlayerFrameInfo videoFrame[VIDEO_BUFFERING];
 uint8_t videobuf_idx = 0;
-float deltaTick = 0.0f;
-volatile uint8_t busy_buffers = 0;
-uint8_t cur_videobuf_idx = 0;
-bool isPlaying = false;
-float video_audio_tick = 0.0f;
-DecodedMusic* audio_track = NULL;
-
-extern bool availThreads[];
-extern DecodedMusic* new_track;
-extern SceUID NewTrack_Mutex;
-extern SceUID Audio_Mutex;
+SceAvPlayerHandle avplayer;
+static bool isPlayerReady = false;
+static bool isPlaying = false;
+volatile int audio_vol = 32767;
 
 lpp_texture out_text[VIDEO_BUFFERING];
-lpp_texture* cur_text = NULL;
+lpp_texture* cur_text = nullptr;
 
-static int decoderThreadFunc(unsigned int args, void* arg){
+FILE *sub_handle = nullptr;
+int64_t sub_time_start = 0;
+int64_t sub_time_end = 0;
+char sub_string[16384];
+bool sub_eof = true;
+bool sub_vtt = false;
+
+static int audioThread(unsigned int args, void* arg){
+	int ch = sceAudioOutOpenPort(SCE_AUDIO_OUT_PORT_TYPE_BGM, 1024, 48000, SCE_AUDIO_OUT_MODE_STEREO);
+	sceAudioOutSetConfig(ch, -1, -1, (SceAudioOutMode)-1);
 	
-	int ret = 0;
-	uint32_t size;
-	uint8_t* dst;
-	SceAvcdecArrayPicture array_picture = {0};
-	SceAvcdecPicture picture = {0};
-	SceAvcdecPicture *pictures = { &picture };
-	SceAvcdecAu au = {0};
-	picture.size = sizeof(SceAvcdecPicture);
-	decoderRunning = true;
+	SceAvPlayerFrameInfo audio_frame;
+	memset(&audio_frame, 0, sizeof(SceAvPlayerFrameInfo));
 	
-	// Decoder main loop
-	while (decoderRunning){
-		
-		// Check if we have free buffers to decode a new frame
-		if (busy_buffers > (VIDEO_BUFFERING - 2)){
-			sceKernelDelayThread(100);
-			continue;
+	// Setting audio channel volume
+	int vol_stereo[] = {audio_vol, audio_vol};
+	sceAudioOutSetVolume(ch, (SceAudioOutChannelFlag)(SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH), vol_stereo);
+	
+	while (isPlayerReady) {
+		if (vol_stereo[0] != audio_vol) {
+			vol_stereo[0] = vol_stereo[1] = audio_vol;
+			sceAudioOutSetVolume(ch, (SceAudioOutChannelFlag)(SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH), vol_stereo);
 		}
-		
-		// Read next Access Unit from file
-		ret = ctrlReadFrame(&videoDecoder, auBuf, &size);
-		if (ret > 0){
-			
-			picture.frame.pixelType = 0;
-			picture.frame.framePitch = 960;
-			picture.frame.frameWidth = 960;
-			picture.frame.frameHeight = 544;
-			picture.frame.pPicture[0] = videobuf[videobuf_idx];
-			picture.frame.pPicture[1] = NULL;
-			
-			au.es.pBuf = auBuf;
-			au.es.size = size;
-			au.dts.lower = 0;
-			au.dts.upper = 0;
-			au.pts.lower = 0;
-			au.pts.upper = 0;
-			
-			array_picture.numOfElm = 1;
-			array_picture.pPicture = &pictures;
-			
-			// Decoding current Access Unit
-			sceKernelWaitSema(Buffers_Mutex, 1, NULL);
-			sceAvcdecDecode(&decoder, &au, &array_picture);
-			
-			if (array_picture.numOfOutput >= 1){
-				busy_buffers++;
-				videobuf_idx = (videobuf_idx + 1) % VIDEO_BUFFERING;
+		if (sceAvPlayerIsActive(avplayer)) {
+			if (sceAvPlayerGetAudioData(avplayer, &audio_frame)) {
+				sceAudioOutSetConfig(ch, -1, audio_frame.details.audio.sampleRate, audio_frame.details.audio.channelCount == 1 ? SCE_AUDIO_OUT_MODE_MONO : SCE_AUDIO_OUT_MODE_STEREO);
+				sceAudioOutOutput(ch, audio_frame.pData);
+			} else {
+				sceKernelDelayThread(1000);
 			}
-			sceKernelSignalSema(Buffers_Mutex, 1);
-		
-		// File reached EOF, closing decoder or restarting the playback
-		}else{
-			if (looping) ctrlRewind(&videoDecoder);
-			else decoderRunning = false;
+		} else {
+			sceKernelDelayThread(1000);
 		}
-
-		// Invoking scheduler
-		sceKernelDelayThread(100);
-		
 	}
 	
-	ctrlTerm(&videoDecoder);
 	return sceKernelExitDeleteThread(0);
-
 }
 
-static int frameDeployer(unsigned int args, void* arg){
-	
-	float tick = 0.0f;
-	float cur_tick = 0.0f;
-	float pause_delta_tick = 0.0f;
-	bool _isPlaying = true;
-	deployerRunning = true;
-	
-	// Frame deployer main loop
-	while (deployerRunning){
-		
-		sceKernelWaitSema(Buffers_Mutex, 1, NULL);
-		
-		// Handling player status changes
-		if (!isPlaying){
-			if (_isPlaying){
-				_isPlaying = false;
-				pause_delta_tick = (sceKernelGetProcessTimeWide() / 1000000.0f);
-			}
-			sceKernelSignalSema(Buffers_Mutex, 1);
-			continue;
-		}else{
-			if (!_isPlaying){
-				_isPlaying = true;
-				while ((video_audio_tick == 0.0f) || (!audio_track->isPlaying)){
-					sceKernelSignalSema(Buffers_Mutex, 1);
-					sceKernelDelayThread(100);
-					sceKernelWaitSema(Buffers_Mutex, 1, NULL);
-				}
-				tick += (video_audio_tick - pause_delta_tick);
-			}
-		}
-		
-		// Calculating current tick
-		if (cur_tick == 0.0f){
-			cur_tick = tick = video_audio_tick;
-		}else cur_tick = (sceKernelGetProcessTimeWide() / 1000000.0f);
-		
-		// Updating current frame if required
-		if ((cur_tick - tick > deltaTick) && (busy_buffers > 0)){
-			cur_text = &out_text[cur_videobuf_idx];
-			cur_videobuf_idx = (cur_videobuf_idx + 1) % VIDEO_BUFFERING;			
-			busy_buffers--;
-			tick += deltaTick;
-		}
-		sceKernelSignalSema(Buffers_Mutex, 1);
-		
-		// Invoking scheduler
-		sceKernelDelayThread(100);
-		
+void *memalloc(void *p, uint32_t alignment, uint32_t size) {
+	return memalign(alignment, size);
+}
+
+void dealloc(void *p, void *ptr) {
+	free(ptr);
+}
+
+void *gpu_alloc(void *p, uint32_t alignment, uint32_t size) {
+	void *res = nullptr;
+	if (alignment < FRAMEBUFFER_ALIGNMENT) {
+		alignment = FRAMEBUFFER_ALIGNMENT;
 	}
-	
-	return sceKernelExitDeleteThread(0);
+	size = ALIGN(size, alignment);
+#ifdef SYS_APP_MODE
+	size = ALIGN(size, 1024 * 1024);
+	SceUID memblock = sceKernelAllocMemBlock("Video Memblock", SCE_KERNEL_MEMBLOCK_TYPE_USER_MAIN_PHYCONT_NC_RW, size, nullptr);
+#else
+	SceKernelAllocMemBlockOpt opt;
+	memset(&opt, 0, sizeof(opt));
+	opt.size = sizeof(SceKernelAllocMemBlockOpt);
+	opt.attr = SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_ALIGNMENT;
+	opt.alignment = alignment;
+	SceUID memblock = sceKernelAllocMemBlock("Video Memblock", SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW, size, &opt);
+#endif
+	sceKernelGetMemBlockBase(memblock, &res);
+	sceGxmMapMemory(res, size, (SceGxmMemoryAttribFlags)(SCE_GXM_MEMORY_ATTRIB_READ | SCE_GXM_MEMORY_ATTRIB_WRITE));
+	return res;
+}
+
+void gpu_dealloc(void *p, void *ptr) {
+	SceUID memblock = sceKernelFindMemBlockByAddr(ptr, 0);
+	sceKernelFreeMemBlock(memblock);
 }
 
 static int lua_init(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (isPlayerReady) return 0;
-	#endif
-	
-	// Allocating Access Unit buffer for the decoder
-	auBuf = (uint8_t*)memalign(0x100, DECODER_BUFSIZE);
-	
-	SceVideodecQueryInitInfoHwAvcdec init = {0};
-	init.size = sizeof(init);
-	init.horizontal = 960;
-	init.vertical = 544;
-	init.numOfRefFrames = 3;
-	init.numOfStreams = 1;
-	
-	SceAvcdecQueryDecoderInfo	decoder_info = {0};
-	decoder_info.horizontal = init.horizontal;
-	decoder_info.vertical = init.vertical;
-	decoder_info.numOfRefFrames = init.numOfRefFrames;
-	
-	SceAvcdecDecoderInfo decoder_info_out = {0};
-	
-	// Initializing sceVideodec
-	sceVideodecInitLibrary(SCE_VIDEODEC_TYPE_HW_AVCDEC, &init);
-	sceAvcdecQueryDecoderMemSize(SCE_VIDEODEC_TYPE_HW_AVCDEC, &decoder_info, &decoder_info_out);
-	
-	// Creating a sceAvcdec decoder
-	decoder.handle = 0;
-	decoder.frameBuf.pBuf = NULL;
-	decoder.frameBuf.size = 0;
-	sceAvcdecCreateDecoder(SCE_VIDEODEC_TYPE_HW_AVCDEC, &decoder, &decoder_info);
-	
-	// Allocating enough textures to handle our video playback
-	SceKernelMemBlockType orig = vita2d_texture_get_alloc_memblock_type();
-#ifndef SYS_APP_MODE
-	vita2d_texture_set_alloc_memblock_type(SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW);
 #endif
-	for (int i=0; i < VIDEO_BUFFERING; i++){
+	
+	for (int i=0; i < VIDEO_BUFFERING; i++) {
+		videobuf[i] = (vita2d_texture*)malloc(sizeof(vita2d_texture));
+		videobuf[i]->palette_UID = 0;
+		memset(&videoFrame[i], 0, sizeof(SceAvPlayerFrameInfo));
 		out_text[i].magic = 0xABADBEEF;
-		out_text[i].text = vita2d_create_empty_texture(960, 544);
-		videobuf[i] = vita2d_texture_get_datap(out_text[i].text);
+		out_text[i].text = videobuf[i];
 	}
-	vita2d_texture_set_alloc_memblock_type(orig);
+	
+	sceSysmoduleLoadModule(SCE_SYSMODULE_AVPLAYER);
+	
+	SceAvPlayerInitData init_data;
+	memset(&init_data, 0, sizeof(SceAvPlayerInitData));
+	init_data.memoryReplacement.allocate 			= memalloc;
+	init_data.memoryReplacement.deallocate 			= dealloc;
+	init_data.memoryReplacement.allocateTexture 	= gpu_alloc;
+	init_data.memoryReplacement.deallocateTexture 	= gpu_dealloc;
+	init_data.basePriority = 0xA0;
+	init_data.numOutputVideoFrameBuffers = 2;
+	init_data.autoStart = true;
+	avplayer = sceAvPlayerInit(&init_data);
 	
 	isPlayerReady = true;
 	return 0;
 }
 
-static int lua_openpshv(lua_State *L){
+static int lua_openvid(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1 && argc != 2) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
-	#endif
+#endif
 	
-	char* file = (char*)luaL_checkstring(L, 1);
+	char *file = (char*)luaL_checkstring(L, 1);
 	bool looping = false;
 	if (argc == 2) {
 		looping = lua_toboolean(L, 2);
 	}
 	
-	// Opening given file for audio decoding
+#ifndef SKIP_ERROR_HANDLING
 	FILE* f = fopen(file, "rb");
-	#ifndef SKIP_ERROR_HANDLING
 	if (f == NULL) return luaL_error(L, "file doesn't exist.");
-	uint32_t magic;
-	fread(&magic,1,4,f);	
-	if (magic != 0x56485350 /* PSHV */){
-		fclose(f);
-		return luaL_error(L, "unknown video file format.");
-	}
-	fseek(f, 0, SEEK_SET);
-	#endif
-	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
-	memblock->handle = f;
-	memblock->isPlaying = false;
-	memblock->audioThread = 0xFF;
-	memblock->tempBlock = false;
-	sprintf(memblock->filepath, "%s", file);
+	else fclose(f);
+#endif
 	
-	// Opening given file for video decoding
-	memset(&videoDecoder, 0, sizeof(controller));
-	float fps;
-	ctrlInit(&videoDecoder, file, DECODER_BUFSIZE, &fps);
-	deltaTick = 1.0f / fps;
+	sceAvPlayerSetLooping(avplayer, looping);
+	sceAvPlayerAddSource(avplayer, file);
+	sceAvPlayerSetTrickSpeed(avplayer, 100);
+	
+	SceUID audio_thread = sceKernelCreateThread("Vid Audio Thread", &audioThread, 0x10000100, 0x10000, 0, 0, NULL);
+	sceKernelStartThread(audio_thread, 0, NULL);
+	
 	isPlaying = true;
-	
-	// Setting default decoder values
-	busy_buffers = 0;
-	videobuf_idx = 0;
-	video_audio_tick = 0.0f;
-	
-	// Creating a mutex to avoid race conditions between decoder and frame deployer threads
-	Buffers_Mutex = sceKernelCreateSema("Buffers Mutex", 0, 1, 1, NULL);
-	
-	// Starting decoder and frames deployer thread
-	decoderThread = sceKernelCreateThread("Videodec Thread", &decoderThreadFunc, 0x10000100, 0x10000, 0, 0, NULL);
-	sceKernelStartThread(decoderThread, 0, NULL);
-	deployerThread = sceKernelCreateThread("Frames Thread", &frameDeployer, 0x10000100, 0x10000, 0, 0, NULL);
-	sceKernelStartThread(deployerThread, 0, NULL);
-	
-	// Wait till a thread is available
-	bool found = false;
-	for (int i=0; i<AUDIO_CHANNELS; i++){
-		found = availThreads[i];
-		if (found) break;
-	}
-	if (!found) return 0;
-	
-	// Check if the music is already loaded into an audio thread
-	if (memblock->audioThread != 0xFF){
-	
-		// We create a temporary duplicated and play it instead of the original one
-		DecodedMusic* dup = (DecodedMusic*)malloc(sizeof(DecodedMusic));
-		memcpy(dup, memblock, sizeof(DecodedMusic));
-		dup->handle = fopen(dup->filepath, "rb");
-		dup->tempBlock = true;
-		memblock = dup;
-		
-	}
-	
-	// Properly setting music memory block info
-	memblock->loop = looping;
-	memblock->pauseTrigger = false;
-	memblock->closeTrigger = false;
-	memblock->isPlaying = true;
-	memblock->isVideoTrack = true;
-	memblock->volume = 32767;
-	
-	// Waiting till track slot is free
-	sceKernelWaitSema(NewTrack_Mutex, 1, NULL);
-	
-	// Passing music to an audio thread
-	new_track = audio_track = memblock;
-	sceKernelSignalSema(Audio_Mutex, 1);
-	
 	return 0;
 }
 
 static int lua_output(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
-	#endif	
-	sceKernelWaitSema(Buffers_Mutex, 1, NULL);
+#endif
+	if (sceAvPlayerGetVideoData(avplayer, &videoFrame[videobuf_idx])) {
+		sceGxmTextureInitLinear(
+			&videobuf[videobuf_idx]->gxm_tex,
+			videoFrame[videobuf_idx].pData,
+			SCE_GXM_TEXTURE_FORMAT_YVU420P2_CSC1,
+			videoFrame[videobuf_idx].details.video.width,
+			videoFrame[videobuf_idx].details.video.height, 0);
+		cur_text = &out_text[videobuf_idx];
+		videobuf_idx = (videobuf_idx + 1) % VIDEO_BUFFERING;
+	}
 	lua_pushinteger(L, (uint32_t)cur_text);
-	sceKernelSignalSema(Buffers_Mutex, 1);
 	return 1;
 }
 
 static int lua_pause(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
-	#endif	
+#endif	
+	sceAvPlayerPause(avplayer);
 	isPlaying = false;
-	if (audio_track->isPlaying) audio_track->pauseTrigger = true;
 	return 0;
 }
 
 static int lua_resume(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
-	#endif	
+#endif	
+	sceAvPlayerResume(avplayer);
 	isPlaying = true;
-	if (!audio_track->isPlaying) audio_track->pauseTrigger = true;
 	return 0;
 }
 
 static int lua_playing(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
-	#endif	
-	lua_pushboolean(L, audio_track->isPlaying);
+#endif
+	lua_pushboolean(L, sceAvPlayerIsActive(avplayer) && isPlaying);
 	return 1;
 }
 
-static int lua_closepshv(lua_State *L){
+static int lua_closevid(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
-	if (audio_track == NULL) return luaL_error(L, "no video playback currently running.");
-	#endif	
-	audio_track->closeTrigger = true;
-	audio_track->pauseTrigger = true;
-	audio_track = NULL;
-	decoderRunning = false;
-	sceKernelWaitThreadEnd(decoderThread, NULL, NULL);
-	deployerRunning = false;
-	sceKernelWaitThreadEnd(deployerThread, NULL, NULL);
-	sceKernelDeleteSema(Buffers_Mutex);
+#endif
+	sceAvPlayerStop(avplayer);
 	return 0;
 }
 
 static int lua_term(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
-	if (audio_track != NULL) return luaL_error(L, "you must close the video playback first.");
-	#endif
+#endif
 	isPlayerReady = false;
-	sceAvcdecDeleteDecoder(&decoder);
-	sceVideodecTermLibrary(SCE_VIDEODEC_TYPE_HW_AVCDEC);
 	for (int i=0; i < VIDEO_BUFFERING; i++){
 		vita2d_free_texture(out_text[i].text);
 	}
+	sceAvPlayerClose(avplayer);
+	sceSysmoduleUnloadModule(SCE_SYSMODULE_AVPLAYER);
+	return 0;
+}
+
+static int lua_timing(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments.");
+	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
+#endif
+	lua_pushnumber(L, sceAvPlayerCurrentTime(avplayer));
+	return 1;
+}
+
+static int lua_jump(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+#endif
+	int64_t timing = luaL_checknumber(L, 1);
+	sceAvPlayerJumpToTime(avplayer, timing);
+	if (sub_handle && timing < sceAvPlayerCurrentTime(avplayer)) {
+		fseek(sub_handle, 0, SEEK_SET);
+		sub_string[0] = 0;
+		sub_time_start = 0;
+		sub_time_end = 0;
+		sub_eof = false;
+		sceKernelDelayThread(100000); // We let sceAvPlayer actually rewind the video before resuming main thread
+	}
+	return 0;
+}
+
+static int lua_mode(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+#endif
+	int mode = luaL_checknumber(L, 1);
+	sceAvPlayerSetTrickSpeed(avplayer, mode);
 	return 0;
 }
 
 static int lua_setvol(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
+#endif
 	int vol = luaL_checkinteger(L, 1);
-	vol = (vol < 0) ? 0 : ((vol > 32767) ? 32767 : vol);
-	audio_track->volume = vol;
+	audio_vol = (vol < 0) ? 0 : ((vol > 32767) ? 32767 : vol);
 	return 0;
 }
 
 static int lua_getvol(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
-	lua_pushinteger(L, audio_track->volume);
+#endif
+	lua_pushinteger(L, audio_vol);
+	return 1;
+}
+
+static int lua_subopen(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+#endif
+	char *file = luaL_checkstring(L, 1);
+	sub_handle = fopen(file, "rb");
+#ifndef SKIP_ERROR_HANDLING
+	if (sub_handle == NULL) return luaL_error(L, "file doesn't exist.");
+#endif
+	sub_string[0] = 0;
+	sub_time_start = 0;
+	sub_time_end = 0;
+	sub_eof = false;
+	char header[256];
+	fgets(header, 256, sub_handle);
+	sub_vtt = !strncmp(header, "WEBVTT", 6);
+	return 0;
+}
+
+static int lua_subclose(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+#endif
+	if (sub_handle) fclose(sub_handle);
+	sub_handle = nullptr;
+	return 0;
+}
+
+static int lua_getsub(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+#endif
+	int64_t cur_time = sceAvPlayerCurrentTime(avplayer);
+	if (sub_handle && !sub_eof && cur_time > sub_time_end) {
+		char str[2048];
+		while (fgets(str, 2048, sub_handle)) {
+			char *s = strstr(str, " --> ");
+			if (s) {
+				int times_start[4];
+				int times_end[4];
+				int64_t start;
+				int64_t end;
+				if (s - str > 10) { // Has hours
+					if (sub_vtt) // VTT
+						sscanf(str, "%d:%2d:%2d.%3d --> %d:%2d:%2d.%3d", &times_start[3], &times_start[0], &times_start[1], &times_start[2], &times_end[3], &times_end[0], &times_end[1], &times_end[2]);
+					else // SRT
+						sscanf(str, "%d:%2d:%2d,%3d --> %d:%2d:%2d,%3d", &times_start[3], &times_start[0], &times_start[1], &times_start[2], &times_end[3], &times_end[0], &times_end[1], &times_end[2]);
+					start = times_start[2] + times_start[1] * 1000 + times_start[0] * 1000 * 60 + times_start[3] * 1000 * 60 * 60;
+					end = times_end[2] + times_end[1] * 1000 + times_end[0] * 1000 * 60 + times_end[3] * 1000 * 60 * 60;
+				} else {
+					if (sub_vtt) // VTT
+						sscanf(str, "%2d:%2d.%3d --> %2d:%2d.%3d", &times_start[0], &times_start[1], &times_start[2], &times_end[0], &times_end[1], &times_end[2]);
+					else // SRT
+						sscanf(str, "%2d:%2d,%3d --> %2d:%2d,%3d", &times_start[0], &times_start[1], &times_start[2], &times_end[0], &times_end[1], &times_end[2]);
+					start = times_start[2] + times_start[1] * 1000 + times_start[0] * 1000 * 60;
+					end = times_end[2] + times_end[1] * 1000 + times_end[0] * 1000 * 60;
+				}
+				if (cur_time < end) {
+					sub_string[0] = 0;
+					sub_time_end = end;
+					sub_time_start = start;
+					while (fgets(str, 2048, sub_handle)) {
+						if (strlen(str) == 1) break;
+						strcat(sub_string, str);
+					}
+					lua_pushstring(L, cur_time > sub_time_start ? sub_string : "");
+					return 1;
+				}
+			}
+		}
+		sub_eof = true;
+	}
+	lua_pushstring(L, cur_time > sub_time_start ? sub_string : "");
 	return 1;
 }
 
 //Register our Video Functions
 static const luaL_Reg Video_functions[] = {
-  {"init",        lua_init},
-  {"term",        lua_term},
-  {"open",        lua_openpshv},
-  {"close",       lua_closepshv},
-  {"setVolume",   lua_setvol},
-  {"getVolume",   lua_getvol},
-  {"getOutput",   lua_output},
-  {"pause",       lua_pause},
-  {"resume",      lua_resume},
-  {"isPlaying",   lua_playing},
+  {"init",          lua_init},
+  {"term",          lua_term},
+  {"open",          lua_openvid},
+  {"close",         lua_closevid},
+  {"setVolume",     lua_setvol},
+  {"getVolume",     lua_getvol},
+  {"getOutput",     lua_output},
+  {"pause",         lua_pause},
+  {"resume",        lua_resume},
+  {"isPlaying",     lua_playing},
+  {"getTime",       lua_timing},
+  {"jumpToTime",    lua_jump},
+  {"setPlayMode",   lua_mode},
+  {"openSubs",      lua_subopen},
+  {"closeSubs",     lua_subclose},
+  {"getSubs",       lua_getsub},
   {0, 0}
 };
 
@@ -445,4 +422,19 @@ void luaVideo_init(lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, Video_functions, 0);
 	lua_setglobal(L, "Video");
+	int NORMAL_MODE = 100;
+	int FAST_FORWARD_2X_MODE = 200;
+	int FAST_FORWARD_4X_MODE = 400;
+	int FAST_FORWARD_8X_MODE = 800;
+	int FAST_FORWARD_16X_MODE = 1600;
+	int FAST_FORWARD_32X_MODE = 3200;
+	int REWIND_8X_MODE = -800;
+	int REWIND_16X_MODE = -1600;
+	int REWIND_32X_MODE = -3200;
+	VariableRegister(L, NORMAL_MODE);
+	VariableRegister(L, FAST_FORWARD_2X_MODE);
+	VariableRegister(L, FAST_FORWARD_4X_MODE);
+	VariableRegister(L, FAST_FORWARD_8X_MODE);
+	VariableRegister(L, FAST_FORWARD_16X_MODE);
+	VariableRegister(L, FAST_FORWARD_32X_MODE);
 }

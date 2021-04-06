@@ -32,7 +32,7 @@ Official documentation: http://rinnegatamante.github.io/lpp-vita/
 	* Moving Picture Expert Group-1/2 Audio Layer 3 audio files (**.mp3**) with MPEG-1 Audio Layer III/MPEG-2 Audio Layer III codecs.
 	* Musical Instrument Digital Interface audio files (**.midi**).
 	* Ogg Media audio files (**.ogg/.opus**) with Vorbis/Opus codecs.
-* Native support to PSHV video files.
+* Native support to MP4 video files with support for **.srt** and **.vtt** subtitles files.
 	
 ##### Controls
 
@@ -57,6 +57,7 @@ Official documentation: http://rinnegatamante.github.io/lpp-vita/
 * Native support to ZIP archives.
 * Native support to SFO file descriptors.
 * Native support to SQLite databases.
+* Native support to apps installation/uninstallation.
 
 ##### Utilities
 
@@ -132,5 +133,6 @@ Lua Player Plus Vita supports different flags to enables some features:<br>
 * **hyln9** for vita-luajit.
 * **frangarcj** for the help during 3D rendering feature addition.
 * **TheFloW** for some snippets i used and some ideas i borrowed.
-* Misledz for the Lua Player Plus logo.
-* EasyRPG Team for the Audio Decoder used for Sound module.
+* **Misledz** for the Lua Player Plus logo.
+* **Arkanite** for providing a sample for sceAvPlayer used to implement the Video module.
+* **EasyRPG Team** for the Audio Decoder used for Sound module.
