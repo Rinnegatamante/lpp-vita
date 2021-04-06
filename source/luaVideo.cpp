@@ -141,8 +141,8 @@ static int lua_init(lua_State *L){
 	
 	SceAvPlayerInitData init_data;
 	memset(&init_data, 0, sizeof(SceAvPlayerInitData));
-	init_data.memoryReplacement.allocate 			= memalloc;
-	init_data.memoryReplacement.deallocate 			= dealloc;
+	init_data.memoryReplacement.allocate            = memalloc;
+	init_data.memoryReplacement.deallocate          = dealloc;
 	init_data.memoryReplacement.allocateTexture 	= gpu_alloc;
 	init_data.memoryReplacement.deallocateTexture 	= gpu_dealloc;
 	init_data.basePriority = 0xA0;
