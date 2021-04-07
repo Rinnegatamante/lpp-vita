@@ -6,6 +6,7 @@ var searchData=
   ['closefile',['closeFile',['../group___system.html#gaa4722dc3682b22ef4414370fa908d6de',1,'System']]],
   ['closemessage',['closeMessage',['../group___system.html#gaa7fd59e4af5d8708f1da8f85c0027716',1,'System']]],
   ['closesubs',['closeSubs',['../group___video.html#gad0f841b7bf46dce197ac1b4aa740316b',1,'Video']]],
+  ['compresszip',['compressZip',['../group___system.html#gae5747e36b5dfa48b0a895bc2368846e4',1,'System']]],
   ['connect',['connect',['../group___socket.html#gaea7d2157c3b3c4ab9581abe32cdb31c4',1,'Socket']]],
   ['copyfile',['copyFile',['../group___system.html#ga9386f6ff43bac3027b58ebc1355bfaf5',1,'System']]],
   ['createdirectory',['createDirectory',['../group___system.html#gae9720fe43ebbf9ab4626012354cf7145',1,'System']]],

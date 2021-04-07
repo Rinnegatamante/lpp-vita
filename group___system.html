@@ -322,6 +322,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gaae847772c98cf614a3c1bf7b0abc3878"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gaae847772c98cf614a3c1bf7b0abc3878">System.extractFromZipAsync</a> (string filename, string file, string destname)</td></tr>
 <tr class="memdesc:gaae847772c98cf614a3c1bf7b0abc3878"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a specific file from a ZIP file (asynchronous).  <a href="#gaae847772c98cf614a3c1bf7b0abc3878">More...</a><br /></td></tr>
 <tr class="separator:gaae847772c98cf614a3c1bf7b0abc3878"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae5747e36b5dfa48b0a895bc2368846e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gae5747e36b5dfa48b0a895bc2368846e4">System.compressZip</a> (string path, string filename, int ratio)</td></tr>
+<tr class="memdesc:gae5747e36b5dfa48b0a895bc2368846e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compress a file or a folder in a ZIP file (synchronous).  <a href="#gae5747e36b5dfa48b0a895bc2368846e4">More...</a><br /></td></tr>
+<tr class="separator:gae5747e36b5dfa48b0a895bc2368846e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8ec793e46b538918bd0ef3d346ec785f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga8ec793e46b538918bd0ef3d346ec785f">System.addToZip</a> (string path, string filename, string parent, int ratio)</td></tr>
+<tr class="memdesc:ga8ec793e46b538918bd0ef3d346ec785f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a file or a folder in a ZIP file (synchronous).  <a href="#ga8ec793e46b538918bd0ef3d346ec785f">More...</a><br /></td></tr>
+<tr class="separator:ga8ec793e46b538918bd0ef3d346ec785f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga991074c32b2de96dcdbffd54f838ffc6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga991074c32b2de96dcdbffd54f838ffc6">System.getAsyncState</a> (void)</td></tr>
 <tr class="memdesc:ga991074c32b2de96dcdbffd54f838ffc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current state of an asynchronous task.  <a href="#ga991074c32b2de96dcdbffd54f838ffc6">More...</a><br /></td></tr>
 <tr class="separator:ga991074c32b2de96dcdbffd54f838ffc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1967,6 +1973,101 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="gae5747e36b5dfa48b0a895bc2368846e4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void System.compressZip </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ratio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compress a file or a folder in a ZIP file (synchronous). </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gae5747e36b5dfa48b0a895bc2368846e4">compressZip</a>(<span class="stringliteral">&quot;app0:/sce_sys&quot;</span>, <span class="stringliteral">&quot;ux0:/data/file.zip&quot;</span>, 9)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>- The filename or path to compress. </td></tr>
+    <tr><td class="paramname">filename</td><td>- The filename of the resulting zip file. </td></tr>
+    <tr><td class="paramname">ratio</td><td>- The compression ratio to use <b>(optional)</b>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd><b>ratio</b> must be between 0 and 9. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga8ec793e46b538918bd0ef3d346ec785f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void System.addToZip </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ratio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a file or a folder in a ZIP file (synchronous). </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga8ec793e46b538918bd0ef3d346ec785f">addToZip</a>(<span class="stringliteral">&quot;app0:/sce_sys/icon0.png&quot;</span>, <span class="stringliteral">&quot;ux0:/data/file.zip&quot;</span>, <span class="stringliteral">&quot;sce_sys&quot;</span>, 9)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>- The filename or path to compress. </td></tr>
+    <tr><td class="paramname">filename</td><td>- The filename of the resulting zip file. </td></tr>
+    <tr><td class="paramname">parent</td><td>- The parent folder inside the zip file where to place the path. </td></tr>
+    <tr><td class="paramname">ratio</td><td>- The compression ratio to use <b>(optional)</b>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd><b>ratio</b> must be between 0 and 9. </dd></dl>
 
 </div>
 </div>

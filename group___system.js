@@ -88,6 +88,8 @@ var group___system =
     [ "extractFromZip", "group___system.html#ga062c22ba5b5bc5c89c8d671cada47004", null ],
     [ "extractZipAsync", "group___system.html#gaceffc0a9cac9357baa31058184077d65", null ],
     [ "extractFromZipAsync", "group___system.html#gaae847772c98cf614a3c1bf7b0abc3878", null ],
+    [ "compressZip", "group___system.html#gae5747e36b5dfa48b0a895bc2368846e4", null ],
+    [ "addToZip", "group___system.html#ga8ec793e46b538918bd0ef3d346ec785f", null ],
     [ "getAsyncState", "group___system.html#ga991074c32b2de96dcdbffd54f838ffc6", null ],
     [ "getAsyncResult", "group___system.html#gadccaa5cd953c15915d34152f29f73eaa", null ],
     [ "takeScreenshot", "group___system.html#ga445e5fe0f276edbfe49bd288e5a017fa", null ],
