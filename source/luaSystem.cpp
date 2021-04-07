@@ -1111,7 +1111,7 @@ static int lua_addzip(lua_State *L) {
 	const char *FileName = luaL_checkstring(L, 2);
 	char *Parent = luaL_checkstring(L, 3);
 	int compression_level = Z_DEFAULT_COMPRESSION;
-	if (argc == 3) compression_level = luaL_checkinteger(L, 4);
+	if (argc == 4) compression_level = luaL_checkinteger(L, 4);
 	zipFile zFile = zipOpen(FileName, APPEND_STATUS_ADDINZIP);
 	FILE *f = fopen(ToCompress, "r");
 	if (f) {
