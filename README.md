@@ -19,7 +19,7 @@ Official documentation: http://rinnegatamante.github.io/lpp-vita/
 
 * Advanced 2D Graphics Rendering (GPU).
 * Basic 3D Graphics Rendering (GPU).
-* Native support to 0BJ models.
+* Native support to OBJ models.
 * Native support to TTF/PGF/PVF/OTF fonts.
 * Native support to BMP/PNG/JPG images.
 * Built-in rescaler to perform portings from [lpp-3ds](https://github.com/Rinnegatamante/lpp-3ds) easily.
