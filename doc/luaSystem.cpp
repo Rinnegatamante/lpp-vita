@@ -887,6 +887,41 @@ class System{
 		void extractFromZipAsync(string filename, string file, string destname);
 		
 		/**
+		 * Compress a file or a folder in a ZIP file (synchronous).
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.compressZip("app0:/sce_sys", "ux0:/data/file.zip", 9)
+		 * @endcode
+		 *
+		 * @param path - The filename or path to compress.
+		 * @param filename - The filename of the resulting zip file.
+		 * @param ratio - The compression ratio to use <b>(optional)</b>.
+		 *
+		 * @note <b>ratio</b> must be between 0 and 9.
+		 */
+		void compressZip(string path, string filename, int ratio);
+		
+		/**
+		 * Add a file or a folder in a ZIP file (synchronous).
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.addToZip("app0:/sce_sys/icon0.png", "ux0:/data/file.zip", "sce_sys", 9)
+		 * @endcode
+		 *
+		 * @param path - The filename or path to compress.
+		 * @param filename - The filename of the resulting zip file.
+		 * @param parent - The parent folder inside the zip file where to place the path.
+		 * @param ratio - The compression ratio to use <b>(optional)</b>.
+		 *
+		 * @note <b>ratio</b> must be between 0 and 9.
+		 */
+		void addToZip(string path, string filename, string parent, int ratio);
+		
+		/**
 		 * Get current state of an asynchronous task.
 		 * \ingroup System
 		 *

@@ -34,6 +34,7 @@
 extern "C"{
 #include <vitasdk.h>
 }
+#include "include/zip.h"
 #include "include/unzip.h"
 #include "include/luaplayer.h"
 #include "include/head.h"
@@ -92,6 +93,54 @@ typedef struct{
 	uint32_t paramMaxLen;
 	uint32_t dataOffset;
 } sfo_entry_t;
+
+static void addFileToZip(zipFile zFile, const char *fname, char *src, int compression_level) {
+	zip_fileinfo info = {0};
+	info.tmz_date.tm_sec = info.tmz_date.tm_min = info.tmz_date.tm_hour = 0;
+	info.tmz_date.tm_mday = info.tmz_date.tm_mon = info.tmz_date.tm_year = 0;
+	info.dosDate = 0;
+	info.internal_fa = 0;
+	info.external_fa = 0;
+	
+	char *last_slash = src;
+	char *p;
+	do {
+		p = last_slash + 1;
+		last_slash = strstr(p, "/");
+	} while(last_slash);
+	char dst[256];
+	sprintf(dst, "%s%s%s", fname, strlen(fname) > 0 ? "/" : "", p);
+	zipOpenNewFileInZip(zFile, dst, &info, nullptr, 0, nullptr, 0, nullptr, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
+
+	FILE *f = fopen(src, "rb");
+	uint8_t *data = (uint8_t*)malloc(COPY_BUFFER_SIZE);
+	for (;;) {
+		uint32_t len = fread(data, 1, COPY_BUFFER_SIZE, f);
+		if (!len) break;
+		zipWriteInFileInZip(zFile, data, len);
+	}
+	fclose(f);
+	free(data);
+	
+	zipCloseFileInZip(zFile);
+}
+
+static void addDirToZip(zipFile zFile, const char *fname, char *src, int compression_level) {
+	SceIoDirent g_dir;
+	int fd = sceIoDopen(src);
+	char path[512], path2[512];
+	while (sceIoDread(fd, &g_dir) > 0) {
+		if (SCE_S_ISDIR(g_dir.d_stat.st_mode)) {
+			sprintf(path2, "%s/%s", src, g_dir.d_name);
+			sprintf(path, "%s%s%s", fname, strlen(fname) > 0 ? "/" : "", g_dir.d_name);
+			addDirToZip(zFile, path, path2, compression_level);
+		} else {
+			sprintf(path2, "%s/%s", src, g_dir.d_name);
+			addFileToZip(zFile, fname, path2, compression_level);
+		}
+	}
+	sceIoDclose(fd);
+}
 
 void loadPromoter() {
 	if (!is_promoter_loaded) {
@@ -696,9 +745,6 @@ static int lua_screenshot(lua_State *L){
 	return 0;
 }
 
-
-SceIoDirent g_dir;
-
 static int lua_dir(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
@@ -714,6 +760,7 @@ static int lua_dir(lua_State *L){
 	}
 	lua_newtable(L);
 	int i = 1;
+	SceIoDirent g_dir;
 	while (sceIoDread(fd, &g_dir) > 0) {
 		lua_pushnumber(L, i++);  /* push key for file entry */
 		lua_newtable(L);
@@ -1031,6 +1078,49 @@ static int lua_ZipExtract(lua_State *L) {
 		if ((zip_idx + 1) < num_files) unzGoToNextFile(zipfile);
 	}
 	unzClose(zipfile);
+	return 0;
+}
+
+static int lua_zip(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if(argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments.");
+#endif
+	char *ToCompress = luaL_checkstring(L, 1);
+	const char *FileName = luaL_checkstring(L, 2);
+	int compression_level = Z_DEFAULT_COMPRESSION;
+	if (argc == 3) compression_level = luaL_checkinteger(L, 3);
+	zipFile zFile = zipOpen(FileName, APPEND_STATUS_CREATE);
+	FILE *f = fopen(ToCompress, "r");
+	if (f) {
+		fclose(f);
+		addFileToZip(zFile, "", ToCompress, compression_level);
+	} else {
+		addDirToZip(zFile, "", ToCompress, compression_level);
+	}
+	zipClose(zFile, nullptr);
+	return 0;
+}
+
+static int lua_addzip(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if(argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments.");
+#endif
+	char *ToCompress = luaL_checkstring(L, 1);
+	const char *FileName = luaL_checkstring(L, 2);
+	char *Parent = luaL_checkstring(L, 3);
+	int compression_level = Z_DEFAULT_COMPRESSION;
+	if (argc == 3) compression_level = luaL_checkinteger(L, 4);
+	zipFile zFile = zipOpen(FileName, APPEND_STATUS_ADDINZIP);
+	FILE *f = fopen(ToCompress, "r");
+	if (f) {
+		fclose(f);
+		addFileToZip(zFile, Parent, ToCompress, compression_level);
+	} else {
+		addDirToZip(zFile, Parent, ToCompress, compression_level);
+	}
+	zipClose(zFile, nullptr);
 	return 0;
 }
 
@@ -1591,6 +1681,8 @@ static const luaL_Reg System_functions[] = {
   {"getTitleID",                lua_titleid},
   {"extractSfo",                lua_extractsfo},
   {"extractZip",                lua_ZipExtract},
+  {"compressZip",               lua_zip},
+  {"addToZip",                  lua_addzip},
   {"extractZipAsync",           lua_ZipExtractAsync},
   {"extractFromZip",            lua_getfilefromzip},
   {"extractFromZipAsync",       lua_getfilefromzipasync},
