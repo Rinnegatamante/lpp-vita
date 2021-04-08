@@ -245,11 +245,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga34447aff6b039daf8f305507c8ab7f4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get battery cycles count.  <a href="#ga34447aff6b039daf8f305507c8ab7f4b">More...</a><br /></td></tr>
 <tr class="separator:ga34447aff6b039daf8f305507c8ab7f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6a67e3f1875df888ad107c94b69d1ebb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga6a67e3f1875df888ad107c94b69d1ebb">System.disableTimer</a> (<a class="el" href="group___system.html#gaa87f56921e4e4587ca7c9503e017feb5">PowerTimer</a> timer)</td></tr>
-<tr class="memdesc:ga6a67e3f1875df888ad107c94b69d1ebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables a power management timer feature.  <a href="#ga6a67e3f1875df888ad107c94b69d1ebb">More...</a><br /></td></tr>
+<tr class="memdesc:ga6a67e3f1875df888ad107c94b69d1ebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable a power management timer feature.  <a href="#ga6a67e3f1875df888ad107c94b69d1ebb">More...</a><br /></td></tr>
 <tr class="separator:ga6a67e3f1875df888ad107c94b69d1ebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga79686a380bf007867cee550e0845d751"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga79686a380bf007867cee550e0845d751">System.enableTimer</a> (<a class="el" href="group___system.html#gaa87f56921e4e4587ca7c9503e017feb5">PowerTimer</a> timer)</td></tr>
-<tr class="memdesc:ga79686a380bf007867cee550e0845d751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables a power management timer feature.  <a href="#ga79686a380bf007867cee550e0845d751">More...</a><br /></td></tr>
+<tr class="memdesc:ga79686a380bf007867cee550e0845d751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable a power management timer feature.  <a href="#ga79686a380bf007867cee550e0845d751">More...</a><br /></td></tr>
 <tr class="separator:ga79686a380bf007867cee550e0845d751"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad798fb546582192b1570088aec745162"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#gad798fb546582192b1570088aec745162">System.resetTimer</a> (<a class="el" href="group___system.html#gaa87f56921e4e4587ca7c9503e017feb5">PowerTimer</a> timer)</td></tr>
+<tr class="memdesc:gad798fb546582192b1570088aec745162"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset a power management timer feature.  <a href="#gad798fb546582192b1570088aec745162">More...</a><br /></td></tr>
+<tr class="separator:gad798fb546582192b1570088aec745162"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8bddf2dc95b90190c1d49224c22ade16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga8bddf2dc95b90190c1d49224c22ade16">System.setCpuSpeed</a> (int clock)</td></tr>
 <tr class="memdesc:ga8bddf2dc95b90190c1d49224c22ade16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set CPU clock speed.  <a href="#ga8bddf2dc95b90190c1d49224c22ade16">More...</a><br /></td></tr>
 <tr class="separator:ga8bddf2dc95b90190c1d49224c22ade16"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1334,7 +1337,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Disables a power management timer feature. </p>
+<p>Disable a power management timer feature. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga6a67e3f1875df888ad107c94b69d1ebb">disableTimer</a>(<a class="code" href="group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5ae9095b853f96804f440ff1b799bc1330">SCREEN_DIMMING_TIMER</a>)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1359,11 +1362,36 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Enables a power management timer feature. </p>
+<p>Enable a power management timer feature. </p>
 <dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga79686a380bf007867cee550e0845d751">enableTimer</a>(<a class="code" href="group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5ae9095b853f96804f440ff1b799bc1330">SCREEN_DIMMING_TIMER</a>)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">timer</td><td>- The timer feature to enable. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="gad798fb546582192b1570088aec745162"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void System.resetTimer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___system.html#gaa87f56921e4e4587ca7c9503e017feb5">PowerTimer</a>&#160;</td>
+          <td class="paramname"><em>timer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset a power management timer feature. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#gad798fb546582192b1570088aec745162">resetTimer</a>(<a class="code" href="group___system.html#ggaa87f56921e4e4587ca7c9503e017feb5ae9095b853f96804f440ff1b799bc1330">SCREEN_DIMMING_TIMER</a>)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timer</td><td>- The timer feature to reset. </td></tr>
   </table>
   </dd>
 </dl>

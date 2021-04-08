@@ -64,6 +64,7 @@ var group___system =
     [ "getBatteryCycles", "group___system.html#ga34447aff6b039daf8f305507c8ab7f4b", null ],
     [ "disableTimer", "group___system.html#ga6a67e3f1875df888ad107c94b69d1ebb", null ],
     [ "enableTimer", "group___system.html#ga79686a380bf007867cee550e0845d751", null ],
+    [ "resetTimer", "group___system.html#gad798fb546582192b1570088aec745162", null ],
     [ "setCpuSpeed", "group___system.html#ga8bddf2dc95b90190c1d49224c22ade16", null ],
     [ "setGpuSpeed", "group___system.html#ga433903ccf1a7440abb6dfc7fa4c6359b", null ],
     [ "setBusSpeed", "group___system.html#ga557ddef1168009e9d703bba3a9620414", null ],
