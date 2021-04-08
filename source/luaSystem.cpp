@@ -860,6 +860,16 @@ static int lua_remainbatt(lua_State *L){
 	return 1;
 }
 
+static int lua_tickpower(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+#endif
+	int tmr = luaL_checkinteger(L, 1);
+	sceKernelPowerTick((SceKernelPowerTickType)tmr);
+	return 0;
+}
+
 static int lua_offpower(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
@@ -1662,6 +1672,7 @@ static const luaL_Reg System_functions[] = {
   {"getBatteryCycles",          lua_cyclebatt},
   {"disableTimer",              lua_offpower},
   {"enableTimer",               lua_onpower},
+  {"resetTimer",                lua_tickpower},
   {"setCpuSpeed",               lua_setcpu},
   {"getCpuSpeed",               lua_getcpu},
   {"setBusSpeed",               lua_setbus},

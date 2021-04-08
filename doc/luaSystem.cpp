@@ -505,7 +505,7 @@ class System{
 		int getBatteryCycles(void);
 		
 		/**
-		 * Disables a power management timer feature.
+		 * Disable a power management timer feature.
 		 * \ingroup System
 		 *
 		 * @par Usage example:
@@ -518,7 +518,7 @@ class System{
 		void disableTimer(PowerTimer timer);
 		
 		/**
-		 * Enables a power management timer feature.
+		 * Enable a power management timer feature.
 		 * \ingroup System
 		 *
 		 * @par Usage example:
@@ -529,6 +529,19 @@ class System{
 		 * @param timer - The timer feature to enable.
 		 */
 		void enableTimer(PowerTimer timer);
+		
+		/**
+		 * Reset a power management timer feature.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.resetTimer(SCREEN_DIMMING_TIMER)
+		 * @endcode
+		 *
+		 * @param timer - The timer feature to reset.
+		 */
+		void resetTimer(PowerTimer timer);
 		
 		/**
 		 * Set CPU clock speed.
