@@ -172,7 +172,7 @@ class Sound {
 		 *
 		 * @return Song title of the given sound.
 		 *
-		 * @note This function works only with OGG and WAV audio files.
+		 * @note This function works only with .ogg, .mp3, .opus and .wav audio files.
 		 */
 		string getTitle(int music);
 		
@@ -189,7 +189,7 @@ class Sound {
 		 *
 		 * @return Song author of the given sound.
 		 *
-		 * @note This function works only with OGG, MP3 and WAV audio files.
+		 * @note This function works only with .ogg, .mp3, .opus and .wav audio files.
 		 */
 		string getAuthor(int music);
 		
