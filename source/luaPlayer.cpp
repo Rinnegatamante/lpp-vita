@@ -77,6 +77,7 @@ const char *runScript(const char* script, bool isStringBuffer)
 	luaVideo_init(L);
 	luaCamera_init(L);
 	luaDatabase_init(L);
+	luaRegistry_init(L);
 	luaGui_init(L);
 	
 	int s = 0;
