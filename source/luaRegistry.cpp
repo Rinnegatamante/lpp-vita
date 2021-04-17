@@ -91,11 +91,11 @@ static int lua_setkey(lua_State *L){
 		sceRegMgrSetKeyInt(cat, name, val);
 		break;
 	case TYPE_STRING:
-		buf = size ? luaL_checklstring(L, 4, &size) : luaL_checkstring(L, 4);
+		buf = size ? luaL_checkstring(L, 4) : luaL_checklstring(L, 4, &size);
 		sceRegMgrSetKeyStr(cat, name, buf, size);
 		break;
 	default:
-		buf = size ? luaL_checklstring(L, 4, &size) : luaL_checkstring(L, 4);
+		buf = size ? luaL_checkstring(L, 4) : luaL_checklstring(L, 4, &size);
 		sceRegMgrSetKeyBin(cat, name, buf, size);
 		break;
 	}
