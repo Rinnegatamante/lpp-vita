@@ -10,6 +10,7 @@ var modules =
     [ "Keyboard", "group___keyboard.html", "group___keyboard" ],
     [ "Mic", "group___mic.html", "group___mic" ],
     [ "Network", "group___network.html", "group___network" ],
+    [ "Registry", "group___registry.html", "group___registry" ],
     [ "Render", "group___render.html", "group___render" ],
     [ "Screen", "group___screen.html", "group___screen" ],
     [ "Socket", "group___socket.html", "group___socket" ],

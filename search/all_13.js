@@ -11,8 +11,10 @@ var searchData=
   ['termwindow',['termWindow',['../group___gui.html#ga60607cef457f72d6c84965c01d4f768e',1,'Gui']]],
   ['timer',['Timer',['../class_timer.html',1,'Timer'],['../group___timer.html',1,'(Global Namespace)']]],
   ['trace_5fmethod',['TRACE_METHOD',['../group___network.html#gga837a089a977b319a11edfb8022d9e47da2cd231aca8f1b2f19fc13d07cb6faa2e',1,'luaNetwork.cpp']]],
+  ['type_5fbinary',['TYPE_BINARY',['../group___registry.html#gga35f0a6888bd1c2e56754f97c77a534b9aa5ffcdf7807a1bb2607a525a08682304',1,'luaRegistry.cpp']]],
   ['type_5fdefault',['TYPE_DEFAULT',['../group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca80d7bb9558588a28f24aec4c019fdbd6',1,'luaKeyboard.cpp']]],
   ['type_5flatin',['TYPE_LATIN',['../group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca6323f3e097be6daf8a1c807a28f8a172',1,'luaKeyboard.cpp']]],
-  ['type_5fnumber',['TYPE_NUMBER',['../group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca23633c59862fb4d180b9b35e9f61ca18',1,'luaKeyboard.cpp']]],
-  ['type_5fnumber_5fext',['TYPE_NUMBER_EXT',['../group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca56d72d701f1106319b74f03049e8b8ec',1,'luaKeyboard.cpp']]]
+  ['type_5fnumber',['TYPE_NUMBER',['../group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca23633c59862fb4d180b9b35e9f61ca18',1,'TYPE_NUMBER():&#160;luaKeyboard.cpp'],['../group___registry.html#gga35f0a6888bd1c2e56754f97c77a534b9a23633c59862fb4d180b9b35e9f61ca18',1,'TYPE_NUMBER():&#160;luaRegistry.cpp']]],
+  ['type_5fnumber_5fext',['TYPE_NUMBER_EXT',['../group___keyboard.html#ggaab0feaba617470cb4aa830dc5935238ca56d72d701f1106319b74f03049e8b8ec',1,'luaKeyboard.cpp']]],
+  ['type_5fstring',['TYPE_STRING',['../group___registry.html#gga35f0a6888bd1c2e56754f97c77a534b9addb4be6b1cc25112defabef75f73427a',1,'luaRegistry.cpp']]]
 ];

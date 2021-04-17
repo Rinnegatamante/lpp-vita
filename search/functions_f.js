@@ -15,6 +15,7 @@ var searchData=
   ['setimagefilters',['setImageFilters',['../group___graphics.html#ga0e381466c4cf01468bd19ede86f84f02',1,'Graphics']]],
   ['setinputmode',['setInputMode',['../group___gui.html#ga58907e448ad5c5e6a3a7f35ac3591e0d',1,'Gui']]],
   ['setiso',['setISO',['../group___camera.html#gabcfae960bb50bf78cd707451181b6132',1,'Camera']]],
+  ['setkey',['setKey',['../group___registry.html#ga6ab35c3a8ccb86f7d94cacc9c24150ff',1,'Registry']]],
   ['setlightbar',['setLightbar',['../group___controls.html#ga236fe3190ad0dcd2c7e8bf4bd5ab24eb',1,'Controls']]],
   ['setmessage',['setMessage',['../group___system.html#ga94fe31178878a48390b9c81fb94b1baa',1,'System']]],
   ['setmessageprogmsg',['setMessageProgMsg',['../group___system.html#gac9bcb46f5f17e209b2aad57edf6b6160',1,'System']]],
