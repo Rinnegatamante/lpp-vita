@@ -635,6 +635,56 @@ static int lua_listbox(lua_State *L) {
 	return 1;
 }
 
+static int lua_gimg(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc < 1) return luaL_error(L, "wrong number of arguments");
+#endif
+	lpp_texture *text = (lpp_texture*)(luaL_checkinteger(L, 1));
+#ifndef SKIP_ERROR_HANDLING	
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+#endif
+	
+	float width, height, tex_x, tex_y, tex_w, tex_h;
+	uint32_t color;
+	
+	if (argc > 1) {
+		width = luaL_checknumber(L, 2);
+		height = luaL_checknumber(L, 3);
+		if (argc > 3) {
+			tex_x = luaL_checknumber(L, 4);
+			tex_y = luaL_checknumber(L, 5);
+			tex_w = luaL_checknumber(L, 6);
+			tex_h = luaL_checknumber(L, 7);
+			if (argc == 8) color = luaL_checkinteger(L, 8);
+		}
+	}
+	
+	switch (argc) {
+	case 1:
+		ImGui::Image(text->text, ImVec2(vita2d_texture_get_width(text->text), vita2d_texture_get_height(text->text)));
+		break;
+	case 3:
+		ImGui::Image(text->text, ImVec2(width, height));
+		break;
+	case 7:
+		ImGui::Image(text->text, ImVec2(width, height),
+			ImVec2(tex_x / (float)vita2d_texture_get_width(text->text), tex_y / (float)vita2d_texture_get_height(text->text)),
+			ImVec2((tex_x + tex_w) / (float)vita2d_texture_get_width(text->text), (tex_y + tex_h) / (float)vita2d_texture_get_height(text->text)));
+		break;
+	case 8:
+		ImGui::Image(text->text, ImVec2(width, height),
+			ImVec2(tex_x / (float)vita2d_texture_get_width(text->text), tex_y / (float)vita2d_texture_get_height(text->text)),
+			ImVec2((tex_x + tex_w) / (float)vita2d_texture_get_width(text->text), (tex_y + tex_h) / (float)vita2d_texture_get_height(text->text)),
+			ImVec4((float)(color & 0xFF) / 255.0f, (float)((color >> 8) & 0xFF) / 255.0f, (float)((color >> 16) & 0xFF) / 255.0f, (float)((color >> 24) & 0xFF) / 255.0f));
+		break;
+	default:
+		return luaL_error(L, "wrong number of arguments");
+	}
+	
+	return 0;
+}
+
 //Register our Gui Functions
 static const luaL_Reg Gui_functions[] = {
   {"init",                lua_init},
@@ -671,6 +721,7 @@ static const luaL_Reg Gui_functions[] = {
   {"setWidgetWidth",      lua_widgetwidth},
   {"resetWidgetWidth",    lua_widgetwidthr},
   {"drawListBox",         lua_listbox},
+  {"drawImage",           lua_gimg},
   {0, 0}
 };
 

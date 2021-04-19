@@ -83,7 +83,7 @@ class Graphics {
 		 *
 		 * @param x - X coordinate of the pixel.
 		 * @param y - Y coordinate of the pixel.
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 *
 		 * @return The pixel color value (See ::Color).
 		 */
@@ -169,7 +169,7 @@ class Graphics {
 		 * @param height - Image height.
 		 * @param color - A valid color (See ::Color) <b>(optional)</b>.
 		 *
-		 * @return A valid image id.
+		 * @return A valid image ID.
 		 */
 		int createImage(int width, int height, int color);
 		
@@ -184,7 +184,7 @@ class Graphics {
 		 *
 		 * @param filename - Name of the file to open.
 		 *
-		 * @return A valid image id.
+		 * @return A valid image ID.
 		 */
 		int loadImage(string filename);
 		
@@ -197,7 +197,7 @@ class Graphics {
 		 * Graphics.freeImage(img)
 		 * @endcode
 		 *
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 */
 		void freeImage(int img);
 		
@@ -210,7 +210,7 @@ class Graphics {
 		 * Graphics.setImageFilters(img, FILTER_LINEAR, FILTER_LINEAR)
 		 * @endcode
 		 *
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 * @param min_filter - Min filter to use.
 		 * @param mag_filter - Mag filter to use.
 		 */
@@ -225,7 +225,7 @@ class Graphics {
 		 * width = Graphics.getImageWidth(img)
 		 * @endcode
 		 *
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 * 
 		 * @return The image width in pixels.
 		 */
@@ -240,7 +240,7 @@ class Graphics {
 		 * height = Graphics.getImageHeight(img)
 		 * @endcode
 		 *
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 * 
 		 * @return The image height in pixels.
 		 */
@@ -257,7 +257,7 @@ class Graphics {
 		 *
 		 * @param x - X coordinate of the image in pixels.
 		 * @param y - Y coordinate of the image in pixels.
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 * @param color - Image tint color (See ::Color) <b>(optional)</b>.
 		 *
 		 */
@@ -274,7 +274,7 @@ class Graphics {
 		 *
 		 * @param x - X coordinate of the image in pixels.
 		 * @param y - Y coordinate of the image in pixels.
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 * @param rad - Rotation radius.
 		 * @param color - Image tint color (See ::Color) <b>(optional)</b>.
 		 *
@@ -292,7 +292,7 @@ class Graphics {
 		 *
 		 * @param x - X coordinate of the image in pixels.
 		 * @param y - Y coordinate of the image in pixels.
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 * @param x_scale - Scale value for X parameter.
 		 * @param y_scale - Scale value for Y parameter.
 		 * @param color - Image tint color (See ::Color) <b>(optional)</b>.
@@ -311,7 +311,7 @@ class Graphics {
 		 *
 		 * @param x - X coordinate of the image in pixels.
 		 * @param y - Y coordinate of the image in pixels.
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 * @param x_start - Image X coordinate for the partial drawing.
 		 * @param y_start - Image Y coordinate for the partial drawing.
 		 * @param width - Partial drawing width.
@@ -332,7 +332,7 @@ class Graphics {
 		 *
 		 * @param x - X coordinate of the image in pixels.
 		 * @param y - Y coordinate of the image in pixels.
-		 * @param img - A valid image id.
+		 * @param img - A valid image ID.
 		 * @param x_start - Image X coordinate for the partial drawing.
 		 * @param y_start - Image Y coordinate for the partial drawing.
 		 * @param width - Partial drawing width.

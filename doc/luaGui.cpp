@@ -521,6 +521,27 @@ class Gui {
 		void drawProgressbar(number fraction, number w, number h);
 		
 		/**
+		 * Draw an image in the Gui subsystem.
+		 * \ingroup Gui
+		 *
+		 * @par Usage example:
+		 * @code
+		 * icon = Graphics.loadImage("app0:/icon.png")
+		 * Gui.drawImage(icon, 32, 32, 0, 0, 20, 20)
+		 * @endcode
+		 *
+		 * @param img - A valid image ID.
+		 * @param width - Width in pixels of the widget <b>(optional)</b>.
+		 * @param height - Height in pixels of the widget <b>(optional)</b>.
+		 * @param img_x - Source image X coordinate <b>(optional)</b>.
+		 * @param img_y - Source image Y coordinate <b>(optional)</b>.
+		 * @param img_w - Source image width <b>(optional)</b>.
+		 * @param img_h - Source image height <b>(optional)</b>.
+		 * @param color - Image tint color (See ::Color) <b>(optional)</b>.
+		 */
+		void drawImage(int img, number width, number height, number img_x, number img_y, number img_w, number img_h, int color);
+		
+		/**
 		 * Set next widget position.
 		 * \ingroup Gui
 		 *

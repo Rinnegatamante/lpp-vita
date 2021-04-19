@@ -53,7 +53,7 @@ class Render {
 		 * @endcode
 		 *
 		 * @param v - A table with the model vertices.
-		 * @param texture - Texture ID to use.
+		 * @param texture - A valid image ID.
 		 *
 		 * @return A valid model ID.
 		 */
