@@ -50,6 +50,7 @@ var group___gui =
     [ "drawListBox", "group___gui.html#ga844150a68617fd5913b5a096d7df0a5c", null ],
     [ "drawColorPicker", "group___gui.html#gac251abfdb1a9fcd4e64b71bb328d3636", null ],
     [ "drawProgressbar", "group___gui.html#gac364768279d640a27d7fbbd4e75dded1", null ],
+    [ "drawImage", "group___gui.html#gad8cafabbb189ee2e1c340540f2b00393", null ],
     [ "setWidgetPos", "group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d", null ],
     [ "setWidgetWidth", "group___gui.html#ga207194003ed5aa866cdc5ba7e24dade5", null ],
     [ "resetWidgetWidth", "group___gui.html#ga1ac27e6670503b8bbe39e192c4daf924", null ]

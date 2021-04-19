@@ -233,6 +233,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gac364768279d640a27d7fbbd4e75dded1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#gac364768279d640a27d7fbbd4e75dded1">Gui.drawProgressbar</a> (number fraction, number w, number h)</td></tr>
 <tr class="memdesc:gac364768279d640a27d7fbbd4e75dded1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a progressbar.  <a href="#gac364768279d640a27d7fbbd4e75dded1">More...</a><br /></td></tr>
 <tr class="separator:gac364768279d640a27d7fbbd4e75dded1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad8cafabbb189ee2e1c340540f2b00393"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#gad8cafabbb189ee2e1c340540f2b00393">Gui.drawImage</a> (int img, number width, number height, number img_x, number img_y, number img_w, number img_h, int color)</td></tr>
+<tr class="memdesc:gad8cafabbb189ee2e1c340540f2b00393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an image in the <a class="el" href="class_gui.html">Gui</a> subsystem.  <a href="#gad8cafabbb189ee2e1c340540f2b00393">More...</a><br /></td></tr>
+<tr class="separator:gad8cafabbb189ee2e1c340540f2b00393"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga55d8ae56b3d6dc53f8821717bb15524d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d">Gui.setWidgetPos</a> (number x, number y)</td></tr>
 <tr class="memdesc:ga55d8ae56b3d6dc53f8821717bb15524d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set next widget position.  <a href="#ga55d8ae56b3d6dc53f8821717bb15524d">More...</a><br /></td></tr>
 <tr class="separator:ga55d8ae56b3d6dc53f8821717bb15524d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1394,6 +1397,84 @@ Functions</h2></td></tr>
     <tr><td class="paramname">fraction</td><td>- Progress value to show in 0.0 - 1.0 range. </td></tr>
     <tr><td class="paramname">w</td><td>- Width of the element in pixels <b>(optional)</b>. </td></tr>
     <tr><td class="paramname">h</td><td>- Height of the element in pixels <b>(optional)</b>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="gad8cafabbb189ee2e1c340540f2b00393"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Gui.drawImage </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>img</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>img_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>img_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>img_w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>img_h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Draw an image in the <a class="el" href="class_gui.html">Gui</a> subsystem. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">icon = <a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec">loadImage</a>(<span class="stringliteral">&quot;app0:/icon.png&quot;</span>)</div><div class="line"><a class="code" href="class_gui.html">Gui</a>.<a class="code" href="group___gui.html#gad8cafabbb189ee2e1c340540f2b00393">drawImage</a>(icon, 32, 32, 0, 0, 20, 20)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">img</td><td>- A valid image ID. </td></tr>
+    <tr><td class="paramname">width</td><td>- Width in pixels of the widget <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">height</td><td>- Height in pixels of the widget <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">img_x</td><td>- Source image X coordinate <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">img_y</td><td>- Source image Y coordinate <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">img_w</td><td>- Source image width <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">img_h</td><td>- Source image height <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">color</td><td>- Image tint color (See <a class="el" href="class_color.html">Color</a>) <b>(optional)</b>. </td></tr>
   </table>
   </dd>
 </dl>

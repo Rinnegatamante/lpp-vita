@@ -163,14 +163,14 @@ var NAVTREEINDEX0 =
 "group___gui.html":[1,6],
 "group___gui.html#ga073eb6590c7406bc5738051fa77abadc":[1,6,9],
 "group___gui.html#ga152a8f59cff2307938a5ba45bfd166f5":[1,6,21],
-"group___gui.html#ga1ac27e6670503b8bbe39e192c4daf924":[1,6,37],
-"group___gui.html#ga207194003ed5aa866cdc5ba7e24dade5":[1,6,36],
+"group___gui.html#ga1ac27e6670503b8bbe39e192c4daf924":[1,6,38],
+"group___gui.html#ga207194003ed5aa866cdc5ba7e24dade5":[1,6,37],
 "group___gui.html#ga35564cc70fe4caaaf76aefe027635d3b":[1,6,7],
 "group___gui.html#ga39a7010b3c8b9064e8d8a795afa6614c":[1,6,10],
 "group___gui.html#ga50db6d82e89231e352ddb46ed722ce91":[1,6,29],
 "group___gui.html#ga541e622f816c1625bf130262edc5d195":[1,6,5],
 "group___gui.html#ga55cf27c24cc83ac7473144fa83ae388e":[1,6,4],
-"group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d":[1,6,35],
+"group___gui.html#ga55d8ae56b3d6dc53f8821717bb15524d":[1,6,36],
 "group___gui.html#ga566d9ecdc5ef81dfa44b7c5fdef44705":[1,6,13],
 "group___gui.html#ga58907e448ad5c5e6a3a7f35ac3591e0d":[1,6,8],
 "group___gui.html#ga60607cef457f72d6c84965c01d4f768e":[1,6,24],
@@ -193,6 +193,7 @@ var NAVTREEINDEX0 =
 "group___gui.html#gacd5c206162d7edd0011cdc741f76ff14":[1,6,25],
 "group___gui.html#gad0d5c1eb6529b196145efea74bd1ce37":[1,6,16],
 "group___gui.html#gad4f25d8455b5cd5f1fb747c6f3687526":[1,6,27],
+"group___gui.html#gad8cafabbb189ee2e1c340540f2b00393":[1,6,35],
 "group___gui.html#gade5cfa37893d3071d89f901600e8aa8a":[1,6,17],
 "group___gui.html#gae67a5a6f71b563533b786feb34c5d151":[1,6,30],
 "group___gui.html#gaeafd6eab5ebb9089d9458783cd3d3b14":[1,6,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "group___network.html#ga9a1599563b3b6ea1ff1da269afcdcec2":[1,9,9],
 "group___network.html#ga9ce8fa43da8b9cf1b03f496641706178":[1,9,12],
 "group___network.html#gab931ed5f9102ee0803dcd659ccd2b799":[1,9,4],
-"group___network.html#gga837a089a977b319a11edfb8022d9e47da043ba2564c9f9e1763920ce379e6d703":[1,9,0,4],
-"group___network.html#gga837a089a977b319a11edfb8022d9e47da2cd231aca8f1b2f19fc13d07cb6faa2e":[1,9,0,6]
+"group___network.html#gga837a089a977b319a11edfb8022d9e47da043ba2564c9f9e1763920ce379e6d703":[1,9,0,4]
 };
