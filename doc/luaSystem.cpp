@@ -859,7 +859,7 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.extractFromZip("app0:/files.zip", "image.jpg" "ux0:/data/app_files/my_image.jpg")
+		 * System.extractFromZip("app0:/files.zip", "image.jpg", "ux0:/data/app_files/my_image.jpg")
 		 * @endcode
 		 *
 		 * @param filename - The filename of the ZIP archive.
@@ -890,7 +890,7 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.extractFromZipAsync("app0:/files.zip", "image.jpg" "ux0:/data/app_files/my_image.jpg")
+		 * System.extractFromZipAsync("app0:/files.zip", "image.jpg", "ux0:/data/app_files/my_image.jpg")
 		 * @endcode
 		 *
 		 * @param filename - The filename of the ZIP archive.
