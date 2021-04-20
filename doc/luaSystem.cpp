@@ -988,7 +988,7 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.executeURI("psgm:play?titleid=MLCL00001")
+		 * System.executeUri("psgm:play?titleid=MLCL00001")
 		 * @endcode
 		 *
 		 * @param uri - URI to exec.
