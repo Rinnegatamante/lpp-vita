@@ -92,7 +92,8 @@ extern float video_audio_tick;
 // Internal structs
 struct lpp_texture{
 	uint32_t magic;
-	vita2d_texture* text;
+	vita2d_texture *text;
+	void *data;
 };
 
 struct DecodedMusic{

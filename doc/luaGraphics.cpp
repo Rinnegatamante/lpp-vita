@@ -189,6 +189,52 @@ class Graphics {
 		int loadImage(string filename);
 		
 		/**
+		 * Load a .gif animated image.
+		 * \ingroup Graphics
+		 *
+		 * @par Usage example:
+		 * @code
+		 * img = Graphics.loadAnimatedImage("app0:/image.gif")
+		 * @endcode
+		 *
+		 * @param filename - Name of the file to open.
+		 *
+		 * @return A valid image ID.
+		 */
+		int loadAnimatedImage(string filename);
+		
+		/**
+		 * Gets the number of frames of a loaded animated image.
+		 * \ingroup Graphics
+		 *
+		 * @par Usage example:
+		 * @code
+		 * img = Graphics.loadAnimatedImage("app0:/image.gif")
+		 * frames = Graphics.getImageFramesNum(img)
+		 * @endcode
+		 *
+		 * @param img - A valid image ID.
+		 *
+		 * @return The number of frames for the given image.
+		 */
+		int getImageFramesNum(int img);
+		
+		/**
+		 * Set current active frame for a loaded animated image.
+		 * \ingroup Graphics
+		 *
+		 * @par Usage example:
+		 * @code
+		 * img = Graphics.loadAnimatedImage("app0:/image.gif")
+		 * Graphics.setImageFrame(img, 8)
+		 * @endcode
+		 *
+		 * @param img - A valid image ID.
+		 * @param frame - The frame to set as active.
+		 */
+		void setImageFrame(int img, int frame);
+		
+		/**
 		 * Free a loaded image.
 		 * \ingroup Graphics
 		 *

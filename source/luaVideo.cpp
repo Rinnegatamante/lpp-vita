@@ -135,6 +135,7 @@ static int lua_init(lua_State *L){
 		memset(&videoFrame[i], 0, sizeof(SceAvPlayerFrameInfo));
 		out_text[i].magic = 0xABADBEEF;
 		out_text[i].text = videobuf[i];
+		out_text[i].data = NULL;
 	}
 	
 	sceSysmoduleLoadModule(SCE_SYSMODULE_AVPLAYER);

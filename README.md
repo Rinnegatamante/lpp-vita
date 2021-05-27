@@ -22,6 +22,7 @@ Official documentation: http://rinnegatamante.github.io/lpp-vita/
 * Native support to OBJ models.
 * Native support to TTF/PGF/PVF/OTF fonts.
 * Native support to BMP/PNG/JPG images.
+* Native support to GIF animated images.
 * Built-in rescaler to perform portings from [lpp-3ds](https://github.com/Rinnegatamante/lpp-3ds) easily.
 
 ##### Multimedia
@@ -136,3 +137,4 @@ Lua Player Plus Vita supports different flags to enables some features:<br>
 * **Misledz** for the Lua Player Plus logo.
 * **Arkanite** for providing a sample for sceAvPlayer used to implement the Video module.
 * **EasyRPG Team** for the Audio Decoder used for Sound module.
+* **lecram** for gifdec usd for animated GIFs support.
