@@ -151,6 +151,15 @@ Functions</h2></td></tr>
 <tr class="memitem:gab77473fad34dae9c6d5b500fa6940fec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec">Graphics.loadImage</a> (string filename)</td></tr>
 <tr class="memdesc:gab77473fad34dae9c6d5b500fa6940fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a .png/.jpg/.bmp image.  <a href="#gab77473fad34dae9c6d5b500fa6940fec">More...</a><br /></td></tr>
 <tr class="separator:gab77473fad34dae9c6d5b500fa6940fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab049437522e2c2472fb1ccb6042fc74c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c">Graphics.loadAnimatedImage</a> (string filename)</td></tr>
+<tr class="memdesc:gab049437522e2c2472fb1ccb6042fc74c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a .gif animated image.  <a href="#gab049437522e2c2472fb1ccb6042fc74c">More...</a><br /></td></tr>
+<tr class="separator:gab049437522e2c2472fb1ccb6042fc74c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga18afd280eb94949f64cc8918791027d9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga18afd280eb94949f64cc8918791027d9">Graphics.getImageFramesNum</a> (int img)</td></tr>
+<tr class="memdesc:ga18afd280eb94949f64cc8918791027d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of frames of a loaded animated image.  <a href="#ga18afd280eb94949f64cc8918791027d9">More...</a><br /></td></tr>
+<tr class="separator:ga18afd280eb94949f64cc8918791027d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa240772606b54085269b81d41ed6d864"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gaa240772606b54085269b81d41ed6d864">Graphics.setImageFrame</a> (int img, int frame)</td></tr>
+<tr class="memdesc:gaa240772606b54085269b81d41ed6d864"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set current active frame for a loaded animated image.  <a href="#gaa240772606b54085269b81d41ed6d864">More...</a><br /></td></tr>
+<tr class="separator:gaa240772606b54085269b81d41ed6d864"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabd3d334b8354565b2df1d714be4de055"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gabd3d334b8354565b2df1d714be4de055">Graphics.freeImage</a> (int img)</td></tr>
 <tr class="memdesc:gabd3d334b8354565b2df1d714be4de055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free a loaded image.  <a href="#gabd3d334b8354565b2df1d714be4de055">More...</a><br /></td></tr>
 <tr class="separator:gabd3d334b8354565b2df1d714be4de055"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -682,6 +691,94 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A valid image ID. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gab049437522e2c2472fb1ccb6042fc74c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Graphics.loadAnimatedImage </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load a .gif animated image. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">img = <a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c">loadAnimatedImage</a>(<span class="stringliteral">&quot;app0:/image.gif&quot;</span>)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>- Name of the file to open.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A valid image ID. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga18afd280eb94949f64cc8918791027d9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Graphics.getImageFramesNum </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>img</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the number of frames of a loaded animated image. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">img = <a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c">loadAnimatedImage</a>(<span class="stringliteral">&quot;app0:/image.gif&quot;</span>)</div><div class="line">frames = <a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#ga18afd280eb94949f64cc8918791027d9">getImageFramesNum</a>(img)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">img</td><td>- A valid image ID.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of frames for the given image. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaa240772606b54085269b81d41ed6d864"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Graphics.setImageFrame </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>img</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>frame</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set current active frame for a loaded animated image. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">img = <a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c">loadAnimatedImage</a>(<span class="stringliteral">&quot;app0:/image.gif&quot;</span>)</div><div class="line"><a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gaa240772606b54085269b81d41ed6d864">setImageFrame</a>(img, 8)</div></div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">img</td><td>- A valid image ID. </td></tr>
+    <tr><td class="paramname">frame</td><td>- The frame to set as active. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

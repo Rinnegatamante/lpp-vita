@@ -31,6 +31,7 @@ var searchData=
   ['getgain',['getGain',['../group___camera.html#ga8da4919f5222efc821fabbceea4ffbad',1,'Camera']]],
   ['getgpuspeed',['getGpuSpeed',['../group___system.html#ga1e72ab3cccf95a53362f5ea17edcf295',1,'System']]],
   ['getgpuxbarspeed',['getGpuXbarSpeed',['../group___system.html#ga0dfeddb6754b9bdf9e5db8c568b1d127',1,'System']]],
+  ['getimageframesnum',['getImageFramesNum',['../group___graphics.html#ga18afd280eb94949f64cc8918791027d9',1,'Graphics']]],
   ['getimageheight',['getImageHeight',['../group___graphics.html#gaa7d1bddf17c526ce2bc14746d5c43de9',1,'Graphics']]],
   ['getimagewidth',['getImageWidth',['../group___graphics.html#ga4ad52d3bcc82b8256254980da808ca89',1,'Graphics']]],
   ['getinput',['getInput',['../group___keyboard.html#gaee54328ece94b848e0c69d67aa0d0bd8',1,'Keyboard']]],
