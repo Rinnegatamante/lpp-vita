@@ -422,7 +422,7 @@ class System{
 		 * life = System.getBatteryLife()
 		 * @endcode
 		 *
-		 * @return The battery life in seconds.
+		 * @return The battery life in minutes.
 		 */
 		int getBatteryLife(void);
 		
