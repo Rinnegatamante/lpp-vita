@@ -16,13 +16,6 @@ steps:
   displayName: 'Install 32 bit libraries'
 
 - script: |
-    git clone https://github.com/hyln9/vita-libdl
-    cd vita-libdl
-    make
-    sudo -E make install
-  displayName: 'Build vita-libdl'
-
-- script: |
     git clone https://github.com/hyln9/vita-luajit
     cd vita-luajit/src
     make HOST_CC="gcc -m32" CROSS=arm-vita-eabi- TARGET_SYS=PSP2 TARGET_FLAGS="-marm -fno-optimize-sibling-calls" PREFIX="ux0:/data/luajit"hi
