@@ -33,6 +33,7 @@
 #include <unistd.h>
 extern "C"{
 #include <vitasdk.h>
+#include <taihen.h>
 }
 #include "include/zip.h"
 #include "include/unzip.h"
@@ -1641,6 +1642,57 @@ static int lua_bootparams(lua_State *L){
 	return 1;
 }
 
+static int lua_loadplugin(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+#endif
+	char *fname = luaL_checkstring(L, 1);
+	SceUID modid = sceKernelLoadStartModule(fname, 0, NULL, 0, NULL, NULL);
+	lua_pushinteger(L, modid);
+	return 1;
+}
+
+static int lua_loadkplugin(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+#endif
+	char *fname = luaL_checkstring(L, 1);
+	SceUID modid = taiLoadKernelModule(fname, 0, NULL);
+    if (modid >= 0) {
+		int res = taiStartKernelModule(modid, 0, NULL, 0, NULL, NULL);
+		if (res < 0)
+			taiStopUnloadKernelModule(modid, 0, NULL, 0, NULL, NULL);
+	}
+	lua_pushinteger(L, modid);
+	return 1;
+}
+
+static int lua_unloadplugin(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+#endif
+	SceUID modid = luaL_checkinteger(L, 1);
+	sceKernelStopUnloadModule(modid, 0, NULL, 0, NULL, NULL);
+	return 0;
+}
+
+static int lua_unloadkplugin(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+#endif
+	SceUID modid = luaL_checkinteger(L, 1);
+	taiStopUnloadKernelModule(modid, 0, NULL, 0, NULL, NULL);
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
   {"openFile",                  lua_openfile},
@@ -1722,6 +1774,10 @@ static const luaL_Reg System_functions[] = {
   {"uninstallApp",              lua_demote},
   {"doesAppExist",              lua_isappin},
   {"getBootParams",             lua_bootparams},
+  {"loadUserPlugin",            lua_loadplugin},
+  {"loadKernelPlugin",          lua_loadkplugin},
+  {"unloadUserPlugin",          lua_unloadplugin},
+  {"unloadKernelPlugin",        lua_unloadkplugin},
   {0, 0}
 };
 

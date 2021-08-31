@@ -1209,5 +1209,69 @@ class System{
 		 * @return The params passed to the app when it got launched.
 		 */
 		string getBootParams(void);
+		
+		/**
+		 * Load and start an user plugin.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * plug_id = System.loadUserPlugin("ux0:data/plugin.suprx")
+		 * @endcode
+		 *
+		 * @param path - The path to the plugin to load.
+		 *
+		 * @return An identifier to the loaded module.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		int loadUserPlugin(string path);
+		
+		/**
+		 * Load and start a kernel plugin.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * plug_id = System.loadKernelPlugin("ux0:data/plugin.skprx")
+		 * @endcode
+		 *
+		 * @param path - The path to the plugin to load.
+		 *
+		 * @return An identifier to the loaded module.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		int loadKernelPlugin(string path);
+		
+		/**
+		 * Stop and unload an user plugin.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.unloadUserPlugin(plug_id)
+		 * @endcode
+		 *
+		 * @param plug_id - The module identifier for the plugin to unload.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		void unloadUserPlugin(int plug_id);
+		
+		/**
+		 * Stop and unload a kernel plugin.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.unloadKernelPlugin(plug_id)
+		 * @endcode
+		 *
+		 * @param plug_id - The module identifier for the plugin to unload.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		void unloadUserPlugin(int plug_id);
 
 }
