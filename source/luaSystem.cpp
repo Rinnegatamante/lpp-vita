@@ -1693,6 +1693,17 @@ static int lua_unloadkplugin(lua_State *L){
 	return 0;
 }
 
+static int lua_unmountvirtual(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+#endif
+	char *fname = luaL_checkstring(L, 1);
+	sceAppMgrUmount(fname);
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
   {"openFile",                  lua_openfile},
@@ -1778,6 +1789,7 @@ static const luaL_Reg System_functions[] = {
   {"loadKernelPlugin",          lua_loadkplugin},
   {"unloadUserPlugin",          lua_unloadplugin},
   {"unloadKernelPlugin",        lua_unloadkplugin},
+  {"unmountMountpoint",         lua_unmountvirtual},
   {0, 0}
 };
 

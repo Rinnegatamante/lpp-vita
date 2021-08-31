@@ -1273,5 +1273,20 @@ class System{
 		 * @note This function is available only in unsafe mode.
 		 */
 		void unloadUserPlugin(int plug_id);
+		
+		/**
+		 * Unmount a virtual mountpoint.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.unmountMountpoint("app0:")
+		 * @endcode
+		 *
+		 * @param mnt - The mountpoint to unmount.
+		 *
+		 * @note This function is available only in unsafe mode.
+		 */
+		void unmountMountpoint(string mnt);
 
 }
