@@ -50,6 +50,38 @@ class Font {
 		void setPixelSizes(int font, int size);
 		
 		/**
+		 * Calculate width for a given text and a given font.
+		 * \ingroup Font
+		 *
+		 * @par Usage example:
+		 * @code
+		 * width = Font.getTextWidth(fnt, "Hello World")
+		 * @endcode
+		 *
+		 * @param font - A valid font loaded with Font.load.
+		 * @param text - Text to calculate width of.
+		 *
+		 * @return The text width in pixels.
+		 */
+		int getTextWidth(int font, string text);
+		
+		/**
+		 * Calculate height for a given text and a given font.
+		 * \ingroup Font
+		 *
+		 * @par Usage example:
+		 * @code
+		 * width = Font.getTextHeight(fnt, "Hello World")
+		 * @endcode
+		 *
+		 * @param font - A valid font loaded with Font.load.
+		 * @param text - Text to calculate width of.
+		 *
+		 * @return The text height in pixels.
+		 */
+		int getTextHeight(int font, string text);
+		
+		/**
 		 * Print a text on screen using a font.
 		 * \ingroup Font
 		 *

@@ -620,18 +620,59 @@ static int lua_fprint(lua_State *L) {
 #ifdef PARANOID
 	if (!draw_state) return luaL_error(L, "print can't be called outside a blending phase.");
 #endif
-	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
+	ttf *font = (ttf *)(luaL_checkinteger(L, 1));
 	float x = luaL_checknumber(L, 2);
 	float y = luaL_checknumber(L, 3);
-	char* text = (char*)(luaL_checkstring(L, 4));
+	char *text = (char *)(luaL_checkstring(L, 4));
 	uint32_t color = luaL_checkinteger(L,5);
 #ifndef SKIP_ERROR_HANDLING
 	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
 #endif
-	if (font->f != NULL) vita2d_font_draw_text(font->f, x, y + font->size, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
-	else if (font->f2 != NULL) vita2d_pgf_draw_text(font->f2, x, y + 17.402 * font->scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->scale, text);
-	else vita2d_pvf_draw_text(font->f3, x, y + 17.402 * font->scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->scale, text);
+	if (font->f != NULL)
+		vita2d_font_draw_text(font->f, x, y + font->size, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
+	else if (font->f2 != NULL)
+		vita2d_pgf_draw_text(font->f2, x, y + 17.402 * font->scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->scale, text);
+	else
+		vita2d_pvf_draw_text(font->f3, x, y + 17.402 * font->scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->scale, text);
 	return 0;
+}
+
+static int lua_fwidth(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+#endif
+	ttf *font = (ttf *)(luaL_checkinteger(L, 1));
+	char *text = (char *)(luaL_checkstring(L, 2));
+#ifndef SKIP_ERROR_HANDLING
+	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+#endif
+	if (font->f != NULL)
+		lua_pushinteger(L, vita2d_font_text_width(font->f, font->size, text));
+	else if (font->f2 != NULL)
+		lua_pushinteger(L, vita2d_pgf_text_width(font->f2, font->scale, text));
+	else
+		lua_pushinteger(L, vita2d_pvf_text_width(font->f3, font->scale, text));
+	return 1;
+}
+
+static int lua_fheight(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+#endif
+	ttf *font = (ttf*)(luaL_checkinteger(L, 1));
+	char *text = (char*)(luaL_checkstring(L, 2));
+#ifndef SKIP_ERROR_HANDLING
+	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+#endif
+	if (font->f != NULL)
+		lua_pushinteger(L, vita2d_font_text_height(font->f, font->size, text));
+	else if (font->f2 != NULL)
+		lua_pushinteger(L, vita2d_pgf_text_height(font->f2, font->scale, text));
+	else
+		lua_pushinteger(L, vita2d_pvf_text_height(font->f3, font->scale, text));
+	return 1;
 }
 
 static int lua_rescaleron(lua_State *L) {
@@ -713,7 +754,9 @@ static const luaL_Reg Graphics_functions[] = {
 //Register our Font Functions
 static const luaL_Reg Font_functions[] = {
   {"load",            lua_loadFont}, 
-  {"print",           lua_fprint}, 
+  {"print",           lua_fprint},
+  {"getTextWidth",    lua_fwidth},
+  {"getTextHeight",   lua_fheight}, 
   {"setPixelSizes",   lua_fsize}, 
   {"unload",          lua_unloadFont}, 
   {0, 0}
