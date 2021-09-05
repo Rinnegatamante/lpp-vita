@@ -1,0 +1,36 @@
+/**
+@author Rinnegatamante
+@brief Main page for presenting the lpp-vita documentation.
+@file
+*/
+
+/**
+@mainpage Lua Player Plus Vita - Documentation
+
+## Abstract ##
+
+This documentation contains documentation and usage samples for every function available with lpp-vita.\n
+It is aimed at people who want to write applications for the PSVita/PSTV in Lua with lpp-vita and want 
+to get an overview about the functions they can use.
+
+## License ##
+Lua Player Plus Vita is released under the terms of the [GPLv3 license](https://github.com/Rinnegatamante/lpp-vita/blob/master/LICENSE.txt), here is a <a href="https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)">non-legally binding summary of what you can do</a>.
+
+------------------------------
+
+## Safe mode limitations ##
+
+When using the safe eboot.bin for your application, you'll have a few limitations:\n\n
+
+- Cannot open files from paths different than <b>ux0:/data</b> or <b>app0:/</b>.
+- Cannot intercept <b>SCE_CTRL_VOLUP</b>, <b>SCE_CTRL_VOLDOWN</b>, <b>SCE_CTRL_POWER</b> buttons.
+- Cannot use <b>Controls.headsetStatus</b> function.
+
+\n
+
+------------------------------
+
+## Useful links ##
+Source of lpp-vita: https://github.com/Rinnegatamante/lpp-vita\n
+Nightly builds: https://github.com/Rinnegatamante/lpp-vita/releases/tag/Nightly\n
+*/
