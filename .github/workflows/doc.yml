@@ -21,14 +21,10 @@ jobs:
       run: |
         cd doc
         doxygen
-        cp search.js html/search/search.js
-        echo "<script id=\"searchdata\" type=\"text/xmldata\">" >> html/search.html
-        cat searchdata.xml >> html/search.html
-        echo "</script>" >> html/search.html
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@4.1.4
       if: contains(github.ref,'refs/heads/master')
       with:
         branch: gh-pages
-        folder: docs
+        folder: doc/html
         clean: false

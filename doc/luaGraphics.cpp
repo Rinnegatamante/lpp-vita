@@ -154,7 +154,7 @@ class Graphics {
 		 * @param rad - Radius size of the circle.
 		 * @param color - A valid color (See ::Color).
 		 */
-		void fillCircle(number x1, number y1, number rad, int color);
+		void fillCircle(number x, number y, number rad, int color);
 		
 		/**
 		 * Create an empty image.

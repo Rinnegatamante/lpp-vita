@@ -486,7 +486,7 @@ class Camera {
 		 *
 		 * @param mode - Mode to set.
 		 */
-		void setNightmode(CameraNightmode value);
+		void setNightmode(CameraNightmode mode);
 		
 		/**
 		 * Get current camera nightmode mode.
