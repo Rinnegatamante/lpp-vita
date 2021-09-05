@@ -2,7 +2,7 @@
 	<img src="https://github.com/gnmmarechal/lpp-vita/raw/master/banner.png?raw=true"/>
 </p>
 
-[![Documentation](https://travis-ci.org/Rinnegatamante/lpp-vita.png?branch=master)](https://travis-ci.org/Rinnegatamante/lpp-vita) [![Build Status](https://dev.azure.com/rinnegatamante/lpp-vita/_apis/build/status/Rinnegatamante.lpp-vita?branchName=master)](https://dev.azure.com/rinnegatamante/lpp-vita/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/rinnegatamante/lpp-vita/_apis/build/status/Rinnegatamante.lpp-vita?branchName=master)](https://dev.azure.com/rinnegatamante/lpp-vita/_build/latest?definitionId=1&branchName=master)
 
 # Description
 
