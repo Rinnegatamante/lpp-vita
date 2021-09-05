@@ -20,19 +20,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 @licend  The above is the entire license notice
 for the JavaScript code in this file
 */
-var NAVTREE =
-[
-  [ "Lua Player Plus Vita", "index.html", [
-    [ "Lua Player Plus Vita - Documentation", "index.html", null ],
-    [ "Modules", "modules.html", "modules" ]
-  ] ]
-];
-
-var NAVTREEINDEX =
-[
-"group___camera.html",
-"group___network.html#ga837a089a977b319a11edfb8022d9e47d"
-];
-
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var menudata={children:[
+{text:"Main Page",url:"index.html"},
+{text:"Modules",url:"modules.html"}]}

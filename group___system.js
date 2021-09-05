@@ -109,5 +109,9 @@ var group___system =
     [ "installApp", "group___system.html#gaf731f171a7dab479d82acd3d7921cc8b", null ],
     [ "uninstallApp", "group___system.html#gaac13ec04c493cc8c3866f1ff28f93b9d", null ],
     [ "doesAppExist", "group___system.html#gaab021ebf110e72c97769dc55953ba89a", null ],
-    [ "getBootParams", "group___system.html#ga31cc4c4e7e27722f1acd690c41d34898", null ]
+    [ "getBootParams", "group___system.html#ga31cc4c4e7e27722f1acd690c41d34898", null ],
+    [ "loadUserPlugin", "group___system.html#ga0904c2b93415a6d6746b7fedef6f8cac", null ],
+    [ "loadKernelPlugin", "group___system.html#ga5988642adcafd6bba628391e340ece44", null ],
+    [ "unloadUserPlugin", "group___system.html#ga9bdabd2a38b4ad66e1faa53ccbaf183b", null ],
+    [ "unmountMountpoint", "group___system.html#ga75877661c3f115df6d5164e0d028969d", null ]
 ];

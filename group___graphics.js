@@ -12,7 +12,7 @@ var group___graphics =
     [ "drawLine", "group___graphics.html#ga4eef9dc05929c765f5174b53f524f095", null ],
     [ "fillRect", "group___graphics.html#ga87f7ac1907b558897936740fd3d09851", null ],
     [ "fillEmptyRect", "group___graphics.html#gaf252f2867a352b99d5322536fd86a932", null ],
-    [ "fillCircle", "group___graphics.html#gaeb1eb389e8048814dcfafb4649f0b35c", null ],
+    [ "fillCircle", "group___graphics.html#gade38ce6cff7209134a8a0cbf65058b03", null ],
     [ "createImage", "group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6", null ],
     [ "loadImage", "group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec", null ],
     [ "loadAnimatedImage", "group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c", null ],

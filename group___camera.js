@@ -82,6 +82,6 @@ var group___camera =
     [ "getWhiteBalance", "group___camera.html#gabce49a805a664b20d748cb3812eb515e", null ],
     [ "setBacklight", "group___camera.html#ga1f21a00e345c1dc5760bb9401ce26335", null ],
     [ "getBacklight", "group___camera.html#ga16e415fed6450a38a9b3cca2be69ccf0", null ],
-    [ "setNightmode", "group___camera.html#gaddd8b059ac6d9bc572761bf240789417", null ],
+    [ "setNightmode", "group___camera.html#gaac6567d538e968d28519d169cf6cf6f9", null ],
     [ "getNightmode", "group___camera.html#ga47869c2cca6424ee0eab75f8f6352c7d", null ]
 ];
