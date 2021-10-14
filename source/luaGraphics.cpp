@@ -67,9 +67,42 @@ struct animated_texture {
 static bool isRescaling = false;
 static rescaler scaler;
 
+static char asyncImagePath[512];
+
 #ifdef PARANOID
 static bool draw_state = false;
 #endif
+
+static int imgThread(unsigned int args, void* arg)
+{
+	char* text = asyncImagePath;
+	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
+	uint16_t magic;
+	sceIoRead(file, &magic, 2);
+	sceIoClose(file);
+	vita2d_texture* result;
+	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
+	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
+	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
+	else 
+	{
+		async_task_num--;
+		asyncResult = 1;
+		sceKernelExitDeleteThread(0);
+		return 0;
+	}
+	lpp_texture* ret = (lpp_texture*)malloc(sizeof(lpp_texture));
+	ret->magic = 0xABADBEEF;
+	ret->text = result;
+	char* buffer = (char*)malloc(32 * sizeof(char));
+	sprintf(buffer, "%i", ret);
+	asyncStrRes = (unsigned char*)buffer;
+	asyncResSize = strlen(buffer);
+	async_task_num--;
+	asyncResult = 1;
+	sceKernelExitDeleteThread(0);
+	return 0;
+}
 
 static int lua_print(lua_State *L) {
 	int argc = lua_gettop(L);
@@ -266,6 +299,25 @@ static int lua_loadimg(lua_State *L) {
 	
 	lua_pushinteger(L, (uint32_t)(ret));
 	return 1;
+}
+
+static int lua_loadimgasync(lua_State *L){
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+#endif
+	char* text = (char*)(luaL_checkstring(L, 1));
+	sprintf(asyncImagePath, text);
+	async_task_num++;
+	SceUID thd = sceKernelCreateThread("Image loader Thread", &imgThread, 0x10000100, 0x100000, 0, 0, NULL);
+	if (thd < 0)
+	{
+		asyncResult = -1;
+		return 0;
+	}
+	asyncResult = 0;
+	sceKernelStartThread(thd, 0, NULL);
+	return 0;
 }
 
 static int lua_loadanimg(lua_State *L) {
@@ -733,6 +785,7 @@ static const luaL_Reg Graphics_functions[] = {
   {"fillEmptyRect",       lua_emptyrect},
   {"fillCircle",          lua_circle},
   {"loadImage",           lua_loadimg},
+  {"loadImageAsync",      lua_loadimgasync},
   {"loadAnimatedImage",   lua_loadanimg},
   {"getImageFramesNum",   lua_getnumframes},
   {"setImageFrame",       lua_setframe},
