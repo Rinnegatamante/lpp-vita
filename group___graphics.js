@@ -15,6 +15,7 @@ var group___graphics =
     [ "fillCircle", "group___graphics.html#gade38ce6cff7209134a8a0cbf65058b03", null ],
     [ "createImage", "group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6", null ],
     [ "loadImage", "group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec", null ],
+    [ "loadImageAsync", "group___graphics.html#ga710a6e4b04bc43c2f15a8c0eb646da08", null ],
     [ "loadAnimatedImage", "group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c", null ],
     [ "getImageFramesNum", "group___graphics.html#ga18afd280eb94949f64cc8918791027d9", null ],
     [ "setImageFrame", "group___graphics.html#gaa240772606b54085269b81d41ed6d864", null ],
