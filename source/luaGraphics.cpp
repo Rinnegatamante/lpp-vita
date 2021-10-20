@@ -95,7 +95,8 @@ static int imgThread(unsigned int args, void* arg)
 	ret->magic = 0xABADBEEF;
 	ret->text = result;
 	ret->data = NULL;
-	char* buffer = (char*)malloc(sizeof(uint32_t) * sizeof(char));
+	char* buffer = (char*)malloc(16);
+	memset(buffer, 0, 16);
 	sprintf(buffer, "%i", ret);
 	asyncStrRes = (unsigned char*)buffer;
 	asyncResSize = strlen(buffer);
