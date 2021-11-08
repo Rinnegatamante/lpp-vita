@@ -98,7 +98,7 @@ var group___system =
     [ "addToZip", "group___system.html#ga8ec793e46b538918bd0ef3d346ec785f", null ],
     [ "getAsyncState", "group___system.html#ga991074c32b2de96dcdbffd54f838ffc6", null ],
     [ "getAsyncResult", "group___system.html#gadccaa5cd953c15915d34152f29f73eaa", null ],
-    [ "takeScreenshot", "group___system.html#ga18a4c6552508903cef46deda340e8157", null ],
+    [ "takeScreenshot", "group___system.html#gadc69d2ef3c7a8e55db90726a81cd7e2d", null ],
     [ "executeUri", "group___system.html#ga23c5a7cd15e2daa6d608e2fa5678ec50", null ],
     [ "reboot", "group___system.html#ga23984244aa92f7902124fbc78ebfa228", null ],
     [ "shutdown", "group___system.html#ga2cf598fa7b2f79eaced6e09500af0fbe", null ],

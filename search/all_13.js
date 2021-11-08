@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['takescreenshot_384',['takeScreenshot',['../group___system.html#ga18a4c6552508903cef46deda340e8157',1,'System']]],
+  ['takescreenshot_384',['takeScreenshot',['../group___system.html#gadc69d2ef3c7a8e55db90726a81cd7e2d',1,'System']]],
   ['tcp_5fsocket_385',['TCP_SOCKET',['../group___socket.html#gga5e092e45f47b7121b20693b23e554b63a0912f90f1ae57c92bd0786aae5e305f6',1,'luaSocket.cpp']]],
   ['term_386',['term',['../group___camera.html#gae927154ac9677d269269165406a7f078',1,'Camera::term()'],['../group___gui.html#ga55cf27c24cc83ac7473144fa83ae388e',1,'Gui::term()'],['../group___network.html#ga46a1eb199529496a3560c8d162f492a2',1,'Network::term()'],['../group___sound.html#ga4d09126cafe47137bc88f9072267c76b',1,'Sound::term()'],['../group___video.html#gaa70ed8a319fc43c04b096966decc71b6',1,'Video::term()']]],
   ['termblend_387',['termBlend',['../group___graphics.html#gaf6c0bffb836a492cfa7d92db3d012da9',1,'Graphics::termBlend()'],['../group___gui.html#gaeafd6eab5ebb9089d9458783cd3d3b14',1,'Gui::termBlend()']]],
