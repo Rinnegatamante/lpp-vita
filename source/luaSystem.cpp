@@ -32,6 +32,8 @@
 #include <string.h>
 #include <unistd.h>
 extern "C"{
+#include <png.h>
+#include <libimagequant.h>
 #include <vitasdk.h>
 #include <taihen.h>
 }
@@ -50,6 +52,9 @@ extern "C"{
 
 #define COPY_BUFFER_SIZE 1024 * 1024
 
+static int FORMAT_BMP = 0;
+static int FORMAT_PNG = 1;
+static int FORMAT_JPG = 2;
 static int FREAD = SCE_O_RDONLY;
 static int FWRITE = SCE_O_WRONLY;
 static int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
@@ -691,15 +696,15 @@ static int lua_screenshot(lua_State *L){
 	if (argc != 1 && argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *filename = luaL_checkstring(L, 1);
-	bool isJPG = (argc > 1) ? lua_toboolean(L, 2) : false;
+	int format = (argc > 1) ? luaL_checkinteger(L, 2) : FORMAT_BMP;
 	int ratio = (argc == 3) ? luaL_checkinteger(L, 3) : 127;
 	SceDisplayFrameBuf param;
 	param.size = sizeof(SceDisplayFrameBuf);
 	sceDisplayWaitVblankStart();
 	sceDisplayGetFrameBuf(&param, SCE_DISPLAY_SETBUF_NEXTFRAME);
-	int fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
-	if (!isJPG){
-		uint8_t* bmp_content = (uint8_t*)malloc(((param.pitch*param.height)<<2)+0x36);
+	if (format == FORMAT_BMP) {
+		SceUID fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
+		uint8_t *bmp_content = (uint8_t*)malloc(((param.pitch*param.height)<<2)+0x36);
 		sceClibMemset(bmp_content, 0, 0x36);
 		*(uint16_t*)&bmp_content[0x0] = 0x4D42;
 		*(uint32_t*)&bmp_content[0x2] = ((param.pitch*param.height)<<2)+0x36;
@@ -723,7 +728,9 @@ static int lua_screenshot(lua_State *L){
 		}
 		sceIoWrite(fd, bmp_content, ((param.pitch*param.height)<<2)+0x36);
 		free(bmp_content);
-	}else{
+		sceIoClose(fd);
+	} else if (format == FORMAT_JPG) {
+		SceUID fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
 		uint32_t in_size = ALIGN((param.width * param.height)<<1, 256);
 		uint32_t out_size = ALIGN(param.width * param.height, 256);
 		uint32_t buf_size = ALIGN(in_size + out_size, 0x40000);
@@ -741,8 +748,55 @@ static int lua_screenshot(lua_State *L){
 		sceJpegEncoderEnd(context);
 		free(context);
 		sceKernelFreeMemBlock(memblock);
+		sceIoClose(fd);
+	} else if (format == FORMAT_PNG) {
+		FILE *fh = fopen(filename, "wb");
+		uint8_t *raw_data = (uint8_t*)malloc((param.width*param.height)<<2);
+		uint32_t *buffer = (uint32_t*)raw_data;
+		uint32_t *framebuf = (uint32_t*)param.base;
+		int y;
+		for (y = 0; y < 544; y++) {
+			memcpy(buffer, framebuf, 960 * 4);
+			buffer += 960;
+			framebuf += param.pitch;
+		}
+		liq_attr *handle = liq_attr_create();
+		liq_image *input_image = liq_image_create_rgba(handle, raw_data, 960, 544, 0);
+		liq_result *res;
+		liq_image_quantize(input_image, handle, &res);
+		uint8_t *quant_raw = (uint8_t*)malloc(960 * 544);
+		liq_set_dithering_level(res, 1.0);
+		liq_write_remapped_image(res, input_image, quant_raw, 960 * 544);
+		const liq_palette *palette = liq_get_palette(res);
+		png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);;
+		png_infop info_ptr = png_create_info_struct(png_ptr);
+		setjmp(png_jmpbuf(png_ptr));
+		png_init_io(png_ptr, fh);
+		png_set_IHDR(png_ptr, info_ptr, 960, 544,
+			8, PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE,
+			PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+		png_color *pal = (png_color*)png_malloc(png_ptr, palette->count*sizeof(png_color));
+		for (int i = 0; i < palette->count; i++){
+			png_color *col = &pal[i];
+			col->red = palette->entries[i].r;
+			col->green = palette->entries[i].g;
+			col->blue = palette->entries[i].b;
+		}
+		png_set_PLTE(png_ptr, info_ptr, pal, palette->count);
+		png_write_info(png_ptr, info_ptr);
+		for (y = 0; y < 544; y++) {
+			png_write_row(png_ptr, &quant_raw[y * 960]);
+		}
+		png_write_end(png_ptr, NULL);
+		fclose(fh);
+		png_free_data(png_ptr, info_ptr, PNG_FREE_ALL, -1);
+		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+		free(quant_raw);
+		free(raw_data);
+		liq_result_destroy(res);
+		liq_image_destroy(input_image);
+		liq_attr_destroy(handle);
 	}
-	sceIoClose(fd);
 	return 0;
 }
 
@@ -1821,4 +1875,7 @@ void luaSystem_init(lua_State *L) {
 	VariableRegister(L,CUR);
 	VariableRegister(L,READ_ONLY);
 	VariableRegister(L,READ_WRITE);
+	VariableRegister(L,FORMAT_BMP);
+	VariableRegister(L,FORMAT_PNG);
+	VariableRegister(L,FORMAT_JPG);
 }

@@ -7,7 +7,7 @@ LIBS = -lcurl -lssl -lcrypto -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lSc
 	-limgui_vita2d -lSceJpegEnc_stub -lSceAppMgr_stub -lSceCtrl_stub -lSceTouch_stub -lSceMotion_stub \
 	-lScePromoterUtil_stub -lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz -lSceCamera_stub \
-	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub -lSceShellSvc_stub \
+	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub -lSceShellSvc_stub -limagequant \
 	-lopusfile -lopus -lSceHttp_stub -lSceAudioIn_stub -lluajit -ldl -ltaihen_stub  -lSceSysmodule_stub \
 	-lSceShutterSound_stub -lSceSsl_stub -lSceVshBridge_stub -lSceAvPlayer_stub -lSceRegistryMgr_stub
 

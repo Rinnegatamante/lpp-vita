@@ -35,6 +35,16 @@ enum PowerTimer{
 };
 
 /**
+ * Image format modes to use with ::System.takeScreenshot.
+ * \ingroup System
+ */
+enum ImgFmt{
+	FORMAT_BMP,  //!< 32bpp BMP format.
+	FORMAT_JPG,  //!< JPG format.
+	FORMAT_PNG  //!< 8bpp paletted PNG format.
+};
+
+/**
  * Buttons schemes for ::System.setMessage.
  * \ingroup System
  */
@@ -971,16 +981,16 @@ class System{
 		 *
 		 * @par Usage example:
 		 * @code
-		 * System.takeScreenshot("ux0:/data/shot.jpg", true, 255)
+		 * System.takeScreenshot("ux0:/data/shot.jpg", FORMAT_JPG, 255)
 		 * @endcode
 		 *
 		 * @param filename - The filename of the screenshot output.
-		 * @param use_jpg - JPG compression feature <b>(optional)</b>.
+		 * @param format - The format to use for the output file <b>(optional)</b>.
 		 * @param ratio - Compression ratio for JPG compression <b>(optional)</b>.
 		 *
 		 * @note <b>ratio</b> must be between 0 and 255.
 		 */
-		void takeScreenshot(string filename, bool use_jpg, int ratio);
+		void takeScreenshot(string filename, ImgFmt use_jpg, int ratio);
 		
 		/**
 		 * Execute an URI call.
