@@ -990,7 +990,7 @@ class System{
 		 *
 		 * @note <b>ratio</b> must be between 0 and 255.
 		 */
-		void takeScreenshot(string filename, ImgFmt use_jpg, int ratio);
+		void takeScreenshot(string filename, ImgFmt format, int ratio);
 		
 		/**
 		 * Execute an URI call.

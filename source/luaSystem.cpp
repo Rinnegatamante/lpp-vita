@@ -52,9 +52,9 @@ extern "C"{
 
 #define COPY_BUFFER_SIZE 1024 * 1024
 
-static int FORMAT_BMP = 0;
-static int FORMAT_PNG = 1;
-static int FORMAT_JPG = 2;
+int FORMAT_BMP = 0;
+int FORMAT_PNG = 1;
+int FORMAT_JPG = 2;
 static int FREAD = SCE_O_RDONLY;
 static int FWRITE = SCE_O_WRONLY;
 static int FCREATE = SCE_O_CREAT | SCE_O_WRONLY;
@@ -715,15 +715,15 @@ static int lua_screenshot(lua_State *L){
 		*(uint32_t*)&bmp_content[0x1A] = 0x00200001;
 		*(uint32_t*)&bmp_content[0x22] = ((param.pitch*param.height)<<2);
 		int x, y;
-		uint32_t* buffer = (uint32_t*)bmp_content;
+		uint32_t* buffer = (uint32_t*)&bmp_content[0x36];
 		uint32_t* framebuf = (uint32_t*)param.base;
 		for (y = 0; y<param.height; y++){
 			for (x = 0; x<param.pitch; x++){
-				buffer[x+y*param.pitch+0x36] = framebuf[x+(param.height-y)*param.pitch];
-				uint8_t *clr = (uint8_t*)&buffer[x+y*param.pitch+0x36];
-				uint8_t r = clr[1];
-				clr[1] = clr[3];
-				clr[3] = r;
+				buffer[x+y*param.pitch] = framebuf[x+(param.height-y)*param.pitch];
+				uint8_t *clr = (uint8_t*)&buffer[x+y*param.pitch];
+				uint8_t r = clr[0];
+				clr[0] = clr[2];
+				clr[2] = r;
 			}
 		}
 		sceIoWrite(fd, bmp_content, ((param.pitch*param.height)<<2)+0x36);
