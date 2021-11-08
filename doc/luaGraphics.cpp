@@ -189,6 +189,23 @@ class Graphics {
 		int loadImage(string filename);
 		
 		/**
+		 * Save a loaded image to a .png/.bmp image.
+		 * \ingroup Graphics
+		 *
+		 * @par Usage example:
+		 * @code
+		 * Graphics.saveImage(img, "ux0:/data/image.png", FORMAT_PNG)
+		 * @endcode
+		 *
+		 * @param img - A valid image ID.
+		 * @param filename - The filename of the screenshot output.
+		 * @param format - The format to use for the output file <b>(optional)</b>.
+		 *
+		 * @note <b>FORMAT_JPG</b> is not supported.
+		 */
+		void saveImage(int img, string filename, ImgFmt format);
+		
+		/**
 		 * Load a .png/.jpg/.bmp image (asynchronous).
 		 * \ingroup Graphics
 		 *

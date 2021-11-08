@@ -35,6 +35,8 @@
 #include "include/luaplayer.h"
 
 extern "C"{
+#include <png.h>
+#include <libimagequant.h>
 #include "include/gifdec.h"
 };
 
@@ -68,6 +70,10 @@ static bool isRescaling = false;
 static rescaler scaler;
 
 static char asyncImagePath[512];
+
+extern int FORMAT_BMP;
+extern int FORMAT_PNG;
+extern int FORMAT_JPG;
 
 #ifdef PARANOID
 static bool draw_state = false;
@@ -303,6 +309,124 @@ static int lua_loadimg(lua_State *L) {
 	return 1;
 }
 
+static int lua_saveimg(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
+#endif
+	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
+#ifndef SKIP_ERROR_HANDLING
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+#endif
+	const char *filename = luaL_checkstring(L, 2);
+	int format = (argc > 2) ? luaL_checkinteger(L, 3) : FORMAT_BMP;
+	int w = vita2d_texture_get_width(text->text);
+	int h = vita2d_texture_get_height(text->text);
+	SceGxmTextureFormat fmt = vita2d_texture_get_format(text->text);
+	int bpp;
+	switch (fmt) {
+	case SCE_GXM_TEXTURE_FORMAT_U8U8U8_BGR:
+		bpp = 3;
+		break;
+	default:
+		bpp = 4;
+		break;
+	}
+	int pitch = vita2d_texture_get_stride(text->text) / bpp;
+	if (format == FORMAT_BMP) {
+		SceUID fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
+		uint8_t *bmp_content = (uint8_t*)malloc((w * h * 4)+0x36);
+		sceClibMemset(bmp_content, 0, 0x36);
+		*(uint16_t*)&bmp_content[0x0] = 0x4D42;
+		*(uint32_t*)&bmp_content[0x2] = (w * h * 4)+0x36;
+		*(uint32_t*)&bmp_content[0xA] = 0x36;
+		*(uint32_t*)&bmp_content[0xE] = 0x28;
+		*(uint32_t*)&bmp_content[0x12] = w;
+		*(uint32_t*)&bmp_content[0x16] = h;
+		*(uint32_t*)&bmp_content[0x1A] = 0x00200001;
+		*(uint32_t*)&bmp_content[0x22] = w * h * 4;
+		int x, y;
+		uint8_t* buffer = (uint8_t*)&bmp_content[0x36];
+		uint8_t* framebuf = (uint8_t*)vita2d_texture_get_datap(text->text);
+		for (y = 0; y < h; y++){
+			for (x = 0; x < w; x++){
+				if (bpp == 3) {
+					buffer[(x + y * w) * 4] = framebuf[(x+(h-y)*pitch)*bpp + 2];
+					buffer[(x + y * w) * 4 + 1] = framebuf[(x+(h-y)*pitch)*bpp + 1];
+					buffer[(x + y * w) * 4 + 2] = framebuf[(x+(h-y)*pitch)*bpp];
+					buffer[(x + y * w) * 4 + 3] = 0xFF;
+				} else {
+					buffer[(x + y * w) * 4] = framebuf[(x+(h-y)*pitch)*bpp + 2];
+					buffer[(x + y * w) * 4 + 1] = framebuf[(x+(h-y)*pitch)*bpp + 1];
+					buffer[(x + y * w) * 4 + 2] = framebuf[(x+(h-y)*pitch)*bpp];
+					buffer[(x + y * w) * 4 + 3] = framebuf[(x+(h-y)*pitch)*bpp + 3];
+				}
+			}
+		}
+		sceIoWrite(fd, bmp_content, (w * h * 4)+0x36);
+		free(bmp_content);
+		sceIoClose(fd);
+	} else if (format == FORMAT_PNG) {
+		FILE *fh = fopen(filename, "wb");
+		uint8_t *raw_data = (uint8_t*)malloc(w * h * 4);
+		uint8_t* buffer = (uint8_t*)raw_data;
+		uint8_t* framebuf = (uint8_t*)vita2d_texture_get_datap(text->text);
+		int x, y;
+		for (y = 0; y < h; y++){
+			for (x = 0; x < w; x++){
+				if (bpp == 3) {
+					buffer[(x + y * w) * 4] = framebuf[(x+y*pitch)*bpp];
+					buffer[(x + y * w) * 4 + 1] = framebuf[(x+y*pitch)*bpp + 1];
+					buffer[(x + y * w) * 4 + 2] = framebuf[(x+y*pitch)*bpp + 2];
+					buffer[(x + y * w) * 4 + 3] = 0xFF;
+				} else {
+					buffer[(x + y * w) * 4] = framebuf[(x+y*pitch)*bpp];
+					buffer[(x + y * w) * 4 + 1] = framebuf[(x+y*pitch)*bpp + 1];
+					buffer[(x + y * w) * 4 + 2] = framebuf[(x+y*pitch)*bpp + 2];
+					buffer[(x + y * w) * 4 + 3] = framebuf[(x+y*pitch)*bpp + 3];
+				}
+			}
+		}
+		liq_attr *handle = liq_attr_create();
+		liq_image *input_image = liq_image_create_rgba(handle, raw_data, w, h, 0);
+		liq_result *res;
+		liq_image_quantize(input_image, handle, &res);
+		uint8_t *quant_raw = (uint8_t*)malloc(w * h);
+		liq_set_dithering_level(res, 1.0);
+		liq_write_remapped_image(res, input_image, quant_raw, w * h);
+		const liq_palette *palette = liq_get_palette(res);
+		png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);;
+		png_infop info_ptr = png_create_info_struct(png_ptr);
+		setjmp(png_jmpbuf(png_ptr));
+		png_init_io(png_ptr, fh);
+		png_set_IHDR(png_ptr, info_ptr, w, h,
+			8, PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE,
+			PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+		png_color *pal = (png_color*)png_malloc(png_ptr, palette->count*sizeof(png_color));
+		for (int i = 0; i < palette->count; i++){
+			png_color *col = &pal[i];
+			col->red = palette->entries[i].r;
+			col->green = palette->entries[i].g;
+			col->blue = palette->entries[i].b;
+		}
+		png_set_PLTE(png_ptr, info_ptr, pal, palette->count);
+		png_write_info(png_ptr, info_ptr);
+		for (y = 0; y < h; y++) {
+			png_write_row(png_ptr, &quant_raw[y * w]);
+		}
+		png_write_end(png_ptr, NULL);
+		fclose(fh);
+		png_free_data(png_ptr, info_ptr, PNG_FREE_ALL, -1);
+		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+		free(quant_raw);
+		free(raw_data);
+		liq_result_destroy(res);
+		liq_image_destroy(input_image);
+		liq_attr_destroy(handle);
+	}
+	return 0;
+}
+
 static int lua_loadimgasync(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
@@ -345,7 +469,7 @@ static int lua_loadanimg(lua_State *L) {
 		gd_rewind(f);
 		frames = (uint32_t *)malloc(f->width * f->height * 4 * num_frames);
 		uint32_t *frame = frames;
-		uint8_t *rgb_data = malloc(f->width * f->height * 3);
+		uint8_t *rgb_data = (uint8_t *)malloc(f->width * f->height * 3);
 		while (gd_get_frame(f)) {
 			uint8_t *pixel_data = rgb_data;
 			gd_render_frame(f, rgb_data);
@@ -587,7 +711,7 @@ static int lua_createimage(lua_State *L) {
 	lpp_texture* text = (lpp_texture*)malloc(sizeof(lpp_texture));
 	text->magic = 0xABADBEEF;
 	text->text = vita2d_create_empty_texture_rendertarget(w, h, SCE_GXM_TEXTURE_FORMAT_A8B8G8R8);
-	memset(vita2d_texture_get_datap(text->text), color, (vita2d_texture_get_stride(text->text) * h) << 2);
+	memset(vita2d_texture_get_datap(text->text), color, vita2d_texture_get_stride(text->text) * h);
 	lua_pushinteger(L, (uint32_t)text);
 	return 1;
 }
@@ -787,6 +911,7 @@ static const luaL_Reg Graphics_functions[] = {
   {"fillEmptyRect",       lua_emptyrect},
   {"fillCircle",          lua_circle},
   {"loadImage",           lua_loadimg},
+  {"saveImage",           lua_saveimg},
   {"loadImageAsync",      lua_loadimgasync},
   {"loadAnimatedImage",   lua_loadanimg},
   {"getImageFramesNum",   lua_getnumframes},
