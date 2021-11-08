@@ -137,6 +137,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gab77473fad34dae9c6d5b500fa6940fec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec">Graphics::loadImage</a> (string filename)</td></tr>
 <tr class="memdesc:gab77473fad34dae9c6d5b500fa6940fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a .png/.jpg/.bmp image.  <a href="group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec">More...</a><br /></td></tr>
 <tr class="separator:gab77473fad34dae9c6d5b500fa6940fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab72c2ad7f6ae0d835dd3f462da0aa38a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gab72c2ad7f6ae0d835dd3f462da0aa38a">Graphics::saveImage</a> (int img, string filename, <a class="el" href="group___system.html#gacaf0607d1c436718aa252e6ee323024a">ImgFmt</a> format)</td></tr>
+<tr class="memdesc:gab72c2ad7f6ae0d835dd3f462da0aa38a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save a loaded image to a .png/.bmp image.  <a href="group___graphics.html#gab72c2ad7f6ae0d835dd3f462da0aa38a">More...</a><br /></td></tr>
+<tr class="separator:gab72c2ad7f6ae0d835dd3f462da0aa38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga710a6e4b04bc43c2f15a8c0eb646da08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga710a6e4b04bc43c2f15a8c0eb646da08">Graphics::loadImageAsync</a> (string filename)</td></tr>
 <tr class="memdesc:ga710a6e4b04bc43c2f15a8c0eb646da08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a .png/.jpg/.bmp image (asynchronous).  <a href="group___graphics.html#ga710a6e4b04bc43c2f15a8c0eb646da08">More...</a><br /></td></tr>
 <tr class="separator:ga710a6e4b04bc43c2f15a8c0eb646da08"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -713,6 +716,53 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A valid image ID. </dd></dl>
+
+</div>
+</div>
+<a id="gab72c2ad7f6ae0d835dd3f462da0aa38a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab72c2ad7f6ae0d835dd3f462da0aa38a">&#9670;&nbsp;</a></span>saveImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Graphics::saveImage </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>img</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___system.html#gacaf0607d1c436718aa252e6ee323024a">ImgFmt</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Save a loaded image to a .png/.bmp image. </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_graphics.html">Graphics</a>.<a class="code" href="group___graphics.html#gab72c2ad7f6ae0d835dd3f462da0aa38a">saveImage</a>(img, <span class="stringliteral">&quot;ux0:/data/image.png&quot;</span>, <a class="code" href="group___system.html#ggacaf0607d1c436718aa252e6ee323024aaf5dc429df9e129ca283e309e467c58d3">FORMAT_PNG</a>)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">img</td><td>- A valid image ID. </td></tr>
+    <tr><td class="paramname">filename</td><td>- The filename of the screenshot output. </td></tr>
+    <tr><td class="paramname">format</td><td>- The format to use for the output file <b>(optional)</b>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd><b>FORMAT_JPG</b> is not supported. </dd></dl>
 
 </div>
 </div>
@@ -1427,6 +1477,7 @@ Functions</h2></td></tr>
 <div class="ttc" id="agroup___graphics_html_gaf252f2867a352b99d5322536fd86a932"><div class="ttname"><a href="group___graphics.html#gaf252f2867a352b99d5322536fd86a932">Graphics::fillEmptyRect</a></div><div class="ttdeci">void fillEmptyRect(number x1, number x2, number y1, number y2, int color)</div><div class="ttdoc">Draw an empty rectangle.</div></div>
 <div class="ttc" id="agroup___system_html_gadccaa5cd953c15915d34152f29f73eaa"><div class="ttname"><a href="group___system.html#gadccaa5cd953c15915d34152f29f73eaa">System::getAsyncResult</a></div><div class="ttdeci">string getAsyncResult(void)</div><div class="ttdoc">Get result from a finished asynchronous task.</div></div>
 <div class="ttc" id="agroup___graphics_html_ga87f7ac1907b558897936740fd3d09851"><div class="ttname"><a href="group___graphics.html#ga87f7ac1907b558897936740fd3d09851">Graphics::fillRect</a></div><div class="ttdeci">void fillRect(number x1, number x2, number y1, number y2, int color)</div><div class="ttdoc">Draw a rectangle.</div></div>
+<div class="ttc" id="agroup___system_html_ggacaf0607d1c436718aa252e6ee323024aaf5dc429df9e129ca283e309e467c58d3"><div class="ttname"><a href="group___system.html#ggacaf0607d1c436718aa252e6ee323024aaf5dc429df9e129ca283e309e467c58d3">FORMAT_PNG</a></div><div class="ttdeci">@ FORMAT_PNG</div><div class="ttdoc">8bpp paletted PNG format.</div><div class="ttdef"><b>Definition:</b> luaSystem.cpp:44</div></div>
 <div class="ttc" id="agroup___color_html_ga0158af6c6318c57c8079c652a9783ba4"><div class="ttname"><a href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">Color::new</a></div><div class="ttdeci">int new(int r, int g, int b, int a)</div><div class="ttdoc">Create a new color.</div></div>
 <div class="ttc" id="agroup___graphics_html_ga534a498f913a40152abee3f5bf419f02"><div class="ttname"><a href="group___graphics.html#ga534a498f913a40152abee3f5bf419f02">Graphics::termRescaler</a></div><div class="ttdeci">void termRescaler(void)</div><div class="ttdoc">Terminate a rescaler.</div></div>
 <div class="ttc" id="agroup___graphics_html_ga18afd280eb94949f64cc8918791027d9"><div class="ttname"><a href="group___graphics.html#ga18afd280eb94949f64cc8918791027d9">Graphics::getImageFramesNum</a></div><div class="ttdeci">int getImageFramesNum(int img)</div><div class="ttdoc">Gets the number of frames of a loaded animated image.</div></div>
@@ -1451,6 +1502,7 @@ Functions</h2></td></tr>
 <div class="ttc" id="agroup___graphics_html_ga2c9e9874a1837a0be648aef5a49b83f4"><div class="ttname"><a href="group___graphics.html#ga2c9e9874a1837a0be648aef5a49b83f4">Graphics::initRescaler</a></div><div class="ttdeci">void initRescaler(int x, int y, number x_scale, number y_scale)</div><div class="ttdoc">Initialize a rescaler.</div></div>
 <div class="ttc" id="agroup___system_html_ga991074c32b2de96dcdbffd54f838ffc6"><div class="ttname"><a href="group___system.html#ga991074c32b2de96dcdbffd54f838ffc6">System::getAsyncState</a></div><div class="ttdeci">int getAsyncState(void)</div><div class="ttdoc">Get current state of an asynchronous task.</div></div>
 <div class="ttc" id="agroup___graphics_html_gaa7d1bddf17c526ce2bc14746d5c43de9"><div class="ttname"><a href="group___graphics.html#gaa7d1bddf17c526ce2bc14746d5c43de9">Graphics::getImageHeight</a></div><div class="ttdeci">int getImageHeight(int img)</div><div class="ttdoc">Get an image height.</div></div>
+<div class="ttc" id="agroup___graphics_html_gab72c2ad7f6ae0d835dd3f462da0aa38a"><div class="ttname"><a href="group___graphics.html#gab72c2ad7f6ae0d835dd3f462da0aa38a">Graphics::saveImage</a></div><div class="ttdeci">void saveImage(int img, string filename, ImgFmt format)</div><div class="ttdoc">Save a loaded image to a .png/.bmp image.</div></div>
 <div class="ttc" id="agroup___graphics_html_gade38ce6cff7209134a8a0cbf65058b03"><div class="ttname"><a href="group___graphics.html#gade38ce6cff7209134a8a0cbf65058b03">Graphics::fillCircle</a></div><div class="ttdeci">void fillCircle(number x, number y, number rad, int color)</div><div class="ttdoc">Draw a circle.</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
