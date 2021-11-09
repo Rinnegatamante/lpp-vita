@@ -65,7 +65,7 @@ static int lua_getP(lua_State *L) {
 	int x = luaL_checkinteger(L, 1);
 	int y = luaL_checkinteger(L, 2);
 	uint32_t* buffer = (uint32_t*)vita2d_get_current_fb();
-	lua_pushinteger(L,buffer[x + y * 1024]);
+	lua_pushinteger(L,buffer[x + y * 960]);
 	return 1;
 }
 
