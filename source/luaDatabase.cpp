@@ -93,7 +93,6 @@ static int lua_query(lua_State *L){
 	if (fd != SQLITE_OK){
 		return luaL_error(L, sqlite3_errmsg(db));
 	}
-	sqlite3_close(db);
 	return 1;
 }
 	
