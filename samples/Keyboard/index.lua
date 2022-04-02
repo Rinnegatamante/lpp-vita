@@ -1,5 +1,5 @@
 -- Initializing a Keyboard
-Keyboard.show("Sample Title", "Sample Text")
+Keyboard.start("Sample Title", "Sample Text")
 ret = "Waiting for user input..."
 
 -- Main loop
