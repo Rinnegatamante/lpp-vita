@@ -49,6 +49,8 @@ skybox = Graphics.loadImage("ux0:/data/lpp-vita/samples/RayCasting/skybox.png")
 RayCast3D.useShading(true)
 RayCast3D.setDepth(300)
 
+local pad = 0
+
 while true do
 	
 	-- Rendering scene
