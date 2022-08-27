@@ -16,19 +16,6 @@ steps:
   displayName: 'Install 32 bit libraries'
 
 - script: |
-    git clone https://github.com/hyln9/vita-luajit
-    cd vita-luajit/src
-    make HOST_CC="gcc -m32" CROSS=arm-vita-eabi- TARGET_SYS=PSP2 TARGET_FLAGS="-marm -fno-optimize-sibling-calls" PREFIX="ux0:/data/luajit"hi
-    sudo -E cp libluajit.a $VITASDK/arm-vita-eabi/lib/libluajit.a
-    sudo -E cp lua.h $VITASDK/arm-vita-eabi/include/lua.h
-    sudo -E cp lualib.h $VITASDK/arm-vita-eabi/include/lualib.h
-    sudo -E cp lauxlib.h $VITASDK/arm-vita-eabi/include/lauxlib.h
-    sudo -E cp luaconf.h $VITASDK/arm-vita-eabi/include/luaconf.h
-    sudo -E cp lua.hpp $VITASDK/arm-vita-eabi/include/lua.hpp
-    sudo -E cp luajit.h $VITASDK/arm-vita-eabi/include/luajit.h
-  displayName: 'Build LuaJIT'
-
-- script: |
     git clone https://github.com/xerpi/libvita2d
     sudo -E cp libvita2d/libvita2d/include/utils.h $VITASDK/arm-vita-eabi/include/utils.h
   displayName: 'Get vita2d extra headers'
