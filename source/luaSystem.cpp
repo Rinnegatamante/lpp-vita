@@ -71,8 +71,6 @@ bool messageStarted = false;
 static char messageText[512];
 static char fname[512], ext_fname[512], read_buffer[8192];
 
-static bool is_promoter_loaded = false;
-
 static unzFile asyncHandle;
 static char asyncDest[512];
 static char asyncName[512];
@@ -149,18 +147,21 @@ static void addDirToZip(zipFile zFile, const char *fname, char *src, int compres
 }
 
 void loadPromoter() {
-	if (!is_promoter_loaded) {
-		uint32_t ptr[0x100] = { 0 };
-		ptr[0] = 0;
-		ptr[1] = (uint32_t)&ptr[0];
-		uint32_t scepaf_argp[] = { 0x400000, 0xEA60, 0x40000, 0, 0 };
-		sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(scepaf_argp), scepaf_argp, (SceSysmoduleOpt *)ptr);
+	uint32_t ptr[0x100] = { 0 };
+	ptr[0] = 0;
+	ptr[1] = (uint32_t)&ptr[0];
+	uint32_t scepaf_argp[] = { 0x400000, 0xEA60, 0x40000, 0, 0 };
+	sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(scepaf_argp), scepaf_argp, (SceSysmoduleOpt *)ptr);
+	sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
+	scePromoterUtilityInit();
+}
 
-		sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
-		scePromoterUtilityInit();
-		
-		is_promoter_loaded = true;
-	}
+void unloadPromoter() {
+	scePromoterUtilityExit();
+	sceSysmoduleUnloadModuleInternal(SCE_SYSMODULE_INTERNAL_PROMOTER_UTIL);
+	SceSysmoduleOpt opt;
+	sceClibMemset(&opt.flags, 0, sizeof(opt));
+	sceSysmoduleUnloadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, 0, NULL, &opt);
 }
 
 void recursive_mkdir(char *dir) {
@@ -1642,7 +1643,8 @@ static int lua_promote(lua_State *L){
 			break;
 		sceKernelDelayThread(150 * 1000);
 	} while (state);
-	
+	unloadPromoter();
+
 	return 0;
 }
 
@@ -1664,6 +1666,7 @@ static int lua_demote(lua_State *L){
 			break;
 		sceKernelDelayThread(150 * 1000);
 	} while (state);
+	unloadPromoter();
 	
 	return 0;
 }
@@ -1679,7 +1682,7 @@ static int lua_isappin(lua_State *L){
 	loadPromoter();
 	int res;
 	lua_pushboolean(L, !scePromoterUtilityCheckExist(titleid, &res));
-	
+	unloadPromoter();
 	return 1;
 }
 
