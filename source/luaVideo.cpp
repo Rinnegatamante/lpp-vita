@@ -174,8 +174,8 @@ static int lua_openvid(lua_State *L){
 	else fclose(f);
 #endif
 	
-	sceAvPlayerSetLooping(avplayer, looping);
 	sceAvPlayerAddSource(avplayer, file);
+	sceAvPlayerSetLooping(avplayer, looping);
 	sceAvPlayerSetTrickSpeed(avplayer, 100);
 	
 	SceUID audio_thread = sceKernelCreateThread("Vid Audio Thread", &audioThread, 0x10000100, 0x10000, 0, 0, NULL);
