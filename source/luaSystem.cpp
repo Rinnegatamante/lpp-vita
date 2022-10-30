@@ -1342,7 +1342,7 @@ static int lua_extractsfo(lua_State *L) {
 				fseek(f, hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 				lua_pushstring(L, "title");
 				char title[0x80];
-				fread(title, entry_table[i].paramLen > 1 ? entry_table[i].paramLen : (entry_table[i+1].dataOffset - entry_table[i].dataOffset), 1, f);
+				fread(title, 0x80, 1, f);
 				lua_pushstring(L, title);
 				lua_settable(L, -3);
 				return_indexes++;
