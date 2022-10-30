@@ -90,6 +90,7 @@ var group___system =
     [ "getTitle", "group___system.html#ga26a65a0c12c8e4f98051b62057002742", null ],
     [ "getTitleID", "group___system.html#gadec1b4d88d7cbeeba5b30c6339080744", null ],
     [ "extractSfo", "group___system.html#ga89999b4eb7290597627ffb6bb6089578", null ],
+    [ "extractPbp", "group___system.html#ga905253953bd659b38e245f4659d73dc1", null ],
     [ "extractZip", "group___system.html#ga6391821d101abf6023519dc566ea1fb7", null ],
     [ "extractFromZip", "group___system.html#ga062c22ba5b5bc5c89c8d671cada47004", null ],
     [ "extractZipAsync", "group___system.html#gaceffc0a9cac9357baa31058184077d65", null ],

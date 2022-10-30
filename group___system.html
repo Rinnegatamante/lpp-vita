@@ -305,6 +305,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga89999b4eb7290597627ffb6bb6089578"><td class="memItemLeft" align="right" valign="top">table&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga89999b4eb7290597627ffb6bb6089578">System::extractSfo</a> (string filename)</td></tr>
 <tr class="memdesc:ga89999b4eb7290597627ffb6bb6089578"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract info from an SFO file.  <a href="group___system.html#ga89999b4eb7290597627ffb6bb6089578">More...</a><br /></td></tr>
 <tr class="separator:ga89999b4eb7290597627ffb6bb6089578"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga905253953bd659b38e245f4659d73dc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga905253953bd659b38e245f4659d73dc1">System::extractPbp</a> (string filename, string dirname)</td></tr>
+<tr class="memdesc:ga905253953bd659b38e245f4659d73dc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a PBP file (synchronous).  <a href="group___system.html#ga905253953bd659b38e245f4659d73dc1">More...</a><br /></td></tr>
+<tr class="separator:ga905253953bd659b38e245f4659d73dc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6391821d101abf6023519dc566ea1fb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___system.html#ga6391821d101abf6023519dc566ea1fb7">System::extractZip</a> (string filename, string dirname)</td></tr>
 <tr class="memdesc:ga6391821d101abf6023519dc566ea1fb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a ZIP file (synchronous).  <a href="group___system.html#ga6391821d101abf6023519dc566ea1fb7">More...</a><br /></td></tr>
 <tr class="separator:ga6391821d101abf6023519dc566ea1fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2045,7 +2048,48 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A table with a proper set of info (Look at the sample above). </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A table with a proper set of info (Look at the sample above).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function can be used also to extract info from PARAM.SFO bundled inside PBP files. </dd></dl>
+
+</div>
+</div>
+<a id="ga905253953bd659b38e245f4659d73dc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga905253953bd659b38e245f4659d73dc1">&#9670;&nbsp;</a></span>extractPbp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void System::extractPbp </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>dirname</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Extract a PBP file (synchronous). </p>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line"><a class="code" href="class_system.html">System</a>.<a class="code" href="group___system.html#ga905253953bd659b38e245f4659d73dc1">extractPbp</a>(<span class="stringliteral">&quot;app0:/files.zip&quot;</span>, <span class="stringliteral">&quot;ux0:/data/app_files&quot;</span>)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>- The filename to extract. </td></tr>
+    <tr><td class="paramname">dirname</td><td>- The path where to extract files.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>If <b>dirname</b> doesn't exist, it will be automatically created. </dd></dl>
 
 </div>
 </div>
@@ -3089,6 +3133,7 @@ This function is available only in unsafe mode. </dd></dl>
 <div class="ttc" id="agroup___system_html_ga0dfeddb6754b9bdf9e5db8c568b1d127"><div class="ttname"><a href="group___system.html#ga0dfeddb6754b9bdf9e5db8c568b1d127">System::getGpuXbarSpeed</a></div><div class="ttdeci">int getGpuXbarSpeed(void)</div><div class="ttdoc">Get GPU Crossbar clock speed.</div></div>
 <div class="ttc" id="agroup___system_html_gac21197b30eb72e68796372bb539f1f00"><div class="ttname"><a href="group___system.html#gac21197b30eb72e68796372bb539f1f00">System::seekFile</a></div><div class="ttdeci">void seekFile(int handle, int pos, IOSeek seek)</div><div class="ttdoc">Move cursor of an opened file.</div></div>
 <div class="ttc" id="agroup___system_html_gaceffc0a9cac9357baa31058184077d65"><div class="ttname"><a href="group___system.html#gaceffc0a9cac9357baa31058184077d65">System::extractZipAsync</a></div><div class="ttdeci">void extractZipAsync(string filename, string dirname)</div><div class="ttdoc">Extract a ZIP file (asynchronous).</div></div>
+<div class="ttc" id="agroup___system_html_ga905253953bd659b38e245f4659d73dc1"><div class="ttname"><a href="group___system.html#ga905253953bd659b38e245f4659d73dc1">System::extractPbp</a></div><div class="ttdeci">void extractPbp(string filename, string dirname)</div><div class="ttdoc">Extract a PBP file (synchronous).</div></div>
 <div class="ttc" id="agroup___system_html_gad798fb546582192b1570088aec745162"><div class="ttname"><a href="group___system.html#gad798fb546582192b1570088aec745162">System::resetTimer</a></div><div class="ttdeci">void resetTimer(PowerTimer timer)</div><div class="ttdoc">Reset a power management timer feature.</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
