@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-extern "C"{
+extern "C" {
 #include <png.h>
 #include <libimagequant.h>
 #include <vitasdk.h>
@@ -177,12 +177,12 @@ void recursive_mkdir(char *dir) {
 	}
 }
 
-static int zipThread(unsigned int args, void* arg){
+static int zipThread(unsigned int args, void* arg) {
 	unz_global_info global_info;
 	unz_file_info file_info;
 	uint64_t curr_file_bytes = 0;
 	int num_files = 0;
-	switch (asyncMode){
+	switch (asyncMode) {
 		case FULL_EXTRACT:
 			unzGetGlobalInfo(asyncHandle, &global_info);
 			unzGoToFirstFile(asyncHandle);
@@ -316,7 +316,7 @@ void makeHeadBin(const char *dir) {
 	sfo_header_t hdr;
 	fread(&hdr, sizeof(sfo_header_t), 1, f);
 	
-	if (hdr.magic != 0x46535000){
+	if (hdr.magic != 0x46535000) {
 		fclose(f);
 		return;
 	}
@@ -433,57 +433,63 @@ static void pushStatToTable(lua_State *L, SceIoStat stat) {
 
 
 
-static int lua_launch(lua_State *L){
+static int lua_launch(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 1) return
+	luaL_error(L, "wrong number of arguments.");
 #endif
 	char *file = (char*)luaL_checkstring(L,1);
 	unsigned char *buffer;
 	SceUID bin = sceIoOpen(file, SCE_O_RDONLY, 0777);
 #ifndef SKIP_ERROR_HANDLING
-	if (bin < 0) return luaL_error(L, "error opening file.");
+	if (bin < 0)
+		return luaL_error(L, "error opening file.");
 #endif
 	else sceIoClose(bin);
 	sceAppMgrLoadExec(file, NULL, NULL);
 	return 0;
 }
 
-static int lua_launch2(lua_State *L){
+static int lua_launch2(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 	char *titleid = (char*)luaL_checkstring(L,1);
 	char uri[32];
 	sprintf(uri, "psgm:play?titleid=%s", titleid);
 	int i;
-	for (i=0;i<2;i++){
+	for (i=0;i<2;i++) {
 		sceKernelDelayThread(10000);
 		sceAppMgrLaunchAppByUri(0xFFFFF, uri);
 	}
 	return 0;
 }
 
-static int lua_openfile(lua_State *L){
+static int lua_openfile(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *file_tbo = luaL_checkstring(L, 1);
 	int type = luaL_checkinteger(L, 2);
 	SceUID fileHandle = sceIoOpen(file_tbo, type, 0777);
 #ifndef SKIP_ERROR_HANDLING
-	if (fileHandle < 0) return luaL_error(L, "cannot open requested file.");
+	if (fileHandle < 0)
+		return luaL_error(L, "cannot open requested file.");
 #endif
 	lua_pushinteger(L,fileHandle);
 	return 1;
 }
 
-static int lua_statfile(lua_State *L){
+static int lua_statfile(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *file = luaL_checkstring(L, 1);
 	SceIoStat stat;
@@ -495,10 +501,11 @@ static int lua_statfile(lua_State *L){
 	return 1;
 }
 
-static int lua_statfilehandle(lua_State *L){
+static int lua_statfilehandle(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceUID file = luaL_checkinteger(L, 1);
 	SceIoStat stat;
@@ -510,10 +517,11 @@ static int lua_statfilehandle(lua_State *L){
 	return 1;
 }
 
-static int lua_readfile(lua_State *L){
+static int lua_readfile(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceUID file = luaL_checkinteger(L, 1);
 	uint32_t size = luaL_checkinteger(L, 2);
@@ -525,10 +533,11 @@ static int lua_readfile(lua_State *L){
 	return 1;
 }
 
-static int lua_writefile(lua_State *L){
+static int lua_writefile(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 3)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	const char *text = luaL_checkstring(L, 2);
@@ -537,20 +546,22 @@ static int lua_writefile(lua_State *L){
 	return 0;
 }
 
-static int lua_closefile(lua_State *L){
+static int lua_closefile(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	sceIoClose(fileHandle);
 	return 0;
 }
 
-static int lua_seekfile(lua_State *L){
+static int lua_seekfile(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 3)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	int pos = luaL_checkinteger(L, 2);
@@ -559,10 +570,11 @@ static int lua_seekfile(lua_State *L){
 	return 0;
 }
 
-static int lua_sizefile(lua_State *L){
+static int lua_sizefile(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceUID fileHandle = luaL_checkinteger(L, 1);
 	uint32_t cur_off = sceIoLseek(fileHandle, 0, SEEK_CUR);
@@ -572,40 +584,45 @@ static int lua_sizefile(lua_State *L){
 	return 1;
 }
 
-static int lua_checkexist(lua_State *L){
+static int lua_checkexist(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *file_tbo = luaL_checkstring(L, 1);
 	SceUID fileHandle = sceIoOpen(file_tbo, SCE_O_RDONLY, 0777);
-	if (fileHandle < 0) lua_pushboolean(L, false);
-	else{
+	if (fileHandle < 0)
+		lua_pushboolean(L, false);
+	else {
 		sceIoClose(fileHandle);
 		lua_pushboolean(L,true);
 	}
 	return 1;
 }
 
-static int lua_checkexist2(lua_State *L){
+static int lua_checkexist2(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *dir = luaL_checkstring(L, 1);
 	SceUID fd = sceIoDopen(dir);
-	if (fd < 0) lua_pushboolean(L, false);
-	else{
+	if (fd < 0)
+		lua_pushboolean(L, false);
+	else {
 		sceIoDclose(fd);
 		lua_pushboolean(L,true);
 	}
 	return 1;
 }
 
-static int lua_rename(lua_State *L){
+static int lua_rename(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *old_file = luaL_checkstring(L, 1);
 	const char *new_file = luaL_checkstring(L, 2);
@@ -616,23 +633,23 @@ static int lua_rename(lua_State *L){
 static int lua_copy(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *old_file = luaL_checkstring(L, 1);
 	const char *new_file = luaL_checkstring(L, 2);
 	FILE *f = fopen(old_file, "rb");
 #ifndef SKIP_ERROR_HANDLING
-	if (!f) return luaL_error(L, "the file doesn't exist");
+	if (!f)
+		return luaL_error(L, "the file doesn't exist");
 #endif
 	FILE *f2 = fopen(new_file, "wb");
 	uint8_t *data = (uint8_t*)malloc(COPY_BUFFER_SIZE);
 	for (;;) {
 		uint32_t size = fread(data, 1, COPY_BUFFER_SIZE, f);
-		if (size) {
-			fwrite(data, 1, size, f2);
-		} else {
+		if (!size)
 			break;
-		}
+		fwrite(data, 1, size, f2);
 	}
 	fclose(f);
 	fclose(f2);
@@ -640,40 +657,44 @@ static int lua_copy(lua_State *L){
 	return 0;
 }
 
-static int lua_removef(lua_State *L){
+static int lua_removef(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *old_file = luaL_checkstring(L, 1);
 	sceIoRemove(old_file);
 	return 0;
 }
 
-static int lua_removef2(lua_State *L){
+static int lua_removef2(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *old_file = luaL_checkstring(L, 1);
 	sceIoRmdir(old_file);
 	return 0;
 }
 
-static int lua_newdir(lua_State *L){
+static int lua_newdir(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *newdir = luaL_checkstring(L, 1);
 	sceIoMkdir(newdir, 0777);
 	return 0;
 }
 
-static int lua_exit(lua_State *L){
+static int lua_exit(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	char stringbuffer[256];
 	strcpy(stringbuffer,"lpp_shutdown");
@@ -681,20 +702,22 @@ static int lua_exit(lua_State *L){
 	return luaL_error(L, stringbuffer); //Fake LUA error
 }
 
-static int lua_wait(lua_State *L){
+static int lua_wait(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int microsecs = luaL_checkinteger(L, 1);
 	sceKernelDelayThread(microsecs);
 	return 0;
 }
 
-static int lua_screenshot(lua_State *L){
+static int lua_screenshot(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1 && argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1 && argc != 2 && argc != 3)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *filename = luaL_checkstring(L, 1);
 	int format = (argc > 1) ? luaL_checkinteger(L, 2) : FORMAT_BMP;
@@ -718,8 +741,8 @@ static int lua_screenshot(lua_State *L){
 		int x, y;
 		uint32_t* buffer = (uint32_t*)&bmp_content[0x36];
 		uint32_t* framebuf = (uint32_t*)param.base;
-		for (y = 0; y<param.height; y++){
-			for (x = 0; x<param.pitch; x++){
+		for (y = 0; y<param.height; y++) {
+			for (x = 0; x<param.pitch; x++) {
 				buffer[x+y*param.pitch] = framebuf[x+(param.height-y)*param.pitch];
 				uint8_t *clr = (uint8_t*)&buffer[x+y*param.pitch];
 				uint8_t r = clr[0];
@@ -777,7 +800,7 @@ static int lua_screenshot(lua_State *L){
 			8, PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE,
 			PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
 		png_color *pal = (png_color*)png_malloc(png_ptr, palette->count*sizeof(png_color));
-		for (int i = 0; i < palette->count; i++){
+		for (int i = 0; i < palette->count; i++) {
 			png_color *col = &pal[i];
 			col->red = palette->entries[i].r;
 			col->green = palette->entries[i].g;
@@ -801,10 +824,11 @@ static int lua_screenshot(lua_State *L){
 	return 0;
 }
 
-static int lua_dir(lua_State *L){
+static int lua_dir(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0 && argc != 1) return luaL_error(L, "System.listDirectory([path]) takes zero or one argument");
+	if (argc != 0 && argc != 1)
+		return luaL_error(L, "System.listDirectory([path]) takes zero or one argument");
 #endif
 	const char *path = "";
 	if (argc == 0) path = "";
@@ -835,197 +859,218 @@ static int lua_dir(lua_State *L){
 	return 1;  /* table is already on top */
 }
 
-static int lua_charging(lua_State *L){
+static int lua_charging(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushboolean(L, scePowerIsBatteryCharging());
 	return 1;
 }
 
-static int lua_percent(lua_State *L){
+static int lua_percent(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBatteryLifePercent());
 	return 1;
 }
 
-static int lua_lifetime(lua_State *L){
+static int lua_lifetime(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBatteryLifeTime());
 	return 1;
 }
 
-static int lua_voltbatt(lua_State *L){
+static int lua_voltbatt(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBatteryVolt());
 	return 1;
 }
 
-static int lua_healthbatt(lua_State *L){
+static int lua_healthbatt(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBatterySOH());
 	return 1;
 }
 
-static int lua_cyclebatt(lua_State *L){
+static int lua_cyclebatt(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBatteryCycleCount());
 	return 1;
 }
 
-static int lua_tempbatt(lua_State *L){
+static int lua_tempbatt(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBatteryTemp() / 100);
 	return 1;
 }
 
-static int lua_fullbatt(lua_State *L){
+static int lua_fullbatt(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBatteryFullCapacity());
 	return 1;
 }
 
-static int lua_remainbatt(lua_State *L){
+static int lua_remainbatt(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBatteryRemainCapacity());
 	return 1;
 }
 
-static int lua_tickpower(lua_State *L){
+static int lua_tickpower(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int tmr = luaL_checkinteger(L, 1);
 	sceKernelPowerTick((SceKernelPowerTickType)tmr);
 	return 0;
 }
 
-static int lua_offpower(lua_State *L){
+static int lua_offpower(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int tmr = luaL_checkinteger(L, 1);
 	sceKernelPowerLock((SceKernelPowerTickType)tmr);
 	return 0;
 }
 
-static int lua_onpower(lua_State *L){
+static int lua_onpower(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int tmr = luaL_checkinteger(L, 1);
 	sceKernelPowerUnlock((SceKernelPowerTickType)tmr);
 	return 0;
 }
 
-static int lua_setcpu(lua_State *L){
+static int lua_setcpu(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int freq = luaL_checkinteger(L, 1);
 	scePowerSetArmClockFrequency(freq);
 	return 0;
 }
 
-static int lua_setbus(lua_State *L){
+static int lua_setbus(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int freq = luaL_checkinteger(L, 1);
 	scePowerSetBusClockFrequency(freq);
 	return 0;
 }
 
-static int lua_setgpu(lua_State *L){
+static int lua_setgpu(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int freq = luaL_checkinteger(L, 1);
 	scePowerSetGpuClockFrequency(freq);
 	return 0;
 }
 
-static int lua_setgpu2(lua_State *L){
+static int lua_setgpu2(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int freq = luaL_checkinteger(L, 1);
 	scePowerSetGpuXbarClockFrequency(freq);
 	return 0;
 }
 
-static int lua_getcpu(lua_State *L){
+static int lua_getcpu(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetArmClockFrequency());
 	return 1;
 }
 
-static int lua_getbus(lua_State *L){
+static int lua_getbus(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetBusClockFrequency());
 	return 1;
 }
 
-static int lua_getgpu(lua_State *L){
+static int lua_getgpu(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetGpuClockFrequency());
 	return 1;
 }
 
-static int lua_getgpu2(lua_State *L){
+static int lua_getgpu2(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L, scePowerGetGpuXbarClockFrequency());
 	return 1;
 }
 
-static int lua_gettime(lua_State *L){
+static int lua_gettime(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceDateTime time;
 	sceRtcGetCurrentClockLocalTime(&time);
@@ -1035,10 +1080,11 @@ static int lua_gettime(lua_State *L){
 	return 3;
 }
 
-static int lua_getdate(lua_State *L){
+static int lua_getdate(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceDateTime time;
 	sceRtcGetCurrentClockLocalTime(&time);
@@ -1049,10 +1095,11 @@ static int lua_getdate(lua_State *L){
 	return 4;
 }
 
-static int lua_nickname(lua_State *L){
+static int lua_nickname(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceChar8 nick[SCE_SYSTEM_PARAM_USERNAME_MAXSIZE];
 	sceAppUtilSystemParamGetString(SCE_SYSTEM_PARAM_ID_USERNAME, nick, SCE_SYSTEM_PARAM_USERNAME_MAXSIZE);
@@ -1060,10 +1107,11 @@ static int lua_nickname(lua_State *L){
 	return 1;
 }
 
-static int lua_lang(lua_State *L){
+static int lua_lang(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int lang;
 	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, &lang);
@@ -1071,10 +1119,11 @@ static int lua_lang(lua_State *L){
 	return 1;
 }
 
-static int lua_title(lua_State *L){
+static int lua_title(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	char title[256];
 	sceAppMgrAppParamGetString(0, 9, title , 256);
@@ -1082,10 +1131,11 @@ static int lua_title(lua_State *L){
 	return 1;
 }
 
-static int lua_titleid(lua_State *L){
+static int lua_titleid(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	char title[16];
 	sceAppMgrAppParamGetString(0, 12, title , 256);
@@ -1093,10 +1143,11 @@ static int lua_titleid(lua_State *L){
 	return 1;
 }
 
-static int lua_model(lua_State *L){
+static int lua_model(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushinteger(L,sceKernelGetModel());
 	return 1;
@@ -1105,7 +1156,8 @@ static int lua_model(lua_State *L){
 static int lua_ZipExtract(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 2) return luaL_error(L, "wrong number of arguments.");
+	if(argc != 2)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 	const char* FileToExtract = luaL_checkstring(L, 1);
 	const char* DirTe = luaL_checkstring(L, 2);
@@ -1141,7 +1193,8 @@ static int lua_ZipExtract(lua_State *L) {
 			fclose(f);
 			unzCloseCurrentFile(zipfile);
 		}
-		if ((zip_idx + 1) < num_files) unzGoToNextFile(zipfile);
+		if ((zip_idx + 1) < num_files)
+			unzGoToNextFile(zipfile);
 	}
 	unzClose(zipfile);
 	return 0;
@@ -1161,9 +1214,8 @@ static int lua_zip(lua_State *L) {
 	if (f) {
 		fclose(f);
 		addFileToZip(zFile, "", ToCompress, compression_level);
-	} else {
+	} else
 		addDirToZip(zFile, "", ToCompress, compression_level);
-	}
 	zipClose(zFile, nullptr);
 	return 0;
 }
@@ -1171,21 +1223,22 @@ static int lua_zip(lua_State *L) {
 static int lua_addzip(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments.");
+	if(argc != 3 && argc != 4)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 	char *ToCompress = luaL_checkstring(L, 1);
 	const char *FileName = luaL_checkstring(L, 2);
 	char *Parent = luaL_checkstring(L, 3);
 	int compression_level = Z_DEFAULT_COMPRESSION;
-	if (argc == 4) compression_level = luaL_checkinteger(L, 4);
+	if (argc == 4)
+		compression_level = luaL_checkinteger(L, 4);
 	zipFile zFile = zipOpen(FileName, APPEND_STATUS_ADDINZIP);
 	FILE *f = fopen(ToCompress, "r");
 	if (f) {
 		fclose(f);
 		addFileToZip(zFile, Parent, ToCompress, compression_level);
-	} else {
+	} else
 		addDirToZip(zFile, Parent, ToCompress, compression_level);
-	}
 	zipClose(zFile, nullptr);
 	return 0;
 }
@@ -1193,8 +1246,10 @@ static int lua_addzip(lua_State *L) {
 static int lua_ZipExtractAsync(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments.");
-	if (async_task_num == ASYNC_TASKS_MAX) return luaL_error(L, "cannot start more async tasks.");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments.");
+	if (async_task_num == ASYNC_TASKS_MAX)
+		return luaL_error(L, "cannot start more async tasks.");
 #endif
 	const char* FileToExtract = luaL_checkstring(L, 1);
 	const char* DirTe = luaL_checkstring(L, 2);
@@ -1207,8 +1262,7 @@ static int lua_ZipExtractAsync(lua_State *L) {
 	asyncMode = FULL_EXTRACT;
 	async_task_num++;
 	SceUID thd = sceKernelCreateThread("Zip Extract Thread", &zipThread, 0x10000100, 0x100000, 0, 0, NULL);
-	if (thd < 0)
-	{
+	if (thd < 0) {
 		asyncResult = -1;
 		return 0;
 	}
@@ -1220,7 +1274,8 @@ static int lua_ZipExtractAsync(lua_State *L) {
 static int lua_getfilefromzip(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 3) return luaL_error(L, "wrong number of arguments.");
+	if(argc != 3)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 	const char* FileToExtract = luaL_checkstring(L, 1);
 	const char* FileToExtract2 = luaL_checkstring(L, 2);
@@ -1249,17 +1304,20 @@ static int lua_getfilefromzip(lua_State *L){
 			unzCloseCurrentFile(zipfile);
 			break;
 		}
-		if ((zip_idx + 1) < num_files) unzGoToNextFile(zipfile);
+		if ((zip_idx + 1) < num_files)
+			unzGoToNextFile(zipfile);
 	}
 	unzClose(zipfile);
 	return 0;
 }
 
-static int lua_getfilefromzipasync(lua_State *L){
+static int lua_getfilefromzipasync(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 3) return luaL_error(L, "wrong number of arguments.");
-	if (async_task_num == ASYNC_TASKS_MAX) return luaL_error(L, "cannot start more async tasks.");
+	if(argc != 3)
+		return luaL_error(L, "wrong number of arguments.");
+	if (async_task_num == ASYNC_TASKS_MAX)
+		return luaL_error(L, "cannot start more async tasks.");
 #endif
 	const char* FileToExtract = luaL_checkstring(L, 1);
 	const char* FileToExtract2 = luaL_checkstring(L, 2);
@@ -1270,8 +1328,7 @@ static int lua_getfilefromzipasync(lua_State *L){
 	sprintf(asyncName, FileToExtract2);
 	async_task_num++;
 	SceUID thd = sceKernelCreateThread("Zip Extract Thread", &zipThread, 0x10000100, 0x100000, 0, 0, NULL);
-	if (thd < 0)
-	{
+	if (thd < 0) {
 		asyncResult = -1;
 		return 0;
 	}
@@ -1280,21 +1337,23 @@ static int lua_getfilefromzipasync(lua_State *L){
 	return 0;
 }
 
-static int lua_getasyncstate(lua_State *L){
+static int lua_getasyncstate(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 0) return luaL_error(L, "wrong number of arguments.");
+	if(argc != 0)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 	lua_pushinteger(L, asyncResult);
 	return 1;
 }
 
-static int lua_getasyncres(lua_State *L){
+static int lua_getasyncres(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 0) return luaL_error(L, "wrong number of arguments.");
+	if(argc != 0)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
-	if (asyncStrRes != NULL){
+	if (asyncStrRes != NULL) {
 		lua_pushlstring(L,(const char*)asyncStrRes,asyncResSize);
 		free(asyncStrRes);
 		asyncStrRes = NULL;
@@ -1305,57 +1364,66 @@ static int lua_getasyncres(lua_State *L){
 static int lua_extractsfo(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 1) return luaL_error(L, "wrong number of arguments.");
+	if(argc != 1)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 	const char* file = luaL_checkstring(L, 1);
 	FILE* f = fopen(file,"rb");
-	if (f == NULL) return luaL_error(L, "error opening SFO file.");
-	else{
+	if (f == NULL)
+		return luaL_error(L, "error opening SFO file.");
+	else {
 		sfo_header_t hdr;
 		fread(&hdr, sizeof(sfo_header_t), 1, f);
-		if (hdr.magic != 0x46535000){
-			fclose(f);
-			return luaL_error(L, "SFO file is corrupted.");
+		int file_offset = 0;
+		if (hdr.magic != 0x46535000) { // SFO file
+			if (hdr.magic != 0x50425000) { // PBP file
+				fclose(f);
+				return luaL_error(L, "SFO file is corrupted.");
+			} else {
+				file_offset = 0x28;
+				fseek(f, 0x28, SEEK_SET);
+				fread(&hdr, sizeof(sfo_header_t), 1, f);
+			}
 		}
 		uint8_t* idx_table = (uint8_t*)malloc((sizeof(sfo_entry_t)*hdr.indexTableEntries));
 		fread(idx_table, sizeof(sfo_entry_t)*hdr.indexTableEntries, 1, f);
 		sfo_entry_t* entry_table = (sfo_entry_t*)idx_table;
-		fseek(f, hdr.keyTableOffset, SEEK_SET);
+		fseek(f, file_offset + hdr.keyTableOffset, SEEK_SET);
 		uint8_t* key_table = (uint8_t*)malloc(hdr.dataTableOffset - hdr.keyTableOffset);
 		fread(key_table, hdr.dataTableOffset - hdr.keyTableOffset, 1, f);
 		lua_newtable(L);
 		uint8_t return_indexes = 0;
-		for (int i=0; i < hdr.indexTableEntries; i++){
+		for (int i=0; i < hdr.indexTableEntries; i++) {
 			char param_name[256];
 			sprintf(param_name, "%s", (char*)&key_table[entry_table[i].keyOffset]);
 			
 			// Returning only relevant info
-			if (strcmp(param_name, "APP_VER") == 0){ // Application Version
-				fseek(f, hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
+			if (strcmp(param_name, "APP_VER") == 0) { // Application Version
+				fseek(f, file_offset + hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 				lua_pushstring(L, "version");
 				char ver[0x08];
 				fread(ver, entry_table[i].paramLen, 1, f);
 				lua_pushstring(L, ver);
 				lua_settable(L, -3);
 				return_indexes++;
-			}else if (strcmp(param_name, "STITLE") == 0){ // Application Title
-				fseek(f, hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
+			}else if (strcmp(param_name, "TITLE") == 0) { // Application Title
+				fseek(f, file_offset + hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 				lua_pushstring(L, "title");
 				char title[0x80];
 				fread(title, 0x80, 1, f);
 				lua_pushstring(L, title);
 				lua_settable(L, -3);
 				return_indexes++;
-			}else if (strcmp(param_name, "CATEGORY") == 0){ // Application Category
-				fseek(f, hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
+			}else if (strcmp(param_name, "CATEGORY") == 0) { // Application Category
+				fseek(f, file_offset + hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 				lua_pushstring(L, "category");
 				char category[0x04];
 				fread(category, entry_table[i].paramLen, 1, f);
 				lua_pushstring(L, category);
 				lua_settable(L, -3);
 				return_indexes++;
-			}else if (strcmp(param_name, "TITLE_ID") == 0){ // Application Title ID
-				fseek(f, hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
+			}else if (strcmp(param_name, "TITLE_ID") == 0) { // Application Title ID
+				fseek(f, file_offset + hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 				lua_pushstring(L, "titleid");
 				char id[0x0C];
 				fread(id, entry_table[i].paramLen, 1, f);
@@ -1373,93 +1441,163 @@ static int lua_extractsfo(lua_State *L) {
 	}
 }
 
-static int lua_executeuri(lua_State *L){
+char *pbp_files[] = {
+	"PARAM.SFO",
+	"ICON0.PNG",
+	"ICON1.PMF",
+	"PIC0.PNG",
+	"PIC1.PNG",
+	"SND0.AT3",
+	"DATA.PSP",
+	"DATA.PSAR"
+};
+
+static int lua_extractpbp(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if(argc != 2)
+		return luaL_error(L, "wrong number of arguments.");
+#endif
+	const char* file = luaL_checkstring(L, 1);
+	const char* path = luaL_checkstring(L, 2);
+	FILE* f = fopen(file,"rb");
+	if (f == NULL)
+		return luaL_error(L, "error opening PBP file.");
+	else {
+		uint32_t magic;
+		fread(&magic, 1, 4, f);
+		if (magic != 0x50425000) {
+			fclose(f);
+			return luaL_error(L, "PBP file is corrupted.");
+		}
+		fseek(f, 0, SEEK_END);
+		uint32_t sizes[9];
+		sizes[8] = ftell(f);
+		char fname[256];
+		fseek(f, 0x08, SEEK_SET);
+		fread(&sizes[0], 1, 4, f);
+		sceIoMkdir(path, 0777);
+		for (int i = 0; i < sizeof(pbp_files) / sizeof(*pbp_files); i++) {
+			if (i != 7) {
+				fseek(f, 0x08 + 4 * (i + 1), SEEK_SET);
+				fread(&sizes[i + 1], 1, 4, f);
+			}
+			if (sizes[i] != sizes[i + 1]) {
+				uint32_t size = sizes[i + 1] - sizes[i];
+				fseek(f, sizes[i], SEEK_SET);
+				sprintf(fname, "%s/%s", path, pbp_files[i]);
+				FILE *f2 = fopen(fname, "w");
+				void *buf = malloc(size);
+				fread(buf, 1, size, f);
+				fwrite(buf, 1, size, f2);
+				free(buf);
+				fclose(f2);
+			}	
+		}
+		fclose(f);
+	}
+	return 0;
+}
+
+static int lua_executeuri(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *uri_string = luaL_checkstring(L, 1);
 	sceAppMgrLaunchAppByUri(0xFFFFF, (char*)uri_string);
 	return 0;
 }
 
-static int lua_reboot(lua_State *L){
+static int lua_reboot(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	scePowerRequestColdReset();
 	return 0;
 }
 
-static int lua_shutdown(lua_State *L){
+static int lua_shutdown(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	scePowerRequestStandby();
 	return 0;
 }
 
-static int lua_standby(lua_State *L){
+static int lua_standby(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	scePowerRequestSuspend();
 	return 0;
 }
 
-static int lua_issafe(lua_State *L){
+static int lua_issafe(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lua_pushboolean(L, !unsafe_mode);
 	return 1;
 }
 
-static int lua_setmsg(lua_State *L){
+static int lua_setmsg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (messageStarted) return luaL_error(L, "cannot start multiple message instances.");
-	if (argc != 3 && argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (messageStarted)
+		return luaL_error(L, "cannot start multiple message instances.");
+	if (argc != 3 && argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char* text = luaL_checkstring(L, 1);
 	bool progressbar = lua_toboolean(L, 2);
 	int buttons = 0;
-	if (argc == 3) buttons = luaL_checkinteger(L, 3);
+	if (argc == 3)
+		buttons = luaL_checkinteger(L, 3);
 #ifndef SKIP_ERROR_HANDLING
-	if (buttons > 4 || buttons < 0) return luaL_error(L, "invalid buttons type argument.");
+	if (buttons > 4 || buttons < 0)
+		return luaL_error(L, "invalid buttons type argument.");
 #endif
 	sprintf(messageText, text);
 	SceMsgDialogParam param;
 	sceMsgDialogParamInit(&param);
-	if (progressbar){
+	if (progressbar) {
 		param.mode = SCE_MSG_DIALOG_MODE_PROGRESS_BAR;
 		sceClibMemset(&barParam, 0, sizeof(SceMsgDialogProgressBarParam));
 		barParam.msg = (const SceChar8*)messageText;
 		barParam.barType = SCE_MSG_DIALOG_PROGRESSBAR_TYPE_PERCENTAGE;
 		param.progBarParam = &barParam;
-	}else{
+	} else {
 		param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
 		sceClibMemset(&msgParam, 0, sizeof(SceMsgDialogUserMessageParam));
 		msgParam.msg = (const SceChar8*)messageText;
 		msgParam.buttonType = buttons;
 		param.userMsgParam = &msgParam;
 	}
-	if (sceMsgDialogInit(&param) < 0) return luaL_error(L, "an error occurred when starting message instance.");
+	if (sceMsgDialogInit(&param) < 0)
+		return luaL_error(L, "an error occurred when starting message instance.");
 	messageStarted = true;
 	return 0;
 }
 
-static int lua_getmsg(lua_State *L){
+static int lua_getmsg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	SceCommonDialogStatus status = sceMsgDialogGetStatus();
-	if (!messageStarted) status = SCE_COMMON_DIALOG_STATUS_FINISHED;
+	if (!messageStarted)
+		status = SCE_COMMON_DIALOG_STATUS_FINISHED;
 	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
 		SceMsgDialogResult result;
 		sceClibMemset(&result, 0, sizeof(SceMsgDialogResult));
@@ -1467,63 +1605,72 @@ static int lua_getmsg(lua_State *L){
 		if (result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) status = (SceCommonDialogStatus)3; // CANCELED status, look at luaKeyboard.cpp
 		sceMsgDialogTerm();
 		messageStarted = false;
-	}else status = SCE_COMMON_DIALOG_STATUS_RUNNING;
+	} else
+		status = SCE_COMMON_DIALOG_STATUS_RUNNING;
 	lua_pushinteger(L, (uint32_t)status);
 	return 1;
 }
 
-static int lua_setprogmsg(lua_State *L){
+static int lua_setprogmsg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (!messageStarted) return luaL_error(L, "no message instances available.");
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!messageStarted)
+		return luaL_error(L, "no message instances available.");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char* msg = luaL_checkstring(L, 1);
 	sceMsgDialogProgressBarSetMsg(SCE_MSG_DIALOG_PROGRESSBAR_TARGET_BAR_DEFAULT, (const SceChar8*)msg);
 	return 0;
 }
 
-static int lua_setprogbar(lua_State *L){
+static int lua_setprogbar(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (!messageStarted) return luaL_error(L, "no message instances available.");
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (!messageStarted)
+		return luaL_error(L, "no message instances available.");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int val = luaL_checkinteger(L, 1);
 	sceMsgDialogProgressBarSetValue(SCE_MSG_DIALOG_PROGRESSBAR_TARGET_BAR_DEFAULT, val);
 	return 0;
 }
 
-static int lua_closemsg(lua_State *L){
+static int lua_closemsg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (!messageStarted) return luaL_error(L, "no message instances available.");
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (!messageStarted)
+		return luaL_error(L, "no message instances available.");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	sceMsgDialogClose();
 	return 0;
 }
 
-static int lua_getpsid(lua_State *L){
+static int lua_getpsid(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif	
 	SceKernelOpenPsId id;
 	sceKernelGetOpenPsId(&id);
 	char psid[64];
 	sprintf(psid, "%02X", id.id[0]);
-	for (int i = 1; i < 16; i++){
+	for (int i = 1; i < 16; i++) {
 		sprintf(&psid[2 + ((i-1) * 3)], ":%02X", id.id[i]);
 	}
 	lua_pushstring(L, psid);
 	return 1;
 }
 
-static int lua_freespace(lua_State *L){
+static int lua_freespace(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	uint64_t free_storage = 0;
 	uint64_t dummy;
@@ -1531,16 +1678,18 @@ static int lua_freespace(lua_State *L){
 	SceIoDevInfo info;
 	sceClibMemset(&info, 0, sizeof(SceIoDevInfo));
 	int res = sceIoDevctl(dev_name, 0x3001, NULL, 0, &info, sizeof(SceIoDevInfo));
-	if (res >= 0) free_storage = info.free_size;
+	if (res >= 0)
+		free_storage = info.free_size;
 	else sceAppMgrGetDevInfo(dev_name, &dummy, &free_storage);
 	lua_pushnumber(L, free_storage);
 	return 1;
 }
 
-static int lua_totalspace(lua_State *L){
+static int lua_totalspace(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	uint64_t total_storage = 0;
 	uint64_t dummy;
@@ -1548,17 +1697,20 @@ static int lua_totalspace(lua_State *L){
 	SceIoDevInfo info;
 	sceClibMemset(&info, 0, sizeof(SceIoDevInfo));
 	int res = sceIoDevctl(dev_name, 0x3001, NULL, 0, &info, sizeof(SceIoDevInfo));
-	if (res >= 0) total_storage = info.max_size;
+	if (res >= 0)
+		total_storage = info.max_size;
 	else sceAppMgrGetDevInfo(dev_name, &total_storage, &dummy);
 	lua_pushnumber(L, total_storage);
 	return 1;
 }
 
-static int lua_firmware(lua_State *L){
+static int lua_firmware(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char fw_str[8];
 	SceKernelFwInfo info;
@@ -1569,10 +1721,11 @@ static int lua_firmware(lua_State *L){
 	return 1;
 }
 
-static int lua_firmware2(lua_State *L){
+static int lua_firmware2(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	char fw_str[8];
 	SceKernelFwInfo info;
@@ -1583,11 +1736,13 @@ static int lua_firmware2(lua_State *L){
 	return 1;
 }
 
-static int lua_firmware3(lua_State *L){
+static int lua_firmware3(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char fw_str[8];
 	int ver;
@@ -1597,22 +1752,26 @@ static int lua_firmware3(lua_State *L){
 	return 1;
 }
 
-static int lua_unmount(lua_State *L){
+static int lua_unmount(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	int idx = luaL_checkinteger(L, 1);
 	vshIoUmount(idx, 1, 0, 0);
 	return 0;
 }
 
-static int lua_mount(lua_State *L){
+static int lua_mount(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	int idx = luaL_checkinteger(L, 1);
 	int perm = luaL_checkinteger(L, 2);
@@ -1624,11 +1783,13 @@ static int lua_mount(lua_State *L){
 	return 0;
 }
 
-static int lua_promote(lua_State *L){
+static int lua_promote(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *dir = luaL_checkstring(L, 1);
 	
@@ -1648,11 +1809,13 @@ static int lua_promote(lua_State *L){
 	return 0;
 }
 
-static int lua_demote(lua_State *L){
+static int lua_demote(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *titleid = luaL_checkstring(L, 1);
 	
@@ -1671,11 +1834,13 @@ static int lua_demote(lua_State *L){
 	return 0;
 }
 
-static int lua_isappin(lua_State *L){
+static int lua_isappin(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *titleid = luaL_checkstring(L, 1);
 	
@@ -1686,11 +1851,13 @@ static int lua_isappin(lua_State *L){
 	return 1;
 }
 
-static int lua_bootparams(lua_State *L){
+static int lua_bootparams(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char bootparams[1024];
 	bootparams[0] = 0;
@@ -1699,11 +1866,13 @@ static int lua_bootparams(lua_State *L){
 	return 1;
 }
 
-static int lua_loadplugin(lua_State *L){
+static int lua_loadplugin(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *fname = luaL_checkstring(L, 1);
 	SceUID modid = sceKernelLoadStartModule(fname, 0, NULL, 0, NULL, NULL);
@@ -1711,11 +1880,13 @@ static int lua_loadplugin(lua_State *L){
 	return 1;
 }
 
-static int lua_loadkplugin(lua_State *L){
+static int lua_loadkplugin(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *fname = luaL_checkstring(L, 1);
 	SceUID modid = taiLoadKernelModule(fname, 0, NULL);
@@ -1728,33 +1899,39 @@ static int lua_loadkplugin(lua_State *L){
 	return 1;
 }
 
-static int lua_unloadplugin(lua_State *L){
+static int lua_unloadplugin(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	SceUID modid = luaL_checkinteger(L, 1);
 	sceKernelStopUnloadModule(modid, 0, NULL, 0, NULL, NULL);
 	return 0;
 }
 
-static int lua_unloadkplugin(lua_State *L){
+static int lua_unloadkplugin(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	SceUID modid = luaL_checkinteger(L, 1);
 	taiStopUnloadKernelModule(modid, 0, NULL, 0, NULL, NULL);
 	return 0;
 }
 
-static int lua_unmountvirtual(lua_State *L){
+static int lua_unmountvirtual(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	if (!unsafe_mode) return luaL_error(L, "this function requires unsafe mode");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+	if (!unsafe_mode)
+		return luaL_error(L, "this function requires unsafe mode");
 #endif
 	char *fname = luaL_checkstring(L, 1);
 	sceAppMgrUmount(fname);
@@ -1811,6 +1988,7 @@ static const luaL_Reg System_functions[] = {
   {"getTitle",                  lua_title},
   {"getTitleID",                lua_titleid},
   {"extractSfo",                lua_extractsfo},
+  {"extractPbp",                lua_extractpbp},
   {"extractZip",                lua_ZipExtract},
   {"compressZip",               lua_zip},
   {"addToZip",                  lua_addzip},

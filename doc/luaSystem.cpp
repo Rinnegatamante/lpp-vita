@@ -844,8 +844,26 @@ class System{
 		 * @param filename - The filename to extract info from.
 		 *
 		 * @return A table with a proper set of info (Look at the sample above).
+		 *
+		 * @note This function can be used also to extract info from PARAM.SFO bundled inside PBP files.
 		 */
 		table extractSfo(string filename);
+		
+		/**
+		 * Extract a PBP file (synchronous).
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.extractPbp("app0:/files.zip", "ux0:/data/app_files")
+		 * @endcode
+		 *
+		 * @param filename - The filename to extract.
+		 * @param dirname - The path where to extract files.
+		 *
+		 * @note If <b>dirname</b> doesn't exist, it will be automatically created.
+		 */
+		void extractPbp(string filename, string dirname);
 		
 		/**
 		 * Extract a ZIP file (synchronous).
