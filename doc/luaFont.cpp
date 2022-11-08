@@ -8,7 +8,7 @@ class Font {
 	public:
 	
 		/**
-		 * Load a .ttf/.pgf/.pvf font file.
+		 * Load a .ttf/.pgf/.pvf/.woff/.pfa/.pfb/.fnt/.bdf font file.
 		 * \ingroup Font
 		 *
 		 * @par Usage example:

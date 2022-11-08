@@ -8,7 +8,7 @@
 
 **Lua Player Plus Vita** is the first lua interpreter made for the Sony PlayStation Vita.
 
-The interpreter currently runs under LuaJIT 2.0.5 with slight additions from Lua 5.2.4 (for example the bit32 lib for bitwise operations). 
+The interpreter currently runs under LuaJIT 2.1 with slight additions from Lua 5.2.4 (for example the bit32 lib for bitwise operations). 
 It has also a debug FTP server to correct your errors in runtime.
 
 Official documentation: http://rinnegatamante.github.io/lpp-vita/
