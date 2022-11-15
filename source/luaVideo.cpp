@@ -101,17 +101,8 @@ void *gpu_alloc(void *p, uint32_t alignment, uint32_t size) {
 		alignment = FRAMEBUFFER_ALIGNMENT;
 	}
 	size = ALIGN(size, alignment);
-#ifdef SYS_APP_MODE
 	size = ALIGN(size, 1024 * 1024);
 	SceUID memblock = sceKernelAllocMemBlock("Video Memblock", SCE_KERNEL_MEMBLOCK_TYPE_USER_MAIN_PHYCONT_NC_RW, size, nullptr);
-#else
-	SceKernelAllocMemBlockOpt opt;
-	memset(&opt, 0, sizeof(opt));
-	opt.size = sizeof(SceKernelAllocMemBlockOpt);
-	opt.attr = SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_ALIGNMENT;
-	opt.alignment = alignment;
-	SceUID memblock = sceKernelAllocMemBlock("Video Memblock", SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW, size, &opt);
-#endif
 	sceKernelGetMemBlockBase(memblock, &res);
 	sceGxmMapMemory(res, size, (SceGxmMemoryAttribFlags)(SCE_GXM_MEMORY_ATTRIB_READ | SCE_GXM_MEMORY_ATTRIB_WRITE));
 	return res;
@@ -130,12 +121,13 @@ static int lua_init(lua_State *L){
 #endif
 	
 	for (int i=0; i < VIDEO_BUFFERING; i++) {
-		videobuf[i] = (vita2d_texture*)malloc(sizeof(vita2d_texture));
-		videobuf[i]->palette_UID = 0;
+		videobuf[i] = vita2d_create_empty_texture(960, 544);
 		memset(&videoFrame[i], 0, sizeof(SceAvPlayerFrameInfo));
 		out_text[i].magic = 0xABADBEEF;
 		out_text[i].text = videobuf[i];
 		out_text[i].data = NULL;
+		glBindTexture(GL_TEXTURE_2D, videobuf[i]->tex_id);
+		vglFree(vglGetTexDataPointer(GL_TEXTURE_2D));
 	}
 	
 	sceSysmoduleLoadModule(SCE_SYSMODULE_AVPLAYER);
@@ -192,12 +184,13 @@ static int lua_output(lua_State *L){
 	if (!isPlayerReady) return luaL_error(L, "you must init the player first.");
 #endif
 	if (sceAvPlayerGetVideoData(avplayer, &videoFrame[videobuf_idx])) {
+		glBindTexture(GL_TEXTURE_2D, videobuf[videobuf_idx]->tex_id);
 		sceGxmTextureInitLinear(
-			&videobuf[videobuf_idx]->gxm_tex,
-			videoFrame[videobuf_idx].pData,
-			SCE_GXM_TEXTURE_FORMAT_YVU420P2_CSC1,
-			videoFrame[videobuf_idx].details.video.width,
-			videoFrame[videobuf_idx].details.video.height, 0);
+					vglGetGxmTexture(GL_TEXTURE_2D),
+					videoFrame[videobuf_idx].pData,
+					SCE_GXM_TEXTURE_FORMAT_YVU420P2_CSC1,
+					videoFrame[videobuf_idx].details.video.width,
+					videoFrame[videobuf_idx].details.video.height, 0);
 		cur_text = &out_text[videobuf_idx];
 		videobuf_idx = (videobuf_idx + 1) % VIDEO_BUFFERING;
 	}

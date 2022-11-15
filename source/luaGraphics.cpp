@@ -30,7 +30,7 @@
 
 #include <string.h>
 #include <vitasdk.h>
-#include <vita2d.h>
+#include <vita2d_vgl.h>
 #include <utils.h>
 #include "include/luaplayer.h"
 
@@ -256,7 +256,6 @@ static int lua_init(lua_State *L) {
 	else draw_state = true;
 #endif
 	if (isRescaling) {
-		vita2d_pool_reset();
 		vita2d_start_drawing_advanced(scaler.fbo, SCE_GXM_SCENE_FRAGMENT_SET_DEPENDENCY);
 	}else vita2d_start_drawing();
 	return 0;
@@ -461,8 +460,9 @@ static int lua_loadanimg(lua_State *L) {
 	uint32_t num_frames = 0;
 	if (magic == 0x4947) {
 		gd_GIF *f = gd_open_gif(text);
-		result = (vita2d_texture*)malloc(sizeof(vita2d_texture));
-		result->palette_UID = 0;
+		result = vita2d_create_empty_texture(f->width, f->height);
+		glBindTexture(GL_TEXTURE_2D, result->tex_id);
+		vglFree(vglGetTexDataPointer(GL_TEXTURE_2D));
 		while (gd_get_frame(f)) {
 			num_frames++;
 		}
@@ -478,7 +478,7 @@ static int lua_loadanimg(lua_State *L) {
 				pixel_data += 3;
 			}
 			frame += f->width * f->height;
-			sceGxmTextureInitLinear(&result->gxm_tex, frames, SCE_GXM_TEXTURE_FORMAT_A8B8G8R8, f->width, f->height, 0);
+			sceGxmTextureInitLinear(vglGetGxmTexture(GL_TEXTURE_2D), frames, SCE_GXM_TEXTURE_FORMAT_A8B8G8R8, f->width, f->height, 0);
 		}
 		gd_close_gif(f);
 		free(rgb_data);
@@ -515,6 +515,7 @@ static int lua_getnumframes(lua_State *L) {
 }
 
 static int lua_setframe(lua_State *L) {
+
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
 	if (argc != 2) return luaL_error(L, "wrong number of arguments");
@@ -531,7 +532,8 @@ static int lua_setframe(lua_State *L) {
 	if (idx >= d->num_frames) idx = d->num_frames - 1;
 	int w = vita2d_texture_get_width(text->text);
 	int h = vita2d_texture_get_height(text->text);
-	sceGxmTextureInitLinear(&text->text->gxm_tex, &frames[w * h * idx], SCE_GXM_TEXTURE_FORMAT_A8B8G8R8, w, h, 0);
+	glBindTexture(GL_TEXTURE_2D, text->text->tex_id);
+	sceGxmTextureInitLinear(vglGetGxmTexture(GL_TEXTURE_2D), &frames[w * h * idx], SCE_GXM_TEXTURE_FORMAT_A8B8G8R8, w, h, 0);
 	return 0;
 }
 

@@ -29,7 +29,7 @@
 #-----------------------------------------------------------------------------------------------------------------------*/
 
 #include <vitasdk.h>
-#include <vita2d.h>
+#include <vita2d_vgl.h>
 #include "include/luaplayer.h"
 
 static int lua_flip(lua_State *L){
@@ -47,7 +47,7 @@ static int lua_clear(lua_State *L){
 	if ((argc != 1) && (argc != 0)) return luaL_error(L, "wrong number of arguments.");
 	#endif
 	if (argc == 1){
-		int color = luaL_checkinteger(L,1);
+		unsigned int color = luaL_checkinteger(L,1);
 		if (color != clr_color){
 			vita2d_set_clear_color(RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 			clr_color = color;
@@ -64,8 +64,10 @@ static int lua_getP(lua_State *L) {
 	#endif
 	int x = luaL_checkinteger(L, 1);
 	int y = luaL_checkinteger(L, 2);
-	uint32_t* buffer = (uint32_t*)vita2d_get_current_fb();
-	lua_pushinteger(L,buffer[x + y * 960]);
+	
+	uint32_t pixel;
+	glReadPixels(x, 543 - y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixel);
+	lua_pushinteger(L, pixel);
 	return 1;
 }
 

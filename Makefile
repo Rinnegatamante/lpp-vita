@@ -3,13 +3,15 @@ SOURCES		:= source/include/ftp source/include source source/include/audiodec
 			
 INCLUDES	:= include
 
-LIBS = -lcurl -lssl -lcrypto -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lSceLibKernel_stub -lScePvf_stub \
-	-limgui_vita2d -lSceJpegEnc_stub -lSceAppMgr_stub -lSceCtrl_stub -lSceTouch_stub -lSceMotion_stub \
+LIBS = -limgui -lcurl -lssl -lcrypto -lsndfile -lvorbisfile -lvorbis -logg -lFLAC -lvita2d_vgl \
+	-lvitaGL -lvitashark -lSceShaccCgExt -ltaihen_stub -lSceShaccCg_stub -lSceLibKernel_stub -lScePvf_stub \
+	-lvorbisenc -lSceJpegEnc_stub -lSceAppMgr_stub -lSceCtrl_stub -lSceTouch_stub -lSceMotion_stub \
 	-lScePromoterUtil_stub -lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz -lSceCamera_stub \
 	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub -lSceShellSvc_stub -limagequant \
 	-lopusfile -lopus -lSceHttp_stub -lSceAudioIn_stub -lluajit -ldl -ltaihen_stub  -lSceSysmodule_stub \
-	-lSceShutterSound_stub -lSceSsl_stub -lSceVshBridge_stub -lSceAvPlayer_stub -lSceRegistryMgr_stub
+	-lSceShutterSound_stub -lSceSsl_stub -lSceVshBridge_stub -lSceAvPlayer_stub -lSceRegistryMgr_stub \
+	-lSceKernelDmacMgr_stub -lmathneon -ltoloader
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))

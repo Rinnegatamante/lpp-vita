@@ -3,7 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <vitasdk.h>
-#include <vita2d.h>
+#include <vita2d_vgl.h>
 #include "include/luaplayer.h"
 extern "C"{
 	#include "include/ftp/ftp.h"
@@ -26,6 +26,7 @@ SceCommonDialogConfigParam cmnDlgCfgParam;
 
 int main()
 {
+	sceSysmoduleLoadModule(SCE_SYSMODULE_RAZOR_CAPTURE);
 	// Initializing touch screens and analogs
 	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
@@ -55,7 +56,8 @@ int main()
 	unsigned short int vita_port = 0;
 	
 	// Initializing graphics device
-	vita2d_init_advanced(0x800000);
+	vglInitExtended(0, 960, 544, 24 * 1024 * 1024, SCE_GXM_MULTISAMPLE_4X);
+	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
 	vita2d_set_vblank_wait(0);
 	clr_color = 0x000000FF;

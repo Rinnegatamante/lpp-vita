@@ -34,7 +34,7 @@
 extern "C"{
 #include <vitasdk.h>
 }
-#include <imgui_vita2d/imgui_vita.h>
+#include <imgui_vita.h>
 #include "include/luaplayer.h"
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
@@ -67,12 +67,12 @@ static int lua_init(lua_State *L) {
 #endif
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui_ImplVita2D_Init();
+	ImGui_ImplVitaGL_Init();
 	ImGui::StyleColorsDark();
-	ImGui_ImplVita2D_TouchUsage(true);
-	ImGui_ImplVita2D_UseIndirectFrontTouch(true);
-	ImGui_ImplVita2D_UseRearTouch(false);
-	ImGui_ImplVita2D_GamepadUsage(true);
+	ImGui_ImplVitaGL_TouchUsage(true);
+	ImGui_ImplVitaGL_UseIndirectFrontTouch(true);
+	ImGui_ImplVitaGL_UseRearTouch(false);
+	ImGui_ImplVitaGL_GamepadUsage(true);
 	
 	return 0;
 }
@@ -86,10 +86,10 @@ static int lua_config(lua_State *L) {
 	bool use_rearpad = lua_toboolean(L, 2);
 	bool use_buttons = lua_toboolean(L, 3);
 	bool use_indirect_touch = lua_toboolean(L, 4);
-	ImGui_ImplVita2D_TouchUsage(use_touch);
-	ImGui_ImplVita2D_UseIndirectFrontTouch(use_indirect_touch);
-	ImGui_ImplVita2D_UseRearTouch(use_rearpad);
-	ImGui_ImplVita2D_GamepadUsage(use_buttons);
+	ImGui_ImplVitaGL_TouchUsage(use_touch);
+	ImGui_ImplVitaGL_UseIndirectFrontTouch(use_indirect_touch);
+	ImGui_ImplVitaGL_UseRearTouch(use_rearpad);
+	ImGui_ImplVitaGL_GamepadUsage(use_buttons);
 	return 0;
 }
 
@@ -98,7 +98,7 @@ static int lua_term(lua_State *L) {
 #ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 #endif
-	ImGui_ImplVita2D_Shutdown();
+	ImGui_ImplVitaGL_Shutdown();
 	ImGui::DestroyContext();
 
 	return 0;
@@ -109,7 +109,7 @@ static int lua_initblend(lua_State *L) {
 #ifndef SKIP_ERROR_HANDLING
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 #endif
-	ImGui_ImplVita2D_NewFrame();
+	ImGui_ImplVitaGL_NewFrame();
 	
 	return 0;
 }
@@ -120,7 +120,7 @@ static int lua_termblend(lua_State *L) {
 	if (argc != 0) return luaL_error(L, "wrong number of arguments");
 #endif
 	ImGui::Render();
-	ImGui_ImplVita2D_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplVitaGL_RenderDrawData(ImGui::GetDrawData());
 	
 	return 0;
 }

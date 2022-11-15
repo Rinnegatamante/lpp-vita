@@ -7,7 +7,7 @@ System.setGpuXbarSpeed(166)
 -- Load image
 texture = Graphics.loadImage("ux0:/data/lpp-vita/samples/3D Model/Monkey.bmp")
 -- Load the model
-mod1 = Render.loadObject("ux0:/data/lpp-vita/samples/3D Model/Monkey.obj", texture)
+mod1 = Render.loadObject("ux0:/data/lpp-vita/samples/3D Model/Monkey.obj")
 
 -- Set default angle, position and translation values
 z = -20.0
@@ -34,7 +34,9 @@ while true do
 	-- Blend the model with info on screen
 	Graphics.initBlend()
 	Screen.clear()
-	Render.drawModel(mod1, math.sin(x), math.cos(y), z, angleX, angleY, angleZ)
+	Graphics.termBlend()
+	Render.drawModel(mod1)
+	Graphics.initBlend()
 	Graphics.debugPrint(3, 3, "Lua Player Plus Vita - Render Module Sample - 3D Model Test", Color.new(255,255,255))
 	Graphics.debugPrint(3, 23, "Press TRIANGLE to return to the main menu.", Color.new(255,255,255))
 	Graphics.termBlend()

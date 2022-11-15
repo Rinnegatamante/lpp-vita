@@ -37,7 +37,7 @@
 #include <stdlib.h>
 #include <lua.hpp>
 #include <vitasdk.h>
-#include <vita2d.h>
+#include <vita2d_vgl.h>
 
 extern void luaC_collectgarbage (lua_State *L);
 
