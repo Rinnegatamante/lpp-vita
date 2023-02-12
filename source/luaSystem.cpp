@@ -696,10 +696,8 @@ static int lua_exit(lua_State *L) {
 	if (argc != 0)
 		return luaL_error(L, "wrong number of arguments");
 #endif
-	char stringbuffer[256];
-	strcpy(stringbuffer,"lpp_shutdown");
-	luaL_dostring(L, "collectgarbage()");
-	return luaL_error(L, stringbuffer); //Fake LUA error
+	sceKernelExitProcess(0);
+	return 0;
 }
 
 static int lua_wait(lua_State *L) {
