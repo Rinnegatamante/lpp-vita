@@ -1404,7 +1404,7 @@ static int lua_extractsfo(lua_State *L) {
 				lua_pushstring(L, ver);
 				lua_settable(L, -3);
 				return_indexes++;
-			}else if (strcmp(param_name, "TITLE") == 0) { // Application Title
+			} else if (strcmp(param_name, "TITLE") == 0) { // Application Title
 				fseek(f, file_offset + hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 				lua_pushstring(L, "title");
 				char title[0x80];
@@ -1412,7 +1412,15 @@ static int lua_extractsfo(lua_State *L) {
 				lua_pushstring(L, title);
 				lua_settable(L, -3);
 				return_indexes++;
-			}else if (strcmp(param_name, "CATEGORY") == 0) { // Application Category
+			} else if (strcmp(param_name, "STITLE") == 0) { // Application Short Title
+				fseek(f, file_offset + hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
+				lua_pushstring(L, "short_title");
+				char title[0x80];
+				fread(title, 0x80, 1, f);
+				lua_pushstring(L, title);
+				lua_settable(L, -3);
+				return_indexes++;
+			} else if (strcmp(param_name, "CATEGORY") == 0) { // Application Category
 				fseek(f, file_offset + hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 				lua_pushstring(L, "category");
 				char category[0x04];
@@ -1420,7 +1428,7 @@ static int lua_extractsfo(lua_State *L) {
 				lua_pushstring(L, category);
 				lua_settable(L, -3);
 				return_indexes++;
-			}else if (strcmp(param_name, "TITLE_ID") == 0) { // Application Title ID
+			} else if (strcmp(param_name, "TITLE_ID") == 0) { // Application Title ID
 				fseek(f, file_offset + hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 				lua_pushstring(L, "titleid");
 				char id[0x0C];

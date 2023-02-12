@@ -837,6 +837,7 @@ class System{
 		 * info = System.extractSfo("app0:/sce_sys/param.sfo")
 		 * app_version = info.version
 		 * app_title = info.title
+		 * app_short_title = info.short_title
 		 * app_category = info.category
 		 * app_titleid = info.titleid
 		 * @endcode
