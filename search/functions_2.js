@@ -18,7 +18,7 @@ var searchData=
   ['drawcolorpicker_475',['drawColorPicker',['../group___gui.html#gac251abfdb1a9fcd4e64b71bb328d3636',1,'Gui']]],
   ['drawcombobox_476',['drawComboBox',['../group___gui.html#gaf4e91dce0bae322d9de1043be81d5c41',1,'Gui']]],
   ['drawdisabledtext_477',['drawDisabledText',['../group___gui.html#gad0d5c1eb6529b196145efea74bd1ce37',1,'Gui']]],
-  ['drawimage_478',['drawImage',['../group___graphics.html#ga68ce7a33944635202efaf0b806b2f757',1,'Graphics::drawImage()'],['../group___gui.html#gad8cafabbb189ee2e1c340540f2b00393',1,'Gui::drawImage()']]],
+  ['drawimage_478',['drawImage',['../group___gui.html#gad8cafabbb189ee2e1c340540f2b00393',1,'Gui::drawImage()'],['../group___graphics.html#ga68ce7a33944635202efaf0b806b2f757',1,'Graphics::drawImage(number x, number y, int img, int color)']]],
   ['drawimageextended_479',['drawImageExtended',['../group___graphics.html#ga395109883f4d6fbbeee9477ab664e8b0',1,'Graphics']]],
   ['drawintslider_480',['drawIntSlider',['../group___gui.html#gae67a5a6f71b563533b786feb34c5d151',1,'Gui']]],
   ['drawline_481',['drawLine',['../group___graphics.html#ga4eef9dc05929c765f5174b53f524f095',1,'Graphics']]],

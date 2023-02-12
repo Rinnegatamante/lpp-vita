@@ -58,7 +58,7 @@ var searchData=
   ['gettextsize_569',['getTextSize',['../group___gui.html#gab0354030f0ffc9b2bd0b8783c66782e9',1,'Gui']]],
   ['gettextwidth_570',['getTextWidth',['../group___font.html#gacb89fea3fcbeaac3bb3f7b5bc987223c',1,'Font']]],
   ['gettime_571',['getTime',['../group___system.html#ga6c22ea39ba26fd9d843c34e1df9602d6',1,'System::getTime()'],['../group___timer.html#ga32099cb6bc702a69522fae58767376b8',1,'Timer::getTime()'],['../group___video.html#ga5af7fc68d7de9c9e13ba164a947be12f',1,'Video::getTime()']]],
-  ['gettitle_572',['getTitle',['../group___sound.html#ga1f19e3668f09f7cb538e3a931260ec06',1,'Sound::getTitle()'],['../group___system.html#ga26a65a0c12c8e4f98051b62057002742',1,'System::getTitle()']]],
+  ['gettitle_572',['getTitle',['../group___system.html#ga26a65a0c12c8e4f98051b62057002742',1,'System::getTitle()'],['../group___sound.html#ga1f19e3668f09f7cb538e3a931260ec06',1,'Sound::getTitle()']]],
   ['gettitleid_573',['getTitleID',['../group___system.html#gadec1b4d88d7cbeeba5b30c6339080744',1,'System']]],
   ['gettotalspace_574',['getTotalSpace',['../group___system.html#ga0b38c460ab50c37c547f18b71e7cda75',1,'System']]],
   ['getusername_575',['getUsername',['../group___system.html#ga8a345acaf4ae23c2edefde72d75e35f8',1,'System']]],

@@ -44,7 +44,7 @@ var searchData=
   ['getmessagestate_179',['getMessageState',['../group___system.html#ga53054964e2b08b230c2a256fdb4e28ac',1,'System']]],
   ['getmodel_180',['getModel',['../group___system.html#gaec598b30c0d06a9e56d3c1c17ad56f99',1,'System']]],
   ['getnightmode_181',['getNightmode',['../group___camera.html#ga47869c2cca6424ee0eab75f8f6352c7d',1,'Camera']]],
-  ['getoutput_182',['getOutput',['../group___camera.html#ga28ce6279ac8d05b0cfb732e9b9a9260c',1,'Camera::getOutput()'],['../group___video.html#gae7e2bb6ca761e532893d643109048407',1,'Video::getOutput()']]],
+  ['getoutput_182',['getOutput',['../group___video.html#gae7e2bb6ca761e532893d643109048407',1,'Video::getOutput()'],['../group___camera.html#ga28ce6279ac8d05b0cfb732e9b9a9260c',1,'Camera::getOutput()']]],
   ['getpixel_183',['getPixel',['../group___graphics.html#gab2580e138b3f2c491b6964554449d572',1,'Graphics::getPixel()'],['../group___screen.html#gaa2a50bbe248a91c38271c8a96dde95df',1,'Screen::getPixel()']]],
   ['getpsid_184',['getPsId',['../group___system.html#gaf59743690feee9c1d8bc4f18d3a0a39d',1,'System']]],
   ['getr_185',['getR',['../group___color.html#ga55ea32e02b08c4a8bb48cd0e7bc8e7b8',1,'Color']]],
@@ -59,7 +59,7 @@ var searchData=
   ['gettextsize_194',['getTextSize',['../group___gui.html#gab0354030f0ffc9b2bd0b8783c66782e9',1,'Gui']]],
   ['gettextwidth_195',['getTextWidth',['../group___font.html#gacb89fea3fcbeaac3bb3f7b5bc987223c',1,'Font']]],
   ['gettime_196',['getTime',['../group___system.html#ga6c22ea39ba26fd9d843c34e1df9602d6',1,'System::getTime()'],['../group___timer.html#ga32099cb6bc702a69522fae58767376b8',1,'Timer::getTime()'],['../group___video.html#ga5af7fc68d7de9c9e13ba164a947be12f',1,'Video::getTime()']]],
-  ['gettitle_197',['getTitle',['../group___sound.html#ga1f19e3668f09f7cb538e3a931260ec06',1,'Sound::getTitle()'],['../group___system.html#ga26a65a0c12c8e4f98051b62057002742',1,'System::getTitle()']]],
+  ['gettitle_197',['getTitle',['../group___sound.html#ga1f19e3668f09f7cb538e3a931260ec06',1,'Sound::getTitle()'],['../group___system.html#ga26a65a0c12c8e4f98051b62057002742',1,'System::getTitle(void)']]],
   ['gettitleid_198',['getTitleID',['../group___system.html#gadec1b4d88d7cbeeba5b30c6339080744',1,'System']]],
   ['gettotalspace_199',['getTotalSpace',['../group___system.html#ga0b38c460ab50c37c547f18b71e7cda75',1,'System']]],
   ['getusername_200',['getUsername',['../group___system.html#ga8a345acaf4ae23c2edefde72d75e35f8',1,'System']]],
@@ -67,7 +67,7 @@ var searchData=
   ['getwhitebalance_202',['getWhiteBalance',['../group___camera.html#gabce49a805a664b20d748cb3812eb515e',1,'Camera']]],
   ['getwifilevel_203',['getWifiLevel',['../group___network.html#ga6e72caac5bb0ba1249e7c95bfd78281f',1,'Network']]],
   ['getzoom_204',['getZoom',['../group___camera.html#ga310bac1a1ad81c3245036b3498f7524e',1,'Camera']]],
-  ['graphics_205',['Graphics',['../class_graphics.html',1,'Graphics'],['../group___graphics.html',1,'(Global Namespace)']]],
-  ['gui_206',['Gui',['../class_gui.html',1,'Gui'],['../group___gui.html',1,'(Global Namespace)']]],
+  ['graphics_205',['Graphics',['../group___graphics.html',1,'(Global Namespace)'],['../class_graphics.html',1,'Graphics']]],
+  ['gui_206',['Gui',['../group___gui.html',1,'(Global Namespace)'],['../class_gui.html',1,'Gui']]],
   ['guitheme_207',['GuiTheme',['../group___gui.html#ga6e80df1fb4461f16051c2f972fe4a3f3',1,'luaGui.cpp']]]
 ];
