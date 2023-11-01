@@ -44,10 +44,12 @@ static int sqlite_callback(void *data, int argc, char **argv, char **azColName){
 	lua_State *L = (lua_State*)data;
 	lua_pushnumber(L, callback_results++);
 	lua_newtable(L);
-	for (int i = 0; i < argc; i++){
+	for (int i = 0; i < argc; i++) {
 		lua_pushstring(L,  azColName[i]);
-		if (argv[i] != NULL) lua_pushstring(L, argv[i]);
-		else lua_pushnil(L);
+		if (argv[i] != NULL)
+			lua_pushstring(L, argv[i]);
+		else
+			lua_pushnil(L);
 		lua_settable(L, -3);
 	}
 	lua_settable(L, -3);
@@ -57,7 +59,8 @@ static int sqlite_callback(void *data, int argc, char **argv, char **azColName){
 static int lua_opendb(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	const char *file = luaL_checkstring(L, 1);
 	sqlite3 *db;
@@ -71,7 +74,8 @@ static int lua_opendb(lua_State *L){
 static int lua_closedb(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	sqlite3 *db = (sqlite3*)luaL_checkinteger(L, 1);
 	sqlite3_close(db);
@@ -81,15 +85,15 @@ static int lua_closedb(lua_State *L){
 static int lua_query(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	sqlite3 *db = (sqlite3*)luaL_checkinteger(L, 1);
 	const char *query = luaL_checkstring(L, 2);
 	callback_results = 1;
-	char *zErrMsg = NULL;
 	lua_newtable(L);
-	int fd = sqlite3_exec(db, query, sqlite_callback, L, &zErrMsg);
-	if (fd != SQLITE_OK){
+	int fd = sqlite3_exec(db, query, sqlite_callback, L, NULL);
+	if (fd != SQLITE_OK) {
 		return luaL_error(L, sqlite3_errmsg(db));
 	}
 	return 1;
