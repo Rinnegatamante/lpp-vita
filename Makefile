@@ -8,7 +8,7 @@ LIBS = -lcurl -lssl -lcrypto -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lSc
 	-lspeexdsp -lmpg123 -lSceAudio_stub -lSceGxm_stub -lSceDisplay_stub -lSceShellSvc_stub -limagequant \
 	-lopusfile -lFLAC -lvorbis -lvorbisenc -lopus -lSceHttp_stub -lSceAudioIn_stub -lluajit-5.1 -ldl \
 	-ltaihen_stub -lSceKernelModulemgr_stub -lSceSblSsMgr_stub  -lSceSysmodule_stub -lSceShutterSound_stub \
-	-lSceSsl_stub -lSceVshBridge_stub -lSceAvPlayer_stub -lSceRegistryMgr_stub
+	-lSceSsl_stub -lSceVshBridge_stub -lSceAvPlayer_stub -lSceRegistryMgr_stub -lbz2
 
 CFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.c))
 CPPFILES   := $(foreach dir,$(SOURCES), $(wildcard $(dir)/*.cpp))
