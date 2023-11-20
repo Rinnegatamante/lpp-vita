@@ -30,6 +30,7 @@
 #define NET_INIT_SIZE 1*1024*1024
 #include <vitasdk.h>
 #include <curl/curl.h>
+#include <cstring>
 #include "include/luaplayer.h"
 
 extern "C"{

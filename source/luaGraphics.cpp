@@ -31,7 +31,7 @@
 #include <string.h>
 #include <vitasdk.h>
 #include <vita2d.h>
-#include <utils.h>
+#include "include/utils.h"
 #include "include/luaplayer.h"
 
 extern "C"{

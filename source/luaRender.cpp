@@ -32,7 +32,7 @@
 #include <string.h>
 #include <vitasdk.h>
 extern "C"{
-	#include <utils.h> // utils.h file from vita2d
+	#include "include/utils.h"
 }
 #include <vita2d.h>
 #include "include/luaplayer.h"
