@@ -47,7 +47,7 @@ SceUID AudioThreads[AUDIO_CHANNELS], MicThread, Audio_Mutex, NewTrack_Mutex;
 DecodedMusic* new_track = NULL;
 static bool initialized = false;
 static bool mpg123_inited = false;
-bool availThreads[AUDIO_CHANNELS];
+bool availThreads[AUDIO_CHANNELS] = {false, false, false, false, false, false, false, false};
 std::unique_ptr<AudioDecoder> audio_decoder[AUDIO_CHANNELS];
 static volatile bool mustExit = false;
 static uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDIO_CHANNELS macro
@@ -55,7 +55,7 @@ static uint8_t ids[] = {0, 1, 2, 3, 4, 5, 6 ,7}; // Change this if you edit AUDI
 extern void replace_header_handle(mpg123_handle *handle);
 
 // Audio thread code
-static int audioThread(unsigned int args, void* arg){
+static int audioThread(unsigned int args, void* arg) {
 
 	// Getting thread id
 	uint8_t* argv = (uint8_t*)arg;
@@ -67,7 +67,7 @@ static int audioThread(unsigned int args, void* arg){
 	
 	DecodedMusic* mus;
 	int old_volume;
-	for (;;){
+	for (;;) {
 		
 		// Waiting for an audio output request
 		sceKernelWaitSema(Audio_Mutex, 1, NULL);
@@ -79,7 +79,7 @@ static int audioThread(unsigned int args, void* arg){
 		mus = new_track;
 		
 		// Checking if a new track is available
-		if (mus == NULL){
+		if (mus == NULL) {
 			
 			//If we enter here, we probably are in the exiting procedure
 			if (mustExit){
@@ -100,8 +100,8 @@ static int audioThread(unsigned int args, void* arg){
 		
 		// Initializing audio decoder
 		audio_decoder[id] = AudioDecoder::Create(mus->handle, "Track");
-		if (audio_decoder[id] == NULL){ // TODO: Find why this case apparently can happen
-			if (mus->tempBlock){
+		if (audio_decoder[id] == NULL) { // TODO: Find why this case apparently can happen
+			if (mus->tempBlock) {
 				free(mus);
 				mus = NULL;
 			}else{
@@ -120,7 +120,7 @@ static int audioThread(unsigned int args, void* arg){
 		AudioDecoder::Format fmt;
 		audio_decoder[id]->GetFormat(rate, fmt, chns);
 		
-		if (rate != 48000){ // That should not happen
+		if (rate != 48000) { // That should not happen
 			audio_decoder[id].reset();
 			if (mus->tempBlock){
 				free(mus);
@@ -141,10 +141,10 @@ static int audioThread(unsigned int args, void* arg){
 		mus->cur_audiobuf = mus->audiobuf;
 		
 		// Audio playback loop
-		for (;;){
+		for (;;) {
 		
 			// Check if the music must be paused
-			if (mus->pauseTrigger || mustExit){
+			if (mus->pauseTrigger || mustExit) {
 			
 				// Check if the music must be closed
 				if (mus->closeTrigger){
@@ -158,10 +158,10 @@ static int audioThread(unsigned int args, void* arg){
 				}
 				
 				// Check if the thread must be closed
-				if (mustExit){
+				if (mustExit) {
 				
 					// Check if the audio stream has already been closed
-					if (mus != NULL){
+					if (mus != NULL) {
 						mus->closeTrigger = true;
 						continue;
 					}
@@ -179,14 +179,13 @@ static int audioThread(unsigned int args, void* arg){
 			}
 			
 			// Check if a volume change request arrived
-			if (mus->volume != old_volume){
+			if (mus->volume != old_volume) {
 				int vol_stereo_new[] = {mus->volume, mus->volume};
 				sceAudioOutSetVolume(ch, (SceAudioOutChannelFlag)(SCE_AUDIO_VOLUME_FLAG_L_CH | SCE_AUDIO_VOLUME_FLAG_R_CH), vol_stereo_new);
 				old_volume = mus->volume;
 			}
 			
-			if (mus->isPlaying){
-				
+			if (mus->isPlaying) {
 				// Check if audio playback finished
 				if ((!mus->loop) && audio_decoder[id]->IsFinished()) mus->isPlaying = false;
 				
@@ -194,56 +193,50 @@ static int audioThread(unsigned int args, void* arg){
 				if (mus->cur_audiobuf == mus->audiobuf) mus->cur_audiobuf = mus->audiobuf2;
 				else mus->cur_audiobuf = mus->audiobuf;
 				audio_decoder[id]->Decode(mus->cur_audiobuf, (chns > 1) ? BUFSIZE : BUFSIZE_MONO);
-				sceAudioOutOutput(ch, mus->cur_audiobuf);
-				
-			}else{
-				
+				sceAudioOutOutput(ch, mus->cur_audiobuf);	
+			} else {
 				// Check if we finished a non-looping audio playback
-				if ((!mus->loop) && audio_decoder[id]->IsFinished()){
-					
+				if ((!mus->loop) && audio_decoder[id]->IsFinished()) {
 					// Releasing the audio file
 					audio_decoder[id].reset();
-					if (mus->tempBlock){
+					if (mus->tempBlock) {
 						free(mus->audiobuf);
 						free(mus->audiobuf2);
 						free(mus);
 						mus = NULL;
-					}else{
+					} else {
 						mus->handle = fopen(mus->filepath,"rb");
 						mus->audioThread = 0xFF;
 					}
 					availThreads[id] = true;
-					break;
-					
-				}else sceKernelDelayThread(100); // Tricky way to call a re-scheduling
-				
+					break;		
+				} else
+					sceKernelDelayThread(100); // Tricky way to call a re-scheduling
 			}
-			
 		}
-		
 	}
-	
 }
 
-static int lua_init(lua_State *L){
+static int lua_init(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	
-	if (!initialized){
-	
+	if (!initialized) {
 		// Creating audio mutexs
 		Audio_Mutex = sceKernelCreateSema("Audio Mutex", 0, 0, 1, NULL);
 		NewTrack_Mutex = sceKernelCreateSema("NewTrack Mutex", 0, 1, 1, NULL);
 		Mic_Mutex = sceKernelCreateSema("Mic Mutex", 0, 0, 1, NULL);
 		
 		// Starting audio threads
-		for (int i=0;i < AUDIO_CHANNELS; i++){
+		for (int i=0;i < AUDIO_CHANNELS; i++) {
 			availThreads[i] = true;
 			AudioThreads[i] = sceKernelCreateThread("Audio Thread", &audioThread, 0x10000100, 0x10000, 0, 0, NULL);
 			int res = sceKernelStartThread(AudioThreads[i], sizeof(ids[i]), &ids[i]);
-			if (res != 0) return luaL_error(L, "Failed to init an audio thread.");
+			if (res != 0)
+				return luaL_error(L, "Failed to init an audio thread.");
 		}
 		
 		// Starting mic thread
@@ -258,18 +251,18 @@ static int lua_init(lua_State *L){
 	return 0;
 }
 
-static int lua_term(lua_State *L){
+static int lua_term(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	
-	if (initialized){
-		
+	if (initialized) {
 		// Starting exit procedure for audio threads
 		mustExit = true;
 		sceKernelSignalSema(Audio_Mutex, 1);
-		for (int i=0;i<AUDIO_CHANNELS;i++){
+		for (int i=0;i<AUDIO_CHANNELS;i++) {
 			sceKernelWaitThreadEnd(AudioThreads[i], NULL, NULL);
 		}
 		mustExit = false;
@@ -293,94 +286,103 @@ static int lua_term(lua_State *L){
 	return 0;
 }
 
-static int lua_closesong(lua_State *L){
+static int lua_closesong(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
-	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	DecodedMusic *mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	mus->closeTrigger = true;
 	mus->pauseTrigger = true;
 	return 0;
 }
 
 static int lua_pause(lua_State *L){
-	#ifndef SKIP_ERROR_HANDLING
 	int argc = lua_gettop(L);
-	#endif
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	if (mus->isPlaying) mus->pauseTrigger = true;
 
 	return 0;
 }
 
-static int lua_setvol(lua_State *L){
+static int lua_setvol(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
-	#endif
-	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	DecodedMusic *mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	int vol = luaL_checkinteger(L, 2);
 	vol = (vol < 0) ? 0 : ((vol > 32767) ? 32767 : vol);
 	mus->volume = vol;
 	return 0;
 }
 
-static int lua_getvol(lua_State *L){
+static int lua_getvol(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
-	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	DecodedMusic *mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	lua_pushinteger(L, mus->volume);
 	return 1;
 }
 
-static int lua_isplaying(lua_State *L){
+static int lua_isplaying(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
-	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	DecodedMusic *mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	lua_pushboolean(L,mus->isPlaying);	
 	return 1;
 }
 
-static int lua_resume(lua_State *L){
+static int lua_resume(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
-	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
-	if (!mus->isPlaying) mus->pauseTrigger = true;
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	DecodedMusic *mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+	if (!mus->isPlaying)
+		mus->pauseTrigger = true;
 	
 	return 0;
 }
 
-static int lua_opensound(lua_State *L){
+static int lua_opensound(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	const char* path = luaL_checkstring(L, 1);
 	
 	// Allocating music block
-	DecodedMusic* memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
+	DecodedMusic *memblock = (DecodedMusic*)malloc(sizeof(DecodedMusic));
 	
 	// Opening file and checking for magic
-	FILE* f = fopen(path, "rb");
-	#ifndef SKIP_ERROR_HANDLING
-	if (f == NULL) return luaL_error(L, "file doesn't exist.");
+	FILE *f = fopen(path, "rb");
+#ifndef SKIP_ERROR_HANDLING
+	if (f == NULL)
+		return luaL_error(L, "file doesn't exist.");
 	uint32_t magic;
 	fread(&magic, 1, 4, f);	
-	if (magic != 0x03334449 /* MP3 */ && magic != 0x6468544D /* MIDI */ && magic != 0x5367674F /* OGG */ && magic != 0x46464952 /* WAV */ && magic != 0x4D524F46 /* AIF */ && magic != 0x56485350 /* PSHV */){
+	if (magic != 0x03334449 /* MP3 */ && magic != 0x6468544D /* MIDI */ && magic != 0x5367674F /* OGG */ && magic != 0x46464952 /* WAV */ && magic != 0x4D524F46 /* AIF */ && magic != 0x56485350 /* PSHV */) {
 		fclose(f);
 		free(memblock);
 		return luaL_error(L, "unknown audio file format.");
 	}
 	fseek(f, 0, SEEK_SET);
-	#endif
+#endif
 	
 	// Metadata extraction
 	uint32_t half_magic = 0xDEADBEEF, info_size = 0xDEADBEEF, offset;
@@ -393,9 +395,9 @@ static int lua_opensound(lua_State *L){
 	int i = 0;
 	strcpy(memblock->author, "");
 	strcpy(memblock->title, "");
-	switch(magic){
+	switch(magic) {
 	case 0x03334449: // MP3
-		if (!mpg123_inited){
+		if (!mpg123_inited) {
 			mpg123_init();
 			mpg123_inited = true;
 		}
@@ -423,7 +425,7 @@ static int lua_opensound(lua_State *L){
 		break;
 	case 0x5367674F: // OGG
 		fseek(f, 0x60, SEEK_SET);
-		while (half_magic != 0x726F7603){
+		while (half_magic != 0x726F7603) {
 			i++;
 			fread(&half_magic, 4, 1, f);
 			fseek(f, 0x60+i, SEEK_SET);
@@ -432,15 +434,16 @@ static int lua_opensound(lua_State *L){
 		fread(&info_size, 4, 1, f);
 		fseek(f, info_size + 4, SEEK_CUR);
 		fread(&info_size, 4, 1, f);
-		while (info_size != 0x6F760501){
+		while (info_size != 0x6F760501) {
 			offset = ftell(f);
-			if (offset > 0x200) break; // Temporary patch for files without COMMENT section
+			if (offset > 0x200)
+				break; // Temporary patch for files without COMMENT section
 			fread(&info_type, 6, 1, f);
 			if (strcasecmp((const char*)&info_type, "ARTIST") == 0){
 				fseek(f, 0x01, SEEK_CUR);
 				fread(memblock->author, info_size - 7, 1, f);
 				memblock->author[info_size - 7] = 0;
-			}else if (strcasecmp((const char*)&info_type,"TITLE=") == 0){
+			} else if (strcasecmp((const char*)&info_type,"TITLE=") == 0){
 				fread(memblock->title, info_size - 6, 1, f);
 				memblock->title[info_size - 6] = 0;
 			}
@@ -451,36 +454,37 @@ static int lua_opensound(lua_State *L){
 		break;
 	case 0x46464952: // WAV
 		fread(header, 1, 256, f);
-		while (chunk != 0x61746164){
+		while (chunk != 0x61746164) {
 			memcpy(&jump, &header[pos], 4);
 			pos=pos+4+jump;
 			memcpy(&chunk, &header[pos], 4);
 			pos=pos+4;
 			
 			//Chunk LIST detection
-			if (chunk == 0x5453494C){
+			if (chunk == 0x5453494C) {
 				uint32_t chunk_size;
 				uint32_t subchunk;
 				uint32_t subchunk_size;
 				uint32_t sub_pos = pos+4;
 				memcpy(&subchunk, &header[sub_pos], 4);
-				if (subchunk == 0x4F464E49){
+				if (subchunk == 0x4F464E49) {
 					sub_pos = sub_pos+4;
 					memcpy(&chunk_size, &header[pos], 4);
 					while (sub_pos < (chunk_size + pos + 4)){
 						memcpy(&subchunk, &header[sub_pos], 4);
 						memcpy(&subchunk_size, &header[sub_pos + 4], 4);
-						if (subchunk == 0x54524149){
+						if (subchunk == 0x54524149) {
 							strncpy(memblock->author, (char*)&header[sub_pos + 8], subchunk_size);
 							memblock->author[subchunk_size] = 0;
-						}else if (subchunk == 0x4D414E49){
+						} else if (subchunk == 0x4D414E49) {
 							strncpy(memblock->title, (char*)&header[sub_pos + 8], subchunk_size);
 							memblock->title[subchunk_size] = 0;
 						}
 						sub_pos = sub_pos + 8 + subchunk_size;
 						uint8_t checksum;
 						memcpy(&checksum, &header[sub_pos], 1);
-						if (checksum == 0) sub_pos++;
+						if (checksum == 0)
+							sub_pos++;
 					}
 				}
 			}
@@ -502,11 +506,12 @@ static int lua_opensound(lua_State *L){
 	return 1;
 }
 
-static int lua_play(lua_State *L){
+static int lua_play(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1 && argc != 2) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1 && argc != 2)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	bool loop = false;
 	if (argc == 2) {
@@ -515,15 +520,16 @@ static int lua_play(lua_State *L){
 	
 	// Wait till a thread is available
 	bool found = false;
-	for (int i=0; i<AUDIO_CHANNELS; i++){
+	for (int i = 0; i < AUDIO_CHANNELS; i++) {
 		found = availThreads[i];
-		if (found) break;
+		if (found)
+			break;
 	}
-	if (!found) return 0;
+	if (!found)
+		return 0;
 	
 	// Check if the music is already loaded into an audio thread
-	if (mus->audioThread != 0xFF){
-	
+	if (mus->audioThread != 0xFF) {
 		// We create a temporary duplicated and play it instead of the original one
 		DecodedMusic* dup = (DecodedMusic*)malloc(sizeof(DecodedMusic));
 		memcpy(dup, mus, sizeof(DecodedMusic));
@@ -550,35 +556,39 @@ static int lua_play(lua_State *L){
 	return 0;
 }
 
-static int lua_playshutter(lua_State *L){
+static int lua_playshutter(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	uint32_t type = (uint32_t)luaL_checkinteger(L, 1);
-	#ifndef SKIP_ERROR_HANDLING
-	if ((type > 2) || (type < 0)) return luaL_error(L, "invalid shutter sound id.");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if ((type > 2) || (type < 0))
+		return luaL_error(L, "invalid shutter sound id.");
+#endif
 	sceShutterSoundPlay(type);
 	return 0;
 }
 
 static int lua_getTitle(lua_State *L){
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
-	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	DecodedMusic *mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	lua_pushstring(L, mus->title);
 	return 1;
 }
 
-static int lua_getAuthor(lua_State *L){
+static int lua_getAuthor(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
-	DecodedMusic* mus = (DecodedMusic*)luaL_checkinteger(L, 1);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	DecodedMusic *mus = (DecodedMusic*)luaL_checkinteger(L, 1);
 	lua_pushstring(L, mus->author);
 	return 1;
 }
