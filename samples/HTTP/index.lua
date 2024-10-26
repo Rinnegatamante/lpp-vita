@@ -5,7 +5,7 @@ Network.init()
 if Network.isWifiEnabled() then
 
 	-- Download an image
-	Network.downloadFile("http://rinnegatamante.it/site/images/logo.png", "ux0:/data/data.png")
+	Network.downloadFile("https://www.rinnegatamante.eu/site/images/logo.png", "ux0:/data/data.png")
 
 	-- Loading image in memory and deleting it from storage
 	img = Graphics.loadImage("ux0:/data/data.png")
@@ -27,7 +27,7 @@ while true do
 		Graphics.debugPrint(5,240,"Press TRIANGLE to return to the sample selector", Color.new(255,255,255))
 	else
 		Graphics.drawImage(200,265,img)
-		Graphics.debugPrint(5,220,"This image came from http://rinnegatamante.it/site/images/logo.png", Color.new(255,255,255))
+		Graphics.debugPrint(5,220,"This image came from https://www.rinnegatamante.eu/site/images/logo.png", Color.new(255,255,255))
 		Graphics.debugPrint(5,240,"Press TRIANGLE to return to the sample selector", Color.new(255,255,255))
 	end
 	Graphics.termBlend()
