@@ -82,7 +82,7 @@ static int audioThread(unsigned int args, void* arg) {
 		if (mus == NULL) {
 			
 			//If we enter here, we probably are in the exiting procedure
-			if (mustExit){
+			if (mustExit) {
 				sceKernelSignalSema(Audio_Mutex, 1);
 				sceAudioOutReleasePort(ch);
 				return sceKernelExitDeleteThread(0);
