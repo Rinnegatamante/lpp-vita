@@ -31,14 +31,14 @@
 
 #include <string.h>
 #include <vitasdk.h>
-extern "C"{
-	#include "include/utils.h"
+extern "C" {
+#include "include/utils.h"
 }
 #include <vita2d.h>
 #include "include/luaplayer.h"
 
-extern "C"{
-	#include "include/math_utils.h"
+extern "C" {
+#include "include/math_utils.h"
 }
 
 #define ALIGN(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
@@ -62,7 +62,7 @@ struct camera {
 };
 camera cam;
 
-struct vertex{
+struct vertex {
 	float x;
 	float y;
 	float z;
@@ -73,19 +73,19 @@ struct vertex{
 	float n3;
 };
 
-struct vertexList{ // We'll use hardcoded triangles primitives for lpp-3ds compatibility
+struct vertexList { // We'll use hardcoded triangles primitives for lpp-3ds compatibility
 	vertex v1;
 	vertex v2;
 	vertex v3;
 	vertexList* next;
 };
 
-struct rawVertexList{
+struct rawVertexList {
 	vertex* vert;
 	rawVertexList* next;
 };
 
-struct model{
+struct model {
 	uint32_t magic;
 	vita2d_texture_vertex* vertexList;
 	uint16_t* idxList;
@@ -94,11 +94,12 @@ struct model{
 	uint32_t facesCount;
 };
 
-static int lua_newVertex(lua_State *L){
+static int lua_newVertex(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 8) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 8)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	vertex* res = (vertex*)malloc(sizeof(vertex));
 	res->x = luaL_checknumber(L, 1);
 	res->y = luaL_checknumber(L, 2);
@@ -108,35 +109,40 @@ static int lua_newVertex(lua_State *L){
 	res->n1 = luaL_checknumber(L, 6);
 	res->n2 = luaL_checknumber(L, 7);
 	res->n3 = luaL_checknumber(L, 8);
-	lua_pushinteger(L,(uint32_t)res);
+	lua_pushinteger(L, (uint32_t)res);
 	return 1;
 }
 
-static int lua_settext(lua_State *L){
+static int lua_settext(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	model* mdl = (model*)(luaL_checkinteger(L, 1));
 	lpp_texture* txt = (lpp_texture*)(luaL_checkinteger(L, 2));
-	#ifndef SKIP_ERROR_HANDLING
-	if (mdl->magic != 0xC0C0C0C0) luaL_error(L, "attempt to access wrong memory block type.");
-	if (txt->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (mdl->magic != 0xC0C0C0C0)
+		luaL_error(L, "attempt to access wrong memory block type.");
+	if (txt->magic != 0xABADBEEF)
+		luaL_error(L, "attempt to access wrong memory block type.");
+#endif
 	mdl->texture = txt;
 	return 0;
 }
 
-static int lua_loadmodel(lua_State *L){
+static int lua_loadmodel(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	luaL_checktype(L, 1, LUA_TTABLE);
 	int len = lua_rawlen(L, 1);
-	#ifndef SKIP_ERROR_HANDLING
-	if (len % 3 != 0) return luaL_error(L, "invalid vertex list.");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (len % 3 != 0)
+		return luaL_error(L, "invalid vertex list.");
+#endif
 	model* mdl = (model*)malloc(sizeof(model));
 	mdl->magic = 0xC0C0C0C0;
 	mdl->facesCount = 0;
@@ -145,24 +151,26 @@ static int lua_loadmodel(lua_State *L){
 	mdl_ptr->next = NULL;
 	bool first = true;
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 2));
-	#ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (text->magic != 0xABADBEEF)
+		luaL_error(L, "attempt to access wrong memory block type.");
+#endif
 	mdl->texture = text;
 	
 	// Creating vertex list
-	for (int i = 0; i < len; i+=3){
-		if (!first){
+	for (int i = 0; i < len; i += 3){
+		if (!first) {
 			mdl_ptr->next = (vertexList*)malloc(sizeof(vertexList));
 			mdl_ptr = mdl_ptr->next;
 			mdl_ptr->next = NULL;
-		}else first = false;
+		} else
+			first = false;
 		uint8_t* ptr = (uint8_t*)mdl_ptr;
-		for (int j = 0; j < 3; j++){
-			lua_pushinteger(L, i+j+1);
+		for (int j = 0; j < 3; j++) {
+			lua_pushinteger(L, i + j + 1);
 			lua_gettable(L, -(argc+1));
 			vertex* vert = (vertex*)lua_tointeger(L, -1);
-			memcpy(&ptr[j*sizeof(vertex)], vert, sizeof(vertex));
+			memcpy(&ptr[j * sizeof(vertex)], vert, sizeof(vertex));
 			lua_pop(L, 1);
 		}
 		mdl->facesCount++;
@@ -173,11 +181,11 @@ static int lua_loadmodel(lua_State *L){
 	uint32_t idxSize = ALIGN(mdl->facesCount * 3 * sizeof(uint16_t), sizeof(uint16_t));
 	SceUID vertexListID;
 	SceUID idxListID;
-	vita2d_texture_vertex* vertexListPtr = (vita2d_texture_vertex*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW,listSize,sizeof(void *),SCE_GXM_MEMORY_ATTRIB_READ,&vertexListID);
-	uint16_t* idxList = (uint16_t*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW,idxSize,sizeof(void *),SCE_GXM_MEMORY_ATTRIB_READ,&idxListID);
+	vita2d_texture_vertex* vertexListPtr = (vita2d_texture_vertex*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW, listSize, sizeof(void *), SCE_GXM_MEMORY_ATTRIB_READ, &vertexListID);
+	uint16_t* idxList = (uint16_t*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW, idxSize, sizeof(void *), SCE_GXM_MEMORY_ATTRIB_READ, &idxListID);
 	vertexList* object = vlist;
 	int n = 0;
-	while (object != NULL){
+	while (object != NULL) {
 		memcpy(&vertexListPtr[n], &object->v1, sizeof(vita2d_texture_vertex));
 		memcpy(&vertexListPtr[n+1], &object->v2, sizeof(vita2d_texture_vertex));
 		memcpy(&vertexListPtr[n+2], &object->v3, sizeof(vita2d_texture_vertex));
@@ -187,7 +195,7 @@ static int lua_loadmodel(lua_State *L){
 		object = object->next;
 		n += 3;
 	}
-	while (vlist != NULL){
+	while (vlist != NULL) {
 		vertexList* old = vlist;
 		vlist = vlist->next;
 		free(old);
@@ -203,24 +211,26 @@ static int lua_loadmodel(lua_State *L){
 	return 1;
 }
 
-static int lua_loadobj(lua_State *L){
+static int lua_loadobj(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	const char *file_tbo = luaL_checkstring(L, 1); //Model filename
 	
 	// Loading texture
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 2));
-	#ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (text->magic != 0xABADBEEF)
+		luaL_error(L, "attempt to access wrong memory block type.");
+#endif
 	
 	// Opening model file and loading it on RAM
 	int file = sceIoOpen(file_tbo, SCE_O_RDONLY, 0777);
 	uint32_t size = sceIoLseek(file, 0, SEEK_END);
 	sceIoLseek(file, 0, SEEK_SET);
-	char* content = (char*)malloc(size+1);
+	char* content = (char*)malloc(size + 1);
 	sceIoRead(file, content, size);
 	content[size] = 0;
 	
@@ -256,7 +266,7 @@ static int lua_loadobj(lua_State *L){
 				res = init->vert;
 				vl = init;
 				magics_idx++;
-				ptr = strstr(str,magics[magics_idx]);
+				ptr = strstr(str, magics[magics_idx]);
 			}else{
 				skip = true;
 				break;
@@ -265,50 +275,57 @@ static int lua_loadobj(lua_State *L){
 		if (skip) break;
 		
 		// Extract vertex
-		if (magics_idx == 0) idx = 0;
-		else if (magics_idx == 1) idx = 3;
-		else idx = 5;
-		if (magics_idx == 0) init_val = ptr + 2;
-		else init_val = ptr + 3;
+		if (magics_idx == 0)
+			idx = 0;
+		else if (magics_idx == 1)
+			idx = 3;
+		else
+			idx = 5;
+		if (magics_idx == 0)
+			init_val = ptr + 2;
+		else
+			init_val = ptr + 3;
 		while (init_val[0] == ' ') init_val++;
 		end_vert = strstr(init_val,"\n");
 		if (magics_idx == 0) res = (vertex*)malloc(sizeof(vertex));
 		end_val = strstr(init_val," ");
 		vert_args = (float*)res; // Hacky way to iterate in vertex struct		
-		while (init_val < end_vert){
+		while (init_val < end_vert) {
 			if (end_val > end_vert) end_val = end_vert;
 			strncpy(float_val, init_val, end_val - init_val);
 			float_val[end_val - init_val] = 0;
 			vert_args[idx] = atof(float_val);
 			idx++;
 			init_val = end_val + 1;
-			while (init_val[0] == ' ') init_val++;
+			while (init_val[0] == ' ')
+				init_val++;
 			end_val = strstr(init_val," ");
 		}
 		
 		// Update rawVertexList struct
-		if (magics_idx == 0){
+		if (magics_idx == 0) {
 			vl->vert = res;
 			vl->next = (rawVertexList*)malloc(sizeof(rawVertexList));
 		}
 		old_vl = vl;
 		vl = vl->next;
-		if (magics_idx == 0){
+		if (magics_idx == 0) {
 			vl->vert = NULL;
 			vl->next = NULL;
-		}else{
-			if (vl == NULL){
+		} else {
+			if (vl == NULL) {
 				old_vl->next = (rawVertexList*)malloc(sizeof(rawVertexList));
 				vl = old_vl->next;
 				vl->vert = (vertex*)malloc(sizeof(vertex));
 				vl->next = NULL;
-			}else if(vl->vert == NULL) vl->vert = (vertex*)malloc(sizeof(vertex));
+			} else if (vl->vert == NULL)
+				vl->vert = (vertex*)malloc(sizeof(vertex));
 			res = vl->vert;
 		}
 		
 		// Searching for next vertex
 		str = ptr + 1;
-		ptr = strstr(str,magics[magics_idx]);
+		ptr = strstr(str, magics[magics_idx]);
 		
 	}
 
@@ -326,26 +343,26 @@ static int lua_loadobj(lua_State *L){
 	rawVertexList* tmp;
 	
 	// Faces extraction
-	while (ptr != NULL){
+	while (ptr != NULL) {
 		
 		// Skipping padding
 		ptr+=2;		
 		
 		// Extracting face info
 		f_idx = 0;
-		while (f_idx < 3){
+		while (f_idx < 3) {
 		
 			// Allocating new vertex
 			faces->vert = (vertex*)malloc(sizeof(vertex));
 		
 			// Extracting x,y,z
-			ptr2 = strstr(ptr,"/");
-			strncpy(val,ptr,ptr2-ptr);
-			val[ptr2-ptr] = 0;
+			ptr2 = strstr(ptr, "/");
+			strncpy(val, ptr, ptr2 - ptr);
+			val[ptr2 - ptr] = 0;
 			v_idx = atoi(val);
 			t_idx = 1;
 			tmp = init;
-			while (t_idx < v_idx){
+			while (t_idx < v_idx) {
 				tmp = tmp->next;
 				t_idx++;
 			}
@@ -356,36 +373,38 @@ static int lua_loadobj(lua_State *L){
 			// Extracting texture info
 			ptr = ptr2+1;
 			ptr2 = strstr(ptr,"/");
-			if (ptr2 != ptr){
-				strncpy(val,ptr,ptr2-ptr);
-				val[ptr2-ptr] = 0;
+			if (ptr2 != ptr) {
+				strncpy(val, ptr, ptr2 - ptr);
+				val[ptr2 - ptr] = 0;
 				v_idx = atoi(val);
 				t_idx = 1;
 				tmp = init;
-				while (t_idx < v_idx){
+				while (t_idx < v_idx) {
 					tmp = tmp->next;
 					t_idx++;
 				}
 				faces->vert->t1 = tmp->vert->t1;
 				faces->vert->t2 = 1.0f - tmp->vert->t2;
-			}else{
+			} else {
 				faces->vert->t1 = 0.0f;
 				faces->vert->t2 = 0.0f;
 			}
 			
 			// Extracting normals info
 			ptr = ptr2+1;
-			if (f_idx < 2) ptr2 = strstr(ptr," ");
-			else{
+			if (f_idx < 2)
+				ptr2 = strstr(ptr," ");
+			else {
 				ptr2 = strstr(ptr,"\n");
-				if (ptr2 == NULL) ptr2 = content + size;
+				if (ptr2 == NULL)
+					ptr2 = content + size;
 			}
-			strncpy(val,ptr,ptr2-ptr);
-			val[ptr2-ptr] = 0;
+			strncpy(val, ptr, ptr2 - ptr);
+			val[ptr2 - ptr] = 0;
 			v_idx = atoi(val);
 			t_idx = 1;
 			tmp = init;
-			while (t_idx < v_idx){
+			while (t_idx < v_idx) {
 				tmp = tmp->next;
 				t_idx++;
 			}
@@ -410,7 +429,7 @@ static int lua_loadobj(lua_State *L){
 	// Freeing temp vertexList and allocated file
 	free(content);
 	rawVertexList* tmp_init;
-	while (init != NULL){
+	while (init != NULL) {
 		tmp_init = init;
 		free(init->vert);
 		init = init->next;
@@ -418,32 +437,34 @@ static int lua_loadobj(lua_State *L){
 	}
 	
 	// Create the model struct and populating vertex list
-	if (len % 3 != 0) return luaL_error(L, "invalid model file.");
+	if (len % 3 != 0)
+		return luaL_error(L, "invalid model file.");
 	model* res_m = (model*)malloc(sizeof(model));
 	res_m->magic = 0xC0C0C0C0;
 	vertexList* vlist = (vertexList*)malloc(sizeof(vertexList));
 	vertexList* vlist_start = vlist;
 	vlist->next = NULL;
 	bool first = true;
-	for(int i = 0; i < len; i+=3) {
-		if (first) first = false;
-		else{
+	for (int i = 0; i < len; i += 3) {
+		if (first)
+			first = false;
+		else {
 			vlist->next = (vertexList*)malloc(sizeof(vertexList));
 			vlist = vlist->next;
 			vlist->next = NULL;
 		}
 		tmp_init = initFaces;
-		memcpy(&vlist->v1,initFaces->vert,sizeof(vertex));
+		memcpy(&vlist->v1, initFaces->vert, sizeof(vertex));
 		initFaces = initFaces->next;
 		free(tmp_init->vert);
 		free(tmp_init);
 		tmp_init = initFaces;
-		memcpy(&vlist->v2,initFaces->vert,sizeof(vertex));
+		memcpy(&vlist->v2, initFaces->vert, sizeof(vertex));
 		initFaces = initFaces->next;
 		free(tmp_init->vert);
 		free(tmp_init);
 		tmp_init = initFaces;
-		memcpy(&vlist->v3,initFaces->vert,sizeof(vertex));
+		memcpy(&vlist->v3, initFaces->vert, sizeof(vertex));
 		initFaces = initFaces->next;
 		free(tmp_init->vert);
 		free(tmp_init);
@@ -459,21 +480,21 @@ static int lua_loadobj(lua_State *L){
 	uint32_t idxSize = ALIGN(res_m->facesCount * 3 * sizeof(uint16_t), sizeof(uint16_t));
 	SceUID vertexListID;
 	SceUID idxListID;
-	vita2d_texture_vertex* vertexListPtr = (vita2d_texture_vertex*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW,listSize,sizeof(void *),SCE_GXM_MEMORY_ATTRIB_READ,&vertexListID);
-	uint16_t* idxList = (uint16_t*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW,idxSize,sizeof(void *),SCE_GXM_MEMORY_ATTRIB_READ,&idxListID);
+	vita2d_texture_vertex* vertexListPtr = (vita2d_texture_vertex*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW, listSize, sizeof(void *), SCE_GXM_MEMORY_ATTRIB_READ, &vertexListID);
+	uint16_t* idxList = (uint16_t*)gpu_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW, idxSize, sizeof(void *), SCE_GXM_MEMORY_ATTRIB_READ, &idxListID);
 	vertexList* object = vlist;
 	int n = 0;
-	while (object != NULL){
+	while (object != NULL) {
 		memcpy(&vertexListPtr[n], &object->v1, sizeof(vita2d_texture_vertex));
-		memcpy(&vertexListPtr[n+1], &object->v2, sizeof(vita2d_texture_vertex));
-		memcpy(&vertexListPtr[n+2], &object->v3, sizeof(vita2d_texture_vertex));
+		memcpy(&vertexListPtr[n + 1], &object->v2, sizeof(vita2d_texture_vertex));
+		memcpy(&vertexListPtr[n + 2], &object->v3, sizeof(vita2d_texture_vertex));
 		idxList[n] = n;
-		idxList[n+1] = n+1;
-		idxList[n+2] = n+2;
+		idxList[n + 1] = n + 1;
+		idxList[n + 2] = n + 2;
 		object = object->next;
 		n += 3;
 	}
-	while (vlist != NULL){
+	while (vlist != NULL) {
 		vertexList* old = vlist;
 		vlist = vlist->next;
 		free(old);
@@ -490,40 +511,45 @@ static int lua_loadobj(lua_State *L){
 	return 1;
 }
 
-static int lua_unloadmodel(lua_State *L){
+static int lua_unloadmodel(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	model* mdl = (model*)luaL_checkinteger(L, 1);
-	#ifndef SKIP_ERROR_HANDLING
-	if (mdl->magic != 0xC0C0C0C0) return luaL_error(L, "attempt to access wrong memory block type");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (mdl->magic != 0xC0C0C0C0)
+		return luaL_error(L, "attempt to access wrong memory block type");
+#endif
 	gpu_free(mdl->memblocks[0]);
 	gpu_free(mdl->memblocks[1]);
 	free(mdl);
 	return 0;
 }
 
-static int lua_delVertex(lua_State *L){
+static int lua_delVertex(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	vertex* v = (vertex*)luaL_checkinteger(L, 1);
 	free(v);
 	return 0;
 }
 
-static int lua_drawmodel(lua_State *L){
+static int lua_drawmodel(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 7 && argc != 8) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 7 && argc != 8)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	model* mdl = (model*)luaL_checkinteger(L, 1);
-	#ifndef SKIP_ERROR_HANDLING
-	if (mdl->magic != 0xC0C0C0C0) return luaL_error(L, "attempt to access wrong memory block type");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (mdl->magic != 0xC0C0C0C0)
+		return luaL_error(L, "attempt to access wrong memory block type");
+#endif
 	float x = luaL_checknumber(L, 2);
 	float y = luaL_checknumber(L, 3);
 	float z = luaL_checknumber(L, 4);
@@ -546,8 +572,9 @@ static int lua_drawmodel(lua_State *L){
 	matrix4x4_rotate_x(model_matrix,DEG_TO_RAD(angleX));
 	matrix4x4_rotate_y(model_matrix,DEG_TO_RAD(angleY));
 	matrix4x4_rotate_z(model_matrix,DEG_TO_RAD(angleZ));
-	if (skip_camera) matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, model_matrix);
-	else{
+	if (skip_camera)
+		matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, model_matrix);
+	else {
 		matrix4x4_multiply(modelview_matrix, cam.matrix, model_matrix);
 		matrix4x4_multiply(mvp_matrix, _vita2d_projection_matrix, modelview_matrix);
 	}
@@ -564,11 +591,12 @@ static int lua_drawmodel(lua_State *L){
 	return 0;
 }
 
-static int lua_cam(lua_State *L){
+static int lua_cam(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 6) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 6)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	cam.pos.x = luaL_checknumber(L, 1);
 	cam.pos.y = luaL_checknumber(L, 2);
 	cam.pos.z = luaL_checknumber(L, 3);

@@ -46,11 +46,13 @@ extern "C" {
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 #define ALIGN(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
 
-#define FULL_EXTRACT 0
-#define FILE_EXTRACT 1
-#define EXTRACT_END  2
+enum {
+	FULL_EXTRACT,
+	FILE_EXTRACT,
+	EXTRACT_END
+};
 
-#define COPY_BUFFER_SIZE 1024 * 1024
+#define COPY_BUFFER_SIZE (1024 * 1024)
 
 int FORMAT_BMP = 0;
 int FORMAT_PNG = 1;
@@ -173,7 +175,8 @@ void recursive_mkdir(char *dir) {
 			sceIoMkdir(dir, 0777);
 			p = p2 + 1;
 			p2[0] = '/';
-		} else break;
+		} else
+			break;
 	}
 }
 
@@ -206,7 +209,8 @@ static int zipThread(unsigned int args, void* arg) {
 					fclose(f);
 					unzCloseCurrentFile(asyncHandle);
 				}
-				if ((zip_idx + 1) < num_files) unzGoToNextFile(asyncHandle);
+				if ((zip_idx + 1) < num_files)
+					unzGoToNextFile(asyncHandle);
 			}
 			unzClose(asyncHandle);
 			asyncResult = 1;
@@ -232,7 +236,8 @@ static int zipThread(unsigned int args, void* arg) {
 					unzCloseCurrentFile(asyncHandle);
 					break;
 				}
-				if ((zip_idx + 1) < num_files) unzGoToNextFile(asyncHandle);
+				if ((zip_idx + 1) < num_files)
+					unzGoToNextFile(asyncHandle);
 			}
 			unzClose(asyncHandle);
 			asyncResult = 1;
@@ -335,7 +340,7 @@ void makeHeadBin(const char *dir) {
 		char param_name[256];
 		sprintf(param_name, "%s", (char*)&key_table[entry_table[i].keyOffset]);
 			
-		if (strcmp(param_name, "TITLE_ID") == 0){ // Application Title ID
+		if (strcmp(param_name, "TITLE_ID") == 0) { // Application Title ID
 			fseek(f, hdr.dataTableOffset + entry_table[i].dataOffset, SEEK_SET);
 			fread(titleid, entry_table[i].paramLen, 1, f);
 		} else if (strcmp(param_name, "CONTENT_ID") == 0) { // Application Content ID
@@ -436,8 +441,8 @@ static void pushStatToTable(lua_State *L, SceIoStat stat) {
 static int lua_launch(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return
-	luaL_error(L, "wrong number of arguments.");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 	char *file = (char*)luaL_checkstring(L,1);
 	unsigned char *buffer;
@@ -460,8 +465,7 @@ static int lua_launch2(lua_State *L) {
 	char *titleid = (char*)luaL_checkstring(L,1);
 	char uri[32];
 	sprintf(uri, "psgm:play?titleid=%s", titleid);
-	int i;
-	for (i=0;i<2;i++) {
+	for (int i = 0; i < 2; i++) {
 		sceKernelDelayThread(10000);
 		sceAppMgrLaunchAppByUri(0xFFFFF, uri);
 	}
@@ -495,9 +499,9 @@ static int lua_statfile(lua_State *L) {
 	SceIoStat stat;
 	if (sceIoGetstat(file, &stat) < 0) {
 		lua_pushnil(L);  /* return nil */
-		return 1;
+	} else {
+		pushStatToTable(L, stat);
 	}
-	pushStatToTable(L, stat);
 	return 1;
 }
 
@@ -511,9 +515,9 @@ static int lua_statfilehandle(lua_State *L) {
 	SceIoStat stat;
 	if (sceIoGetstatByFd(file, &stat) < 0) {
 		lua_pushnil(L);  /* return nil */
-		return 1;
+	} else {
+		pushStatToTable(L, stat);
 	}
-	pushStatToTable(L, stat);
 	return 1;
 }
 
@@ -726,34 +730,33 @@ static int lua_screenshot(lua_State *L) {
 	sceDisplayGetFrameBuf(&param, SCE_DISPLAY_SETBUF_NEXTFRAME);
 	if (format == FORMAT_BMP) {
 		SceUID fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
-		uint8_t *bmp_content = (uint8_t*)malloc(((param.pitch*param.height)<<2)+0x36);
+		uint8_t *bmp_content = (uint8_t*)malloc(((param.pitch * param.height) << 2) + 0x36);
 		sceClibMemset(bmp_content, 0, 0x36);
 		*(uint16_t*)&bmp_content[0x0] = 0x4D42;
-		*(uint32_t*)&bmp_content[0x2] = ((param.pitch*param.height)<<2)+0x36;
+		*(uint32_t*)&bmp_content[0x2] = ((param.pitch * param.height) << 2) + 0x36;
 		*(uint32_t*)&bmp_content[0xA] = 0x36;
 		*(uint32_t*)&bmp_content[0xE] = 0x28;
 		*(uint32_t*)&bmp_content[0x12] = param.pitch;
 		*(uint32_t*)&bmp_content[0x16] = param.height;
 		*(uint32_t*)&bmp_content[0x1A] = 0x00200001;
-		*(uint32_t*)&bmp_content[0x22] = ((param.pitch*param.height)<<2);
-		int x, y;
+		*(uint32_t*)&bmp_content[0x22] = ((param.pitch * param.height) << 2);
 		uint32_t* buffer = (uint32_t*)&bmp_content[0x36];
 		uint32_t* framebuf = (uint32_t*)param.base;
-		for (y = 0; y<param.height; y++) {
-			for (x = 0; x<param.pitch; x++) {
-				buffer[x+y*param.pitch] = framebuf[x+(param.height-y)*param.pitch];
-				uint8_t *clr = (uint8_t*)&buffer[x+y*param.pitch];
+		for (int y = 0; y < param.height; y++) {
+			for (int x = 0; x < param.pitch; x++) {
+				buffer[x+y*param.pitch] = framebuf[x + (param.height - y) * param.pitch];
+				uint8_t *clr = (uint8_t*)&buffer[x + y * param.pitch];
 				uint8_t r = clr[0];
 				clr[0] = clr[2];
 				clr[2] = r;
 			}
 		}
-		sceIoWrite(fd, bmp_content, ((param.pitch*param.height)<<2)+0x36);
+		sceIoWrite(fd, bmp_content, ((param.pitch*param.height) << 2) + 0x36);
 		free(bmp_content);
 		sceIoClose(fd);
 	} else if (format == FORMAT_JPG) {
 		SceUID fd = sceIoOpen(filename, SCE_O_CREAT|SCE_O_WRONLY|SCE_O_TRUNC, 0777);
-		uint32_t in_size = ALIGN((param.width * param.height)<<1, 256);
+		uint32_t in_size = ALIGN((param.width * param.height) << 1, 256);
 		uint32_t out_size = ALIGN(param.width * param.height, 256);
 		uint32_t buf_size = ALIGN(in_size + out_size, 0x40000);
 		SceUID memblock = sceKernelAllocMemBlock("encoderBuffer", SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW, buf_size, NULL);
@@ -773,7 +776,7 @@ static int lua_screenshot(lua_State *L) {
 		sceIoClose(fd);
 	} else if (format == FORMAT_PNG) {
 		FILE *fh = fopen(filename, "wb");
-		uint8_t *raw_data = (uint8_t*)malloc((param.width*param.height)<<2);
+		uint8_t *raw_data = (uint8_t*)malloc((param.width*param.height) << 2);
 		uint32_t *buffer = (uint32_t*)raw_data;
 		uint32_t *framebuf = (uint32_t*)param.base;
 		int y;
@@ -825,35 +828,34 @@ static int lua_screenshot(lua_State *L) {
 static int lua_dir(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0 && argc != 1)
-		return luaL_error(L, "System.listDirectory([path]) takes zero or one argument");
+	if (argc != 1)
+		return luaL_error(L, "System.listDirectory(path) takes one argument");
 #endif
-	const char *path = "";
-	if (argc == 0) path = "";
-	else path = luaL_checkstring(L, 1);
+	int fd;
+	const char *path = luaL_checkstring(L, 1);
 	int fd = sceIoDopen(path);
 	if (fd < 0) {
 		lua_pushnil(L);  /* return nil */
-		return 1;
-	}
-	lua_newtable(L);
-	int i = 1;
-	SceIoDirent g_dir;
-	while (sceIoDread(fd, &g_dir) > 0) {
-		lua_pushnumber(L, i++);  /* push key for file entry */
+	} else {
 		lua_newtable(L);
-		lua_pushstring(L, "name");
-		lua_pushstring(L, g_dir.d_name);
-		lua_settable(L, -3);
-		lua_pushstring(L, "size");
-		lua_pushnumber(L, g_dir.d_stat.st_size);
-		lua_settable(L, -3);
-		lua_pushstring(L, "directory");
-		lua_pushboolean(L, SCE_S_ISDIR(g_dir.d_stat.st_mode));
-		lua_settable(L, -3);
-		lua_settable(L, -3);
+		int i = 1;
+		SceIoDirent g_dir;
+		while (sceIoDread(fd, &g_dir) > 0) {
+			lua_pushnumber(L, i++);  /* push key for file entry */
+			lua_newtable(L);
+			lua_pushstring(L, "name");
+			lua_pushstring(L, g_dir.d_name);
+			lua_settable(L, -3);
+			lua_pushstring(L, "size");
+			lua_pushnumber(L, g_dir.d_stat.st_size);
+			lua_settable(L, -3);
+			lua_pushstring(L, "directory");
+			lua_pushboolean(L, SCE_S_ISDIR(g_dir.d_stat.st_mode));
+			lua_settable(L, -3);
+			lua_settable(L, -3);
+		}
+		sceIoDclose(fd);
 	}
-	sceIoDclose(fd);
 	return 1;  /* table is already on top */
 }
 
@@ -1072,9 +1074,9 @@ static int lua_gettime(lua_State *L) {
 #endif
 	SceDateTime time;
 	sceRtcGetCurrentClockLocalTime(&time);
-	lua_pushinteger(L,time.hour);
-	lua_pushinteger(L,time.minute);
-	lua_pushinteger(L,time.second);
+	lua_pushinteger(L, time.hour);
+	lua_pushinteger(L, time.minute);
+	lua_pushinteger(L, time.second);
 	return 3;
 }
 
@@ -1087,9 +1089,9 @@ static int lua_getdate(lua_State *L) {
 	SceDateTime time;
 	sceRtcGetCurrentClockLocalTime(&time);
 	lua_pushinteger(L, sceRtcGetDayOfWeek(time.year, time.month, time.day));
-	lua_pushinteger(L,time.day);
-	lua_pushinteger(L,time.month);
-	lua_pushinteger(L,time.year);
+	lua_pushinteger(L, time.day);
+	lua_pushinteger(L, time.month);
+	lua_pushinteger(L, time.year);
 	return 4;
 }
 
@@ -1101,7 +1103,7 @@ static int lua_nickname(lua_State *L) {
 #endif
 	SceChar8 nick[SCE_SYSTEM_PARAM_USERNAME_MAXSIZE];
 	sceAppUtilSystemParamGetString(SCE_SYSTEM_PARAM_ID_USERNAME, nick, SCE_SYSTEM_PARAM_USERNAME_MAXSIZE);
-	lua_pushstring(L,(char*)nick);
+	lua_pushstring(L, (char*)nick);
 	return 1;
 }
 
@@ -1113,7 +1115,7 @@ static int lua_lang(lua_State *L) {
 #endif
 	int lang;
 	sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, &lang);
-	lua_pushinteger(L,lang);
+	lua_pushinteger(L, lang);
 	return 1;
 }
 
@@ -1125,7 +1127,7 @@ static int lua_title(lua_State *L) {
 #endif
 	char title[256];
 	sceAppMgrAppParamGetString(0, 9, title , 256);
-	lua_pushstring(L,title);
+	lua_pushstring(L, title);
 	return 1;
 }
 
@@ -1137,7 +1139,7 @@ static int lua_titleid(lua_State *L) {
 #endif
 	char title[16];
 	sceAppMgrAppParamGetString(0, 12, title , 256);
-	lua_pushstring(L,title);
+	lua_pushstring(L, title);
 	return 1;
 }
 
@@ -1147,7 +1149,7 @@ static int lua_model(lua_State *L) {
 	if (argc != 0)
 		return luaL_error(L, "wrong number of arguments");
 #endif
-	lua_pushinteger(L,sceKernelGetModel());
+	lua_pushinteger(L, sceKernelGetModel());
 	return 1;
 }
 
@@ -1201,12 +1203,13 @@ static int lua_ZipExtract(lua_State *L) {
 static int lua_zip(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments.");
 #endif
 	char *ToCompress = luaL_checkstring(L, 1);
 	const char *FileName = luaL_checkstring(L, 2);
 	int compression_level = Z_DEFAULT_COMPRESSION;
-	if (argc == 3) compression_level = luaL_checkinteger(L, 3);
+	if (argc == 3)
+		compression_level = luaL_checkinteger(L, 3);
 	zipFile zFile = zipOpen(FileName, APPEND_STATUS_CREATE);
 	FILE *f = fopen(ToCompress, "r");
 	if (f) {
@@ -1221,7 +1224,7 @@ static int lua_zip(lua_State *L) {
 static int lua_addzip(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 3 && argc != 4)
+	if (argc != 3 && argc != 4)
 		return luaL_error(L, "wrong number of arguments.");
 #endif
 	char *ToCompress = luaL_checkstring(L, 1);
@@ -1272,7 +1275,7 @@ static int lua_ZipExtractAsync(lua_State *L) {
 static int lua_getfilefromzip(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 3)
+	if (argc != 3)
 		return luaL_error(L, "wrong number of arguments.");
 #endif
 	const char* FileToExtract = luaL_checkstring(L, 1);
@@ -1312,7 +1315,7 @@ static int lua_getfilefromzip(lua_State *L){
 static int lua_getfilefromzipasync(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 3)
+	if (argc != 3)
 		return luaL_error(L, "wrong number of arguments.");
 	if (async_task_num == ASYNC_TASKS_MAX)
 		return luaL_error(L, "cannot start more async tasks.");
@@ -1338,7 +1341,7 @@ static int lua_getfilefromzipasync(lua_State *L) {
 static int lua_getasyncstate(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 0)
+	if (argc != 0)
 		return luaL_error(L, "wrong number of arguments.");
 #endif
 	lua_pushinteger(L, asyncResult);
@@ -1348,7 +1351,7 @@ static int lua_getasyncstate(lua_State *L) {
 static int lua_getasyncres(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 0)
+	if (argc != 0)
 		return luaL_error(L, "wrong number of arguments.");
 #endif
 	if (asyncStrRes != NULL) {
@@ -1362,7 +1365,7 @@ static int lua_getasyncres(lua_State *L) {
 static int lua_extractsfo(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if(argc != 1)
+	if (argc != 1)
 		return luaL_error(L, "wrong number of arguments.");
 #endif
 	const char* file = luaL_checkstring(L, 1);
@@ -1383,15 +1386,15 @@ static int lua_extractsfo(lua_State *L) {
 				fread(&hdr, sizeof(sfo_header_t), 1, f);
 			}
 		}
-		uint8_t* idx_table = (uint8_t*)malloc((sizeof(sfo_entry_t)*hdr.indexTableEntries));
-		fread(idx_table, sizeof(sfo_entry_t)*hdr.indexTableEntries, 1, f);
+		uint8_t* idx_table = (uint8_t*)malloc((sizeof(sfo_entry_t) * hdr.indexTableEntries));
+		fread(idx_table, sizeof(sfo_entry_t) * hdr.indexTableEntries, 1, f);
 		sfo_entry_t* entry_table = (sfo_entry_t*)idx_table;
 		fseek(f, file_offset + hdr.keyTableOffset, SEEK_SET);
 		uint8_t* key_table = (uint8_t*)malloc(hdr.dataTableOffset - hdr.keyTableOffset);
 		fread(key_table, hdr.dataTableOffset - hdr.keyTableOffset, 1, f);
 		lua_newtable(L);
 		uint8_t return_indexes = 0;
-		for (int i=0; i < hdr.indexTableEntries; i++) {
+		for (int i = 0; i < hdr.indexTableEntries; i++) {
 			char param_name[256];
 			sprintf(param_name, "%s", (char*)&key_table[entry_table[i].keyOffset]);
 			
@@ -1440,7 +1443,8 @@ static int lua_extractsfo(lua_State *L) {
 			
 		}
 		fclose(f);
-		if (return_indexes == 0) lua_settable(L, -3);
+		if (return_indexes == 0)
+			lua_settable(L, -3);
 		free(idx_table);
 		free(key_table);
 		return 1;
@@ -1608,7 +1612,8 @@ static int lua_getmsg(lua_State *L) {
 		SceMsgDialogResult result;
 		sceClibMemset(&result, 0, sizeof(SceMsgDialogResult));
 		sceMsgDialogGetResult(&result);
-		if (result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) status = (SceCommonDialogStatus)3; // CANCELED status, look at luaKeyboard.cpp
+		if (result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO)
+			status = (SceCommonDialogStatus)3; // CANCELED status, look at luaKeyboard.cpp
 		sceMsgDialogTerm();
 		messageStarted = false;
 	} else
@@ -1686,7 +1691,8 @@ static int lua_freespace(lua_State *L) {
 	int res = sceIoDevctl(dev_name, 0x3001, NULL, 0, &info, sizeof(SceIoDevInfo));
 	if (res >= 0)
 		free_storage = info.free_size;
-	else sceAppMgrGetDevInfo(dev_name, &dummy, &free_storage);
+	else
+		sceAppMgrGetDevInfo(dev_name, &dummy, &free_storage);
 	lua_pushnumber(L, free_storage);
 	return 1;
 }
@@ -1705,7 +1711,8 @@ static int lua_totalspace(lua_State *L) {
 	int res = sceIoDevctl(dev_name, 0x3001, NULL, 0, &info, sizeof(SceIoDevInfo));
 	if (res >= 0)
 		total_storage = info.max_size;
-	else sceAppMgrGetDevInfo(dev_name, &total_storage, &dummy);
+	else
+		sceAppMgrGetDevInfo(dev_name, &total_storage, &dummy);
 	lua_pushnumber(L, total_storage);
 	return 1;
 }
@@ -1946,92 +1953,92 @@ static int lua_unmountvirtual(lua_State *L) {
 
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
-  {"openFile",                  lua_openfile},
-  {"readFile",                  lua_readfile},
-  {"writeFile",                 lua_writefile},
-  {"closeFile",                 lua_closefile},  
-  {"seekFile",                  lua_seekfile},  
-  {"sizeFile",                  lua_sizefile},
-  {"statFile",                  lua_statfile},
-  {"statOpenedFile",            lua_statfilehandle},
-  {"doesFileExist",             lua_checkexist},
-  {"doesDirExist",              lua_checkexist2},
-  {"exit",                      lua_exit},
-  {"rename",                    lua_rename},
-  {"copyFile",                  lua_copy},
-  {"deleteFile",                lua_removef},
-  {"deleteDirectory",           lua_removef2},
-  {"createDirectory",           lua_newdir},
-  {"listDirectory",             lua_dir},
-  {"wait",                      lua_wait},
-  {"isBatteryCharging",         lua_charging},
-  {"getBatteryPercentage",      lua_percent},
-  {"getBatteryLife",            lua_lifetime},
-  {"getBatteryCapacity",        lua_remainbatt},
-  {"getBatteryFullCapacity",    lua_fullbatt},
-  {"getBatteryTemp",            lua_tempbatt},
-  {"getBatteryVolt",            lua_voltbatt},
-  {"getBatteryHealth",          lua_healthbatt},
-  {"getBatteryCycles",          lua_cyclebatt},
-  {"disableTimer",              lua_offpower},
-  {"enableTimer",               lua_onpower},
-  {"resetTimer",                lua_tickpower},
-  {"setCpuSpeed",               lua_setcpu},
-  {"getCpuSpeed",               lua_getcpu},
-  {"setBusSpeed",               lua_setbus},
-  {"getBusSpeed",               lua_getbus},
-  {"setGpuSpeed",               lua_setgpu},
-  {"getGpuSpeed",               lua_getgpu},
-  {"setGpuXbarSpeed",           lua_setgpu2},
-  {"getGpuXbarSpeed",           lua_getgpu2},
-  {"launchEboot",               lua_launch},
-  {"launchApp",                 lua_launch2},
-  {"getTime",                   lua_gettime},
-  {"getDate",                   lua_getdate},
-  {"getUsername",               lua_nickname},
-  {"getLanguage",               lua_lang},
-  {"getModel",                  lua_model},
-  {"getTitle",                  lua_title},
-  {"getTitleID",                lua_titleid},
-  {"extractSfo",                lua_extractsfo},
-  {"extractPbp",                lua_extractpbp},
-  {"extractZip",                lua_ZipExtract},
-  {"compressZip",               lua_zip},
-  {"addToZip",                  lua_addzip},
-  {"extractZipAsync",           lua_ZipExtractAsync},
-  {"extractFromZip",            lua_getfilefromzip},
-  {"extractFromZipAsync",       lua_getfilefromzipasync},
-  {"takeScreenshot",            lua_screenshot},
-  {"executeUri",                lua_executeuri},
-  {"reboot",                    lua_reboot},
-  {"shutdown",                  lua_shutdown},
-  {"standby",                   lua_standby},
-  {"isSafeMode",                lua_issafe},
-  {"setMessage",                lua_setmsg},
-  {"getMessageState",           lua_getmsg},
-  {"setMessageProgress",        lua_setprogbar},
-  {"setMessageProgMsg",         lua_setprogmsg},
-  {"closeMessage",              lua_closemsg},
-  {"getAsyncState",             lua_getasyncstate},
-  {"getAsyncResult",            lua_getasyncres},
-  {"getPsId",                   lua_getpsid},
-  {"getFreeSpace",              lua_freespace},
-  {"getTotalSpace",             lua_totalspace},
-  {"getFirmware",               lua_firmware},
-  {"getSpoofedFirmware",        lua_firmware2},
-  {"getFactoryFirmware",        lua_firmware3},
-  {"unmountPartition",          lua_unmount},
-  {"mountPartition",            lua_mount},
-  {"installApp",                lua_promote},
-  {"uninstallApp",              lua_demote},
-  {"doesAppExist",              lua_isappin},
-  {"getBootParams",             lua_bootparams},
-  {"loadUserPlugin",            lua_loadplugin},
-  {"loadKernelPlugin",          lua_loadkplugin},
-  {"unloadUserPlugin",          lua_unloadplugin},
-  {"unloadKernelPlugin",        lua_unloadkplugin},
-  {"unmountMountpoint",         lua_unmountvirtual},
-  {0, 0}
+	{"openFile",                  lua_openfile},
+	{"readFile",                  lua_readfile},
+	{"writeFile",                 lua_writefile},
+	{"closeFile",                 lua_closefile},  
+	{"seekFile",                  lua_seekfile},  
+	{"sizeFile",                  lua_sizefile},
+	{"statFile",                  lua_statfile},
+	{"statOpenedFile",            lua_statfilehandle},
+	{"doesFileExist",             lua_checkexist},
+	{"doesDirExist",              lua_checkexist2},
+	{"exit",                      lua_exit},
+	{"rename",                    lua_rename},
+	{"copyFile",                  lua_copy},
+	{"deleteFile",                lua_removef},
+	{"deleteDirectory",           lua_removef2},
+	{"createDirectory",           lua_newdir},
+	{"listDirectory",             lua_dir},
+	{"wait",                      lua_wait},
+	{"isBatteryCharging",         lua_charging},
+	{"getBatteryPercentage",      lua_percent},
+	{"getBatteryLife",            lua_lifetime},
+	{"getBatteryCapacity",        lua_remainbatt},
+	{"getBatteryFullCapacity",    lua_fullbatt},
+	{"getBatteryTemp",            lua_tempbatt},
+	{"getBatteryVolt",            lua_voltbatt},
+	{"getBatteryHealth",          lua_healthbatt},
+	{"getBatteryCycles",          lua_cyclebatt},
+	{"disableTimer",              lua_offpower},
+	{"enableTimer",               lua_onpower},
+	{"resetTimer",                lua_tickpower},
+	{"setCpuSpeed",               lua_setcpu},
+	{"getCpuSpeed",               lua_getcpu},
+	{"setBusSpeed",               lua_setbus},
+	{"getBusSpeed",               lua_getbus},
+	{"setGpuSpeed",               lua_setgpu},
+	{"getGpuSpeed",               lua_getgpu},
+	{"setGpuXbarSpeed",           lua_setgpu2},
+	{"getGpuXbarSpeed",           lua_getgpu2},
+	{"launchEboot",               lua_launch},
+	{"launchApp",                 lua_launch2},
+	{"getTime",                   lua_gettime},
+	{"getDate",                   lua_getdate},
+	{"getUsername",               lua_nickname},
+	{"getLanguage",               lua_lang},
+	{"getModel",                  lua_model},
+	{"getTitle",                  lua_title},
+	{"getTitleID",                lua_titleid},
+	{"extractSfo",                lua_extractsfo},
+	{"extractPbp",                lua_extractpbp},
+	{"extractZip",                lua_ZipExtract},
+	{"compressZip",               lua_zip},
+	{"addToZip",                  lua_addzip},
+	{"extractZipAsync",           lua_ZipExtractAsync},
+	{"extractFromZip",            lua_getfilefromzip},
+	{"extractFromZipAsync",       lua_getfilefromzipasync},
+	{"takeScreenshot",            lua_screenshot},
+	{"executeUri",                lua_executeuri},
+	{"reboot",                    lua_reboot},
+	{"shutdown",                  lua_shutdown},
+	{"standby",                   lua_standby},
+	{"isSafeMode",                lua_issafe},
+	{"setMessage",                lua_setmsg},
+	{"getMessageState",           lua_getmsg},
+	{"setMessageProgress",        lua_setprogbar},
+	{"setMessageProgMsg",         lua_setprogmsg},
+	{"closeMessage",              lua_closemsg},
+	{"getAsyncState",             lua_getasyncstate},
+	{"getAsyncResult",            lua_getasyncres},
+	{"getPsId",                   lua_getpsid},
+	{"getFreeSpace",              lua_freespace},
+	{"getTotalSpace",             lua_totalspace},
+	{"getFirmware",               lua_firmware},
+	{"getSpoofedFirmware",        lua_firmware2},
+	{"getFactoryFirmware",        lua_firmware3},
+	{"unmountPartition",          lua_unmount},
+	{"mountPartition",            lua_mount},
+	{"installApp",                lua_promote},
+	{"uninstallApp",              lua_demote},
+	{"doesAppExist",              lua_isappin},
+	{"getBootParams",             lua_bootparams},
+	{"loadUserPlugin",            lua_loadplugin},
+	{"loadKernelPlugin",          lua_loadkplugin},
+	{"unloadUserPlugin",          lua_unloadplugin},
+	{"unloadKernelPlugin",        lua_unloadkplugin},
+	{"unmountMountpoint",         lua_unmountvirtual},
+	{0, 0}
 };
 
 void luaSystem_init(lua_State *L) {
