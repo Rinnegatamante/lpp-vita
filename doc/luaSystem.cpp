@@ -1317,5 +1317,18 @@ class System{
 		 * @note This function is available only in unsafe mode.
 		 */
 		void unmountMountpoint(string mnt);
+		
+		/**
+		 * Print a message on system console.
+		 * \ingroup System
+		 *
+		 * @par Usage example:
+		 * @code
+		 * System.consolePrint("Hello World!")
+		 * @endcode
+		 *
+		 * @param text - The text to print.
+		 */
+		void unmountMountpoint(string text);
 
 }

@@ -1951,6 +1951,17 @@ static int lua_unmountvirtual(lua_State *L) {
 	return 0;
 }
 
+static int lua_consoleprint(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	char *str = luaL_checkstring(L, 1);
+	sceClibPrintf("%s\n", str);
+	return 0;
+}
+
 //Register our System Functions
 static const luaL_Reg System_functions[] = {
 	{"openFile",                  lua_openfile},
@@ -2038,6 +2049,7 @@ static const luaL_Reg System_functions[] = {
 	{"unloadUserPlugin",          lua_unloadplugin},
 	{"unloadKernelPlugin",        lua_unloadkplugin},
 	{"unmountMountpoint",         lua_unmountvirtual},
+	{"consolePrint",              lua_consoleprint},
 	{0, 0}
 };
 
