@@ -831,7 +831,6 @@ static int lua_dir(lua_State *L) {
 	if (argc != 1)
 		return luaL_error(L, "System.listDirectory(path) takes one argument");
 #endif
-	int fd;
 	const char *path = luaL_checkstring(L, 1);
 	int fd = sceIoDopen(path);
 	if (fd < 0) {
