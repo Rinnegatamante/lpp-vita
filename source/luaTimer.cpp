@@ -98,7 +98,7 @@ static int lua_pause(lua_State *L) {
 
 static int lua_resume(lua_State *L) {
 	int argc = lua_gettop(L);
-#ifndef
+#ifndef SKIP_ERROR_HANDLING
 	if (argc != 1)
 		return luaL_error(L, "wrong number of arguments");
 #endif
