@@ -1329,6 +1329,6 @@ class System{
 		 *
 		 * @param text - The text to print.
 		 */
-		void unmountMountpoint(string text);
+		void consolePrint(string text);
 
 }
