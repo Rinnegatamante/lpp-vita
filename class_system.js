@@ -85,5 +85,5 @@ var class_system =
     [ "unloadUserPlugin", "group___system.html#ga9bdabd2a38b4ad66e1faa53ccbaf183b", null ],
     [ "unloadUserPlugin", "class_system.html#ga9bdabd2a38b4ad66e1faa53ccbaf183b", null ],
     [ "unmountMountpoint", "group___system.html#ga75877661c3f115df6d5164e0d028969d", null ],
-    [ "unmountMountpoint", "class_system.html#ga75877661c3f115df6d5164e0d028969d", null ]
+    [ "consolePrint", "group___system.html#ga6a5cade54adf6b5d2d8494297d45fc44", null ]
 ];

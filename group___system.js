@@ -119,5 +119,6 @@ var group___system =
     [ "System::loadUserPlugin", "group___system.html#ga0904c2b93415a6d6746b7fedef6f8cac", null ],
     [ "System::loadKernelPlugin", "group___system.html#ga5988642adcafd6bba628391e340ece44", null ],
     [ "System::unloadUserPlugin", "group___system.html#ga9bdabd2a38b4ad66e1faa53ccbaf183b", null ],
-    [ "System::unmountMountpoint", "group___system.html#ga75877661c3f115df6d5164e0d028969d", null ]
+    [ "System::unmountMountpoint", "group___system.html#ga75877661c3f115df6d5164e0d028969d", null ],
+    [ "System::consolePrint", "group___system.html#ga6a5cade54adf6b5d2d8494297d45fc44", null ]
 ];
