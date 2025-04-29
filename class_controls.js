@@ -1,10 +1,10 @@
 var class_controls =
 [
     [ "read", "group___controls.html#ga5bf9800236adfbe1ad75648e34740149", null ],
-    [ "readLeftAnalog", "group___controls.html#ga7a314ceaf3a819577ccd282b16dc9ea1", null ],
-    [ "readRightAnalog", "group___controls.html#ga71a0f6ff9050b758be325ad9e5d3c0a9", null ],
-    [ "readTouch", "group___controls.html#gafd32d04a50d40b6fc80e9e6acf8fc990", null ],
-    [ "readRetroTouch", "group___controls.html#gaccd5874290bcbc849809cba4647b00c1", null ],
+    [ "readLeftAnalog", "group___controls.html#gaa3940518c01dbc7f2c1331401d979530", null ],
+    [ "readRightAnalog", "group___controls.html#ga4d5485437f7ff0673932bbc954395e47", null ],
+    [ "readTouch", "group___controls.html#ga8e80296a8871d3d906d552641cf0d90d", null ],
+    [ "readRetroTouch", "group___controls.html#ga086954155dbbb7c7256f45bcede1ecef", null ],
     [ "check", "group___controls.html#ga0ca70a439cf484c538fb698da764bf1d", null ],
     [ "rumble", "group___controls.html#gaeb2a0d781e4ac121094056ebd64ba3a5", null ],
     [ "setLightbar", "group___controls.html#ga236fe3190ad0dcd2c7e8bf4bd5ab24eb", null ],
@@ -17,6 +17,6 @@ var class_controls =
     [ "enableAccel", "group___controls.html#ga6dca2014250ed6f73e8f3925fce4d9b8", null ],
     [ "disableGyro", "group___controls.html#gab80038e57f38499a766da8a5b9b13346", null ],
     [ "disableAccel", "group___controls.html#ga36bd996e96e2c8bf5679f9e947367dfc", null ],
-    [ "readGyro", "group___controls.html#gaaedc2596a87e61ebe465923fffa8b944", null ],
-    [ "readAccel", "group___controls.html#ga6594a4313cc39ecfff663c847d7ea0f8", null ]
+    [ "readGyro", "group___controls.html#ga5754265c5db83ee3defd8f7d3ba69e61", null ],
+    [ "readAccel", "group___controls.html#gad600c37007269824333046c016eae261", null ]
 ];

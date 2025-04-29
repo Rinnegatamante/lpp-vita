@@ -15,8 +15,8 @@ var group___keyboard =
       [ "OPT_NO_AUTOCAP", "group___keyboard.html#ggaa194434e41fd88b1fc032fa421ca1105a85e6e1b93e35e528f871293198e22914", null ],
       [ "OPT_NO_ASSISTANCE", "group___keyboard.html#ggaa194434e41fd88b1fc032fa421ca1105a27784998bf16940a8ff7e3c8563b26fd", null ]
     ] ],
-    [ "start", "group___keyboard.html#ga5bf257aac3c6dcfa7836ab7c889d01c4", null ],
-    [ "getState", "group___keyboard.html#ga0496cf4908c6c82661ffb27cea5d838c", null ],
-    [ "getInput", "group___keyboard.html#gaee54328ece94b848e0c69d67aa0d0bd8", null ],
-    [ "clear", "group___keyboard.html#gaa4b7da924f46c835e2fb11a4cb140210", null ]
+    [ "Keyboard::start", "group___keyboard.html#ga5bf257aac3c6dcfa7836ab7c889d01c4", null ],
+    [ "Keyboard::getState", "group___keyboard.html#ga0496cf4908c6c82661ffb27cea5d838c", null ],
+    [ "Keyboard::getInput", "group___keyboard.html#gaee54328ece94b848e0c69d67aa0d0bd8", null ],
+    [ "Keyboard::clear", "group___keyboard.html#gaa4b7da924f46c835e2fb11a4cb140210", null ]
 ];

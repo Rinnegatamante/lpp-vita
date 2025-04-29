@@ -45,8 +45,8 @@ var class_system =
     [ "launchApp", "group___system.html#ga9dd512f7710091cfcbe28b26de6badaf", null ],
     [ "getFreeSpace", "group___system.html#ga7c72c31fe8b4a7ad0921d339ca91b0f1", null ],
     [ "getTotalSpace", "group___system.html#ga0b38c460ab50c37c547f18b71e7cda75", null ],
-    [ "getTime", "group___system.html#ga6c22ea39ba26fd9d843c34e1df9602d6", null ],
-    [ "getDate", "group___system.html#gacb3dd094cd82df88c5d8475a466173da", null ],
+    [ "getTime", "group___system.html#ga31c1de38e78745f2bd562466346ce90d", null ],
+    [ "getDate", "group___system.html#gae15867dc5dd23e8240bcbe49f9d62e8e", null ],
     [ "getUsername", "group___system.html#ga8a345acaf4ae23c2edefde72d75e35f8", null ],
     [ "getLanguage", "group___system.html#gadef4e61c735f79e232a029d25f526dce", null ],
     [ "getModel", "group___system.html#gaec598b30c0d06a9e56d3c1c17ad56f99", null ],
@@ -84,5 +84,6 @@ var class_system =
     [ "loadKernelPlugin", "group___system.html#ga5988642adcafd6bba628391e340ece44", null ],
     [ "unloadUserPlugin", "group___system.html#ga9bdabd2a38b4ad66e1faa53ccbaf183b", null ],
     [ "unloadUserPlugin", "class_system.html#ga9bdabd2a38b4ad66e1faa53ccbaf183b", null ],
-    [ "unmountMountpoint", "group___system.html#ga75877661c3f115df6d5164e0d028969d", null ]
+    [ "unmountMountpoint", "group___system.html#ga75877661c3f115df6d5164e0d028969d", null ],
+    [ "unmountMountpoint", "class_system.html#ga75877661c3f115df6d5164e0d028969d", null ]
 ];
