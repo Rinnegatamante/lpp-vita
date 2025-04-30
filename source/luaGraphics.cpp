@@ -87,11 +87,13 @@ static int imgThread(unsigned int args, void* arg)
 	sceIoRead(file, &magic, 2);
 	sceIoClose(file);
 	vita2d_texture* result;
-	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
-	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
-	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
-	else 
-	{
+	if (magic == 0x4D42)
+		result = vita2d_load_BMP_file(text);
+	else if (magic == 0xD8FF)
+		result = vita2d_load_JPEG_file(text);
+	else if (magic == 0x5089)
+		result = vita2d_load_PNG_file(text);
+	else {
 		async_task_num--;
 		asyncResult = 1;
 		sceKernelExitDeleteThread(0);
@@ -115,43 +117,49 @@ static int imgThread(unsigned int args, void* arg)
 static int lua_print(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 4 && argc != 5)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "debugPrint can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "debugPrint can't be called outside a blending phase.");
 #endif
 	int x = luaL_checkinteger(L, 1);
 	int y = luaL_checkinteger(L, 2);
 	char* text = (char*)luaL_checkstring(L, 3);
 	int color = luaL_checkinteger(L, 4);
-	float scale = 1.0;
+	float scale = 1.0f;
 	if (argc == 5) scale = luaL_checknumber(L, 5);
-	vita2d_pgf_draw_text(debug_font, x, y + 17.402 * scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), scale, text);
+	vita2d_pgf_draw_text(debug_font, x, y + 17.402f * scale, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), scale, text);
 	return 0;
 }
 
 static int lua_pixel(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 3 && argc != 4)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 #ifdef PARANOID
-	if (!draw_state && argc == 3) return luaL_error(L, "drawPixel can't be called outside a blending phase for on screen drawing.");
+	if (!draw_state && argc == 3)
+		return luaL_error(L, "drawPixel can't be called outside a blending phase for on screen drawing.");
 #endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
 	uint32_t color = luaL_checkinteger(L, 3);
-	if (argc == 3) vita2d_draw_rectangle(x, y, 1, 1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
-	else{
+	if (argc == 3)
+		vita2d_draw_rectangle(x, y, 1, 1, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
+	else {
 		lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 4));
-	#ifndef SKIP_ERROR_HANDLING
-		if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+		if (text->magic != 0xABADBEEF)
+			return luaL_error(L, "attempt to access wrong memory block type.");
+#endif
 		int intx = x;
 		int inty = y;
 		uint32_t* data = (uint32_t*)vita2d_texture_get_datap(text->text);
-		uint32_t pitch = vita2d_texture_get_stride(text->text)>>2;
-		data[intx+inty*pitch] = color;
+		uint32_t pitch = vita2d_texture_get_stride(text->text) >> 2;
+		data[intx + inty * pitch] = color;
 	}
 	return 0;
 }
@@ -159,10 +167,12 @@ static int lua_pixel(lua_State *L) {
 static int lua_rect(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 5)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawRect can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawRect can't be called outside a blending phase.");
 #endif
 	float x1 = luaL_checknumber(L, 1);
 	float x2 = luaL_checknumber(L, 2);
@@ -186,10 +196,12 @@ static int lua_rect(lua_State *L) {
 static int lua_emptyrect(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 5)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawEmptyRect can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawEmptyRect can't be called outside a blending phase.");
 #endif
 	float x1 = luaL_checknumber(L, 1);
 	float x2 = luaL_checknumber(L, 2);
@@ -216,10 +228,12 @@ static int lua_emptyrect(lua_State *L) {
 static int lua_line(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 5) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 5)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawLine can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawLine can't be called outside a blending phase.");
 #endif
 	float x1 = luaL_checknumber(L, 1);
 	float x2 = luaL_checknumber(L, 2);
@@ -233,10 +247,12 @@ static int lua_line(lua_State *L) {
 static int lua_circle(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 4) return luaL_error(L, "wrong number of arguments.");
+	if (argc != 4)
+		return luaL_error(L, "wrong number of arguments.");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawCircle can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawCircle can't be called outside a blending phase.");
 #endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
@@ -249,27 +265,34 @@ static int lua_circle(lua_State *L) {
 static int lua_init(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 #ifdef PARANOID
-	if (draw_state) return luaL_error(L, "initBlend can't be called inside a blending phase.");
-	else draw_state = true;
+	if (draw_state)
+		return luaL_error(L, "initBlend can't be called inside a blending phase.");
+	else
+		draw_state = true;
 #endif
 	if (isRescaling) {
 		vita2d_pool_reset();
 		vita2d_start_drawing_advanced(scaler.fbo, SCE_GXM_SCENE_FRAGMENT_SET_DEPENDENCY);
-	}else vita2d_start_drawing();
+	} else
+		vita2d_start_drawing();
 	return 0;
 }
 
 static int lua_term(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "termBlend can't be called outside a blending phase.");
-	else draw_state = false;
+	if (!draw_state)
+		return luaL_error(L, "termBlend can't be called outside a blending phase.");
+	else
+		draw_state = false;
 #endif
 	vita2d_end_drawing();
 	if (isRescaling) {
@@ -277,7 +300,8 @@ static int lua_term(lua_State *L) {
 		vita2d_draw_texture_scale(scaler.fbo,scaler.x,scaler.y,scaler.x_scale,scaler.y_scale);
 		vita2d_end_drawing();
 	}
-	if (keyboardStarted || messageStarted) vita2d_common_dialog_update();
+	if (keyboardStarted || messageStarted)
+		vita2d_common_dialog_update();
 	vita2d_wait_rendering_done();
 	return 0;
 }
@@ -285,20 +309,30 @@ static int lua_term(lua_State *L) {
 static int lua_loadimg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1 %% argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	char* text = (char*)(luaL_checkstring(L, 1));
 	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
 	uint16_t magic;
 	sceIoRead(file, &magic, 2);
 	sceIoClose(file);
+	SceKernelMemBlockType type = SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW;
+	if (argc == 2)
+		type = luaL_checkinteger(L, 4);
+	vita2d_texture_set_alloc_memblock_type(type);
 	vita2d_texture *result = NULL;
-	if (magic == 0x4D42) result = vita2d_load_BMP_file(text);
-	else if (magic == 0xD8FF) result = vita2d_load_JPEG_file(text);
-	else if (magic == 0x5089) result = vita2d_load_PNG_file(text);
-	else return luaL_error(L, "Error loading image (invalid magic).");
+	if (magic == 0x4D42)
+		result = vita2d_load_BMP_file(text);
+	else if (magic == 0xD8FF)
+		result = vita2d_load_JPEG_file(text);
+	else if (magic == 0x5089)
+		result = vita2d_load_PNG_file(text);
+	else
+		return luaL_error(L, "Error loading image (invalid magic).");
 #ifndef SKIP_ERROR_HANDLING
-	if (result == NULL) return luaL_error(L, "Error loading image.");
+	if (result == NULL)
+		return luaL_error(L, "Error loading image.");
 #endif
 	lpp_texture *ret = (lpp_texture*)malloc(sizeof(lpp_texture));
 	ret->magic = 0xABADBEEF;
@@ -312,11 +346,13 @@ static int lua_loadimg(lua_State *L) {
 static int lua_saveimg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2 && argc != 3)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	const char *filename = luaL_checkstring(L, 2);
 	int format = (argc > 2) ? luaL_checkinteger(L, 3) : FORMAT_BMP;
@@ -348,8 +384,8 @@ static int lua_saveimg(lua_State *L) {
 		int x, y;
 		uint8_t* buffer = (uint8_t*)&bmp_content[0x36];
 		uint8_t* framebuf = (uint8_t*)vita2d_texture_get_datap(text->text);
-		for (y = 0; y < h; y++){
-			for (x = 0; x < w; x++){
+		for (y = 0; y < h; y++) {
+			for (x = 0; x < w; x++) {
 				if (bpp == 3) {
 					buffer[(x + y * w) * 4] = framebuf[(x+(h-y)*pitch)*bpp + 2];
 					buffer[(x + y * w) * 4 + 1] = framebuf[(x+(h-y)*pitch)*bpp + 1];
@@ -372,8 +408,8 @@ static int lua_saveimg(lua_State *L) {
 		uint8_t* buffer = (uint8_t*)raw_data;
 		uint8_t* framebuf = (uint8_t*)vita2d_texture_get_datap(text->text);
 		int x, y;
-		for (y = 0; y < h; y++){
-			for (x = 0; x < w; x++){
+		for (y = 0; y < h; y++) {
+			for (x = 0; x < w; x++) {
 				if (bpp == 3) {
 					buffer[(x + y * w) * 4] = framebuf[(x+y*pitch)*bpp];
 					buffer[(x + y * w) * 4 + 1] = framebuf[(x+y*pitch)*bpp + 1];
@@ -403,7 +439,7 @@ static int lua_saveimg(lua_State *L) {
 			8, PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE,
 			PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
 		png_color *pal = (png_color*)png_malloc(png_ptr, palette->count*sizeof(png_color));
-		for (int i = 0; i < palette->count; i++){
+		for (int i = 0; i < palette->count; i++) {
 			png_color *col = &pal[i];
 			col->red = palette->entries[i].r;
 			col->green = palette->entries[i].g;
@@ -430,7 +466,8 @@ static int lua_saveimg(lua_State *L) {
 static int lua_loadimgasync(lua_State *L){
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	char* text = (char*)(luaL_checkstring(L, 1));
 	sprintf(asyncImagePath, text);
@@ -449,7 +486,8 @@ static int lua_loadimgasync(lua_State *L){
 static int lua_loadanimg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	char* text = (char*)(luaL_checkstring(L, 1));
 	SceUID file = sceIoOpen(text, SCE_O_RDONLY, 0777);
@@ -482,9 +520,11 @@ static int lua_loadanimg(lua_State *L) {
 		}
 		gd_close_gif(f);
 		free(rgb_data);
-	} else return luaL_error(L, "Error loading image (invalid magic).");
+	} else
+		return luaL_error(L, "Error loading image (invalid magic).");
 #ifndef SKIP_ERROR_HANDLING
-	if (result == NULL) return luaL_error(L, "Error loading image.");
+	if (result == NULL)
+		return luaL_error(L, "Error loading image.");
 #endif
 	lpp_texture *ret = (lpp_texture*)malloc(sizeof(lpp_texture));
 	ret->magic = 0xABADBEEF;
@@ -502,12 +542,15 @@ static int lua_loadanimg(lua_State *L) {
 static int lua_getnumframes(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
-	if (text->data == NULL) luaL_error(L, "attempt to access a static image.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->data == NULL)
+		return luaL_error(L, "attempt to access a static image.");
 #endif
 	animated_texture *d = (animated_texture *)text->data;
 	lua_pushinteger(L, d->num_frames);
@@ -517,17 +560,19 @@ static int lua_getnumframes(lua_State *L) {
 static int lua_setframe(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
 	int idx = luaL_checkinteger(L, 2);
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
-	if (text->data == NULL) luaL_error(L, "attempt to access a static image.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->data == NULL)
+		return luaL_error(L, "attempt to access a static image.");
 #endif
 	animated_texture *d = (animated_texture *)text->data;
 	uint32_t *frames = (uint32_t *)d->frames;
-	sceClibPrintf("frames %X\n", frames);
 	if (idx >= d->num_frames) idx = d->num_frames - 1;
 	int w = vita2d_texture_get_width(text->text);
 	int h = vita2d_texture_get_height(text->text);
@@ -538,53 +583,63 @@ static int lua_setframe(lua_State *L) {
 static int lua_drawimg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 3 && argc != 4) return luaL_error(L, "wrong number of arguments");
+	if (argc != 3 && argc != 4)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawImage can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawImage can't be called outside a blending phase.");
 #endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 3));
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	if (argc == 4) {
 		uint32_t color = luaL_checkinteger(L, 4);
 		vita2d_draw_texture_tint(text->text, x, y, color);
-	}else vita2d_draw_texture(text->text, x, y);
+	} else
+		vita2d_draw_texture(text->text, x, y);
 	return 0;
 }
 
 static int lua_drawimg_rotate(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 4 && argc != 5) return luaL_error(L, "wrong number of arguments");
+	if (argc != 4 && argc != 5)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawRotateImage can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawRotateImage can't be called outside a blending phase.");
 #endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 3));
 	float radius = luaL_checknumber(L, 4);
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	if (argc == 5) {
 		uint32_t color = luaL_checkinteger(L, 5);
 		vita2d_draw_texture_tint_rotate(text->text, x, y, radius, color);
-	}else vita2d_draw_texture_rotate(text->text, x, y, radius);
+	} else
+		vita2d_draw_texture_rotate(text->text, x, y, radius);
 	return 0;
 }
 
 static int lua_drawimg_scale(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 5 && argc != 6) return luaL_error(L, "wrong number of arguments");
+	if (argc != 5 && argc != 6)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawScaleImage can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawScaleImage can't be called outside a blending phase.");
 #endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
@@ -592,7 +647,8 @@ static int lua_drawimg_scale(lua_State *L) {
 	float x_scale = luaL_checknumber(L, 4);
 	float y_scale = luaL_checknumber(L, 5);
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	if (argc == 6) {
 		uint32_t color = luaL_checkinteger(L, 6);
@@ -604,10 +660,12 @@ static int lua_drawimg_scale(lua_State *L) {
 static int lua_drawimg_part(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 7 && argc != 8) return luaL_error(L, "wrong number of arguments");
+	if (argc != 7 && argc != 8)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawPartialImage can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawPartialImage can't be called outside a blending phase.");
 #endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
@@ -617,22 +675,26 @@ static int lua_drawimg_part(lua_State *L) {
 	float width = luaL_checknumber(L, 6);
 	float height = luaL_checknumber(L, 7);
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	if (argc == 8) {
 		uint32_t color = luaL_checkinteger(L, 8);
 		vita2d_draw_texture_tint_part(text->text, x, y, st_x, st_y, width, height, color);
-	}else vita2d_draw_texture_part(text->text, x, y, st_x, st_y, width, height);
+	} else
+		vita2d_draw_texture_part(text->text, x, y, st_x, st_y, width, height);
 	return 0;
 }
 
 static int lua_drawimg_full(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 11 && argc != 10) return luaL_error(L, "wrong number of arguments");
+	if (argc != 11 && argc != 10)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "drawImageExtended can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "drawImageExtended can't be called outside a blending phase.");
 #endif
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
@@ -645,23 +707,27 @@ static int lua_drawimg_full(lua_State *L) {
 	float x_scale = luaL_checknumber(L, 9);
 	float y_scale = luaL_checknumber(L, 10);
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	if (argc == 11) {
 		uint32_t color = luaL_checkinteger(L, 11);
 		vita2d_draw_texture_part_tint_scale_rotate(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale, radius, color);
-	}else vita2d_draw_texture_part_scale_rotate(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale, radius);
+	} else
+		vita2d_draw_texture_part_scale_rotate(text->text, x, y, st_x, st_y, width, height, x_scale, y_scale, radius);
 	return 0;
 }
 
 static int lua_width(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	lua_pushinteger(L, vita2d_texture_get_width(text->text));
 	return 1;
@@ -670,11 +736,13 @@ static int lua_width(lua_State *L) {
 static int lua_height(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	lua_pushinteger(L, vita2d_texture_get_height(text->text));
 	return 1;
@@ -683,11 +751,13 @@ static int lua_height(lua_State *L) {
 static int lua_free(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	vita2d_free_texture(text->text);
 	if (text->data) {
@@ -702,12 +772,18 @@ static int lua_free(lua_State *L) {
 static int lua_createimage(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2 && argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc < 2 && argc > 4)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int w = luaL_checkinteger(L, 1);
 	int h = luaL_checkinteger(L, 2);
 	uint32_t color = 0xFFFFFFFF;
-	if (argc == 3) color = luaL_checkinteger(L, 3);
+	SceKernelMemBlockType type = SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW;
+	if (argc > 2)
+		color = luaL_checkinteger(L, 3);
+	if (argc == 4)
+		type = luaL_checkinteger(L, 4);
+	vita2d_texture_set_alloc_memblock_type(type);
 	lpp_texture* text = (lpp_texture*)malloc(sizeof(lpp_texture));
 	text->magic = 0xABADBEEF;
 	text->text = vita2d_create_empty_texture_rendertarget(w, h, SCE_GXM_TEXTURE_FORMAT_A8B8G8R8);
@@ -719,13 +795,15 @@ static int lua_createimage(lua_State *L) {
 static int lua_filters(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 3)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
 	SceGxmTextureFilter min_filter = (SceGxmTextureFilter)(luaL_checkinteger(L, 2));
 	SceGxmTextureFilter mag_filter = (SceGxmTextureFilter)(luaL_checkinteger(L, 3));
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	vita2d_texture_set_filters(text->text, min_filter, mag_filter);
 	return 0;
@@ -734,7 +812,8 @@ static int lua_filters(lua_State *L) {
 static int lua_loadFont(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	char* text = (char*)(luaL_checkstring(L, 1));
 	ttf* result = (ttf*)malloc(sizeof(ttf));
@@ -746,12 +825,12 @@ static int lua_loadFont(lua_State *L) {
 		result->f2 = vita2d_load_custom_pgf(text);
 		if (result->f2 == NULL) { 
 			result->f3 = vita2d_load_custom_pvf(text);
-		#ifndef SKIP_ERROR_HANDLING
+#ifndef SKIP_ERROR_HANDLING
 			if (result->f3 == NULL) {
 				free(result);
 				return luaL_error(L, "cannot load font file");
 			}
-		#endif
+#endif
 		}
 	}
 	result->magic = 0x4C464E54;
@@ -963,6 +1042,9 @@ static const luaL_Reg Font_functions[] = {
 void luaGraphics_init(lua_State *L) {
 	uint32_t FILTER_POINT = (uint32_t)SCE_GXM_TEXTURE_FILTER_POINT;
 	uint32_t FILTER_LINEAR = (uint32_t)SCE_GXM_TEXTURE_FILTER_LINEAR;
+	uint32_t MEM_VRAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW;
+	uint32_t MEM_PHYCONT_RAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_MAIN_PHYCONT_RW;
+	uint32_t MEM_RAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_RW;
 	VariableRegister(L,FILTER_POINT);
 	VariableRegister(L,FILTER_LINEAR);
 	lua_newtable(L);

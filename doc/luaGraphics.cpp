@@ -7,9 +7,19 @@
  * Image filters to use with ::Graphics.setImageFilters.
  * \ingroup Graphics
  */
-enum ImageFilter{
+enum ImageFilter {
 	FILTER_POINT,       //!< Point filter
 	FILTER_LINEAR       //!< Linear filter
+};
+
+/**
+ * Memory types usable for allocated images.
+ * \ingroup Graphics
+ */
+enum MemType {
+	MEM_VRAM, //!< VRAM memory type
+	MEM_PHYCONT_RAM, //!< Physically contiguous RAM memory type
+	MEM_RAM //!< RAM memory type
 };
  
 class Graphics {
@@ -28,10 +38,11 @@ class Graphics {
 		 * @param width - Image width.
 		 * @param height - Image height.
 		 * @param color - A valid color (See ::Color) <b>(optional)</b>.
+		 * @param type - Memory type to use for the image <b>(optional)</b>.
 		 *
 		 * @return A valid image ID.
 		 */
-		int createImage(int width, int height, int color);
+		int createImage(int width, int height, int color, MemType type);
 		
 		/**
 		 * Print a text on screen using system font.
@@ -362,10 +373,11 @@ class Graphics {
 		 * @endcode
 		 *
 		 * @param filename - Name of the file to open.
+		 * @param type - Memory type to use for the image <b>(optional)</b>.
 		 *
 		 * @return A valid image ID.
 		 */
-		int loadImage(string filename);
+		int loadImage(string filename, MemType type);
 		
 		/**
 		 * Load a .png/.jpg/.bmp image (asynchronous).
