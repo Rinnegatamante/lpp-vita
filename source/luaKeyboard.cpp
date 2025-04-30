@@ -46,27 +46,40 @@ static uint8_t RUNNING = SCE_COMMON_DIALOG_STATUS_RUNNING;
 static uint8_t CANCELED = 3;
 bool keyboardStarted = false;
 
-static int lua_setup(lua_State *L){
+static int lua_setup(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 2 && argc != 3 && argc != 4 && argc != 5 && argc != 6) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc < 2 || argc > 6)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	char* title_ascii = (char*)luaL_checkstring(L, 1);
 	char* text = (char*)luaL_checkstring(L, 2);
 	SceUInt32 length = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
 	SceUInt32 type = SCE_IME_TYPE_BASIC_LATIN;
 	SceUInt32 mode = SCE_IME_DIALOG_TEXTBOX_MODE_DEFAULT;
 	SceUInt32 option = 0;
-	if (argc >= 3) length = luaL_checkinteger(L, 3);
-	if (argc >= 4) type = luaL_checkinteger(L, 4);
-	if (argc >= 5) mode = luaL_checkinteger(L, 5);
-	if (argc == 6) option = luaL_checkinteger(L, 6);
-	#ifndef SKIP_ERROR_HANDLING
-	if (length > SCE_IME_DIALOG_MAX_TEXT_LENGTH) length = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
-	if (type > 3) return luaL_error(L, "invalid keyboard type");
-	if (mode > 1) return luaL_error(L, "invalid keyboard mode");
-	if (strlen(title_ascii) > SCE_IME_DIALOG_MAX_TITLE_LENGTH) return luaL_error(L, "title is too long");
-	#endif
+	switch (argc) {
+	case 6:
+		option = luaL_checkinteger(L, 6);
+	case 5:
+		mode = luaL_checkinteger(L, 5);
+	case 4:
+		type = luaL_checkinteger(L, 4);
+	case 3:
+		length = luaL_checkinteger(L, 3);
+	default:
+		break;
+	}
+#ifndef SKIP_ERROR_HANDLING
+	if (length > SCE_IME_DIALOG_MAX_TEXT_LENGTH)
+		length = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
+	if (type > 3)
+		return luaL_error(L, "invalid keyboard type");
+	if (mode > 1)
+		return luaL_error(L, "invalid keyboard mode");
+	if (strlen(title_ascii) > SCE_IME_DIALOG_MAX_TITLE_LENGTH)
+		return luaL_error(L, "title is too long");
+#endif
 	
 	// Converting input to UTF16
 	ascii2utf(initial_text, text);
@@ -83,20 +96,22 @@ static int lua_setup(lua_State *L){
 	param.maxTextLength = length;
 	param.initialText = initial_text;
 	param.inputTextBuffer = input_text;
-	if (option > 0) param.option = option;
+	if (option > 0)
+		param.option = option;
 	sceImeDialogInit(&param);
 	keyboardStarted = true;
 	
 	return 0;
 }
 
-static int lua_state(lua_State *L){
+static int lua_state(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	SceCommonDialogStatus status = sceImeDialogGetStatus();
-	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED){
+	if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
 		SceImeDialogResult result;
 		memset(&result, 0, sizeof(SceImeDialogResult));
 		sceImeDialogGetResult(&result);
@@ -108,22 +123,24 @@ static int lua_state(lua_State *L){
 	return 1;
 }
 
-static int lua_input(lua_State *L){
+static int lua_input(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
-	char res[SCE_IME_DIALOG_MAX_TEXT_LENGTH+1];
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+#endif
+	char res[SCE_IME_DIALOG_MAX_TEXT_LENGTH + 1];
 	utf2ascii(res, input_text);
 	lua_pushstring(L, res);
 	return 1;
 }
 
-static int lua_clear(lua_State *L){
+static int lua_clear(lua_State *L) {
 	int argc = lua_gettop(L);
-	#ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	#endif
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+#endif
 	keyboardStarted = false;
 	sceImeDialogTerm();
 	return 0;
