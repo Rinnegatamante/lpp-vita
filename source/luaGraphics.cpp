@@ -899,47 +899,65 @@ static int lua_gpixel(lua_State *L) {
 	return 1;
 }
 
+static int lua_overloadimg(lua_State *L) {
+	int argc = lua_gettop(L);
+#ifndef SKIP_ERROR_HANDLING
+	if (argc != 4) return luaL_error(L, "wrong number of arguments");
+#endif
+	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
+	int offs = luaL_checkinteger(L, 2);
+	int size = luaL_checkinteger(L, 3);
+	uint8_t *data = (uint8_t *)luaL_checkstring(L, 4);
+#ifndef SKIP_ERROR_HANDLING
+	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+#endif
+	uint8_t *buff = vita2d_texture_get_datap(text->text);
+	sceClibMemcpy(&buff[offs], data, size);
+	return 0;
+}
+
 //Register our Graphics Functions
 static const luaL_Reg Graphics_functions[] = {
-  {"initBlend",           lua_init},
-  {"termBlend",           lua_term},
-  {"debugPrint",          lua_print},
-  {"drawPixel",           lua_pixel},
-  {"getPixel",            lua_gpixel},
-  {"drawLine",            lua_line},
-  {"fillRect",            lua_rect},
-  {"fillEmptyRect",       lua_emptyrect},
-  {"fillCircle",          lua_circle},
-  {"loadImage",           lua_loadimg},
-  {"saveImage",           lua_saveimg},
-  {"loadImageAsync",      lua_loadimgasync},
-  {"loadAnimatedImage",   lua_loadanimg},
-  {"getImageFramesNum",   lua_getnumframes},
-  {"setImageFrame",       lua_setframe},
-  {"drawImage",           lua_drawimg},
-  {"drawRotateImage",     lua_drawimg_rotate},
-  {"drawScaleImage",      lua_drawimg_scale},
-  {"drawPartialImage",    lua_drawimg_part},
-  {"drawImageExtended",   lua_drawimg_full},
-  {"createImage",         lua_createimage},
-  {"setImageFilters",     lua_filters},
-  {"getImageWidth",       lua_width},
-  {"getImageHeight",      lua_height},
-  {"freeImage",           lua_free},
-  {"initRescaler",        lua_rescaleron},
-  {"termRescaler",        lua_rescaleroff},
-  {0, 0}
+	{"createImage",         lua_createimage},
+	{"debugPrint",          lua_print},
+	{"drawImage",           lua_drawimg},
+	{"drawImageExtended",   lua_drawimg_full},
+	{"drawLine",            lua_line},
+	{"drawPartialImage",    lua_drawimg_part},
+	{"drawPixel",           lua_pixel},
+	{"drawRotateImage",     lua_drawimg_rotate},
+	{"drawScaleImage",      lua_drawimg_scale},
+	{"fillCircle",          lua_circle},
+	{"fillEmptyRect",       lua_emptyrect},
+	{"fillRect",            lua_rect},
+	{"freeImage",           lua_free},
+	{"getImageFramesNum",   lua_getnumframes},
+	{"getImageHeight",      lua_height},
+	{"getImageWidth",       lua_width},
+	{"getPixel",            lua_gpixel},
+	{"initBlend",           lua_init},
+	{"initRescaler",        lua_rescaleron},
+	{"loadAnimatedImage",   lua_loadanimg},
+	{"loadImage",           lua_loadimg},
+	{"loadImageAsync",      lua_loadimgasync},
+	{"overloadImage",       lua_overloadimg},
+	{"saveImage",           lua_saveimg},
+	{"setImageFilters",     lua_filters},
+	{"setImageFrame",       lua_setframe},
+	{"termBlend",           lua_term},
+	{"termRescaler",        lua_rescaleroff},
+	{0, 0}
 };
 
 //Register our Font Functions
 static const luaL_Reg Font_functions[] = {
-  {"load",            lua_loadFont}, 
-  {"print",           lua_fprint},
-  {"getTextWidth",    lua_fwidth},
-  {"getTextHeight",   lua_fheight}, 
-  {"setPixelSizes",   lua_fsize}, 
-  {"unload",          lua_unloadFont}, 
-  {0, 0}
+	{"getTextHeight",   lua_fheight},
+	{"getTextWidth",    lua_fwidth},
+	{"load",            lua_loadFont}, 
+	{"print",           lua_fprint},
+	{"setPixelSizes",   lua_fsize},
+	{"unload",          lua_unloadFont}, 
+	{0, 0}
 };
 
 void luaGraphics_init(lua_State *L) {
