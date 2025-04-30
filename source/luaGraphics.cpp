@@ -207,7 +207,7 @@ static int lua_emptyrect(lua_State *L) {
 	float x2 = luaL_checknumber(L, 2);
 	float y1 = luaL_checknumber(L, 3);
 	float y2 = luaL_checknumber(L, 4);
-	int color = luaL_checkinteger(L,5);
+	int color = luaL_checkinteger(L, 5);
 	if (x2 < x1) {
 		int tmp = x2;
 		x2 = x1;
@@ -239,7 +239,7 @@ static int lua_line(lua_State *L) {
 	float x2 = luaL_checknumber(L, 2);
 	float y1 = luaL_checknumber(L, 3);
 	float y2 = luaL_checknumber(L, 4);
-	int color = luaL_checkinteger(L,5);
+	int color = luaL_checkinteger(L, 5);
 	vita2d_draw_line(x1, y1, x2, y2, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
 }
@@ -257,7 +257,7 @@ static int lua_circle(lua_State *L) {
 	float x = luaL_checknumber(L, 1);
 	float y = luaL_checknumber(L, 2);
 	float radius = luaL_checknumber(L, 3);
-	int color = luaL_checkinteger(L,4);
+	int color = luaL_checkinteger(L, 4);
 	vita2d_draw_fill_circle(x, y, radius, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF));
 	return 0;
 }
@@ -309,7 +309,7 @@ static int lua_term(lua_State *L) {
 static int lua_loadimg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1 %% argc != 2)
+	if (argc != 1 && argc != 2)
 		return luaL_error(L, "wrong number of arguments");
 #endif
 	char* text = (char*)(luaL_checkstring(L, 1));
@@ -841,12 +841,14 @@ static int lua_loadFont(lua_State *L) {
 static int lua_fsize(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
-	int size = luaL_checkinteger(L,2);
+	int size = luaL_checkinteger(L, 2);
 #ifndef SKIP_ERROR_HANDLING
-	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	if (font->magic != 0x4C464E54)
+		return luaL_error(L, "attempt to access wrong memory block type");
 #endif
 	font->size = size;
 	font->scale = size / 17.402f;
@@ -856,11 +858,13 @@ static int lua_fsize(lua_State *L) {
 static int lua_unloadFont(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 1) return luaL_error(L, "wrong number of arguments");
+	if (argc != 1)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	ttf* font = (ttf*)(luaL_checkinteger(L, 1));
 #ifndef SKIP_ERROR_HANDLING
-	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	if (font->magic != 0x4C464E54)
+		return luaL_error(L, "attempt to access wrong memory block type");
 #endif
 	if (font->f != NULL) vita2d_free_font(font->f);
 	else if (font->f2 != NULL) vita2d_free_pgf(font->f2);
@@ -872,18 +876,21 @@ static int lua_unloadFont(lua_State *L) {
 static int lua_fprint(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 5) return luaL_error(L, "wrong number of arguments");
+	if (argc != 5)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 #ifdef PARANOID
-	if (!draw_state) return luaL_error(L, "print can't be called outside a blending phase.");
+	if (!draw_state)
+		return luaL_error(L, "print can't be called outside a blending phase.");
 #endif
 	ttf *font = (ttf *)(luaL_checkinteger(L, 1));
 	float x = luaL_checknumber(L, 2);
 	float y = luaL_checknumber(L, 3);
 	char *text = (char *)(luaL_checkstring(L, 4));
-	uint32_t color = luaL_checkinteger(L,5);
+	uint32_t color = luaL_checkinteger(L, 5);
 #ifndef SKIP_ERROR_HANDLING
-	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	if (font->magic != 0x4C464E54)
+		return luaL_error(L, "attempt to access wrong memory block type");
 #endif
 	if (font->f != NULL)
 		vita2d_font_draw_text(font->f, x, y + font->size, RGBA8((color) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF, (color >> 24) & 0xFF), font->size, text);
@@ -916,12 +923,14 @@ static int lua_fwidth(lua_State *L) {
 static int lua_fheight(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 2) return luaL_error(L, "wrong number of arguments");
+	if (argc != 2)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	ttf *font = (ttf*)(luaL_checkinteger(L, 1));
 	char *text = (char*)(luaL_checkstring(L, 2));
 #ifndef SKIP_ERROR_HANDLING
-	if (font->magic != 0x4C464E54) return luaL_error(L, "attempt to access wrong memory block type");
+	if (font->magic != 0x4C464E54)
+		return luaL_error(L, "attempt to access wrong memory block type");
 #endif
 	if (font->f != NULL)
 		lua_pushinteger(L, vita2d_font_text_height(font->f, font->size, text));
@@ -935,8 +944,10 @@ static int lua_fheight(lua_State *L) {
 static int lua_rescaleron(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 4) return luaL_error(L, "wrong number of arguments");
-	if (isRescaling) return luaL_error(L, "cannot start two different rescalers together");
+	if (argc != 4)
+		return luaL_error(L, "wrong number of arguments");
+	if (isRescaling)
+		return luaL_error(L, "cannot start two different rescalers together");
 #endif
 	int x = luaL_checkinteger(L, 1);
 	int y = luaL_checkinteger(L, 2);
@@ -954,8 +965,10 @@ static int lua_rescaleron(lua_State *L) {
 static int lua_rescaleroff(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 0) return luaL_error(L, "wrong number of arguments");
-	if (!isRescaling) return luaL_error(L, "no rescaler available");
+	if (argc != 0)
+		return luaL_error(L, "wrong number of arguments");
+	if (!isRescaling)
+		return luaL_error(L, "no rescaler available");
 #endif
 	vita2d_free_texture(scaler.fbo);
 	isRescaling = false;
@@ -965,13 +978,15 @@ static int lua_rescaleroff(lua_State *L) {
 static int lua_gpixel(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 3) return luaL_error(L, "wrong number of arguments");
+	if (argc != 3)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	int x = luaL_checkinteger(L, 1);
 	int y = luaL_checkinteger(L, 2);
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 3));
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	uint32_t *buff = (uint32_t*)vita2d_texture_get_datap(text->text);
 	lua_pushinteger(L, buff[ALIGN(vita2d_texture_get_width(text->text), 8) * y + x]);
@@ -981,14 +996,16 @@ static int lua_gpixel(lua_State *L) {
 static int lua_overloadimg(lua_State *L) {
 	int argc = lua_gettop(L);
 #ifndef SKIP_ERROR_HANDLING
-	if (argc != 4) return luaL_error(L, "wrong number of arguments");
+	if (argc != 4)
+		return luaL_error(L, "wrong number of arguments");
 #endif
 	lpp_texture* text = (lpp_texture*)(luaL_checkinteger(L, 1));
 	int offs = luaL_checkinteger(L, 2);
 	int size = luaL_checkinteger(L, 3);
 	uint8_t *data = (uint8_t *)luaL_checkstring(L, 4);
 #ifndef SKIP_ERROR_HANDLING
-	if (text->magic != 0xABADBEEF) luaL_error(L, "attempt to access wrong memory block type.");
+	if (text->magic != 0xABADBEEF)
+		return luaL_error(L, "attempt to access wrong memory block type.");
 #endif
 	uint8_t *buff = vita2d_texture_get_datap(text->text);
 	sceClibMemcpy(&buff[offs], data, size);
@@ -1045,11 +1062,11 @@ void luaGraphics_init(lua_State *L) {
 	uint32_t MEM_VRAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW;
 	uint32_t MEM_PHYCONT_RAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_MAIN_PHYCONT_RW;
 	uint32_t MEM_RAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_RW;
-	VariableRegister(L,MEM_VRAM);
-	VariableRegister(L,MEM_PHYCONT_RAM);
-	VariableRegister(L,MEM_RAM);
-	VariableRegister(L,FILTER_POINT);
-	VariableRegister(L,FILTER_LINEAR);
+	VariableRegister(L, MEM_VRAM);
+	VariableRegister(L, MEM_PHYCONT_RAM);
+	VariableRegister(L, MEM_RAM);
+	VariableRegister(L, FILTER_POINT);
+	VariableRegister(L, FILTER_LINEAR);
 	lua_newtable(L);
 	luaL_setfuncs(L, Graphics_functions, 0);
 	lua_setglobal(L, "Graphics");
