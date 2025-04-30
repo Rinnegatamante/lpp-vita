@@ -1045,6 +1045,9 @@ void luaGraphics_init(lua_State *L) {
 	uint32_t MEM_VRAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW;
 	uint32_t MEM_PHYCONT_RAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_MAIN_PHYCONT_RW;
 	uint32_t MEM_RAM = (uint32_t)SCE_KERNEL_MEMBLOCK_TYPE_USER_RW;
+	VariableRegister(L,MEM_VRAM);
+	VariableRegister(L,MEM_PHYCONT_RAM);
+	VariableRegister(L,MEM_RAM);
 	VariableRegister(L,FILTER_POINT);
 	VariableRegister(L,FILTER_LINEAR);
 	lua_newtable(L);
