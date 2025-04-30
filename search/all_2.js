@@ -28,7 +28,7 @@ var searchData=
   ['controls_25',['controls',['../group___controls.html',1,'Controls'],['../class_controls.html',1,'Controls']]],
   ['copyfile_26',['copyFile',['../group___system.html#ga9386f6ff43bac3027b58ebc1355bfaf5',1,'System']]],
   ['createdirectory_27',['createDirectory',['../group___system.html#gae9720fe43ebbf9ab4626012354cf7145',1,'System']]],
-  ['createimage_28',['createImage',['../group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6',1,'Graphics']]],
+  ['createimage_28',['createImage',['../group___graphics.html#ga264fe8c1f5835d23b9e3817844ca3421',1,'Graphics']]],
   ['createserversocket_29',['createServerSocket',['../group___socket.html#gae251109f4ab78181e97f8d32030d66bf',1,'Socket']]],
   ['createvertex_30',['createVertex',['../group___render.html#gabe48fb2b8a251ba19483e74bdf2956f0',1,'Render']]],
   ['ctrl_31',['Ctrl',['../group___controls.html#ga8c72c82f024ad6af2e49918de816504f',1,'luaControls.cpp']]],

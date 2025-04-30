@@ -108,12 +108,18 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ga70dac8233f8b9cc5e86d15a2c1f2f790"><td class="mdescLeft">&#160;</td><td class="mdescRight">Image filters to use with <a class="el" href="group___graphics.html#ga0e381466c4cf01468bd19ede86f84f02" title="Set filters to use for a given image.">Graphics.setImageFilters</a>.  <a href="group___graphics.html#ga70dac8233f8b9cc5e86d15a2c1f2f790">More...</a><br /></td></tr>
 <tr class="separator:ga70dac8233f8b9cc5e86d15a2c1f2f790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabd31f838aefffa46191d0d7dc36a96b2" id="r_gabd31f838aefffa46191d0d7dc36a96b2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gabd31f838aefffa46191d0d7dc36a96b2">MemType</a> { <a class="el" href="group___graphics.html#ggabd31f838aefffa46191d0d7dc36a96b2ad22be30c7984341e0f86139f1bdc4c81">MEM_VRAM</a>
+, <a class="el" href="group___graphics.html#ggabd31f838aefffa46191d0d7dc36a96b2ad5ca6f1319af0be8559f54cbdcea9fb5">MEM_PHYCONT_RAM</a>
+, <a class="el" href="group___graphics.html#ggabd31f838aefffa46191d0d7dc36a96b2ac7d317efd3d7589a03c0722ab9951318">MEM_RAM</a>
+ }</td></tr>
+<tr class="memdesc:gabd31f838aefffa46191d0d7dc36a96b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Memory types usable for allocated images.  <a href="group___graphics.html#gabd31f838aefffa46191d0d7dc36a96b2">More...</a><br /></td></tr>
+<tr class="separator:gabd31f838aefffa46191d0d7dc36a96b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gaf54430a9bb32bad60dfcb31cdb8c77a6" id="r_gaf54430a9bb32bad60dfcb31cdb8c77a6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6">Graphics::createImage</a> (int width, int height, int color)</td></tr>
-<tr class="memdesc:gaf54430a9bb32bad60dfcb31cdb8c77a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty image.  <br /></td></tr>
-<tr class="separator:gaf54430a9bb32bad60dfcb31cdb8c77a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga264fe8c1f5835d23b9e3817844ca3421" id="r_ga264fe8c1f5835d23b9e3817844ca3421"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga264fe8c1f5835d23b9e3817844ca3421">Graphics::createImage</a> (int width, int height, int color, <a class="el" href="group___graphics.html#gabd31f838aefffa46191d0d7dc36a96b2">MemType</a> type)</td></tr>
+<tr class="memdesc:ga264fe8c1f5835d23b9e3817844ca3421"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty image.  <br /></td></tr>
+<tr class="separator:ga264fe8c1f5835d23b9e3817844ca3421"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga96fcdf38360384abbdc6b9def54f2119" id="r_ga96fcdf38360384abbdc6b9def54f2119"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga96fcdf38360384abbdc6b9def54f2119">Graphics::debugPrint</a> (number x, number y, string text, int color)</td></tr>
 <tr class="memdesc:ga96fcdf38360384abbdc6b9def54f2119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a text on screen using system font.  <br /></td></tr>
 <tr class="separator:ga96fcdf38360384abbdc6b9def54f2119"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,9 +177,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gab049437522e2c2472fb1ccb6042fc74c" id="r_gab049437522e2c2472fb1ccb6042fc74c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c">Graphics::loadAnimatedImage</a> (string filename)</td></tr>
 <tr class="memdesc:gab049437522e2c2472fb1ccb6042fc74c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a .gif animated image.  <br /></td></tr>
 <tr class="separator:gab049437522e2c2472fb1ccb6042fc74c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab77473fad34dae9c6d5b500fa6940fec" id="r_gab77473fad34dae9c6d5b500fa6940fec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec">Graphics::loadImage</a> (string filename)</td></tr>
-<tr class="memdesc:gab77473fad34dae9c6d5b500fa6940fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a .png/.jpg/.bmp image.  <br /></td></tr>
-<tr class="separator:gab77473fad34dae9c6d5b500fa6940fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9e231ca7de3839da3923b04652755dd0" id="r_ga9e231ca7de3839da3923b04652755dd0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga9e231ca7de3839da3923b04652755dd0">Graphics::loadImage</a> (string filename, <a class="el" href="group___graphics.html#gabd31f838aefffa46191d0d7dc36a96b2">MemType</a> type)</td></tr>
+<tr class="memdesc:ga9e231ca7de3839da3923b04652755dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a .png/.jpg/.bmp image.  <br /></td></tr>
+<tr class="separator:ga9e231ca7de3839da3923b04652755dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga710a6e4b04bc43c2f15a8c0eb646da08" id="r_ga710a6e4b04bc43c2f15a8c0eb646da08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___graphics.html#ga710a6e4b04bc43c2f15a8c0eb646da08">Graphics::loadImageAsync</a> (string filename)</td></tr>
 <tr class="memdesc:ga710a6e4b04bc43c2f15a8c0eb646da08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a .png/.jpg/.bmp image (asynchronous).  <br /></td></tr>
 <tr class="separator:ga710a6e4b04bc43c2f15a8c0eb646da08"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,9 +227,33 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gabd31f838aefffa46191d0d7dc36a96b2" name="gabd31f838aefffa46191d0d7dc36a96b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabd31f838aefffa46191d0d7dc36a96b2">&#9670;&#160;</a></span>MemType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group___graphics.html#gabd31f838aefffa46191d0d7dc36a96b2">MemType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Memory types usable for allocated images. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggabd31f838aefffa46191d0d7dc36a96b2ad22be30c7984341e0f86139f1bdc4c81" name="ggabd31f838aefffa46191d0d7dc36a96b2ad22be30c7984341e0f86139f1bdc4c81"></a>MEM_VRAM&#160;</td><td class="fielddoc"><p>VRAM memory type. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggabd31f838aefffa46191d0d7dc36a96b2ad5ca6f1319af0be8559f54cbdcea9fb5" name="ggabd31f838aefffa46191d0d7dc36a96b2ad5ca6f1319af0be8559f54cbdcea9fb5"></a>MEM_PHYCONT_RAM&#160;</td><td class="fielddoc"><p>Physically contiguous RAM memory type. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggabd31f838aefffa46191d0d7dc36a96b2ac7d317efd3d7589a03c0722ab9951318" name="ggabd31f838aefffa46191d0d7dc36a96b2ac7d317efd3d7589a03c0722ab9951318"></a>MEM_RAM&#160;</td><td class="fielddoc"><p>RAM memory type. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gaf54430a9bb32bad60dfcb31cdb8c77a6" name="gaf54430a9bb32bad60dfcb31cdb8c77a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf54430a9bb32bad60dfcb31cdb8c77a6">&#9670;&#160;</a></span>createImage()</h2>
+<a id="ga264fe8c1f5835d23b9e3817844ca3421" name="ga264fe8c1f5835d23b9e3817844ca3421"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga264fe8c1f5835d23b9e3817844ca3421">&#9670;&#160;</a></span>createImage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,7 +274,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>color</em>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___graphics.html#gabd31f838aefffa46191d0d7dc36a96b2">MemType</a>&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -255,17 +291,18 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Create an empty image. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">img = <a class="code hl_class" href="class_graphics.html">Graphics</a>.<a class="code hl_function" href="group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6">createImage</a>(<a class="code hl_class" href="class_color.html">Color</a>.<a class="code hl_function" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(25, 200, 120))</div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">img = <a class="code hl_class" href="class_graphics.html">Graphics</a>.<a class="code hl_function" href="group___graphics.html#ga264fe8c1f5835d23b9e3817844ca3421">createImage</a>(<a class="code hl_class" href="class_color.html">Color</a>.<a class="code hl_function" href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">new</a>(25, 200, 120))</div>
 <div class="ttc" id="aclass_color_html"><div class="ttname"><a href="class_color.html">Color</a></div><div class="ttdef"><b>Definition</b> luaColor.cpp:6</div></div>
-<div class="ttc" id="aclass_graphics_html"><div class="ttname"><a href="class_graphics.html">Graphics</a></div><div class="ttdef"><b>Definition</b> luaGraphics.cpp:15</div></div>
+<div class="ttc" id="aclass_graphics_html"><div class="ttname"><a href="class_graphics.html">Graphics</a></div><div class="ttdef"><b>Definition</b> luaGraphics.cpp:25</div></div>
 <div class="ttc" id="agroup___color_html_ga0158af6c6318c57c8079c652a9783ba4"><div class="ttname"><a href="group___color.html#ga0158af6c6318c57c8079c652a9783ba4">Color::new</a></div><div class="ttdeci">int new(int r, int g, int b, int a)</div><div class="ttdoc">Create a new color.</div></div>
-<div class="ttc" id="agroup___graphics_html_gaf54430a9bb32bad60dfcb31cdb8c77a6"><div class="ttname"><a href="group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6">Graphics::createImage</a></div><div class="ttdeci">int createImage(int width, int height, int color)</div><div class="ttdoc">Create an empty image.</div></div>
+<div class="ttc" id="agroup___graphics_html_ga264fe8c1f5835d23b9e3817844ca3421"><div class="ttname"><a href="group___graphics.html#ga264fe8c1f5835d23b9e3817844ca3421">Graphics::createImage</a></div><div class="ttdeci">int createImage(int width, int height, int color, MemType type)</div><div class="ttdoc">Create an empty image.</div></div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">width</td><td>- Image width. </td></tr>
     <tr><td class="paramname">height</td><td>- Image height. </td></tr>
-    <tr><td class="paramname">color</td><td>- A valid color (See <a class="el" href="class_color.html">Color</a>) <b>(optional)</b>.</td></tr>
+    <tr><td class="paramname">color</td><td>- A valid color (See <a class="el" href="class_color.html">Color</a>) <b>(optional)</b>. </td></tr>
+    <tr><td class="paramname">type</td><td>- Memory type to use for the image <b>(optional)</b>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1262,8 +1299,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gab77473fad34dae9c6d5b500fa6940fec" name="gab77473fad34dae9c6d5b500fa6940fec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab77473fad34dae9c6d5b500fa6940fec">&#9670;&#160;</a></span>loadImage()</h2>
+<a id="ga9e231ca7de3839da3923b04652755dd0" name="ga9e231ca7de3839da3923b04652755dd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9e231ca7de3839da3923b04652755dd0">&#9670;&#160;</a></span>loadImage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1272,19 +1309,30 @@ Functions</h2></td></tr>
           <td class="memname">int Graphics::loadImage </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="group___graphics.html#gabd31f838aefffa46191d0d7dc36a96b2">MemType</a>&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Load a .png/.jpg/.bmp image. </p>
-<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">img = <a class="code hl_class" href="class_graphics.html">Graphics</a>.<a class="code hl_function" href="group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec">loadImage</a>(<span class="stringliteral">&quot;app0:/image.jpg&quot;</span>)</div>
-<div class="ttc" id="agroup___graphics_html_gab77473fad34dae9c6d5b500fa6940fec"><div class="ttname"><a href="group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec">Graphics::loadImage</a></div><div class="ttdeci">int loadImage(string filename)</div><div class="ttdoc">Load a .png/.jpg/.bmp image.</div></div>
+<dl class="section user"><dt>Usage example:</dt><dd><div class="fragment"><div class="line">img = <a class="code hl_class" href="class_graphics.html">Graphics</a>.<a class="code hl_function" href="group___graphics.html#ga9e231ca7de3839da3923b04652755dd0">loadImage</a>(<span class="stringliteral">&quot;app0:/image.jpg&quot;</span>)</div>
+<div class="ttc" id="agroup___graphics_html_ga9e231ca7de3839da3923b04652755dd0"><div class="ttname"><a href="group___graphics.html#ga9e231ca7de3839da3923b04652755dd0">Graphics::loadImage</a></div><div class="ttdeci">int loadImage(string filename, MemType type)</div><div class="ttdoc">Load a .png/.jpg/.bmp image.</div></div>
 </div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filename</td><td>- Name of the file to open.</td></tr>
+    <tr><td class="paramname">filename</td><td>- Name of the file to open. </td></tr>
+    <tr><td class="paramname">type</td><td>- Memory type to use for the image <b>(optional)</b>.</td></tr>
   </table>
   </dd>
 </dl>

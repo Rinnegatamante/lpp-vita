@@ -4,7 +4,12 @@ var group___graphics =
       [ "FILTER_POINT", "group___graphics.html#gga70dac8233f8b9cc5e86d15a2c1f2f790a8928ed98915affb5c7514632a038daa6", null ],
       [ "FILTER_LINEAR", "group___graphics.html#gga70dac8233f8b9cc5e86d15a2c1f2f790ad8e5de74ec16a7e07145b7c18c885094", null ]
     ] ],
-    [ "Graphics::createImage", "group___graphics.html#gaf54430a9bb32bad60dfcb31cdb8c77a6", null ],
+    [ "MemType", "group___graphics.html#gabd31f838aefffa46191d0d7dc36a96b2", [
+      [ "MEM_VRAM", "group___graphics.html#ggabd31f838aefffa46191d0d7dc36a96b2ad22be30c7984341e0f86139f1bdc4c81", null ],
+      [ "MEM_PHYCONT_RAM", "group___graphics.html#ggabd31f838aefffa46191d0d7dc36a96b2ad5ca6f1319af0be8559f54cbdcea9fb5", null ],
+      [ "MEM_RAM", "group___graphics.html#ggabd31f838aefffa46191d0d7dc36a96b2ac7d317efd3d7589a03c0722ab9951318", null ]
+    ] ],
+    [ "Graphics::createImage", "group___graphics.html#ga264fe8c1f5835d23b9e3817844ca3421", null ],
     [ "Graphics::debugPrint", "group___graphics.html#ga96fcdf38360384abbdc6b9def54f2119", null ],
     [ "Graphics::drawImage", "group___graphics.html#ga68ce7a33944635202efaf0b806b2f757", null ],
     [ "Graphics::drawImageExtended", "group___graphics.html#ga395109883f4d6fbbeee9477ab664e8b0", null ],
@@ -24,7 +29,7 @@ var group___graphics =
     [ "Graphics::initBlend", "group___graphics.html#ga112ceb496da0600c3a10e0134f5229d9", null ],
     [ "Graphics::initRescaler", "group___graphics.html#ga2c9e9874a1837a0be648aef5a49b83f4", null ],
     [ "Graphics::loadAnimatedImage", "group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c", null ],
-    [ "Graphics::loadImage", "group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec", null ],
+    [ "Graphics::loadImage", "group___graphics.html#ga9e231ca7de3839da3923b04652755dd0", null ],
     [ "Graphics::loadImageAsync", "group___graphics.html#ga710a6e4b04bc43c2f15a8c0eb646da08", null ],
     [ "Graphics::overloadImage", "group___graphics.html#ga0bd18db96accb66231249662d4a7dd50", null ],
     [ "Graphics::saveImage", "group___graphics.html#gab72c2ad7f6ae0d835dd3f462da0aa38a", null ],

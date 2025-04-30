@@ -5,7 +5,7 @@ var searchData=
   ['listdirectory_2',['listDirectory',['../group___system.html#ga7eb5b2580f8b32500ea5aa2f2cce637e',1,'System']]],
   ['load_3',['load',['../group___font.html#ga42f6a9c552a6aaa86a4a7c1ed0debb82',1,'Font']]],
   ['loadanimatedimage_4',['loadAnimatedImage',['../group___graphics.html#gab049437522e2c2472fb1ccb6042fc74c',1,'Graphics']]],
-  ['loadimage_5',['loadImage',['../group___graphics.html#gab77473fad34dae9c6d5b500fa6940fec',1,'Graphics']]],
+  ['loadimage_5',['loadImage',['../group___graphics.html#ga9e231ca7de3839da3923b04652755dd0',1,'Graphics']]],
   ['loadimageasync_6',['loadImageAsync',['../group___graphics.html#ga710a6e4b04bc43c2f15a8c0eb646da08',1,'Graphics']]],
   ['loadkernelplugin_7',['loadKernelPlugin',['../group___system.html#ga5988642adcafd6bba628391e340ece44',1,'System']]],
   ['loadmodel_8',['loadModel',['../group___render.html#ga37f8821ddd6ccbd16e41ee1de8fb2be0',1,'Render']]],
