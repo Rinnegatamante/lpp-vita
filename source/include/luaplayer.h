@@ -64,7 +64,6 @@ void luaVideo_init(lua_State *L);
 void luaDatabase_init(lua_State *L);
 void luaRegistry_init(lua_State *L);
 void luaGui_init(lua_State *L);
-void bitlib_init(lua_State *L);
 
 // lua-compat
 #define lua_callk(L, na, nr, ctx, cont) ((void)(ctx), (void)(cont), lua_call(L, na, nr))
@@ -73,7 +72,6 @@ void bitlib_init(lua_State *L);
 
 // Internal variables
 extern int clr_color;
-extern char errorMex[];
 extern vita2d_pgf* debug_font;
 extern bool unsafe_mode;
 extern bool keyboardStarted;

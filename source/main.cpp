@@ -24,6 +24,9 @@ int clr_color;
 bool unsafe_mode = true;
 SceCommonDialogConfigParam cmnDlgCfgParam;
 
+char errorMsg[1024];
+static lua_State *L;
+
 int main()
 {
 	// Initializing touch screens and analogs
@@ -71,33 +74,63 @@ int main()
 	
 	SceCtrlData pad;
 	SceCtrlData oldpad;
+	int errored = 0;
 	while (1) {
 		
 		// Load main script
 		SceUID main_file = sceIoOpen("app0:/index.lua", SCE_O_RDONLY, 0777);
-		if (main_file < 0) errMsg = "index.lua not found.";
-		else {
+		if (main_file < 0) {
+			errored = 1;
+			strcpy(errorMsg, "Invalid main script.");
+		} else {
 			SceOff size = sceIoLseek(main_file, 0, SEEK_END);
-			if (size < 1) errMsg = "Invalid main script.";
-			else {
+			if (size < 1) {
+				errored = 1;
+				strcpy(errorMsg, "Invalid main script.");
+			} else {
 				sceIoLseek(main_file, 0, SEEK_SET);
 				script = (unsigned char*)malloc(size + 1);
 				sceIoRead(main_file, script, size);
 				script[size] = 0;
 				sceIoClose(main_file);
-				errMsg = runScript((const char*)script, true);
+				L = luaL_newstate();
+				
+				// Standard libraries
+				luaL_openlibs(L);
+				// Modules
+				luaControls_init(L);
+				luaScreen_init(L);
+				luaGraphics_init(L);
+				luaSound_init(L);
+				luaSystem_init(L);
+				luaNetwork_init(L);
+				luaTimer_init(L);
+				luaKeyboard_init(L);
+				luaRender_init(L);
+				luaMic_init(L);
+				luaVideo_init(L);
+				luaCamera_init(L);
+				luaDatabase_init(L);
+				luaRegistry_init(L);
+				luaGui_init(L);
+				errored = luaL_dostring(L, script);
+				if (errored) {
+					strcpy(errorMsg, (char *)lua_tostring(L, -1));
+				}
+				lua_close(L);
 				free(script);
 			}
 		}
 
-		if (errMsg != NULL) {
+		if (errored) {
 			int restore = 0;
 			bool s = true;
 			while (restore == 0) {
 				vita2d_start_drawing();
 				vita2d_clear_screen();
-				vita2d_pgf_draw_textf(debug_font, 2, 19.402, RGBA8(255, 255, 255, 255), 1.0, "An error occurred:\n%s\n\nPress X to restart.\nPress O to enable/disable FTP.", errorMex);
-				if (vita_port != 0) vita2d_pgf_draw_textf(debug_font, 2, 200, RGBA8(255, 255, 255, 255), 1.0, "PSVITA listening on IP %s , Port %u", vita_ip, vita_port);
+				vita2d_pgf_draw_textf(debug_font, 2, 19.402, RGBA8(255, 255, 255, 255), 1.0, "An error occurred:\n%s\n\nPress X to restart.\nPress O to enable/disable FTP.", errorMsg);
+				if (vita_port != 0)
+					vita2d_pgf_draw_textf(debug_font, 2, 200, RGBA8(255, 255, 255, 255), 1.0, "PSVITA listening on IP %s , Port %u", vita_ip, vita_port);
 				vita2d_end_drawing();
 				vita2d_swap_buffers();
 				sceDisplayWaitVblankStart();
@@ -115,7 +148,7 @@ int main()
 					}
 					sceKernelDelayThread(800000);
 				} else if ((pad.buttons & SCE_CTRL_CIRCLE) && (!(oldpad.buttons & SCE_CTRL_CIRCLE))) {
-					if (vita_port == 0){
+					if (vita_port == 0) {
 						ftpvita_init(vita_ip, &vita_port);
 						ftpvita_add_device("app0:");
 						ftpvita_add_device("ux0:");
