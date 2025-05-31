@@ -1611,7 +1611,7 @@ static int lua_getmsg(lua_State *L) {
 		SceMsgDialogResult result;
 		sceClibMemset(&result, 0, sizeof(SceMsgDialogResult));
 		sceMsgDialogGetResult(&result);
-		if (result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO)
+		if (result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO || result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_INVALID)
 			status = (SceCommonDialogStatus)3; // CANCELED status, look at luaKeyboard.cpp
 		sceMsgDialogTerm();
 		messageStarted = false;
