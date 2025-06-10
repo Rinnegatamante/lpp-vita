@@ -157,7 +157,7 @@ static int lua_pixel(lua_State *L) {
 #endif
 		int intx = x;
 		int inty = y;
-		uint32_t* data = (uint32_t*)vita2d_texture_get_datap(text->text);
+		uint32_t *data = (uint32_t*)vita2d_texture_get_datap(text->text);
 		uint32_t pitch = vita2d_texture_get_stride(text->text) >> 2;
 		data[intx + inty * pitch] = color;
 	}
