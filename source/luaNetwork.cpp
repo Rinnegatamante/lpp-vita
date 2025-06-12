@@ -98,8 +98,15 @@ static struct hostent *gethostbyname(const char *name) {
 }
 
 static size_t write_cb(void *ptr, size_t size, size_t nmemb, void *stream) {
+	if (!stream || !ptr)
+		return CURL_WRITEFUNC_ERROR;
 	SceUID fd = (SceUID)stream;
-	return sceIoWrite(fd , ptr , size * nmemb);
+	int ret = sceIoWrite(fd , ptr , size * nmemb);
+	return (ret >= 0) ? ret : CURL_WRITEFUNC_ERROR;
+}
+
+static size_t header_cb(void *ptr, size_t size, size_t nmemb, void *stream) {
+	return nmemb * size;
 }
 
 static size_t write_str(void *ptr, size_t size, size_t nmemb, NetString *str) {
@@ -167,6 +174,8 @@ static int downloadThread(unsigned int args, void* arg) {
 		curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, buffer);
 		break;
 	}
+	curl_easy_setopt(curl_handle, CURLOPT_HEADERFUNCTION, header_cb);
+	curl_easy_setopt(curl_handle, CURLOPT_HEADERDATA, NULL);
 	struct curl_slist *headerchunk = NULL;
 	headerchunk = curl_slist_append(headerchunk, "Accept: */*");
 	headerchunk = curl_slist_append(headerchunk, "Content-Type: application/json");
@@ -602,6 +611,8 @@ static int lua_download(lua_State *L) {
 	curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1L);
 	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_cb);	
+	curl_easy_setopt(curl_handle, CURLOPT_HEADERFUNCTION, header_cb);
+	curl_easy_setopt(curl_handle, CURLOPT_HEADERDATA, NULL);
 	SceUID fh = sceIoOpen(file, SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
 	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, fh);
 	struct curl_slist *headerchunk = NULL;
@@ -695,6 +706,8 @@ static int lua_string(lua_State *L) {
 	NetString *buffer = new NetString();
 	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_str);
 	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, buffer);
+	curl_easy_setopt(curl_handle, CURLOPT_HEADERFUNCTION, header_cb);
+	curl_easy_setopt(curl_handle, CURLOPT_HEADERDATA, NULL);
 	struct curl_slist *headerchunk = NULL;
 	headerchunk = curl_slist_append(headerchunk, "Accept: */*");
 	headerchunk = curl_slist_append(headerchunk, "Content-Type: application/json");
