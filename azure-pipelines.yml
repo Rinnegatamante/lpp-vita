@@ -16,6 +16,12 @@ steps:
   displayName: 'Install 32 bit libraries'
 
 - script: |
+    sudo -E cp libs/libcurl.a $VITASDK/arm-vita-eabi/lib
+    sudo -E cp libs/libssl.a $VITASDK/arm-vita-eabi/lib
+    sudo -E cp libs/libcrypto.a $VITASDK/arm-vita-eabi/lib
+  displayName: 'Patch libcurl'
+  
+- script: |
     git clone https://github.com/xerpi/libvita2d
     sudo -E cp libvita2d/libvita2d/include/utils.h $VITASDK/arm-vita-eabi/include/utils.h
   displayName: 'Get vita2d extra headers'
