@@ -77,7 +77,7 @@ class Network {
 		 *
 		 * @return The IP Address of the console.
 		 */
-		string getIPAdddress(void);
+		string getIPAddress(void);
 		
 		/**
 		 * Get console Mac address.
@@ -90,7 +90,7 @@ class Network {
 		 *
 		 * @return The Mac Address of the console.
 		 */
-		string getMacAdddress(void);
+		string getMacAddress(void);
 		
 		/**
 		 * Check if WiFi is available.
