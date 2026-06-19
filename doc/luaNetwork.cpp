@@ -131,14 +131,14 @@ class Network {
 		 *
 		 * @param url - The url from where to download the file.
 		 * @param file - Filename where to save the downloaded file.
-		 * @param useragent - Custom useragent to use <b>(optional)</b>.
+		 * @param headers - Custom user-agent string, or a JSON object of HTTP headers such as {"User-Agent":"foo","Authorization":"bar"}, to use <b>(optional)</b>.
 		 * @param method - Method to use to perform the HTTP request <b>(optional)</b>.
 		 * @param postdata - POST data to send with the HTTP request <b>(optional)</b>.
 		 *
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
 		 */
-		void downloadFile(string url, string file, string useragent, HTTPMethod method, string postdata);
+		void downloadFile(string url, string file, string headers, HTTPMethod method, string postdata);
 		
 		/**
 		 * Download a file via HTTP protocol (asynchronous).
@@ -151,14 +151,14 @@ class Network {
 		 *
 		 * @param url - The url from where to download the file.
 		 * @param file - Filename where to save the downloaded file.
-		 * @param useragent - Custom useragent to use <b>(optional)</b>.
+		 * @param headers - Custom user-agent string, or a JSON object of HTTP headers such as {"User-Agent":"foo","Authorization":"bar"}, to use <b>(optional)</b>.
 		 * @param method - Method to use to perform the HTTP request <b>(optional)</b>.
 		 * @param postdata - POST data to send with the HTTP request <b>(optional)</b>.
 		 *
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
 		 */
-		void downloadFileAsync(string url, string file, string useragent, HTTPMethod method, string postdata);
+		void downloadFileAsync(string url, string file, string headers, HTTPMethod method, string postdata);
 		
 		/**
 		 * Get an HTTP request result (synchronous).
@@ -170,7 +170,7 @@ class Network {
 		 * @endcode
 		 *
 		 * @param url - The url where to send the HTTP request.
-		 * @param useragent - Custom useragent to use <b>(optional)</b>.
+		 * @param headers - Custom user-agent string, or a JSON object of HTTP headers such as {"User-Agent":"foo","Authorization":"bar"}, to use <b>(optional)</b>.
 		 * @param method - Method to use to perform the HTTP request <b>(optional)</b>.
 		 * @param postdata - POST data to send with the HTTP request <b>(optional)</b>.
 		 *
@@ -179,7 +179,7 @@ class Network {
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
 		 */
-		string requestString(string url, string useragent, HTTPMethod method, string postdata);
+		string requestString(string url, string headers, HTTPMethod method, string postdata);
 		
 		/**
 		 * Get an HTTP request result (asynchronous).
@@ -191,13 +191,13 @@ class Network {
 		 * @endcode
 		 *
 		 * @param url - The url where to send the HTTP request.
-		 * @param useragent - Custom useragent to use <b>(optional)</b>.
+		 * @param headers - Custom user-agent string, or a JSON object of HTTP headers such as {"User-Agent":"foo","Authorization":"bar"}, to use <b>(optional)</b>.
 		 * @param method - Method to use to perform the HTTP request <b>(optional)</b>.
 		 * @param postdata - POST data to send with the HTTP request <b>(optional)</b>.
 		 *
 		 * @note <b>postdata</b> will work only with <b>method</b> set to \link HTTPMethod::POST_METHOD POST_METHOD\endlink.
 		 * @note If not specified, \link HTTPMethod::GET_METHOD GET_METHOD\endlink is used as default.
 		 */
-		void requestStringAsync(string url, string useragent, HTTPMethod method, string postdata);
+		void requestStringAsync(string url, string headers, HTTPMethod method, string postdata);
 
 }

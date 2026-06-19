@@ -40,6 +40,9 @@ extern "C" {
 #define stringify(str) #str
 #define VariableRegister(lua, value) do { lua_pushinteger(lua, value); lua_setglobal (lua, stringify(value)); } while(0)
 
+// user-agent sent by HTTP requests when the lua caller doesn't provide its own
+#define DEFAULT_USERAGENT "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"
+
 static void* net_memory = NULL;
 static char vita_ip[16];
 static bool isNet = false;
@@ -115,13 +118,133 @@ static size_t write_str(void *ptr, size_t size, size_t nmemb, NetString *str) {
     return dadd;
 }
 
+// reads a JSON string token. p must point at the opening quote; on success the
+// decoded contents are written to out and p is advanced past the closing quote.
+static bool jsonReadString(const char *&p, char *out, size_t out_size) {
+	if (*p != '"') {
+		return false;
+	}
+
+	p++;
+	size_t i = 0;
+
+	while (*p && *p != '"') {
+		char c = *p;
+
+		if (c == '\\') {
+			p++;
+			switch (*p) {
+			case '"':  c = '"';  break;
+			case '\\': c = '\\'; break;
+			case '/':  c = '/';  break;
+			case 'n':  c = '\n'; break;
+			case 't':  c = '\t'; break;
+			case 'r':  c = '\r'; break;
+			case 0:    return false; // trailing backslash, malformed input
+			default:   c = *p;   break;
+			}
+		}
+
+		if (i < out_size - 1) {
+			out[i++] = c;
+		}
+
+		p++;
+	}
+
+	if (*p != '"') {
+		return false; // unterminated string
+	}
+
+	out[i] = 0;
+	p++;
+	return true;
+}
+
+// builds the curl header list from a request's header argument. the argument may
+// be a plain user-agent string (legacy behaviour) or a JSON object of header
+// name/value pairs such as {"User-Agent":"foo","Authorization":"bar"}.
+// the returned list must be freed by the caller with curl_slist_free_all.
+static struct curl_slist *buildRequestHeaders(const char *arg) {
+	struct curl_slist *list = NULL;
+	const char *p = arg;
+
+	while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r') {
+		p++;
+	}
+
+	// anything not starting with '{' is treated as a plain user-agent string
+	if (*p != '{') {
+		size_t size = strlen(arg) + sizeof("User-Agent: ");
+		char *useragent = (char*)malloc(size);
+		snprintf(useragent, size, "User-Agent: %s", arg);
+		list = curl_slist_append(list, "Accept: */*");
+		list = curl_slist_append(list, "Content-Type: application/json");
+		list = curl_slist_append(list, useragent);
+		list = curl_slist_append(list, "Content-Length: 0");
+		free(useragent);
+		return list;
+	}
+
+	// JSON header object: every "name":"value" pair becomes a request header.
+	// a decoded name and value together can never be longer than the source
+	// object, so scratch buffers sized to it can never overflow.
+	size_t size = strlen(arg);
+	char *name = (char*)malloc(size + 1);
+	char *value = (char*)malloc(size + 1);
+	char *header = (char*)malloc(size + 3);
+	p++;
+
+	while (*p) {
+
+		// skip whitespace and the separators between pairs
+		while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r' || *p == ',') {
+			p++;
+		}
+
+		if (*p == '}' || *p == 0) {
+			break;
+		}
+
+		if (!jsonReadString(p, name, size + 1)) {
+			break;
+		}
+
+		while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r') {
+			p++;
+		}
+
+		if (*p != ':') {
+			break;
+		}
+
+		p++;
+
+		while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r') {
+			p++;
+		}
+
+		if (!jsonReadString(p, value, size + 1)) {
+			break;
+		}
+
+		snprintf(header, size + 3, "%s: %s", name, value);
+		list = curl_slist_append(list, header);
+	}
+
+	free(name);
+	free(value);
+	free(header);
+	return list;
+}
+
 #define FILE_DOWNLOAD   0
 #define STRING_DOWNLOAD 1
 #define DOWNLOAD_END    2
 static volatile uint8_t asyncMode = DOWNLOAD_END;
 static char asyncUrl[512];
 static char asyncDest[256];
-static char asyncUseragent[256];
+static char *asyncHeaders = NULL;
 static uint8_t asyncMethod;
 static char asyncPostdata[2048];
 static int asyncPostsize;
@@ -147,7 +270,6 @@ static int downloadThread(unsigned int args, void* arg) {
 	default:
 		break;
 	}
-	curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, asyncUseragent);
 	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
 	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
 	curl_easy_setopt(curl_handle, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
@@ -176,11 +298,7 @@ static int downloadThread(unsigned int args, void* arg) {
 	}
 	curl_easy_setopt(curl_handle, CURLOPT_HEADERFUNCTION, header_cb);
 	curl_easy_setopt(curl_handle, CURLOPT_HEADERDATA, NULL);
-	struct curl_slist *headerchunk = NULL;
-	headerchunk = curl_slist_append(headerchunk, "Accept: */*");
-	headerchunk = curl_slist_append(headerchunk, "Content-Type: application/json");
-	headerchunk = curl_slist_append(headerchunk, "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
-	headerchunk = curl_slist_append(headerchunk, "Content-Length: 0");
+	struct curl_slist *headerchunk = buildRequestHeaders(asyncHeaders);
 	curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headerchunk);
 	curl_easy_perform(curl_handle);
 	curl_slist_free_all(headerchunk);
@@ -334,6 +452,8 @@ static int lua_term(lua_State *L) {
 	if (net_memory != NULL)
 		free(net_memory);
 	net_memory = NULL;
+	free(asyncHeaders);
+	asyncHeaders = NULL;
 	isNet = 0;
 	return 0;
 }
@@ -580,7 +700,7 @@ static int lua_download(lua_State *L) {
 #endif
 	const char *url = luaL_checkstring(L,1);
 	const char *file = luaL_checkstring(L,2);
-	const char *useragent = (argc >= 3) ? luaL_checkstring(L,3) : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
+	const char *headers = (argc >= 3) ? luaL_checkstring(L,3) : DEFAULT_USERAGENT;
 	uint8_t method = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
 	const char* postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
 	int postsize = (argc >= 5) ? strlen(postdata) : 0;
@@ -603,23 +723,18 @@ static int lua_download(lua_State *L) {
 	default:
 		break;
 	}
-	curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, useragent);
 	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
 	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
 	curl_easy_setopt(curl_handle, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
 	curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, 10L);
 	curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1L);
-	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_cb);	
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_cb);
 	curl_easy_setopt(curl_handle, CURLOPT_HEADERFUNCTION, header_cb);
 	curl_easy_setopt(curl_handle, CURLOPT_HEADERDATA, NULL);
 	SceUID fh = sceIoOpen(file, SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
 	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, fh);
-	struct curl_slist *headerchunk = NULL;
-	headerchunk = curl_slist_append(headerchunk, "Accept: */*");
-	headerchunk = curl_slist_append(headerchunk, "Content-Type: application/json");
-	headerchunk = curl_slist_append(headerchunk, "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
-	headerchunk = curl_slist_append(headerchunk, "Content-Length: 0");
+	struct curl_slist *headerchunk = buildRequestHeaders(headers);
 	curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headerchunk);
 	curl_easy_perform(curl_handle);
 	curl_slist_free_all(headerchunk);
@@ -639,13 +754,14 @@ static int lua_downloadasync(lua_State *L) {
 #endif
 	const char *url = luaL_checkstring(L,1);
 	const char *file = luaL_checkstring(L,2);
-	const char *useragent = (argc >= 3) ? luaL_checkstring(L,3) : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
+	const char *headers = (argc >= 3) ? luaL_checkstring(L,3) : DEFAULT_USERAGENT;
 	asyncMethod = (argc >= 4) ? luaL_checkinteger(L,4) : SCE_HTTP_METHOD_GET;
 	const char *postdata = (argc >= 5) ? luaL_checkstring(L,5) : NULL;
 	asyncPostsize = (argc >= 5) ? strlen(postdata) : 0;
 	sprintf(asyncUrl, url);
 	sprintf(asyncDest, file);
-	sprintf(asyncUseragent, useragent);
+	free(asyncHeaders);
+	asyncHeaders = strdup(headers);
 	if (postdata != NULL)
 		sprintf(asyncPostdata, postdata);
 	else
@@ -673,7 +789,7 @@ static int lua_string(lua_State *L) {
 		return luaL_error(L, "Network is not inited");
 #endif
 	const char *url = luaL_checkstring(L,1);
-	const char *useragent = (argc >= 2) ? luaL_checkstring(L,2) : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
+	const char *headers = (argc >= 2) ? luaL_checkstring(L,2) : DEFAULT_USERAGENT;
 	uint8_t method = (argc >= 3) ? luaL_checkinteger(L,3) : SCE_HTTP_METHOD_GET;
 	const char *postdata = (argc >= 4) ? luaL_checkstring(L,4) : NULL;
 	int postsize = (argc >= 4) ? strlen(postdata) : 0;
@@ -696,7 +812,6 @@ static int lua_string(lua_State *L) {
 	default:
 		break;
 	}
-	curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, useragent);
 	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
 	curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
 	curl_easy_setopt(curl_handle, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
@@ -708,11 +823,7 @@ static int lua_string(lua_State *L) {
 	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, buffer);
 	curl_easy_setopt(curl_handle, CURLOPT_HEADERFUNCTION, header_cb);
 	curl_easy_setopt(curl_handle, CURLOPT_HEADERDATA, NULL);
-	struct curl_slist *headerchunk = NULL;
-	headerchunk = curl_slist_append(headerchunk, "Accept: */*");
-	headerchunk = curl_slist_append(headerchunk, "Content-Type: application/json");
-	headerchunk = curl_slist_append(headerchunk, "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
-	headerchunk = curl_slist_append(headerchunk, "Content-Length: 0");
+	struct curl_slist *headerchunk = buildRequestHeaders(headers);
 	curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, headerchunk);
 	curl_easy_perform(curl_handle);
 	curl_slist_free_all(headerchunk);
@@ -733,12 +844,13 @@ static int lua_stringasync(lua_State *L){
 		return luaL_error(L, "Network is not inited");
 #endif
 	const char* url = luaL_checkstring(L,1);
-	const char* useragent = (argc >= 2) ? luaL_checkstring(L,2) : "lpp-vita app";
+	const char* headers = (argc >= 2) ? luaL_checkstring(L,2) : DEFAULT_USERAGENT;
 	asyncMethod = (argc >= 3) ? luaL_checkinteger(L,3) : SCE_HTTP_METHOD_GET;
 	const char* postdata = (argc >= 4) ? luaL_checkstring(L,4) : NULL;
 	asyncPostsize = (argc >= 4) ? strlen(postdata) : 0;
 	sprintf(asyncUrl, url);
-	sprintf(asyncUseragent, useragent);
+	free(asyncHeaders);
+	asyncHeaders = strdup(headers);
 	if (postdata != NULL)
 		sprintf(asyncPostdata, postdata);
 	else
