@@ -12,6 +12,7 @@
 
 #include <psp2/io/fcntl.h>
 #include <psp2/io/dirent.h>
+#include <psp2/io/stat.h>
 
 #include <psp2/net/net.h>
 #include <psp2/net/netctl.h>
