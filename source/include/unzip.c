@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <psp2/kernel/clib.h>
 
 /*#ifndef NOUNCRYPT
 #  define NOUNCRYPT

@@ -1,7 +1,10 @@
 TARGET		:= lpp-vita
 SOURCES	:= source/include/ftp source/include source source/include/audiodec
 
-LIBS = -lcurl -lssl -lcrypto -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lSceLibKernel_stub -lScePvf_stub \
+PKG_CONFIG = arm-vita-eabi-pkg-config
+PORTLIBS := $(shell $(PKG_CONFIG) --static --libs libcurl sndfile vorbisfile opusfile freetype2)
+
+LIBS = $(PORTLIBS) -lcurl -lssl -lcrypto -lvorbisfile -lvorbis -logg -lsndfile -lvita2d -lSceLibKernel_stub -lScePvf_stub \
 	-limgui_vita2d -lSceJpegEnc_stub -lSceAppMgr_stub -lSceCtrl_stub -lSceTouch_stub -lSceMotion_stub \
 	-lScePromoterUtil_stub -lm -lSceNet_stub -lSceNetCtl_stub -lSceAppUtil_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lpng16 -lz -lSceCamera_stub \
@@ -30,6 +33,7 @@ endif
 
 CXXFLAGS  = $(CFLAGS) -fno-exceptions -std=gnu++11 -fpermissive
 ASFLAGS = $(CFLAGS)
+LDFLAGS += -pthread
 
 ifeq ($(SYS_APP_MODE),1)
 all: $(TARGET).sysvelf
@@ -51,7 +55,7 @@ endif
 	vita-make-fself -c -s $@ eboot_safe.bin
 
 $(TARGET).elf: $(OBJS)
-	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@
 
 clean:
 	@rm -rf $(TARGET).velf $(TARGET).elf $(TARGET).sysvelf $(OBJS)
